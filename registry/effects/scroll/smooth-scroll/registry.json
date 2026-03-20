@@ -1,0 +1,9 @@
+{
+  "name": "smooth-scroll",
+  "type": "registry:component",
+  "title": "Smooth Scroll",
+  "description": "GSAP-powered smooth scrolling with momentum effect",
+  "category": "scroll",
+  "dependencies": ["gsap"],
+  "registryDependencies": []
+}

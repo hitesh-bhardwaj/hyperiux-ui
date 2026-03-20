@@ -1,0 +1,19 @@
+{
+  "name": "text-reveal",
+  "type": "registry:component",
+  "title": "Text Reveal",
+  "description": "Scroll-triggered text reveal animation with GSAP",
+  "category": "text",
+  "dependencies": [
+    "gsap"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "text-reveal.jsx",
+      "type": "registry:component",
+      "target": "components/effects/text-reveal.jsx",
+      "content": "\"use client\";\n\nimport { useEffect, useRef } from \"react\";\nimport gsap from \"gsap\";\nimport ScrollTrigger from \"gsap/ScrollTrigger\";\n\nif (typeof window !== \"undefined\") {\n  gsap.registerPlugin(ScrollTrigger);\n}\n\nexport function TextReveal({\n  children,\n  className = \"\",\n  trigger = \"top 80%\",\n  duration = 1,\n  stagger = 0.1,\n  y = 100,\n  once = true,\n  scroller = null,\n}) {\n  const containerRef = useRef(null);\n  const textRef = useRef(null);\n\n  useEffect(() => {\n    const container = containerRef.current;\n    const text = textRef.current;\n\n    if (!container || !text) return;\n\n    // Split text into words and wrap each\n    const words = text.textContent.split(\" \");\n    text.innerHTML = words\n      .map((word) => `<span class=\"inline-block overflow-hidden\"><span class=\"inline-block\">${word}</span></span>`)\n      .join(\" \");\n\n    const innerSpans = text.querySelectorAll(\"span > span\");\n\n    // Set initial state\n    gsap.set(innerSpans, { y, opacity: 0 });\n\n    // ScrollTrigger config\n    const scrollTriggerConfig = {\n      trigger: container,\n      start: trigger,\n      toggleActions: once ? \"play none none none\" : \"play none none reverse\",\n    };\n\n    // Add scroller if provided (for custom scroll containers)\n    if (scroller) {\n      scrollTriggerConfig.scroller = scroller;\n    }\n\n    // Create animation\n    const animation = gsap.to(innerSpans, {\n      y: 0,\n      opacity: 1,\n      duration,\n      stagger,\n      ease: \"power3.out\",\n      scrollTrigger: scrollTriggerConfig,\n    });\n\n    return () => {\n      animation.kill();\n      ScrollTrigger.getAll().forEach((st) => {\n        if (st.trigger === container) {\n          st.kill();\n        }\n      });\n    };\n  }, [children, trigger, duration, stagger, y, once, scroller]);\n\n  return (\n    <div ref={containerRef} className={className}>\n      <span ref={textRef}>{children}</span>\n    </div>\n  );\n}\n\nexport function TextRevealByLine({\n  children,\n  className = \"\",\n  trigger = \"top 80%\",\n  duration = 1,\n  stagger = 0.2,\n  y = 50,\n  once = true,\n  scroller = null,\n}) {\n  const containerRef = useRef(null);\n\n  useEffect(() => {\n    const container = containerRef.current;\n    if (!container) return;\n\n    const lines = container.querySelectorAll(\"[data-reveal-line]\");\n\n    gsap.set(lines, { y, opacity: 0 });\n\n    const scrollTriggerConfig = {\n      trigger: container,\n      start: trigger,\n      toggleActions: once ? \"play none none none\" : \"play none none reverse\",\n    };\n\n    if (scroller) {\n      scrollTriggerConfig.scroller = scroller;\n    }\n\n    const animation = gsap.to(lines, {\n      y: 0,\n      opacity: 1,\n      duration,\n      stagger,\n      ease: \"power3.out\",\n      scrollTrigger: scrollTriggerConfig,\n    });\n\n    return () => {\n      animation.kill();\n      ScrollTrigger.getAll().forEach((st) => {\n        if (st.trigger === container) {\n          st.kill();\n        }\n      });\n    };\n  }, [trigger, duration, stagger, y, once, scroller]);\n\n  return (\n    <div ref={containerRef} className={className}>\n      {children}\n    </div>\n  );\n}\n\nexport function RevealLine({ children, className = \"\" }) {\n  return (\n    <div data-reveal-line className={`overflow-hidden ${className}`}>\n      {children}\n    </div>\n  );\n}\n"
+    }
+  ]
+}
