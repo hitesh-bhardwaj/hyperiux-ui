@@ -16,6 +16,7 @@ export default function FlipTransition({ children, config = { enableBlur: false,
         // Initial state: clipped away with rotation
         gsap.set(flipOverlayRef.current, {
             clipPath: 'polygon(0 0, 100% 0, 0 0, 0 100%)',
+            opacity: 1,
         })
         // Hide boxes initially
         gsap.set(boxesRef.current.children, { scaleY: 0, })
@@ -93,7 +94,7 @@ export default function FlipTransition({ children, config = { enableBlur: false,
 
             <div
                 ref={flipOverlayRef}
-                className='h-full w-full bg-[#DE4013] flex items-center justify-center fixed top-0 left-0 z-999'
+                className='h-full w-full bg-[#DE4013] opacity-0 flex items-center justify-center fixed top-0 left-0 z-999'
 
             >
                 <div ref={boxesRef} className='h-fit w-fit flex gap-2'>
