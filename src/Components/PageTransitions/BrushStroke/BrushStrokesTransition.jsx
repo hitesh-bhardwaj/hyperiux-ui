@@ -11,6 +11,7 @@ export default function BrushStrokesTransition({ children , config = { enableBlu
     const { enableBlur, strokeColor, strokeWidth, duration } = config
     const transitionOverlayRef = useRef(null)
     const svgPathRef = useRef(null)
+    const svgPathMobileRef = useRef(null)
 
     useEffect(() => {
         if (svgPathRef.current) {
@@ -21,6 +22,12 @@ export default function BrushStrokesTransition({ children , config = { enableBlu
             gsap.config({
                 force3D: true,
               })
+        }
+        if (svgPathMobileRef.current) {
+            gsap.set(svgPathMobileRef.current, {
+                drawSVG: "0%",
+                strokeWidth: strokeWidth,
+            })
         }
 
     }, []) 
@@ -37,7 +44,7 @@ export default function BrushStrokesTransition({ children , config = { enableBlu
                     duration: .5,
                     ease: "power2.inOut",
                 })
-                    .to(svgPathRef.current, {
+                    .to([svgPathRef.current, svgPathMobileRef.current], {
                         drawSVG: "100%",
                         strokeWidth: 300,
                         duration: duration,
@@ -50,7 +57,7 @@ export default function BrushStrokesTransition({ children , config = { enableBlu
             enter={(next) => {
                 const tl = gsap.timeline({ onComplete: next })
 
-                tl.to(svgPathRef.current, {
+                tl.to([svgPathRef.current, svgPathMobileRef.current], {
                     drawSVG: "100% 100%",
                     strokeWidth: strokeWidth,
                     duration: duration,
@@ -62,7 +69,7 @@ export default function BrushStrokesTransition({ children , config = { enableBlu
                         duration: .5,
                         ease: "power2.inOut",
                     }, 1)
-                    .set(svgPathRef.current, {
+                    .set([svgPathRef.current, svgPathMobileRef.current], {
                         drawSVG: "0%",
                         strokeWidth: strokeWidth,
                     })
@@ -73,13 +80,14 @@ export default function BrushStrokesTransition({ children , config = { enableBlu
         >
 
             <div ref={transitionOverlayRef} className='fixed inset-0 pointer-events-none z-999 flex items-center justify-center opacity-0'>
+                {/* Desktop SVG */}
                 <svg
                     width="100%"
                     height="100%"
                     viewBox="0 0 1316 664"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-full scale-130 h-full"
+                    className="w-full scale-130 h-full hidden md:block"
                     preserveAspectRatio="xMidYMid slice"
                 >
                     <path
@@ -91,9 +99,27 @@ export default function BrushStrokesTransition({ children , config = { enableBlu
                         strokeLinejoin="round"
                     />
                 </svg>
+                {/* Mobile SVG */}
+                <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 400 800"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-full h-full scale-175 block md:hidden"
+                    preserveAspectRatio="xMidYMid slice"
+                >
+                    <path
+                        ref={svgPathMobileRef}
+                        d="M200 20C200 20 50 100 80 200C110 300 350 250 320 400C290 550 50 500 80 650C110 800 200 780 200 780"
+                        stroke={strokeColor}
+                        strokeWidth={strokeWidth}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
             </div>
             {children}
         </TransitionRouter>
     )
 }
-
