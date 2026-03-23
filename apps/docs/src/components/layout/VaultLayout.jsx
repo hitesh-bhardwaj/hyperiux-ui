@@ -8,18 +8,18 @@ function SidebarFallback({ effectCounts }) {
   const totalEffects = Object.values(effectCounts).reduce((a, b) => a + b, 0);
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-[260px] bg-white border-r border-neutral-200 flex flex-col z-40">
-      <div className="p-5 border-b border-neutral-200">
+    <aside className="fixed left-0 top-0 bottom-0 w-[260px] bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40">
+      <div className="p-5 border-b border-neutral-200 dark:border-neutral-800">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">H</span>
+          <div className="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
+            <span className="text-white dark:text-black font-bold text-sm">H</span>
           </div>
-          <span className="font-semibold text-lg text-neutral-900">Hyperiux</span>
+          <span className="font-semibold text-lg text-neutral-900 dark:text-white">Hyperiux</span>
         </div>
       </div>
       <nav className="flex-1 overflow-y-auto p-4">
         <div className="mb-6">
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg mb-2 bg-neutral-100 text-neutral-900">
+          <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg mb-2 bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white">
             <span className="text-lg">◎</span>
             <span className="font-medium">The Vault</span>
             <span className="ml-auto text-sm text-neutral-400">{totalEffects}</span>
@@ -32,7 +32,7 @@ function SidebarFallback({ effectCounts }) {
 
 export function VaultLayout({ children, effectCounts = {}, effects = [] }) {
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       <Suspense fallback={<SidebarFallback effectCounts={effectCounts} />}>
         <Sidebar effectCounts={effectCounts} />
       </Suspense>

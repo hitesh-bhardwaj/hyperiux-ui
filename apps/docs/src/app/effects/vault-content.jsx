@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { VaultLayout } from "@/components/layout/VaultLayout";
-import { SearchBar } from "@/components/layout/SearchBar";
+import { VaultHeader } from "@/components/layout/VaultHeader";
 import { EffectCard } from "@/components/ui/EffectCardNew";
 
 export function VaultContent({ effects, effectCounts }) {
@@ -38,25 +38,24 @@ export function VaultContent({ effects, effectCounts }) {
 
   return (
     <VaultLayout effectCounts={effectCounts} effects={effects}>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+        {/* Sticky Header with Search */}
+        <VaultHeader
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          totalEffects={totalEffects}
+        />
+
         {/* Hero Section */}
-        <div className="bg-white border-b border-neutral-200">
-          <div className="max-w-5xl mx-auto px-8 py-16 text-center">
-            <p className="text-neutral-500 mb-3">Welcome to</p>
-            <h1 className="text-5xl md:text-6xl font-bold text-neutral-900 mb-8">
+        <div className="bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800">
+          <div className="max-w-5xl mx-auto px-8 py-12 text-center">
+            <p className="text-neutral-500 dark:text-neutral-400 mb-3">Welcome to</p>
+            <h1 className="text-5xl md:text-6xl font-bold text-neutral-900 dark:text-white mb-6">
               The Vault
             </h1>
 
-            {/* Search Bar */}
-            <SearchBar
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder={`Search ${totalEffects} effects...`}
-              className="max-w-xl mx-auto"
-            />
-
             {/* Quick stats */}
-            <div className="flex items-center justify-center gap-6 mt-8 text-sm text-neutral-500">
+            <div className="flex items-center justify-center gap-6 text-sm text-neutral-500 dark:text-neutral-400">
               <span>{totalEffects} effects</span>
               <span>•</span>
               <span>Free & open source</span>
@@ -71,16 +70,16 @@ export function VaultContent({ effects, effectCounts }) {
           {/* Active filter indicator */}
           {(categoryFilter !== "all" || searchQuery) && (
             <div className="flex items-center gap-3 mb-6">
-              <span className="text-sm text-neutral-500">
+              <span className="text-sm text-neutral-500 dark:text-neutral-400">
                 Showing {filteredEffects.length} of {totalEffects} effects
               </span>
               {categoryFilter !== "all" && (
-                <span className="px-3 py-1 bg-neutral-900 text-white rounded-full text-sm capitalize">
+                <span className="px-3 py-1 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-full text-sm capitalize">
                   {categoryFilter}
                 </span>
               )}
               {searchQuery && (
-                <span className="px-3 py-1 bg-neutral-200 text-neutral-700 rounded-full text-sm">
+                <span className="px-3 py-1 bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-full text-sm">
                   "{searchQuery}"
                 </span>
               )}
@@ -91,10 +90,10 @@ export function VaultContent({ effects, effectCounts }) {
           {filteredEffects.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-medium text-neutral-900 mb-2">
+              <h3 className="text-xl font-medium text-neutral-900 dark:text-white mb-2">
                 No effects found
               </h3>
-              <p className="text-neutral-500">
+              <p className="text-neutral-500 dark:text-neutral-400">
                 Try adjusting your search or filter criteria
               </p>
             </div>

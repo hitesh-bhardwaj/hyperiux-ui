@@ -20,14 +20,14 @@ export function Sidebar({ effectCounts = {} }) {
   const totalEffects = Object.values(effectCounts).reduce((a, b) => a + b, 0);
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-[260px] bg-white border-r border-neutral-200 flex flex-col z-40">
+    <aside className="fixed left-0 top-0 bottom-0 w-[260px] bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40">
       {/* Logo */}
-      <div className="p-5 border-b border-neutral-200">
+      <div className="p-5 border-b border-neutral-200 dark:border-neutral-800">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">H</span>
+          <div className="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
+            <span className="text-white dark:text-black font-bold text-sm">H</span>
           </div>
-          <span className="font-semibold text-lg text-neutral-900">Hyperiux</span>
+          <span className="font-semibold text-lg text-neutral-900 dark:text-white">Hyperiux</span>
         </Link>
       </div>
 
@@ -39,8 +39,8 @@ export function Sidebar({ effectCounts = {} }) {
             href="/effects"
             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg mb-2 transition-colors ${
               pathname === "/effects" && currentCategory === "all"
-                ? "bg-neutral-100 text-neutral-900"
-                : "text-neutral-600 hover:bg-neutral-50"
+                ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800"
             }`}
           >
             <span className="text-lg">◎</span>
@@ -64,8 +64,8 @@ export function Sidebar({ effectCounts = {} }) {
                 href={`/effects?category=${category.id}`}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                   isActive
-                    ? "bg-neutral-100 text-neutral-900"
-                    : "text-neutral-600 hover:bg-neutral-50"
+                    ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                    : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800"
                 }`}
               >
                 <span className="w-5 text-center opacity-60">{category.icon}</span>
@@ -78,10 +78,10 @@ export function Sidebar({ effectCounts = {} }) {
       </nav>
 
       {/* Bottom section */}
-      <div className="p-4 border-t border-neutral-200">
-        <div className="flex items-center gap-2 px-3 py-2 text-sm text-neutral-500">
-          <kbd className="px-1.5 py-0.5 bg-neutral-100 rounded text-xs">⌘</kbd>
-          <kbd className="px-1.5 py-0.5 bg-neutral-100 rounded text-xs">K</kbd>
+      <div className="p-4 border-t border-neutral-200 dark:border-neutral-800">
+        <div className="flex items-center gap-2 px-3 py-2 text-sm text-neutral-500 dark:text-neutral-400">
+          <kbd className="px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 rounded text-xs">⌘</kbd>
+          <kbd className="px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 rounded text-xs">K</kbd>
           <span className="ml-1">to search</span>
         </div>
       </div>

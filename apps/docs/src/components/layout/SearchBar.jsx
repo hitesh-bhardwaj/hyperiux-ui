@@ -86,9 +86,9 @@ export function GlobalSearch({ effects = [] }) {
 
       {/* Modal */}
       <div className="relative max-w-xl mx-auto mt-[20vh]">
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-neutral-200">
+        <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl overflow-hidden border border-neutral-200 dark:border-neutral-800">
           {/* Search input */}
-          <div className="flex items-center gap-3 px-4 py-3 border-b border-neutral-200">
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
             <svg className="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -98,15 +98,15 @@ export function GlobalSearch({ effects = [] }) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search effects..."
-              className="flex-1 text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
+              className="flex-1 bg-transparent text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none"
             />
-            <kbd className="px-2 py-1 bg-neutral-100 rounded text-xs text-neutral-500">ESC</kbd>
+            <kbd className="px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-xs text-neutral-500 dark:text-neutral-400">ESC</kbd>
           </div>
 
           {/* Results */}
           <div className="max-h-[300px] overflow-y-auto">
             {filteredEffects.length === 0 ? (
-              <div className="px-4 py-8 text-center text-neutral-500">
+              <div className="px-4 py-8 text-center text-neutral-500 dark:text-neutral-400">
                 No effects found for "{query}"
               </div>
             ) : (
@@ -115,14 +115,14 @@ export function GlobalSearch({ effects = [] }) {
                   <button
                     key={effect.name}
                     onClick={() => handleSelect(effect)}
-                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-neutral-50 text-left transition-colors"
+                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800 text-left transition-colors"
                   >
-                    <div className="w-10 h-10 bg-neutral-100 rounded-lg flex items-center justify-center text-neutral-400">
+                    <div className="w-10 h-10 bg-neutral-100 dark:bg-neutral-800 rounded-lg flex items-center justify-center text-neutral-400">
                       {effect.category?.[0]?.toUpperCase() || "E"}
                     </div>
                     <div>
-                      <div className="font-medium text-neutral-900">{effect.title}</div>
-                      <div className="text-sm text-neutral-500 capitalize">{effect.category}</div>
+                      <div className="font-medium text-neutral-900 dark:text-white">{effect.title}</div>
+                      <div className="text-sm text-neutral-500 dark:text-neutral-400 capitalize">{effect.category}</div>
                     </div>
                   </button>
                 ))}
