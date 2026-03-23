@@ -1,6 +1,7 @@
 {
-  "buildCommand": "pnpm turbo build --filter=@hyperiux/docs",
-  "outputDirectory": "apps/docs/.next",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "cd apps/docs && pnpm run build",
   "installCommand": "pnpm install",
+  "outputDirectory": "apps/docs/.next",
   "framework": "nextjs"
 }
