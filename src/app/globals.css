@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+@theme inline {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 1025px;
+}
+h1,h2,h3,h4{
+    line-height: 1.2;
+}
+body{
+    line-height: 1.4;
+    font-size: 1.15vw;
+}
+
+::selection {
+  color: #ffffff;
+  background: #ff6b00;
+}
+
+
+@media (max-width:542px){
+
+    body{
+    font-size: 4vw;
+}
+}

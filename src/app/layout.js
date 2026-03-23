@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ReactLenis } from "lenis/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +23,13 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ReactLenis root>
+          <main data-lenis-root id="main-content">
+            {children}
+          </main>
+        </ReactLenis>
+      </body>
     </html>
   );
 }
