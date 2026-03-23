@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "name": "aurora-background",
+      "title": "Aurora Background",
+      "description": "Animated gradient background that follows mouse movement",
+      "category": "backgrounds",
+      "dependencies": [
+        "framer-motion"
+      ]
+    },
+    {
+      "name": "magnetic-button",
+      "title": "Magnetic Button",
+      "description": "Button that attracts to the cursor with magnetic effect",
+      "category": "buttons",
+      "dependencies": [
+        "framer-motion"
+      ]
+    },
+    {
+      "name": "shimmer-button",
+      "title": "Shimmer Button",
+      "description": "Button with animated shimmer effect on hover",
+      "category": "buttons",
+      "dependencies": [
+        "framer-motion"
+      ]
+    },
+    {
+      "name": "smooth-scroll",
+      "title": "Smooth Scroll",
+      "description": "GSAP-powered smooth scrolling with momentum effect",
+      "category": "scroll",
+      "dependencies": [
+        "gsap"
+      ]
+    },
+    {
+      "name": "blur-text",
+      "title": "Blur Text",
+      "description": "Text that reveals with a blur-to-focus animation on scroll",
+      "category": "text",
+      "dependencies": [
+        "framer-motion"
+      ]
+    },
+    {
+      "name": "text-reveal",
+      "title": "Text Reveal",
+      "description": "Scroll-triggered text reveal animation with GSAP",
+      "category": "text",
+      "dependencies": [
+        "gsap"
+      ]
+    }
+  ]
+}

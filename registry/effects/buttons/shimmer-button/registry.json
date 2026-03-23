@@ -1,0 +1,9 @@
+{
+  "name": "shimmer-button",
+  "type": "registry:component",
+  "title": "Shimmer Button",
+  "description": "Button with animated shimmer effect on hover",
+  "category": "buttons",
+  "dependencies": ["framer-motion"],
+  "registryDependencies": []
+}
