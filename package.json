@@ -3,22 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "@gsap/react": "^2.1.2",
-    "next": "16.2.0",
-    "next-transition-router": "^0.2.11",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "build:registry": "turbo build:registry"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.0",
-    "tailwindcss": "^4"
-  }
+    "turbo": "^2.4.4"
+  },
+  "packageManager": "pnpm@9.15.0"
 }
