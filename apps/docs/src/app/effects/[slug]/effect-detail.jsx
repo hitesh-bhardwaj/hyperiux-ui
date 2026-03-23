@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { VaultLayout } from "@/components/layout/VaultLayout";
 import { VaultHeader } from "@/components/layout/VaultHeader";
@@ -52,7 +52,9 @@ export default function MyComponent() {
     <VaultLayout effectCounts={effectCounts}>
       <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
         {/* Sticky Header with Breadcrumb */}
-        <VaultHeader effectName={effect.title} showSearch={false} />
+        <Suspense fallback={<div className="h-12" />}>
+          <VaultHeader effectName={effect.title} showSearch={false} />
+        </Suspense>
 
         {/* Title Section */}
         <div className="bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800">

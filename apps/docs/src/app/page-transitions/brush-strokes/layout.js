@@ -1,5 +1,5 @@
-import BrushStrokesNavbar from '@/Components/PageTransitions/BrushStroke/BrushStrokesNavbar'
-import BrushStrokesTransition from '@/Components/PageTransitions/BrushStroke/BrushStrokesTransition'
+import BrushStrokesNavbar from '@/components/showcase/transitions/BrushStrokesNavbar'
+import BrushStrokesTransition from '@/components/showcase/transitions/BrushStrokesTransition'
 import React from 'react'
 
 export default function layout({ children }) {
