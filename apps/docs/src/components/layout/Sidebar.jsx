@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 
 const categories = [
@@ -9,6 +10,8 @@ const categories = [
   { id: "backgrounds", name: "Backgrounds", icon: "◐" },
   { id: "buttons", name: "Buttons", icon: "◉" },
   { id: "scroll", name: "Scroll Animations", icon: "↕" },
+  { id: "components", name: "Components", icon: "⬡" },
+  { id: "navigation", name: "Navigation", icon: "☰" },
   { id: "cursor", name: "Cursor Effects", icon: "◈" },
 ];
 
@@ -22,12 +25,21 @@ export function Sidebar({ effectCounts = {} }) {
   return (
     <aside className="fixed left-0 top-0 bottom-0 w-[260px] bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40">
       {/* Logo */}
-      <div className="p-5 border-b border-neutral-200 dark:border-neutral-800">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
-            <span className="text-white dark:text-black font-bold text-sm">H</span>
-          </div>
-          <span className="font-semibold text-lg text-neutral-900 dark:text-white">Hyperiux</span>
+      <div className="h-18 flex items-center px-5 border-b border-neutral-200 dark:border-neutral-800">
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src="/hyperiux.svg"
+            alt="Hyperiux"
+            width={24}
+            height={24}
+          />
+          <Image
+            src="/hyperiux-wordmark.svg"
+            alt="Hyperiux"
+            width={116}
+            height={24}
+            className="dark:invert"
+          />
         </Link>
       </div>
 

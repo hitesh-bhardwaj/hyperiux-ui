@@ -42,20 +42,21 @@ async function buildRegistry() {
       // Read registry metadata
       const registryJson = JSON.parse(fs.readFileSync(registryJsonPath, "utf-8"));
 
-      // Find component files
+      // Find component files (JS/JSX and CSS)
       const files = fs
         .readdirSync(effectPath)
-        .filter((f) => f.endsWith(".jsx") || f.endsWith(".js"))
+        .filter((f) => f.endsWith(".jsx") || f.endsWith(".js") || f.endsWith(".css"))
         .filter((f) => f !== "registry.json");
 
       const fileContents = files.map((fileName) => {
         const filePath = path.join(effectPath, fileName);
         const content = fs.readFileSync(filePath, "utf-8");
+        const isCss = fileName.endsWith(".css");
 
         return {
           path: fileName,
-          type: "registry:component",
-          target: `components/effects/${fileName}`,
+          type: isCss ? "registry:style" : "registry:component",
+          target: isCss ? `styles/${fileName}` : `components/hyperiux/${fileName}`,
           content,
         };
       });
@@ -69,6 +70,7 @@ async function buildRegistry() {
         category: registryJson.category || category,
         dependencies: registryJson.dependencies || [],
         registryDependencies: registryJson.registryDependencies || [],
+        previewUrl: registryJson.previewUrl || null,
         files: fileContents,
       };
 
@@ -84,6 +86,7 @@ async function buildRegistry() {
         description: registryJson.description,
         category: registryJson.category || category,
         dependencies: registryJson.dependencies || [],
+        previewUrl: registryJson.previewUrl || null,
       });
     }
   }

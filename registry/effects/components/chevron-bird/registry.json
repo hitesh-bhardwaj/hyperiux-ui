@@ -1,0 +1,9 @@
+{
+  "name": "chevron-bird",
+  "type": "registry:component",
+  "title": "Chevron Bird",
+  "description": "Animated chevron icon that transforms between states using GSAP",
+  "category": "components",
+  "dependencies": ["gsap"],
+  "registryDependencies": []
+}

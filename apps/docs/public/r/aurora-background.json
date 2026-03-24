@@ -8,11 +8,12 @@
     "framer-motion"
   ],
   "registryDependencies": [],
+  "previewUrl": null,
   "files": [
     {
       "path": "aurora.jsx",
       "type": "registry:component",
-      "target": "components/effects/aurora.jsx",
+      "target": "components/hyperiux/aurora.jsx",
       "content": "\"use client\";\n\nimport { useRef, useEffect } from \"react\";\nimport { motion, useMotionValue, useSpring, useTransform } from \"framer-motion\";\n\nexport function AuroraBackground({\n  children,\n  className = \"\",\n  colors = [\"#4F46E5\", \"#7C3AED\", \"#EC4899\", \"#06B6D4\"],\n  blur = 100,\n  speed = 0.5,\n}) {\n  const containerRef = useRef(null);\n  const mouseX = useMotionValue(0);\n  const mouseY = useMotionValue(0);\n\n  const springConfig = { damping: 25, stiffness: 150 };\n  const x = useSpring(mouseX, springConfig);\n  const y = useSpring(mouseY, springConfig);\n\n  useEffect(() => {\n    const handleMouseMove = (e) => {\n      if (!containerRef.current) return;\n      const rect = containerRef.current.getBoundingClientRect();\n      mouseX.set(e.clientX - rect.left);\n      mouseY.set(e.clientY - rect.top);\n    };\n\n    window.addEventListener(\"mousemove\", handleMouseMove);\n    return () => window.removeEventListener(\"mousemove\", handleMouseMove);\n  }, [mouseX, mouseY]);\n\n  const gradients = colors.map((color, i) => {\n    const offset = (i / colors.length) * 100;\n    const rotation = useTransform(\n      [x, y],\n      ([latestX, latestY]) => {\n        return (latestX + latestY) * speed * 0.1 + offset * 3.6;\n      }\n    );\n\n    return (\n      <motion.div\n        key={i}\n        className=\"absolute inset-0 opacity-50\"\n        style={{\n          background: `radial-gradient(circle at 50% 50%, ${color} 0%, transparent 50%)`,\n          rotate: rotation,\n        }}\n      />\n    );\n  });\n\n  return (\n    <div\n      ref={containerRef}\n      className={`relative overflow-hidden ${className}`}\n    >\n      <div\n        className=\"absolute inset-0\"\n        style={{ filter: `blur(${blur}px)` }}\n      >\n        {gradients}\n      </div>\n      <div className=\"relative z-10\">{children}</div>\n    </div>\n  );\n}\n"
     }
   ]

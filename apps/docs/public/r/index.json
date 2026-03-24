@@ -7,7 +7,18 @@
       "category": "backgrounds",
       "dependencies": [
         "framer-motion"
-      ]
+      ],
+      "previewUrl": null
+    },
+    {
+      "name": "char-stagger-button",
+      "title": "Character Stagger Button",
+      "description": "Link button with staggered character animation on hover",
+      "category": "buttons",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "previewUrl": "/buttons/link-buttons"
     },
     {
       "name": "magnetic-button",
@@ -16,7 +27,8 @@
       "category": "buttons",
       "dependencies": [
         "framer-motion"
-      ]
+      ],
+      "previewUrl": null
     },
     {
       "name": "shimmer-button",
@@ -25,7 +37,56 @@
       "category": "buttons",
       "dependencies": [
         "framer-motion"
-      ]
+      ],
+      "previewUrl": null
+    },
+    {
+      "name": "animated-faq",
+      "title": "Animated FAQ",
+      "description": "Accessible accordion-style FAQ component with smooth GSAP animations",
+      "category": "components",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/animated-faq"
+    },
+    {
+      "name": "chevron-bird",
+      "title": "Chevron Bird",
+      "description": "Animated chevron icon that transforms between states using GSAP",
+      "category": "components",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": null
+    },
+    {
+      "name": "directional-menu",
+      "title": "Directional Menu",
+      "description": "Mega menu with directional content transitions using GSAP",
+      "category": "navigation",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/directional-menu"
+    },
+    {
+      "name": "parallax-footer",
+      "title": "Parallax Footer",
+      "description": "Fixed footer that reveals with a parallax scrolling effect",
+      "category": "scroll",
+      "dependencies": [],
+      "previewUrl": "/parallax-footer"
+    },
+    {
+      "name": "parallax-image",
+      "title": "Parallax Image",
+      "description": "Image with smooth parallax scrolling effect using GSAP ScrollTrigger",
+      "category": "scroll",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/parallax-image-animation"
     },
     {
       "name": "smooth-scroll",
@@ -34,7 +95,8 @@
       "category": "scroll",
       "dependencies": [
         "gsap"
-      ]
+      ],
+      "previewUrl": null
     },
     {
       "name": "blur-text",
@@ -43,7 +105,18 @@
       "category": "text",
       "dependencies": [
         "framer-motion"
-      ]
+      ],
+      "previewUrl": null
+    },
+    {
+      "name": "rectangular-text-reveal",
+      "title": "Rectangular Text Reveal",
+      "description": "Text reveal animation with colored rectangles sliding across each line",
+      "category": "text",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/rectangular-text-reveal"
     },
     {
       "name": "text-reveal",
@@ -52,7 +125,8 @@
       "category": "text",
       "dependencies": [
         "gsap"
-      ]
+      ],
+      "previewUrl": null
     }
   ]
 }

@@ -30,7 +30,7 @@ export function EffectCard({ effect }) {
   };
 
   return (
-    <div className="group relative bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-neutral-300 dark:hover:border-neutral-700 hover:scale-105">
+    <div className="group relative bg-white dark:bg-neutral-700 rounded-lg border-10 border-white dark:border-neutral-700 overflow-hidden transition-all duration-300 hover:shadow-lg">
       {/* Preview Image */}
       <Link href={`/effects/${effect.name}`} className="block">
         <div className="aspect-4/3 bg-neutral-100 dark:bg-neutral-800 relative overflow-hidden">
@@ -58,7 +58,7 @@ export function EffectCard({ effect }) {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                window.open(`/effects/${effect.name}/preview`, '_blank');
+                window.open(effect.previewUrl || `/effects/${effect.name}/preview`, '_blank');
               }}
               className="p-2 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-white dark:hover:bg-neutral-800 transition-colors"
               aria-label="Preview"
@@ -101,9 +101,6 @@ export function EffectCard({ effect }) {
           <h3 className="font-medium text-neutral-900 dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
             {effect.title}
           </h3>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 line-clamp-1">
-            {effect.description}
-          </p>
         </Link>
 
         {/* Dependencies */}
@@ -111,7 +108,7 @@ export function EffectCard({ effect }) {
           {effect.dependencies?.map((dep) => (
             <span
               key={dep}
-              className="px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 rounded text-xs text-neutral-500 dark:text-neutral-400"
+              className="px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 rounded text-xs text-neutral-500 dark:text-neutral-400"
             >
               {dep}
             </span>

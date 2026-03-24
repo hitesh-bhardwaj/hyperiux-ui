@@ -5,19 +5,19 @@
 :root {
   --background: #fafafa;
   --foreground: #171717;
+  --primary: #ff5f00;
 }
 
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+  --primary: #ff5f00;
 }
 
 @theme inline {
-  --breakpoint-*: initial;
-  --breakpoint-sm: 640px;
-  --breakpoint-md: 1025px;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -36,7 +36,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   line-height: 1.4;
-  font-size: 1.15vw;
 }
 h1,
 h2,

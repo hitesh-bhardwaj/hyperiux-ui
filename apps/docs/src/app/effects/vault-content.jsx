@@ -38,7 +38,7 @@ export function VaultContent({ effects, effectCounts }) {
 
   return (
     <VaultLayout effectCounts={effectCounts} effects={effects}>
-      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+      <div className="min-h-screen bg-neutral-100 dark:bg-neutral-950">
         {/* Sticky Header with Search */}
         <VaultHeader
           searchQuery={searchQuery}
@@ -47,7 +47,7 @@ export function VaultContent({ effects, effectCounts }) {
         />
 
         {/* Hero Section */}
-        <div className="bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800">
+        <div className="">
           <div className="max-w-5xl mx-auto px-8 py-12 text-center">
             <p className="text-neutral-500 dark:text-neutral-400 mb-3">Welcome to</p>
             <h1 className="text-5xl md:text-6xl font-bold text-neutral-900 dark:text-white mb-6">

@@ -77,6 +77,104 @@ export const effectConfigs = {
     demoText: "Scroll to reveal this text animation",
     demoClassName: "text-3xl font-bold text-white",
   },
+
+  "chevron-bird": {
+    props: [
+      { name: "size", type: "range", min: 10, max: 40, step: 2, description: "Size of the icon" },
+      { name: "strokeWidth", type: "range", min: 4, max: 16, step: 2, description: "Stroke width" },
+      { name: "duration", type: "range", min: 0.1, max: 1, step: 0.05, description: "Animation duration" },
+    ],
+    defaults: {
+      size: 14,
+      strokeWidth: 10,
+      duration: 0.32,
+    },
+    demoClassName: "text-white",
+    note: "Animated chevron that transforms between up/down states.",
+  },
+
+  "animated-faq": {
+    props: [
+      { name: "duration", type: "range", min: 0.2, max: 1, step: 0.05, description: "Open/close animation duration" },
+      { name: "iconSize", type: "range", min: 10, max: 24, step: 2, description: "Chevron icon size" },
+    ],
+    defaults: {
+      duration: 0.45,
+      iconSize: 14,
+    },
+    isContainer: true,
+    note: "Accessible accordion component with smooth GSAP animations. Use FAQGroup, FAQWrapper, FAQTitle, and FAQContent.",
+  },
+
+  "char-stagger-button": {
+    props: [
+      { name: "staggerStep", type: "range", min: 0.005, max: 0.05, step: 0.005, description: "Delay between each character" },
+      { name: "showLine", type: "boolean", description: "Show underline on hover" },
+      { name: "showArrow", type: "boolean", description: "Show arrow icon" },
+    ],
+    defaults: {
+      staggerStep: 0.01,
+      showLine: false,
+      showArrow: false,
+      hoverColor: "#ff6b00",
+    },
+    demoText: "Hover over me",
+    demoClassName: "text-2xl font-medium text-white",
+  },
+
+  "directional-menu": {
+    props: [
+      { name: "closeDelay", type: "range", min: 50, max: 500, step: 50, description: "Delay before closing menu" },
+      { name: "panelGap", type: "range", min: 0, max: 40, step: 4, description: "Gap between nav and panel" },
+    ],
+    defaults: {
+      closeDelay: 180,
+      panelGap: 20,
+    },
+    isContainer: true,
+    note: "Mega menu with directional content transitions. Pass items array with label and customContent.",
+  },
+
+  "parallax-footer": {
+    props: [],
+    defaults: {},
+    isContainer: true,
+    note: "Wrap your footer content for a fixed parallax reveal effect on scroll.",
+  },
+
+  "parallax-image": {
+    props: [
+      { name: "translateY", type: "text", description: "Vertical parallax offset (e.g., '30%')" },
+      { name: "enableScale", type: "boolean", description: "Enable scale animation" },
+      { name: "scaleFrom", type: "range", min: 1, max: 2, step: 0.1, description: "Initial scale" },
+      { name: "scaleTo", type: "range", min: 1, max: 2, step: 0.1, description: "Final scale" },
+    ],
+    defaults: {
+      translateY: "30%",
+      enableScale: false,
+      scaleFrom: 1.6,
+      scaleTo: 1.2,
+    },
+    demoClassName: "w-full h-[400px]",
+    note: "Image with parallax scrolling effect using GSAP ScrollTrigger.",
+  },
+
+  "rectangular-text-reveal": {
+    props: [
+      { name: "baseColor", type: "color", description: "Primary reveal color" },
+      { name: "overlayColor", type: "color", description: "Secondary overlay color" },
+      { name: "stagger", type: "range", min: 0.1, max: 0.5, step: 0.05, description: "Stagger between lines" },
+      { name: "useOverlay", type: "boolean", description: "Use two-tone overlay effect" },
+    ],
+    defaults: {
+      baseColor: "#ea580c",
+      overlayColor: "#ffffff",
+      stagger: 0.2,
+      useOverlay: true,
+    },
+    demoText: "Scroll to reveal this text with rectangles",
+    demoClassName: "text-3xl font-bold text-white",
+  },
 };
 
 export function getEffectConfig(slug) {

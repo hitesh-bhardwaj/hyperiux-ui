@@ -18,8 +18,8 @@ export function VaultHeader({ searchQuery, onSearchChange, totalEffects, effectN
   const currentCategory = searchParams.get("category");
 
   return (
-    <header className="sticky top-0 z-30 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800">
-      <div className="flex items-center justify-between px-6 py-3">
+    <header className="sticky h-18 top-0 z-30 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800">
+      <div className="flex items-center h-full justify-between px-5">
         {/* Left side - Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm">
           <Link
