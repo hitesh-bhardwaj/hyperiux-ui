@@ -1,8 +1,11 @@
 import TextBlockReveal from "@/components/RectangularTextReveal/RectangularTextReveal";
 import React from "react";
+import { ReactLenis } from "lenis/react";
 
 const page = () => {
   return (
+          <ReactLenis root>
+    
     <div className="w-screen h-fit bg-white text-black font-medium flex flex-col items-center">
       {/* <RectangularTextReveal/> */}
       <div className="w-full h-screen flex justify-center items-center text-[3vw]">
@@ -38,6 +41,7 @@ const page = () => {
         </div>
       </div>
     </div>
+    </ReactLenis>
   );
 };
 

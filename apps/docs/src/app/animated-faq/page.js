@@ -56,6 +56,7 @@ export default function FAQDemo() {
     .map((item) => item.id);
 
   return (
+    
     <section className="bg-black h-screen px-8 py-20 text-white">
       <div className="mx-auto max-w-4xl space-y-4">
         <FAQGroup
