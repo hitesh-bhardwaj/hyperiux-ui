@@ -175,6 +175,23 @@ export const effectConfigs = {
     demoText: "Scroll to reveal this text with rectangles",
     demoClassName: "text-3xl font-bold text-white",
   },
+
+  "rgb-shift-fluid": {
+    props: [
+      { name: "intensity", type: "range", min: 0.1, max: 1, step: 0.1, description: "Effect intensity" },
+      { name: "smoothing", type: "range", min: 0.05, max: 0.3, step: 0.01, description: "Mouse follow smoothing" },
+      { name: "rgbShiftAmount", type: "range", min: 0.005, max: 0.05, step: 0.005, description: "Chromatic aberration amount" },
+      { name: "distortionStrength", type: "range", min: 0.1, max: 0.8, step: 0.1, description: "Fluid distortion strength" },
+    ],
+    defaults: {
+      intensity: 0.5,
+      smoothing: 0.1,
+      rgbShiftAmount: 0.02,
+      distortionStrength: 0.3,
+    },
+    demoClassName: "w-full h-[400px]",
+    note: "Three.js WebGL effect with RGB shift and fluid distortion following cursor movement.",
+  },
 };
 
 export function getEffectConfig(slug) {

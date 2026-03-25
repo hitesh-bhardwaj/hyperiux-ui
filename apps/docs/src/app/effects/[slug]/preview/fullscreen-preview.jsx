@@ -10,6 +10,7 @@ import { AuroraBackground } from "@/components/effects/aurora";
 import { MagneticButton } from "@/components/effects/magnetic-button";
 import { ShimmerButton } from "@/components/effects/shimmer-button";
 import { TextReveal } from "@/components/effects/text-reveal";
+import { RgbShiftFluid } from "@/components/effects/rgb-shift-fluid";
 
 // Effects that need special handling
 const SCROLL_EFFECTS = ["text-reveal", "smooth-scroll"];
@@ -100,6 +101,29 @@ function SmoothScrollDemo() {
   );
 }
 
+function RgbShiftFluidDemo({ props }) {
+  return (
+    <RgbShiftFluid
+      intensity={props.intensity}
+      smoothing={props.smoothing}
+      rgbShiftAmount={props.rgbShiftAmount}
+      distortionStrength={props.distortionStrength}
+      className="absolute inset-0"
+    >
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
+            Move Your Cursor
+          </h2>
+          <p className="text-white/60 text-lg">
+            Watch the RGB shift and fluid distortion follow your mouse
+          </p>
+        </div>
+      </div>
+    </RgbShiftFluid>
+  );
+}
+
 const demoComponents = {
   "blur-text": BlurTextDemo,
   "aurora-background": AuroraBackgroundDemo,
@@ -107,6 +131,7 @@ const demoComponents = {
   "shimmer-button": ShimmerButtonDemo,
   "text-reveal": TextRevealDemo,
   "smooth-scroll": SmoothScrollDemo,
+  "rgb-shift-fluid": RgbShiftFluidDemo,
 };
 
 export function FullscreenPreview({ slug, effect, config }) {
@@ -126,7 +151,7 @@ export function FullscreenPreview({ slug, effect, config }) {
 
   const DemoComponent = demoComponents[slug];
   const isScrollEffect = SCROLL_EFFECTS.includes(slug);
-  const isAurora = slug === "aurora-background";
+  const isFullscreen = slug === "aurora-background" || slug === "rgb-shift-fluid";
 
   return (
     <div className="fixed inset-0 bg-neutral-950 flex">
@@ -206,7 +231,7 @@ export function FullscreenPreview({ slug, effect, config }) {
             </div>
           </div>
         ) : (
-          <div className={`absolute inset-0 flex items-center justify-center ${isAurora ? "" : "p-8"}`}>
+          <div className={`absolute inset-0 flex items-center justify-center ${isFullscreen ? "" : "p-8"}`}>
             {DemoComponent && (
               <DemoComponent props={propValues} replayKey={replayKey} />
             )}

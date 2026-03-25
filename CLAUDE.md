@@ -49,6 +49,20 @@ CLI fetches from `https://hyperiux.dev/r` in production, but auto-detects local 
 3. Add `registry.json` with metadata
 4. Run `pnpm build:registry`
 
+### Registry Item Schema
+
+```json
+{
+  "name": "effect-name",
+  "type": "registry:component",
+  "title": "Display Name",
+  "description": "...",
+  "category": "text|backgrounds|buttons|scroll|cursor",
+  "dependencies": ["framer-motion"],
+  "registryDependencies": []
+}
+```
+
 ### Key Conventions
 
 - Animation libraries: Framer Motion (primary) or GSAP (scroll/complex)
