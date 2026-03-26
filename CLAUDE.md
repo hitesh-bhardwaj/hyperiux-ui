@@ -57,13 +57,29 @@ CLI fetches from `https://hyperiux.dev/r` in production, but auto-detects local 
   "type": "registry:component",
   "title": "Display Name",
   "description": "...",
-  "category": "text|backgrounds|buttons|scroll|cursor",
+  "category": "text|backgrounds|buttons|scroll|cursor|surfaces",
   "dependencies": ["framer-motion"],
   "registryDependencies": []
 }
 ```
 
+### Demo Pages vs Registry Effects
+
+- **Registry effects** (`registry/effects/`): Installable components distributed via CLI
+- **Demo pages** (`apps/docs/src/app/<demo-name>/`): Full-page showcases, not distributed
+- **Showcase components** (`apps/docs/src/components/showcase/`): Complex demos used within pages
+
 ### Key Conventions
 
 - Animation libraries: Framer Motion (primary) or GSAP (scroll/complex)
 - `registryDependencies` in registry.json lists other effects this effect depends on (CLI installs them automatically)
+- Demo-specific fonts: Import via `next/font/google` directly in the demo page, not in global layout
+- Assets for demos: Place in `apps/docs/public/assets/demo/<demo-name>/`
+
+### Three.js/WebGL Patterns
+
+For scroll-based WebGL effects:
+- Use GSAP ScrollTrigger with `scrub: true` for scroll-synced animations
+- Store refs for cleanup: renderer, textures, animation frames
+- Reset `hasInit.current = false` in cleanup for React Strict Mode compatibility
+- Use `CanvasTexture` for SVGs (load as Image, draw to canvas, then create texture)

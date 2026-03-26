@@ -9,6 +9,7 @@ export function EffectCard({ effect }) {
   // Load wishlist state from localStorage
   useEffect(() => {
     const wishlist = JSON.parse(localStorage.getItem("hyperiux-wishlist") || "[]");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsWishlisted(wishlist.includes(effect.name));
   }, [effect.name]);
 

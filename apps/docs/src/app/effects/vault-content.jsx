@@ -80,7 +80,7 @@ export function VaultContent({ effects, effectCounts }) {
               )}
               {searchQuery && (
                 <span className="px-3 py-1 bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-full text-sm">
-                  "{searchQuery}"
+                  &quot;{searchQuery}&quot;
                 </span>
               )}
             </div>
