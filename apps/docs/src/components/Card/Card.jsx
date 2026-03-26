@@ -15,7 +15,7 @@ const Card = ({
   // style controls
   padding = "2vw",
   borderColor = "rgba(0,0,0,0.2)",
-  bg = "#ffffff",
+  bg = "",
   radius = "1.2vw",
   shadow = false,
 
@@ -27,7 +27,7 @@ const Card = ({
       style={{
         "--card-padding": padding,
         "--card-border": borderColor,
-        "--card-bg": bg,
+        // "--card-bg": bg,
         "--card-radius": radius,
       }}
     >
