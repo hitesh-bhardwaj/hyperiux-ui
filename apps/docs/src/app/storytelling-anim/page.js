@@ -19,6 +19,8 @@ const page = () => {
     ["/assets/menu/beach.jpg"],
      ["/assets/menu/spider-man.jpg"],
   ]}
+  textSize="text-[2.5vw]"
+  mobileTextSize="text-[5vw]"
 />
 
     </>

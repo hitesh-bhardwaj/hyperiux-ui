@@ -11,7 +11,8 @@ gsap.registerPlugin(ScrollTrigger, SplitText)
 const SCROLL_PER_TEXT = 1800
 const REVEAL_SCROLL   = 1100
 
-const StorytellingAnim = ({ texts = [], images = [] }) => {
+const StorytellingAnim = ({ texts = [], images = [], textSize = "text-[2vw]",
+  mobileTextSize = "text-[4vw]" }) => {
   const containerRef = useRef(null)
   const textRefs     = useRef([])
   const imageRefs    = useRef([])
@@ -136,14 +137,14 @@ gsap.set(split.words, {
 
         {/* TEXTS */}
         {texts.map((text, i) => (
-          <p
-            key={i}
-            ref={(el) => (textRefs.current[i] = el)}
-            className='absolute text-black text-5xl max-w-2xl leading-[1.3] text-center'
-            style={{ opacity: i === 0 ? 0 : 0 }}
-          >
-            {text}
-          </p>
+<p
+  key={i}
+  ref={(el) => (textRefs.current[i] = el)}
+  className={`absolute text-black max-sm:${mobileTextSize} ${textSize} max-w-2xl max-sm:w-[80%] leading-[1.3] text-center`}
+  style={{ opacity: i === 0 ? 0 : 0 }}
+>
+  {text}
+</p>
         ))}
 
         {/* IMAGES (4 corners per text) */}
