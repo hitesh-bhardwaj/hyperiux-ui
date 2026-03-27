@@ -69,15 +69,16 @@ export default function StackingCard({ data = [] }) {
 
       for (let i = 1; i < numCards; i++) {
         const rotateDir = (i - 1) % 2 === 0 ? -5 : 5;
+        const segmentStart = i - 1;
 
         tl.to(
           cards[i],
           {
             yPercent: 0,
-            duration: 1,
+            duration: 0.55,
             ease: "none",
           },
-          i - 1
+          segmentStart
         );
 
         const currentImage = cards[i].querySelector(".card-image");
@@ -87,11 +88,11 @@ export default function StackingCard({ data = [] }) {
             currentImage,
             {
               keyframes: [
-                { scale: 1.5, ease: "none", duration: 0.25 },
-                { scale: 1, ease: "none", duration: 0.25 },
+                { scale: 1.5, ease: "none", duration: 0.16 },
+                { scale: 1, ease: "none", duration: 0.39 },
               ],
             },
-            i - 1
+            segmentStart
           );
         }
 
@@ -103,15 +104,17 @@ export default function StackingCard({ data = [] }) {
             rotateX: 20,
             borderRadius: "3vw",
             ease: "linear",
+            duration: 0.5,
           },
-          i - 1
+          segmentStart
         ).to(
           cards[i - 1],
           {
             opacity: 0,
             ease: "none",
+            duration: 0.25,
           },
-          i - 0.5
+          segmentStart + 0.4
         );
       }
 
