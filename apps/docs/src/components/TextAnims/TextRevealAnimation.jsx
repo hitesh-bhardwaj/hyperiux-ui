@@ -28,7 +28,7 @@ if (typeof window !== 'undefined') {
 export default function TextFillAnimation({
     text = 'Go cashless, shop & sell virtually, access credit, insurance, and investment products seamlessly with Montra.',
     textColor = '#111111',
-    primaryColor = '#A98B76',
+    primaryColor = '#ff6b00',
     dimColor = '#dddddd',
     backgroundColor = '#FBFBFB',
     className = '',
@@ -99,9 +99,10 @@ export default function TextFillAnimation({
             gsap.timeline({
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: isDesktop ? 'top 60%' : 'top 80%',
-                    end: isDesktop ? 'bottom 60%' : 'bottom 80%',
+                    start: isDesktop ? 'top top' : 'top top',
+                    end: isDesktop ? 'bottom bottom' : 'bottom bottom',
                     scrub: 0.25,
+                    markers:true
                 },
             }).to(
                 chars,
@@ -122,20 +123,26 @@ export default function TextFillAnimation({
     }, [id, textColor, primaryColor, dimColor, textSize, textWidth, mobileTextSize, mobileTextWidth])
 
     return (
+         
+
         <section
             id={id}
             ref={sectionRef}
-            className={`relative h-full w-full overflow-hidden px-[4vw] max-sm:px-2 flex items-center justify-center ${containerClassName}`}
+            className={`relative h-[250vh] bg-gray-500 w-full  px-[4vw] max-sm:px-2  ${containerClassName}`}
             style={{ backgroundColor }}
-        >
-            <div className="split__wrapper tfa-text-wrapper text-center mx-auto">
+            >
+            <div className='sticky top-0 h-screen flex items-center justify-center'>
+
+            <div className="split__wrapper   h-fit  tfa-text-wrapper text-center mx-auto">
                 <h2
                     ref={textRef}
                     className={`font-medium font-display leading-[1.2] tfa-heading ${className}`}
-                >
+                    >
                     {text}
                 </h2>
+                    </div>
             </div>
         </section>
+          
     )
 }

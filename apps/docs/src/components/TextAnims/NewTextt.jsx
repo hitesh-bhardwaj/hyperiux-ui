@@ -108,8 +108,8 @@ export default function TextClipAnim({
   fontClass = "font-serif",
   containerWidth = "max-w-5xl",
   className = "",
-  start = "top 80%",
-  end = "bottom 40%",
+  start = "top top",
+  end = "bottom bottom",
   scrub = true,
   stagger = 1,
 }) {
@@ -140,7 +140,7 @@ export default function TextClipAnim({
     const ctx = gsap.context(() => {
       gsap.to(lines, {
         scrollTrigger: {
-          trigger: el,
+          trigger: '.text-anim',
           start,
           end,
           scrub: scrub ? true : false,
@@ -159,9 +159,12 @@ export default function TextClipAnim({
 
   return (
     <div
-      className="h-full w-full flex items-center justify-center py-10"
+      className="h-[250vh] w-full flex text-anim "
       style={{ background: bgColor }}
     >
+      <div className="h-screen sticky top-0 w-full flex items-center justify-center">
+
+      
       <div className={`${containerWidth} px-6 md:px-0 mx-auto`}>
         <p
           ref={wrapperRef}
@@ -171,6 +174,7 @@ export default function TextClipAnim({
         >
           {text}
         </p>
+      </div>
       </div>
     </div>
   );

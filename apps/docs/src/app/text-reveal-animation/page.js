@@ -1,12 +1,13 @@
 import React from 'react'
 import TextClipAnim from '@/components/TextAnims/NewTextt'
+import { ReactLenis } from 'lenis/react'
 
 const page = () => {
   return (
     <>
-    <div className='h-[70vh] bg-white'>
+     <ReactLenis root>
 
-    </div>
+   
         <TextClipAnim
     text="Design systems should feel effortless, not like you're fighting your own components every time you build."
     overtakeColor="#FAACBF"
@@ -15,10 +16,9 @@ const page = () => {
     textSize="text-[2.5vw]"
     mobileTextSize="text-[7vw]"
     containerWidth="w-[70%]"
-  />
-    <div className='h-[50vh] bg-white'>
-
-    </div>
+    />
+   
+    </ReactLenis>
     </>
   )
 }
