@@ -7,7 +7,7 @@ const page = () => {
        <SpotlightReveal
   beforeImage="/assets/reveal/scene2.png"
   afterImage="/assets/reveal/scene1.png"
-  maskShape='circle'
+  maskShape='ellipse'
 
 />
     </>
