@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { useLenis } from "lenis/react";
 import { SliderCard } from "./Card";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,10 +12,18 @@ export default function StackingCard({ data = [] }) {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
 
+  useLenis(() => {
+    ScrollTrigger.update();
+  }, [], 1);
+
   useEffect(() => {
+    cardsRef.current = cardsRef.current.slice(0, data.length);
+
     const ctx = gsap.context(() => {
       const cards = cardsRef.current.filter(Boolean);
       const numCards = cards.length;
+
+      if (!numCards) return;
 
       cards.forEach((card, i) => {
         gsap.set(card, {
@@ -22,11 +31,14 @@ export default function StackingCard({ data = [] }) {
           zIndex: i + 1,
           scale: 1,
           rotation: 0,
+          rotateX: 0,
+          opacity: 1,
           borderRadius: 0,
         });
       });
 
       const firstImage = cards[0]?.querySelector(".card-image");
+
       if (firstImage) {
         gsap.fromTo(
           firstImage,
@@ -39,7 +51,7 @@ export default function StackingCard({ data = [] }) {
               start: "50% bottom",
               end: "bottom 60%",
               scrub: true,
-            //   markers:true
+              invalidateOnRefresh: true,
             },
           }
         );
@@ -49,8 +61,9 @@ export default function StackingCard({ data = [] }) {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: `+=${(numCards-1) * 100}%`,
+          end: () => `+=${Math.max(numCards - 1, 0) * window.innerHeight}`,
           scrub: true,
+          invalidateOnRefresh: true,
         },
       });
 
@@ -101,6 +114,8 @@ export default function StackingCard({ data = [] }) {
           i - 0.5
         );
       }
+
+      ScrollTrigger.refresh();
     }, containerRef);
 
     return () => ctx.revert();
@@ -108,8 +123,8 @@ export default function StackingCard({ data = [] }) {
 
   return (
     <section
-      className="relative z-0 w-full"
-      style={{ height: `${data.length * 100}vh` }}
+      className="relative z-0 h-[var(--stack-height)] w-full"
+      style={{ "--stack-height": `${data.length * 100}vh` }}
     >
       <div
         ref={containerRef}

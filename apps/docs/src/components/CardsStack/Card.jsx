@@ -12,29 +12,24 @@ export const SliderCard = ({
 }) => {
   return (
     <div
-      className={`flex h-full w-full max-sm:py-10 shrink-0 items-stretch justify-between overflow-hidden origin-center ${backgroundColor}
-      max-sm:flex-col`}
+      className={`flex h-full w-full shrink-0 items-stretch justify-between overflow-hidden origin-center ${backgroundColor}
+      max-sm:min-h-[100svh] max-sm:flex-col max-sm:justify-start max-sm:py-8`}
     >
-      {/* LEFT CONTENT */}
       <div
         className="flex h-full w-[55%] flex-col justify-between px-[2vw] py-[4vw]
-        max-sm:w-full max-sm:px-[5vw] max-sm:py-[6vw]"
+        max-sm:w-full max-sm:px-5 max-sm:py-6"
       >
-        {/* CATEGORY */}
         <div>
           <h2
             className="mb-[2vw] text-[7vw] text-black font-third
-            max-sm:text-[10vw] max-sm:mb-[4vw]"
+            max-sm:mb-4 max-sm:text-[12vw] max-sm:leading-none"
           >
             {category}
           </h2>
         </div>
 
-        {/* IMAGE (ONLY MOBILE POSITION) */}
-        <div
-          className="hidden max-sm:block w-full h-[40vh] mb-[5vw]"
-        >
-          <div className="h-full w-full overflow-hidden rounded-[4vw]">
+        <div className="mb-6 hidden h-[42svh] w-full max-sm:block">
+          <div className="h-full w-full overflow-hidden rounded-[6vw]">
             <Image
               width={1000}
               height={1000}
@@ -45,31 +40,30 @@ export const SliderCard = ({
           </div>
         </div>
 
-        {/* ID + CONTENT */}
         <div
           className="flex justify-between gap-[12vw]
-          max-sm:flex-col max-sm:gap-[6vw]"
+          max-sm:flex-col max-sm:gap-5"
         >
           <div
             className="mb-[3vw] w-fit text-[8vw] leading-none text-black
-            max-sm:text-[12vw] max-sm:mb-[2vw]"
+            max-sm:mb-0 max-sm:text-[14vw]"
           >
             {id}
           </div>
 
           <div
             className="flex flex-grow flex-col justify-center space-y-[2vw]
-            max-sm:space-y-[3vw]"
+            max-sm:space-y-3"
           >
             <h3
               className="font-display text-[2.5vw] text-black leading-[1.2]
-              max-sm:text-[5vw]"
+              max-sm:text-[7vw]"
             >
               {title}
             </h3>
             <p
               className="text-[1.4vw] leading-[1.2] text-gray-700
-              max-sm:text-[3.5vw]"
+              max-sm:text-[4.2vw] max-sm:leading-[1.45]"
             >
               {description}
             </p>
@@ -77,7 +71,6 @@ export const SliderCard = ({
         </div>
       </div>
 
-      {/* DESKTOP IMAGE (UNCHANGED) */}
       <div
         className="my-auto h-[75%] w-[40%] p-[4vw]
         max-sm:hidden"
