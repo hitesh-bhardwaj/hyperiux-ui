@@ -1,28 +1,31 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import SplitText from 'gsap/dist/SplitText';
 import ScrambleTextPlugin from 'gsap/dist/ScrambleTextPlugin';
+import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 
-gsap.registerPlugin(SplitText, ScrambleTextPlugin);
+gsap.registerPlugin(SplitText, ScrambleTextPlugin, ScrollTrigger);
 
 const ScrambleText = ({ 
   text, 
   speed = 0.6, 
   charType = 'lowercase', 
   textSize = 'text-base',
-  textColor = 'text-white', // 👈 NEW PROP
+  textColor = 'text-white',
+  align = 'left',
   className 
 }) => {
   const elRef = useRef(null);
   const splitRef = useRef(null);
   const tlRef = useRef(null);
 
-  const [chars, setChars] = useState([]);
-  const [isActive, setIsActive] = useState(false);
+  const alignClass =
+    align === 'right'
+      ? 'text-right'
+      : 'text-left';
 
-  // Split after fonts are ready and whenever text changes
   useEffect(() => {
     let isCancelled = false;
 
@@ -31,29 +34,102 @@ const ScrambleText = ({
         if (document?.fonts?.ready) {
           await document.fonts.ready;
         } else {
-          await new Promise(r => requestAnimationFrame(() => r(null)));
+          await new Promise((r) => requestAnimationFrame(() => r(null)));
         }
       } catch {}
 
       if (isCancelled || !elRef.current) return;
 
-      // Cleanup old instances
       tlRef.current?.kill();
       splitRef.current?.revert();
       splitRef.current = null;
 
       const ctx = gsap.context(() => {
-        const split = new SplitText(elRef.current, { type: 'chars' });
+        const el = elRef.current;
+
+        //  LOCK HEIGHT BEFORE SPLIT (IMPORTANT FIX)
+        const originalHeight = el.offsetHeight;
+        gsap.set(el, { minHeight: originalHeight });
+
+        const split = new SplitText(el, { type: 'words,chars' });
         splitRef.current = split;
 
-        elRef.current.removeAttribute('aria-label');
+        const chars = split.chars;
+        const words = split.words;
 
-        split.chars.forEach(char => {
-          char.removeAttribute('aria-label');
+        // Prevent word breaking
+        gsap.set(words, {
+          display: 'inline-block',
+          whiteSpace: 'nowrap',
         });
 
-        gsap.set(split.chars, { opacity: 0.7 });
-        setChars(split.chars);
+        gsap.set(el, {
+          wordBreak: 'keep-all',
+        });
+
+        // Character styling
+        gsap.set(chars, {
+          display: 'inline-block',
+        });
+
+        el.removeAttribute('aria-label');
+        chars.forEach((c) => c.removeAttribute('aria-label'));
+
+        gsap.set(chars, { opacity: 0 });
+
+        const originals = chars.map((c) => c.textContent || '');
+
+        const tl = gsap.timeline({
+          paused: true,
+          defaults: { ease: 'none' },
+          onComplete: () => {
+           
+            gsap.set(el, { minHeight: 'auto' });
+          }
+        });
+
+        tlRef.current = tl;
+
+        tl.to(chars, {
+          duration: 0.7,
+          scrambleText: {
+            text: (i) => originals[i],
+            chars: charType || 'lowercase',
+            speed,
+            revealDelay: 0.2,
+          },
+          opacity: 1,
+          stagger: 0.04,
+        });
+
+        tl.to(
+          chars,
+          {
+            opacity: 1,
+            duration: 0.4,
+            stagger: 0.02,
+            ease: 'power1.out',
+          },
+          '>-0.2'
+        );
+
+        tl.to(
+          chars,
+          {
+            opacity: 0.85,
+            duration: 0.3,
+            stagger: 0.02,
+          },
+          '>-0.2'
+        );
+
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 40%',
+          once: true,
+          markers: false,
+          onEnter: () => tl.play(),
+        });
       }, elRef);
 
       return () => ctx.revert();
@@ -62,69 +138,25 @@ const ScrambleText = ({
     const clean = setup();
 
     return () => {
-      (async () => { await clean; })();
+      (async () => {
+        await clean;
+      })();
       tlRef.current?.kill();
       splitRef.current?.revert();
     };
-  }, [text]);
-
-  const handleMouseEnter = useCallback(() => {
-    if (isActive || !chars.length) return;
-
-    setIsActive(true);
-
-    const originals = chars.map(c => c.textContent || '');
-    const tl = gsap.timeline({
-      onComplete: () => setIsActive(false),
-      defaults: { ease: 'none' },
-    });
-    tlRef.current?.kill();
-    tlRef.current = tl;
-
-    tl.to(chars, {
-      opacity: 0.4,
-      duration: 0.4,
-      stagger: 0.02,
-      ease: 'power1.out',
-    }, 0);
-
-    tl.to(chars, {
-      duration: 0.6,
-      scrambleText: {
-        text: (i) => originals[i],
-        chars: charType || 'lowercase',
-        speed,
-        revealDelay: 0.5,
-      },
-      stagger: 0.05,
-    }, 0);
-
-    const totalStagger = (chars.length - 1) * 0.05;
-
-    tl.to(chars, {
-      opacity: 1,
-      duration: 0.4,
-      stagger: 0.02,
-      ease: 'power1.out',
-    }, 0.2 + totalStagger);
-
-    tl.to(chars, {
-      opacity: 0.7,
-      duration: 0.3,
-      stagger: 0.05,
-      ease: 'power1.out',
-    }, '>-0.2');
-  }, [isActive, chars, charType, speed]);
+  }, [text, speed, charType]);
 
   return (
-    <div 
-      onMouseEnter={handleMouseEnter} 
-      onFocus={handleMouseEnter} 
-      tabIndex={0}
-    >
+    <div>
       <p
         ref={elRef}
-        className={`${textSize} ${textColor} w-full cursor-pointer ${className ?? ''}`} // 👈 UPDATED
+        className={`${textSize} ${textColor} ${alignClass} w-full tracking-tight ${
+          className ?? ''
+        }`}
+        style={{
+          wordBreak: 'keep-all',
+          overflowWrap: 'normal',
+        }}
       >
         {text}
       </p>
