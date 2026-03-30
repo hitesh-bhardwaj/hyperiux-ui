@@ -30,9 +30,9 @@ async function submitHandler(data) {
 
 export default function ContactPage() {
   return (
-    <main className="w-full h-full bg-white mx-auto py-20 px-6">
+    <main className="w-full  bg-white min-h-screen mx-auto py-20 px-6">
      
-      <div className="w-[50%] mx-auto"> 
+      <div className="w-[50%] max-sm:w-[95%] mx-auto"> 
          <h1 className="text-3xl text-black mb-8">Get in touch</h1>
       <ContactForm
         fields={FIELDS}

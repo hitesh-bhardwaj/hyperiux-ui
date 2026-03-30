@@ -15,8 +15,8 @@
  *
  * submitLabel?: string          (default "Submit")
  * loadingLabel?: string         (default "Sending...")
- * successMessage?: string       (default "✅ Form submitted successfully!")
- * errorMessage?: string         (default "❌ Error sending message. Please try again.")
+ * successMessage?: string       (default " Form submitted successfully!")
+ * errorMessage?: string         (default " Error sending message. Please try again.")
  *
  *  Built-in validation 
  *  - required fields checked automatically
@@ -60,15 +60,15 @@ function buildInitialValues(fields) {
   return values;
 }
 
-// ─── component ───────────────────────────────────────────────────────────────
+//  component 
 
 export default function ContactForm({
   fields = [],
   onSubmit,
   submitLabel = "Submit",
   loadingLabel = "Sending...",
-  successMessage = "✅ Form submitted successfully!",
-  errorMessage = "❌ Error sending message. Please try again.",
+  successMessage = " Form submitted successfully!",
+  errorMessage = " Error sending message. Please try again.",
 }) {
   const [values, setValues] = useState(() => buildInitialValues(fields));
   const [errors, setErrors] = useState({});
@@ -201,7 +201,7 @@ export default function ContactForm({
           />
         );
 
-      // text | email | url | number | password | …
+      // text | email | url | number | password |
       default:
         return (
           <Input
