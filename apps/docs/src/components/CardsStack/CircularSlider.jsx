@@ -1,89 +1,28 @@
-"use client";
-
+'use client'
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-
-import Link from "next/link";
+import SliderCard from "./SliderCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ProductCard = ({
-  img,
-  heading,
-  link,
-  text,
-  bg = "bg-white/70",
-  textColor = "text-black",
-}) => {
-  return (
-    <Link href={link} className="block w-full h-full group">
-      <div
-        className={`h-full w-full ${bg} rounded-[1.5vw] flex flex-col-reverse items-center justify-between relative group-hover:bg-white group-hover:shadow-xl duration-500 
-      w-[23vw] h-[26vw] 
-      max-lg:w-[40vw] max-lg:h-[50vw] 
-      max-md:w-[85vw] max-md:h-[100vw] 
-      max-md:rounded-[5vw]`}
-      >
-        <div
-          className="h-1/2 w-full flex flex-col items-center justify-center 
-        max-md:h-full max-md:justify-end max-md:pb-[10%]"
-        >
-          <h2
-            className={`text-center font-extralight uppercase text-[1.8vw] 
-          max-lg:text-[3vw] 
-          max-md:text-[6vw] ${textColor}`}
-          >
-            {heading}
-          </h2>
-
-          <p
-            className={`text-[1.15vw] font-extralight mb-[2vw] max-md:text-lg ${textColor}`}
-          >
-            {text}
-          </p>
-
-          <span className={`text-sm tracking-wide ${textColor}`}>
-            See More →
-          </span>
-        </div>
-      </div>
-    </Link>
-  );
-};
-
-const Product = ({
-  sectionHeading = "Our Advanced Endo Surgery Portfolio",
-  footerText = "ADVASTAP Series",
-  cards = [],
-  cardBg = "bg-white/70",
-  cardTextColor = "text-black",
-}) => {
-  const sliderContainer = useRef(null);
+const CircularSlider = ({ heading, para, data = [] }) => {
+  const outerRef = useRef(null);
+  const stickyRef = useRef(null);
   const wheelRef = useRef(null);
 
   useEffect(() => {
-    if (window.innerWidth < 1024) return;
-
-    let resizeHandler;
-    let rotateTween;
-
     const ctx = gsap.context(() => {
       const wheel = wheelRef.current;
-      const cardsEl =
-        gsap.utils.selector(sliderContainer)(".wheelCard");
+      const cards = gsap.utils.toArray(".wheel-card");
 
-      if (!wheel || !cardsEl.length) return;
-
-      resizeHandler = () => {
-        const total = cardsEl.length;
-        const baseRadius = wheel.offsetWidth / 1.1;
-        const radiusScale = gsap.utils.clamp(0.82, 1.28, 1 + (total - 5) * 0.08);
-        const radius = baseRadius * radiusScale;
+      const setup = () => {
+        const radius = wheel.offsetWidth / 1.1;
         const center = wheel.offsetWidth / 2;
+        const total = cards.length;
         const slice = (0.58 * Math.PI) / total;
 
-        cardsEl.forEach((item, i) => {
+        cards.forEach((item, i) => {
           const angle = i * slice;
           const x = center + radius * Math.sin(angle);
           const y = center - radius * Math.cos(angle);
@@ -98,95 +37,113 @@ const Product = ({
         });
       };
 
-      resizeHandler();
-      window.addEventListener("resize", resizeHandler);
+      setup();
+      window.addEventListener("resize", setup);
 
-      rotateTween = gsap.to(wheel, {
+      gsap.to(wheel, {
         rotate: -87,
         ease: "none",
-        duration: cardsEl.length,
         scrollTrigger: {
-          trigger: sliderContainer.current,
+          trigger: outerRef.current,
           start: "top top",
-          end: "bottom bottom",
+          end: "+=1500 top",
           scrub: 0.25,
           invalidateOnRefresh: true,
-        //   markers:true
         },
       });
-    }, sliderContainer);
 
-    return () => {
-      if (resizeHandler) {
-        window.removeEventListener("resize", resizeHandler);
-      }
+      return () => {
+        window.removeEventListener("resize", setup);
+      };
+    }, outerRef);
 
-      rotateTween?.scrollTrigger?.kill();
-      rotateTween?.kill();
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      ref={sliderContainer}
-      className="relative h-[260vh]   max-md:py-[15%]"
-    >
+    <>
       {/* Desktop */}
-      <div className="max-sm:hidden h-screen w-screen  sticky top-0 block">
-        <div className="relative flex h-screen flex-col justify-between pb-[3%]">
-          <h2 className="text-center text-3xl font-light">
-            {sectionHeading}
-          </h2>
+      <section
+        ref={outerRef}
+        className="hidden lg:block relative"
+        style={{ height: "250vh" }}
+      >
+        <div
+          ref={stickyRef}
+          className="sticky top-0 h-screen flex flex-col items-center justify-between pb-[3%] overflow-hidden"
+        >
+          <div className="w-full flex justify-center pt-[3%]">
+            <h2 className="text-[2.5vw]  uppercase tracking-widest text-center">
+              {heading}
+            </h2>
+          </div>
 
+          {/* Wheel */}
           <div
-            className="
-              absolute w-full 
-              
-              top-[67vw]
-              
-              h-screen
-            "
+            className="absolute"
+            style={{ top: "65vw", width: "100%", height: "100vh" }}
           >
             <div
               ref={wheelRef}
-              className="wheel absolute top-0 left-1/2 flex h-screen w-screen max-h-[2000vh] max-w-500 -translate-x-1/2 items-center justify-center"
+              className="absolute flex items-center justify-center"
+              style={{
+                top: 0,
+                left: "49%",
+                transform: "translateX(-50%)",
+                width: "100vw",
+                height: "100vw",
+                maxWidth: "2000px",
+                maxHeight: "2000px",
+              }}
             >
-              {cards.map((item, i) => (
+              {data.map((product, i) => (
                 <div
                   key={i}
-                  className="wheelCard absolute top-0 left-0 h-[26vw] w-[23vw] cursor-pointer"
+                  className="wheel-card absolute top-0 left-0"
+                  style={{ width: "23vw", height: "26vw", cursor: "pointer" }}
                 >
-                  <ProductCard
-                    {...item}
-                    bg={item.bg ?? cardBg}
-                    textColor={item.textColor ?? cardTextColor}
+                  <SliderCard
+                    heading={product.heading}
+                    text={product.text}
+                    bgColor={product.bgColor}
+                    textColor={product.textColor}
                   />
                 </div>
               ))}
             </div>
           </div>
 
-          <p className="text-center tracking-widest text-[2vw]">
-            {footerText}
-          </p>
-        </div>
-      </div>
-
-      {/* Mobile */}
-      <div className="lg:hidden flex flex-col gap-[10vw]">
-        {cards.map((item, i) => (
-          <div key={i} className="w-[85vw] h-[100vw] mx-auto">
-            <ProductCard
-              {...item}
-              bg={item.bg ?? cardBg}
-              textColor={item.textColor ?? cardTextColor}
-            />
+          <div className="w-full flex justify-center pb-[2%]">
+            <p className="font-light uppercase tracking-widest text-[2.2vw] text-center">
+              {para}
+            </p>
           </div>
-        ))}
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {/* Mobile / Tablet */}
+      <section className="lg:hidden py-[15vw] px-[5vw]">
+        <h2 className="text-center text-[7vw] font-extralight uppercase tracking-widest mb-[10vw]">
+          {heading}
+        </h2>
+        <div className="flex flex-col items-center gap-[10vw]">
+          {data.map((product, i) => (
+            <div key={i} className="w-[85vw] h-[100vw] max-sm:h-[30vh] rounded-[5vw] overflow-hidden">
+              <SliderCard
+                heading={product.heading}
+                text={product.text}
+                bgColor={product.bgColor}
+                textColor={product.textColor}
+              />
+            </div>
+          ))}
+        </div>
+        <p className="text-center font-light uppercase tracking-widest text-[6vw] mt-[10vw]">
+          {para}
+        </p>
+      </section>
+    </>
   );
 };
 
-export default Product;
+export default CircularSlider;
