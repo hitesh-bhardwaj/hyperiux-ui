@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import CharStaggerLinkBtn from "../Buttons/CharStaggerLinkBtn/CharStaggerLinkBtn";
+import CharStaggerLinkBtn from "../Buttons/LinkButtons/CharStaggerLinkBtn/CharStaggerLinkBtn";
 
 export default function CustomNavbar({
   links = [],
