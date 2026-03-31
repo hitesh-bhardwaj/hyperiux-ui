@@ -62,7 +62,7 @@ export default function DgreesPixelScrollPage() {
                   </div>
 
                   {/* Center - Space for Canvas (482px) */}
-                  <div className="w-[500px] shrink-0 hidden lg:block" />
+                  <div className="w-125 shrink-0 hidden lg:block" />
 
                   {/* Right Column - Description */}
                   <div className="w-60 md:w-70 shrink-0 hidden md:block mt-auto">
