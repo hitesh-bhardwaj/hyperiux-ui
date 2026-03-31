@@ -5,7 +5,6 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-
 const DIGITS = [...Array(10).keys()]; // [0..9]
 
 const SCROLL_TRIGGER_CONFIG = {
@@ -13,6 +12,12 @@ const SCROLL_TRIGGER_CONFIG = {
   start: "top 80%",
 };
 
+const FONT_WEIGHTS = {
+  normal: "font-normal",
+  medium: "font-medium",
+  semibold: "font-semibold",
+  bold: "font-bold",
+};
 
 const DigitScroller = memo(({ digit, duration = 2, color }) => {
   const containerRef = useRef(null);
@@ -32,11 +37,13 @@ const DigitScroller = memo(({ digit, duration = 2, color }) => {
   return (
     <div
       style={{ color }}
-      className="overflow-hidden h-[6vw] mb-[0.9vw] max-md:h-[8.8vw] max-sm:h-[16.8vw] max-sm:mb-[2.1vw] leading-[1.4] inline-block relative w-[0.64em]"
+      className="overflow-hidden h-[1em] leading-none inline-block relative w-[0.64em]"
     >
       <div ref={containerRef} className="flex flex-col">
         {DIGITS.map((d) => (
-          <span key={d} className="h-fit text-inherit">{d}</span>
+          <span key={d} className="flex h-[1em] items-center justify-center leading-none">
+            {d}
+          </span>
         ))}
       </div>
     </div>
@@ -44,7 +51,6 @@ const DigitScroller = memo(({ digit, duration = 2, color }) => {
 });
 
 DigitScroller.displayName = "DigitScroller";
-
 
 const renderDigits = (value, color) =>
   value.split("").map((char, i) =>
@@ -55,9 +61,7 @@ const renderDigits = (value, color) =>
     )
   );
 
-
-
-const StatItem = memo(({ stat, textColor }) => {
+const StatItem = memo(({ stat, textColor, textSize, fontWeight }) => {
   const { prefix, value, suffix, superSuffix } = stat;
 
   return (
@@ -65,11 +69,11 @@ const StatItem = memo(({ stat, textColor }) => {
       <div className="flex flex-col items-center justify-start h-fit gap-[1vw] w-fit max-sm:flex-row max-sm:justify-between max-sm:pl-[4vw] max-sm:gap-[4vw]">
         <h3
           dir="ltr"
-          className="font-semibold  text-[5vw]  leading-[1.2] flex items-center max-md:text-[7vw] max-sm:text-[12vw]"
+          className={`${FONT_WEIGHTS[fontWeight] || "font-normal"} leading-[1.2] flex items-center max-md:text-[7vw] max-sm:text-[12vw] ${textSize}`}
         >
-          {prefix    && <span style={{ color: textColor }}>{prefix}</span>}
+          {prefix && <span style={{ color: textColor }}>{prefix}</span>}
           {renderDigits(value, textColor)}
-          {suffix    && <span style={{ color: textColor }}>{suffix}</span>}
+          {suffix && <span style={{ color: textColor }}>{suffix}</span>}
           {superSuffix && <sup style={{ color: textColor }}>{superSuffix}</sup>}
         </h3>
       </div>
@@ -79,13 +83,18 @@ const StatItem = memo(({ stat, textColor }) => {
 
 StatItem.displayName = "StatItem";
 
-
 /**
- * @param {Object[]} stats      - Array of 1–3 stat objects.
- *   { prefix?, value, suffix?, superSuffix? }
- * @param {string}  textColor   - CSS color for all text/digits (default: "white")
+ * @param {Object[]} stats
+ * @param {string}  textColor
+ * @param {string}  textSize 
+ * @param {string}  fontWeight 
  */
-export default function CounterOne({ stats = [], textColor = "white" }) {
+export default function CounterOne({
+  stats = [],
+  textColor = "black",
+  textSize = "text-[5vw]",
+  fontWeight = "normal",
+}) {
   const items = stats.slice(0, 3);
 
   return (
@@ -93,7 +102,13 @@ export default function CounterOne({ stats = [], textColor = "white" }) {
       <div className="p-[1vw]">
         <div className="flex text-center gap-[2vw] w-fit h-fit max-md:flex-wrap max-md:gap-x-0 max-md:gap-y-12 max-sm:flex-col max-sm:text-left">
           {items.map((stat, index) => (
-            <StatItem key={index} stat={stat} textColor={textColor} />
+            <StatItem
+              key={index}
+              stat={stat}
+              textColor={textColor}
+              textSize={textSize}
+              fontWeight={fontWeight}
+            />
           ))}
         </div>
       </div>
