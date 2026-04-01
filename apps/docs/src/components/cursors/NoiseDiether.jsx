@@ -361,7 +361,7 @@ export default function NoiseDiether({
         pixelSize: .5,
         patternDensity: 1,
         fluidRadius: 0.08,
-        fluidStrength: .8,
+        fluidStrength: .2,
         fluidDissipation: 0.9,
         distortStrength: 0.5,
         trailDarkness: 0

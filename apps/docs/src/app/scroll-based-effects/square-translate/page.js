@@ -39,6 +39,7 @@ export default function page() {
                 <div className="h-fit w-full py-[10vh] flex items-center gap-[6vw] ">
                     <div className="h-[35vw] w-[40vw] bg-red-500">
                         <Image
+                           alt="Square Translate"
                             src="https://cdn.sanity.io/images/degpnzrx/production/b370e4f512a2d26bb53dd93bc1d84b473ffcb988-2400x1600.heif?w=2400&h=1600&q=90&fit=crop&auto=format"
                             width={1000}
                             height={1000}
@@ -52,7 +53,7 @@ export default function page() {
                         textColor="text-black"
                         squareClassName="w-[.6vw] h-[.6vw] bg-[#FB450F]"
                         containerClassName="w-[50vw]"
-                        translateValue={50}
+                        translateValue={55}
                         borderColor="border-black/10"
                         totalTranslateImpact={3}
                     />

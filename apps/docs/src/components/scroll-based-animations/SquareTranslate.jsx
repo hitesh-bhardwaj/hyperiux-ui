@@ -68,15 +68,13 @@ export default function SquareTranslate({
             end: "bottom 50%",
             scrub: true,
             onUpdate: ({ progress }) => {
-                const itemHeight = itemEls[0]?.offsetHeight || 0
-                const startOffset = -itemHeight
-                const totalTravel = container.offsetHeight - square.offsetHeight + itemHeight * 2
+                const totalTravel = container.offsetHeight - square.offsetHeight
                 const translateProgress = getTranslateProgress(progress)
                 const currentIndex = translateProgress * (items.length - 1)
 
                 gsap.to(square, {
                     rotation: getRotation(progress),
-                    y: startOffset + translateProgress * totalTravel,
+                    y: translateProgress * totalTravel,
                     scale: getScale(progress),
                     duration: 0.4,
                     ease: "power2.out",
@@ -113,7 +111,7 @@ export default function SquareTranslate({
                 <ul 
                     key={i}
                     ref={el => itemRefs.current[i] = el}
-                    className={`list-none py-[1vw] ${textColor} ${i > 0 ? `border-t ${borderColor}` : ''} ${i === items.length - 1 ? 'pb-0' : ''}`}
+                    className={`list-none py-[.8vw] ${textColor} ${i > 0 ? `border-t ${borderColor}` : ''} ${i === items.length - 1 ? '' : ''}`}
                 >
                     <li className={textClassName}>{item}</li>
                 </ul>
