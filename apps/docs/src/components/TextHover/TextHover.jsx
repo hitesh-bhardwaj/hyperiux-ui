@@ -5,54 +5,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const INDUSTRIES = [
-  {
-    label: "Advanced Mobility",
-    description:
-      "Autonomous aviation, smart transit, and sustainable transport reshaping movement.",
-  },
-  {
-    label: "Artificial Intelligence",
-    description:
-      "Transforming industries through data, automation, and intelligence at scale.",
-  },
-  {
-    label: "Biotechnology & Genomics",
-    description:
-      "Engineering breakthrough treatments and extending human potential through genetic innovation.",
-  },
-  {
-    label: "Blockchain & DeFi",
-    description:
-      "Building transparent, secure digital economies that move faster than convention.",
-  },
-  {
-    label: "Next-Gen Finance",
-    description:
-      "Alternative investments to democratized financial intelligence for everyone.",
-  },
-  {
-    label: "Next-Gen Consumer Tech",
-    description: "Hyper-personalized, cutting-edge technologies to enrich everyday lives.",
-  },
-  {
-    label: "Quantum Computing",
-    description: "New paradigms in computing power, asset analysis, and fintech.",
-  },
-  {
-    label: "Robotics",
-    description: "Augmenting human capability and automating the future of work.",
-  },
-  {
-    label: "Space",
-    description:
-      "Opening new frontiers in connectivity, exploration, and orbital infrastructure.",
-  },
-];
-
-const CornerSVG = ({ className }) => (
+const CornerSVG = ({ className, style }) => (
   <svg
     className={className}
+    style={style}
     width="10"
     height="10"
     viewBox="0 0 10 10"
@@ -66,7 +22,11 @@ const CornerSVG = ({ className }) => (
   </svg>
 );
 
-export default function TextHover() {
+export default function TextHover({
+  data = [],
+  bgColor = "#0a0a0a",
+  textColor = "#ffffff",
+}) {
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
   const listRef = useRef(null);
@@ -230,11 +190,12 @@ export default function TextHover() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-dvh py-12 max-sm:py-10 bg-neutral-950 overflow-hidden"
+      className="relative min-h-dvh py-12 max-sm:py-10 overflow-hidden"
+      style={{ backgroundColor: bgColor }}
     >
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-indigo-900/10 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 rounded-full bg-indigo-900/10 blur-[120px]" />
       </div>
 
       <div ref={contentRef} className="relative container mx-auto px-4">
@@ -242,7 +203,7 @@ export default function TextHover() {
           ref={listRef}
           className="relative isolate flex flex-col items-center text-center"
         >
-          {INDUSTRIES.map((item, i) => {
+          {data.map((item, i) => {
             const isActive = activeIndex === i;
 
             return (
@@ -286,10 +247,11 @@ export default function TextHover() {
                       aria-hidden="true"
                       className={[
                         "font-mono text-6xl max-sm:text-3xl  leading-none uppercase tracking-widest",
-                        "absolute inset-0 text-white",
+                        "absolute inset-0",
                         "transition-transform duration-500",
                         isActive ? "translate-y-0" : "translate-y-full",
                       ].join(" ")}
+                      style={{ color: textColor }}
                     >
                       {item.label}
                     </span>
@@ -303,7 +265,7 @@ export default function TextHover() {
                 >
                   <p
                     ref={(el) => (descriptionRefs.current[i] = el)}
-                    className="text-base max-sm:text-sm text-neutral-400 max-w-[430px] pt-1 font-light tracking-wide"
+                    className="text-base max-sm:text-sm text-neutral-400 max-w-107.5 pt-1 font-light tracking-wide"
                   >
                     {item.description}
                   </p>
@@ -329,10 +291,22 @@ export default function TextHover() {
             filter: activeIndex !== null ? "blur(0px)" : "blur(10px)",
           }}
         >
-          <CornerSVG className="absolute top-0 left-0 size-8 max-sm:size-5 text-neutral-500" />
-          <CornerSVG className="absolute top-0 right-0 size-8 max-sm:size-5 text-neutral-500 rotate-90" />
-          <CornerSVG className="absolute bottom-3 max-sm:bottom-2 left-0 size-8 max-sm:size-5 text-neutral-500 -rotate-90" />
-          <CornerSVG className="absolute bottom-3 max-sm:bottom-2 right-0 size-8 max-sm:size-5 text-neutral-500 rotate-180" />
+          <CornerSVG
+            className="absolute top-0 left-0 size-8 max-sm:size-5 opacity-70"
+            style={{ color: textColor }}
+          />
+          <CornerSVG
+            className="absolute top-0 right-0 size-8 max-sm:size-5 rotate-90 opacity-70"
+            style={{ color: textColor }}
+          />
+          <CornerSVG
+            className="absolute bottom-3 max-sm:bottom-2 left-0 size-8 max-sm:size-5 opacity-70 -rotate-90"
+            style={{ color: textColor }}
+          />
+          <CornerSVG
+            className="absolute bottom-3 max-sm:bottom-2 right-0 size-8 max-sm:size-5 opacity-70 rotate-180"
+            style={{ color: textColor }}
+          />
         </div>
       </div>
     </section>

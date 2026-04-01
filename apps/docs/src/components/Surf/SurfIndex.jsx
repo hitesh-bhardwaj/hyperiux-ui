@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import gsap from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 
@@ -12,7 +12,9 @@ const VELOCITY_LERP = 0.09;
 
 const CARD_WIDTH = 320;
 const CARD_GAP = 24;
-const CARD_STEP = CARD_WIDTH + CARD_GAP;
+const MOBILE_BREAKPOINT = 640;
+const MOBILE_CARD_WIDTH = 240;
+const MOBILE_CARD_GAP = 16;
 
 const ROTATION_SENSITIVITY = 0.025;
 const ROTATION_DAMP = 0.1;
@@ -29,6 +31,13 @@ const InfiniteScrollSlider = ({ images = [] }) => {
   const numberRefs = useRef([]);
   const titleRefs = useRef([]);
   const descriptionRefs = useRef([]);
+  const [viewportWidth, setViewportWidth] = useState(CARD_WIDTH * 4);
+
+  const isMobileViewport = viewportWidth < MOBILE_BREAKPOINT;
+  const cardWidth = isMobileViewport ? MOBILE_CARD_WIDTH : CARD_WIDTH;
+  const cardGap = isMobileViewport ? MOBILE_CARD_GAP : CARD_GAP;
+  const cardStep = cardWidth + cardGap;
+  const cardHeight = isMobileViewport ? 'calc(40vh + 72px)' : 'calc(50vh + 96px)';
 
   const stateRef = useRef({
     current: 0,
@@ -66,30 +75,41 @@ const InfiniteScrollSlider = ({ images = [] }) => {
       const setters = settersRef.current;
 
       const count = images.length;
-      const loopWidth = count * CARD_STEP;
+      const loopWidth = count * cardStep;
 
       const viewW = window.innerWidth;
       const centerX = viewW / 2;
-      const centreOffset = centerX - CARD_WIDTH / 2;
+      const centreOffset = centerX - cardWidth / 2;
 
       for (let i = 0; i < cards.length; i++) {
-        let x = i * CARD_STEP - offset + centreOffset;
+        let x = i * cardStep - offset + centreOffset;
 
         x = ((x % loopWidth) + loopWidth) % loopWidth;
-        if (x > loopWidth - CARD_STEP) x -= loopWidth;
+        if (x > loopWidth - cardStep) x -= loopWidth;
 
         setters[i].x(x);
         setters[i].rotateY(rotation);
       }
     },
-    [images]
+    [cardStep, cardWidth, images]
   );
+
+  useEffect(() => {
+    const updateViewport = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+
+    return () => window.removeEventListener('resize', updateViewport);
+  }, []);
 
   useEffect(() => {
     if (!images.length) return;
 
     const state = stateRef.current;
-    const loopWidth = images.length * CARD_STEP;
+    const loopWidth = images.length * cardStep;
 
     initSetters();
 
@@ -206,7 +226,7 @@ const InfiniteScrollSlider = ({ images = [] }) => {
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [images, positionCards]);
+  }, [cardStep, images, positionCards]);
 
 useEffect(() => {
     if (!images.length) return;
@@ -342,12 +362,12 @@ useEffect(() => {
   }, [images]);
 
   return (
-    <div className="h-screen w-screen overflow-hidden">
-      <div className="relative h-full flex items-center overflow-hidden pointer-events-none perspective-[2200px]">
+    <div className="h-screen w-screen overflow-hidden max-sm:px-4">
+      <div className="relative h-full flex items-center overflow-hidden pointer-events-none perspective-[2200px] max-sm:items-start max-sm:pt-24">
         <div
           ref={stripRef}
           className="relative w-full transform-3d"
-          style={{ height: 'calc(50vh + 96px)' }}
+          style={{ height: cardHeight }}
         >
           {images.map((item, i) => {
             const { src, number, title, desc, description } = getItemData(item);
@@ -360,8 +380,8 @@ useEffect(() => {
                 }}
                 className="absolute top-0 left-0 pointer-events-auto will-change-transform"
                 style={{
-                  width: CARD_WIDTH,
-                  height: 'calc(50vh + 96px)',
+                  width: cardWidth,
+                  height: cardHeight,
                   transformOrigin: 'center center',
                   transform: 'translateZ(1px)',
                 }}
@@ -370,7 +390,7 @@ useEffect(() => {
                   ref={(el) => {
                     numberRefs.current[i] = el;
                   }}
-                  className="mb-2 text-2xl leading-none tracking-tight text-black"
+                  className="mb-2 text-2xl leading-none tracking-tight text-black max-sm:mb-1 max-sm:text-lg"
                 >
                   {number}
                 </div>
@@ -378,7 +398,7 @@ useEffect(() => {
                   ref={(el) => {
                     imageRefs.current[i] = el;
                   }}
-                  className="w-full h-[50vh] overflow-hidden bg-white"
+                  className="h-[50vh] w-full overflow-hidden bg-white max-sm:h-[40vh]"
                 >
                   <img
                     src={src}
@@ -392,7 +412,7 @@ useEffect(() => {
                     ref={(el) => {
                       titleRefs.current[i] = el;
                     }}
-                    className="text-xl uppercase leading-none tracking-[0.04em] text-black"
+                    className="text-xl uppercase leading-none tracking-[0.04em] text-black max-sm:text-base"
                   >
                     {title}
                   </div>
@@ -400,7 +420,7 @@ useEffect(() => {
                     ref={(el) => {
                       descriptionRefs.current[i] = el;
                     }}
-                    className="text-sm leading-relaxed text-black/70"
+                    className="text-sm leading-relaxed text-black/70 max-sm:text-xs"
                   >
                     {desc || description || ''}
                   </div>
