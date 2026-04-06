@@ -9,7 +9,7 @@ const page = () => {
  
 
     <div className="min-h-screen">
-      <FrameSlider images={images} bgColor="#ffffff" />
+      <FrameSlider images={images} bgColor="#111111" />
     </div>
       
     </>

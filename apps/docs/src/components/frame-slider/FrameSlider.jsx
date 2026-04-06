@@ -143,7 +143,7 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#000000" }) 
   // Detect mobile screen size
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640); // sm breakpoint is 640px
+      setIsMobile(window.innerWidth < 640);
     };
 
     checkMobile();
@@ -170,7 +170,6 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#000000" }) 
             fontFamily: "'DM Sans', sans-serif",
             fontSize: isMobile ? 9 : 11,
             letterSpacing: "0.22em",
-            // color: "rgba(255,255,255,0.28)",
             textTransform: "uppercase",
           }}
         >
@@ -204,14 +203,30 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#000000" }) 
 
         {/* Center frame */}
         <div
-          className="absolute top-1/2 left-1/2 overflow-hidden"
+          className="absolute top-1/2 left-1/2 "
           style={{
-            width: frameW,
-            height: frameH,
             transform: "translate(-50%, -50%)",
             zIndex: 20,
           }}
         >
+          {/* Animated SVG Border*/}
+          <SVGDashedBorder
+            width={frameW}
+            height={frameH}
+            padding={12}
+            strokeWidth={1}
+          />
+
+          {/* Frame content wrapper */}
+          <div
+            className="overflow-hidden absolute top-1/2 m-auto left-1/2 "
+            style={{
+              width: frameW - 10,
+              height: frameH - 10,
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+
           {/* Gallery strip */}
           <div
             ref={galleryRef}
@@ -248,6 +263,7 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#000000" }) 
               </div>
             ))}
           </div>
+        </div>
         </div>
 
 
@@ -321,5 +337,86 @@ function ThumbStrip({ refProp, slides, side, frameW, thumbW, thumbH, thumbGap, b
         ))}
       </div>
     </div>
+  );
+}
+
+function SVGDashedBorder({ width, height, padding = 12, strokeWidth = 1 }) {
+  // The mask path ref — this is the solid path we animate to reveal the dashes
+  const maskPathRef = useRef(null);
+  // Unique ID per instance to avoid clipPath conflicts
+  const clipId = useRef(`dash-clip-${Math.random().toString(36).slice(2)}`);
+
+  const DASH = 8;
+  const GAP  = 6;
+
+  const totalWidth  = width  + padding * 2;
+  const totalHeight = height + padding * 2;
+
+  // The rectangular path (clockwise from top-left)
+  const pathData = `M ${padding} ${padding} L ${padding + width} ${padding} L ${padding + width} ${padding + height} L ${padding} ${padding + height} Z`;
+
+  useEffect(() => {
+    const maskPath = maskPathRef.current;
+    if (!maskPath) return;
+
+    const pathLength = maskPath.getTotalLength();
+
+    // The mask path starts fully "hidden" (dashoffset = full length)
+    // and animates to 0, progressively revealing the clip region —
+    // which in turn reveals the dashed path underneath.
+    gsap.set(maskPath, {
+      strokeDasharray: pathLength,
+      strokeDashoffset: pathLength,
+    });
+
+    gsap.to(maskPath, {
+      strokeDashoffset: 0,
+      duration: 1.5,
+      ease: "linear",
+      delay: 0.1,
+    });
+  }, []);
+
+  return (
+    <svg
+      width={totalWidth}
+      height={totalHeight}
+      viewBox={`0 0 ${totalWidth} ${totalHeight}`}
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        pointerEvents: "none",
+        zIndex: 0,
+        overflow: "visible",
+      }}
+    >
+      <defs>
+       
+        <clipPath id={clipId.current}>
+          <path
+            ref={maskPathRef}
+            d={pathData}
+            fill="none"
+           
+            strokeWidth={12}
+            strokeLinecap="round"
+          />
+        </clipPath>
+      </defs>
+
+     
+      <path
+        d={pathData}
+        fill="none"
+        stroke="rgba(255, 255, 255, 0.5)"
+        strokeWidth={strokeWidth}
+        strokeDasharray={`${DASH} ${GAP}`}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        clipPath={`url(#${clipId.current})`}
+      />
+    </svg>
   );
 }
