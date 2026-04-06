@@ -20,7 +20,7 @@
     "@react-three/rapier": "^2.2.0",
     "@whatisjery/react-fluid-distortion": "^1.6.1",
     "postprocessing": "^6.39.0",
-    "three": "^0.183.2",
+    "three": "^0.183.2"
    
   }
 }
