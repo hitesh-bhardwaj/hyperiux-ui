@@ -3,9 +3,13 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLenis } from "lenis/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SCALE_OFFSCREEN = 1.2;
-const ROTATION_DEG = 10;
+const ROTATION_DEG = 6;
 const SCALE_CENTER = 1.0;
 
 const FRAME_W = 500;
@@ -16,11 +20,18 @@ const THUMB_H = 260;
 const THUMB_GAP = 12;
 const THUMB_ITEM = THUMB_W + THUMB_GAP;
 
-const VH_PER_SLIDE = 70;
-const CENTER_HOLD_RATIO = 0.18;
-const scrubEase = gsap.parseEase("power3.out");
+const VH_PER_SLIDE = 100;
 
-export default function ScrollFrameSlider({ images = [], bgColor = "#0f0e0e" }) {
+// Mobile constants
+const MOBILE_FRAME_W = 280;
+const MOBILE_FRAME_H = 340;
+const MOBILE_SLIDE_W = MOBILE_FRAME_W;
+const MOBILE_THUMB_W = 100;
+const MOBILE_THUMB_H = 136;
+const MOBILE_THUMB_GAP = 8;
+const MOBILE_THUMB_ITEM = MOBILE_THUMB_W + MOBILE_THUMB_GAP;
+
+export default function ScrollFrameSlider({ images = [], bgColor = "#000000" }) {
 
   const slides = images.map((src, i) => ({
     id: `slide-${i}`,
@@ -31,18 +42,29 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#0f0e0e" }) 
   const total = slides.length;
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const sectionRef    = useRef(null);
   const galleryRef    = useRef(null);
   const itemInnerRefs = useRef([]);
   const thumbLeftRef  = useRef(null);
   const thumbRightRef = useRef(null);
-  const lastPosRef    = useRef(0);
+
+  const lenis = useLenis();
+
+  // Responsive values
+  const frameW = isMobile ? MOBILE_FRAME_W : FRAME_W;
+  const frameH = isMobile ? MOBILE_FRAME_H : FRAME_H;
+  const slideW = isMobile ? MOBILE_SLIDE_W : SLIDE_W;
+  const thumbW = isMobile ? MOBILE_THUMB_W : THUMB_W;
+  const thumbH = isMobile ? MOBILE_THUMB_H : THUMB_H;
+  const thumbGap = isMobile ? MOBILE_THUMB_GAP : THUMB_GAP;
+  const thumbItem = isMobile ? MOBILE_THUMB_ITEM : THUMB_ITEM;
 
   const applyPosition = useCallback((pos) => {
     if (!galleryRef.current) return;
 
-    const tx = -pos * SLIDE_W;
+    const tx = -pos * slideW;
     galleryRef.current.style.transform = `translate3d(${tx}px, 0px, 0px)`;
 
     itemInnerRefs.current.forEach((el, i) => {
@@ -60,8 +82,8 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#0f0e0e" }) 
       el.style.transform = `rotate(${rot}deg) scale(${scale})`;
     });
 
-    const leftThumbTx = -pos * THUMB_ITEM;
-    const rightThumbTx = -(pos + 1) * THUMB_ITEM;
+    const leftThumbTx  = -pos * thumbItem;
+    const rightThumbTx = -(pos + 1) * thumbItem;
 
     if (thumbLeftRef.current) {
       thumbLeftRef.current.style.transform = `translate3d(${leftThumbTx}px, -50%, 0px)`;
@@ -71,87 +93,84 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#0f0e0e" }) 
     }
 
     const rounded = Math.round(pos);
-    if (rounded !== lastPosRef.current) {
-      lastPosRef.current = rounded;
-      setActiveIndex(rounded);
-    }
-  }, []);
-
-  const getScrubbedPosition = useCallback((progress) => {
-    if (total <= 1) return 0;
-
-    const rawPos = progress * (total - 1);
-    const baseIndex = Math.floor(rawPos);
-    const clampedIndex = Math.min(baseIndex, total - 1);
-    const segmentProgress = rawPos - baseIndex;
-
-    if (clampedIndex >= total - 1) return total - 1;
-    if (segmentProgress <= CENTER_HOLD_RATIO) return clampedIndex;
-
-    const easedProgress = scrubEase(
-      (segmentProgress - CENTER_HOLD_RATIO) / (1 - CENTER_HOLD_RATIO)
-    );
-
-    return clampedIndex + easedProgress;
-  }, [total]);
+    setActiveIndex(Math.max(0, Math.min(total - 1, rounded)));
+  }, [total, slideW, thumbItem]);
 
   useEffect(() => {
+    if (total <= 1) {
+      applyPosition(0);
+      return;
+    }
+
     const section = sectionRef.current;
     if (!section) return;
 
-    let rafId = null;
+    const snapValues = Array.from({ length: total }, (_, i) =>
+      i / (total - 1)
+    );
 
-    const onScroll = () => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => {
-        rafId = null;
-        const rect = section.getBoundingClientRect();
-        const sectionHeight = section.offsetHeight;
-        const viewportH = window.innerHeight;
-        const scrollableDistance = sectionHeight - viewportH;
-
-        if (scrollableDistance <= 0) return;
-
-        const scrolled = -rect.top;
-        const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
-        const pos = getScrubbedPosition(progress);
-
+    const st = ScrollTrigger.create({
+      trigger: section,
+      start: "top top",
+      end: "bottom bottom",
+      snap: {
+        snapTo: snapValues,
+        duration: { min: 0.2, max: 0.5 },
+        ease: "power2.inOut",
+        delay: 0,
+        inertia: false,
+        onStart: () => {
+          lenis.stop();
+        },
+        onComplete: () => {
+          lenis?.start();
+        },
+      },
+      onUpdate: (self) => {
+        const pos = self.progress * (total - 1);
         applyPosition(pos);
-      });
-    };
+      },
+    });
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    applyPosition(0);
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (rafId) cancelAnimationFrame(rafId);
+      st.kill();
+      lenis?.start();
     };
-  }, [applyPosition, getScrubbedPosition]);
+  }, [applyPosition, total, lenis]);
 
+  // Detect mobile screen size
   useEffect(() => {
-    applyPosition(0);
-  }, [applyPosition]);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint is 640px
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <section
       ref={sectionRef}
       className="relative"
-      style={{ height: `${total * VH_PER_SLIDE}vh` }}
+      style={{ height: `${total * VH_PER_SLIDE}vh`, background: bgColor }}
     >
       <div
-        className="sticky top-0 w-full overflow-hidden select-none"
-        style={{ height: "100vh", background: bgColor }}
+        className="sticky top-0 w-full h-screen overflow-hidden select-none"
+        style={{ background: bgColor }}
       >
         {/* Slide counter */}
         <div
-          className="absolute z-30"
+          className="absolute "
           style={{
-            top: 36, right: 40,
+            top: isMobile ? 20 : 36,
+            right: isMobile ? 16 : 40,
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 11,
+            fontSize: isMobile ? 9 : 11,
             letterSpacing: "0.22em",
-            color: "rgba(255,255,255,0.28)",
+            // color: "rgba(255,255,255,0.28)",
             textTransform: "uppercase",
           }}
         >
@@ -165,10 +184,10 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#0f0e0e" }) 
           slides={slides}
           side="left"
           activeIndex={activeIndex}
-          frameW={FRAME_W}
-          thumbW={THUMB_W}
-          thumbH={THUMB_H}
-          thumbGap={THUMB_GAP}
+          frameW={frameW}
+          thumbW={thumbW}
+          thumbH={thumbH}
+          thumbGap={thumbGap}
           bgColor={bgColor}
         />
         <ThumbStrip
@@ -176,10 +195,10 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#0f0e0e" }) 
           slides={slides}
           side="right"
           activeIndex={activeIndex}
-          frameW={FRAME_W}
-          thumbW={THUMB_W}
-          thumbH={THUMB_H}
-          thumbGap={THUMB_GAP}
+          frameW={frameW}
+          thumbW={thumbW}
+          thumbH={thumbH}
+          thumbGap={thumbGap}
           bgColor={bgColor}
         />
 
@@ -187,33 +206,23 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#0f0e0e" }) 
         <div
           className="absolute top-1/2 left-1/2 overflow-hidden"
           style={{
-            width: FRAME_W,
-            height: FRAME_H,
+            width: frameW,
+            height: frameH,
             transform: "translate(-50%, -50%)",
             zIndex: 20,
           }}
         >
-          {/* Dashed border overlay */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              border: "1.5px dashed rgba(255,255,255,0.3)",
-              zIndex: 40,
-              borderRadius: 2,
-            }}
-          />
-
           {/* Gallery strip */}
           <div
             ref={galleryRef}
             className="absolute top-0 left-0 bottom-0 flex will-change-transform"
-            style={{ width: SLIDE_W * total }}
+            style={{ width: slideW * total }}
           >
             {slides.map((slide, i) => (
               <div
                 key={slide.id}
                 className="relative shrink-0 overflow-hidden"
-                style={{ width: SLIDE_W, height: FRAME_H }}
+                style={{ width: slideW, height: frameH }}
               >
                 <div
                   ref={(el) => (itemInnerRefs.current[i] = el)}
@@ -221,15 +230,17 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#0f0e0e" }) 
                   style={{
                     transform: `rotate(${i === 0 ? 0 : ROTATION_DEG}deg) scale(${i === 0 ? 1 : SCALE_OFFSCREEN})`,
                     transformOrigin: "center center",
-                    borderRadius: 0,  // explicitly no rounding on main slides
+                    borderRadius: 0,
+                    filter: "none",
                   }}
                 >
                   <Image
                     src={slide.src}
                     alt={slide.id}
                     fill
-                    style={{ objectFit: "cover", borderRadius: 0 }}
-                    sizes={`${SLIDE_W}px`}
+                    quality={100}
+                    style={{ objectFit: "cover", borderRadius: 0, filter: "none" }}
+                    sizes={`${slideW}px`}
                     priority={i === 0}
                     draggable={false}
                   />
@@ -239,34 +250,31 @@ export default function ScrollFrameSlider({ images = [], bgColor = "#0f0e0e" }) 
           </div>
         </div>
 
-        {/* Left + right edge gradients */}
-        <div
-          className="absolute inset-y-0 left-0 pointer-events-none"
-          style={{
-            width: 200,
-            background: `linear-gradient(to right, ${bgColor} 0%, transparent 100%)`,
-            zIndex: 25,
-          }}
-        />
-        <div
-          className="absolute inset-y-0 right-0 pointer-events-none"
-          style={{
-            width: 200,
-            background: `linear-gradient(to left, ${bgColor} 0%, transparent 100%)`,
-            zIndex: 25,
-          }}
-        />
+
       </div>
     </section>
   );
 }
 
 function ThumbStrip({ refProp, slides, side, frameW, thumbW, thumbH, thumbGap, bgColor }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const stripStyle = {
     position: "absolute",
     top: "50%",
     zIndex: 10,
     overflow: "hidden",
+    background: bgColor,
     ...(side === "left"
       ? { right: `calc(50% + ${frameW / 2}px)`, left: 0 }
       : { left:  `calc(50% + ${frameW / 2}px)`, right: 0 }
@@ -277,24 +285,6 @@ function ThumbStrip({ refProp, slides, side, frameW, thumbW, thumbH, thumbGap, b
 
   return (
     <div style={stripStyle}>
-      {side === "left" && (
-        <div
-          className="absolute inset-y-0 left-0 pointer-events-none"
-          style={{
-            width: 80, zIndex: 5,
-            background: `linear-gradient(to right, ${bgColor} 0%, transparent 100%)`,
-          }}
-        />
-      )}
-      {side === "right" && (
-        <div
-          className="absolute inset-y-0 right-0 pointer-events-none"
-          style={{
-            width: 80, zIndex: 5,
-            background: `linear-gradient(to left, ${bgColor} 0%, transparent 100%)`,
-          }}
-        />
-      )}
 
       <div
         ref={refProp}
@@ -314,15 +304,16 @@ function ThumbStrip({ refProp, slides, side, frameW, thumbW, thumbH, thumbGap, b
               width: thumbW,
               height: thumbH,
               position: "relative",
-              opacity: 0.5,
-              borderRadius: 0,   // no rounding on thumbnails
+              opacity: 1,
+              borderRadius: 0,
             }}
           >
             <Image
               src={slide.src}
               alt={slide.id}
               fill
-              style={{ objectFit: "cover", borderRadius: 0 }}
+              quality={100}
+              style={{ objectFit: "cover", borderRadius: 0, filter: "none" }}
               draggable={false}
               sizes={`${thumbW}px`}
             />

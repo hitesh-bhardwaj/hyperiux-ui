@@ -6,12 +6,12 @@ const page = () => {
   return (
     <>
     <LenisSmoothScroll />
-    {/* <ReactLenis root> */}
+ 
 
     <div className="min-h-screen">
-      <FrameSlider images={images} />
+      <FrameSlider images={images} bgColor="#ffffff" />
     </div>
-      {/* </ReactLenis> */}
+      
     </>
   );
 };
