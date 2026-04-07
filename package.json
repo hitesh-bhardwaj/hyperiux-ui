@@ -11,5 +11,11 @@
   "devDependencies": {
     "turbo": "^2.4.4"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.0",
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "@react-three/postprocessing": "^3.0.4",
+    "three": "^0.183.2"
+  }
 }
