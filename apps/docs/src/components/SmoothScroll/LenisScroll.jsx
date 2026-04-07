@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { ReactLenis } from 'lenis/react';
 import 'lenis/dist/lenis.css';
 
-const LenisSmoothScroll = () => {
+const LenisSmoothScroll = ({duration = 1.5, lerp = 0.075, smoothWheel = true, wheelMultiplier = 0.8, touchMultiplier = 1.5}) => {
   const lenisRef = useRef(null);
 
   useEffect(() => {
@@ -22,11 +22,11 @@ const LenisSmoothScroll = () => {
       root
       options={{
         autoRaf: false,
-        duration: 2,
-        lerp: 0.075,
-        smoothWheel: true,
-        wheelMultiplier: 0.8,
-        touchMultiplier: 1.5,
+        duration: duration,
+        lerp: lerp,
+        smoothWheel: smoothWheel,
+        wheelMultiplier: wheelMultiplier,
+        touchMultiplier: touchMultiplier,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       }}
       ref={lenisRef}
