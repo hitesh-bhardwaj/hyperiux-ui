@@ -20,7 +20,7 @@ export const HtmlComponent = () => {
                     />
                 </div>
                 <UseWebGLText font={fontUrl} className="text-[25vw] text-center leading-none absolute top-[30%] left-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2">GAMING</UseWebGLText>
-                <UseWebGLText font={fontUrl} className="text-[3vw] text-center leading-none absolute bottom-[5%] left-1/2 z-10 w-full -translate-x-1/2 ">WORKED ON IMAGES, TEXT, VIDEOS AND MORE.</UseWebGLText>
+                <UseWebGLText font={fontUrl} className="text-[3vw] text-center leading-none absolute bottom-[5%] left-1/2 z-10 w-full -translate-x-1/2 ">WORKS ON IMAGES, TEXT, VIDEOS AND MORE.</UseWebGLText>
             </div>
         </>
     );

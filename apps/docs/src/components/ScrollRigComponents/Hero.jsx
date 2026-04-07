@@ -32,7 +32,7 @@ export default function Hero({fontUrl}) {
                         GROW THEIR BUSINESS.
                     </UseWebGLText>
 
-                    <button className="w-max mt-2 relative z-999! cursor-pointer pointer-events-auto text-xs px-4 py-2 bg-white text-black hover:bg-blue-300 hover:text-white duration-300 transition-all tracking-wider">
+                    <button className="w-max mt-2 relative z-999! cursor-pointer pointer-events-auto text-xs px-4 py-2 bg-white text-black hover:bg-blue-700 hover:text-white duration-300 transition-all tracking-wider">
                         BOOK A CALL
                     </button>
                 </div>

@@ -1,8 +1,7 @@
 "use client";
-import LenisSmoothScroll from "@/components/SmoothScroll/LenisScroll";
+import { Fluid } from "@/components/ScrollRigComponents/FluidDistortion";
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 import { EffectComposer } from "@react-three/postprocessing";
-import { Fluid } from "@whatisjery/react-fluid-distortion";
 import React from "react";
 
 export default function Layout({ children }) {
@@ -16,10 +15,7 @@ export default function Layout({ children }) {
                 className="z-990 h-fit w-full"
             >
                 <EffectComposer>
-                    <Fluid
-                        showBackground={false}
-                        distortion={.4}
-                    />
+                   <Fluid curl={0} />
                 </EffectComposer>
             </GlobalCanvas>
 
