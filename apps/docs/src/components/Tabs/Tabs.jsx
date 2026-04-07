@@ -8,6 +8,8 @@ const Tabs = ({
   tabs = [],
   defaultActiveIndex = 0,
   className = "",
+  animationType = "slide", // "fade" | "slide"
+  slideDistance = 40,
 }) => {
   const safeDefaultIndex =
     tabs.length > 0
@@ -39,27 +41,63 @@ const Tabs = ({
 
     if (!currentContent || !nextContent || currentIndex === nextIndex) return;
 
-    gsap.to(currentContent, {
-      opacity: 0,
-      duration: 0.2,
-      onComplete: () => {
-        gsap.set(currentContent, {
-          display: "none",
-          pointerEvents: "none",
-        });
+    const direction = nextIndex > currentIndex ? 1 : -1;
 
-        gsap.set(nextContent, {
-          display: "block",
-          pointerEvents: "auto",
-          opacity: 0,
-        });
+    gsap.killTweensOf([currentContent, nextContent]);
 
-        gsap.to(nextContent, {
-          opacity: 1,
-          duration: 0.35,
-        });
-      },
-    });
+    if (animationType === "slide") {
+      gsap.to(currentContent, {
+        opacity: 0,
+        x: -direction * slideDistance,
+        duration: 0.28,
+        ease: "power2.out",
+        onComplete: () => {
+          gsap.set(currentContent, {
+            display: "none",
+            pointerEvents: "none",
+            x: 0,
+          });
+
+          gsap.set(nextContent, {
+            display: "block",
+            pointerEvents: "auto",
+            opacity: 0,
+            x: direction * slideDistance,
+          });
+
+          gsap.to(nextContent, {
+            opacity: 1,
+            x: 0,
+            duration: 0.38,
+            ease: "power3.out",
+          });
+        },
+      });
+    } else {
+      gsap.to(currentContent, {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.out",
+        onComplete: () => {
+          gsap.set(currentContent, {
+            display: "none",
+            pointerEvents: "none",
+          });
+
+          gsap.set(nextContent, {
+            display: "block",
+            pointerEvents: "auto",
+            opacity: 0,
+          });
+
+          gsap.to(nextContent, {
+            opacity: 1,
+            duration: 0.35,
+            ease: "power2.out",
+          });
+        },
+      });
+    }
   };
 
   const handleTabClick = (index) => {
@@ -90,6 +128,7 @@ const Tabs = ({
         display: index === safeDefaultIndex ? "block" : "none",
         opacity: index === safeDefaultIndex ? 1 : 0,
         pointerEvents: index === safeDefaultIndex ? "auto" : "none",
+        x: 0,
       });
     });
   }, [tabs, safeDefaultIndex]);
@@ -98,7 +137,6 @@ const Tabs = ({
 
   return (
     <div className={`tabs ${className}`}>
-      {/* Labels */}
       <div className="tabs__header">
         <div className="tabs__labels">
           {tabs.map((tab, index) => (
@@ -111,6 +149,7 @@ const Tabs = ({
                   ? "tabs__label--active"
                   : "tabs__label--inactive"
               }`}
+              type="button"
             >
               <span>{tab.label}</span>
             </button>
@@ -120,7 +159,6 @@ const Tabs = ({
         <div ref={activeLineRef} className="tabs__active-line" />
       </div>
 
-      {/* Content */}
       <div className="tabs__content">
         {tabs.map((tab, index) => (
           <div

@@ -1,8 +1,5 @@
 .card {
- 
-   width: 100%;
-   height: 100%;
-  /* background: var(--card-bg); */
+  
   border: 1px solid var(--card-border);
   border-radius: var(--card-radius);
 
@@ -12,7 +9,7 @@
   flex-direction: column;
   gap: 1.2vw;
 
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
 }
 
 /* optional shadow */
@@ -56,8 +53,6 @@
 @media screen and (max-width: 1024px) {
   .card {
     gap: 2vw;
-    padding: 6vw;
-    border-radius:3vw;
   }
 
   .card__title {
@@ -80,8 +75,6 @@
   .card {
     width: 100%;
     gap: 4vw;
-    padding: 6vw;
-    border-radius: 4vw;
   }
 
   .card__title {
