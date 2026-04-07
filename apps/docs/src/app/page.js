@@ -164,14 +164,16 @@ export default function Home() {
             Built with Next.js and Tailwind CSS
           </div>
           <div className="flex items-center gap-4">
-            <a
-              href="https://github.com/hyperiux/hyperiux-ui"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-neutral-500 hover:text-white transition-colors"
-            >
-              GitHub
-            </a>
+            <p className="text-neutral-500" suppressHydrationWarning>
+              © {new Date().getFullYear()}{" "}
+              <a
+                href="https://hyperiux.com"
+                target="_blank"
+                className="hover:text-white transition-colors"
+              >
+                Hyperiux Immersion Labs
+              </a>
+            </p>
           </div>
         </div>
       </footer>
