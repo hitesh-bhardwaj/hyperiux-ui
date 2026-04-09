@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function EffectCard({ effect }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -33,19 +34,9 @@ export function EffectCard({ effect }) {
   return (
     <div className="group relative bg-white dark:bg-neutral-700 rounded-lg border-10 border-white dark:border-neutral-700 overflow-hidden transition-all duration-300 hover:shadow-lg">
       {/* Preview Image */}
-      <Link href={`/effects/${effect.name}`} className="block">
-        <div className="aspect-4/3 bg-neutral-100 dark:bg-neutral-800 relative overflow-hidden">
-          {/* Placeholder - replace with actual preview images later */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-6xl opacity-20 dark:opacity-30 text-neutral-900 dark:text-neutral-100">
-              {effect.category === "text" && "Aa"}
-              {effect.category === "backgrounds" && "◐"}
-              {effect.category === "buttons" && "◉"}
-              {effect.category === "scroll" && "↕"}
-              {effect.category === "cursor" && "◈"}
-            </div>
-          </div>
-
+      <Link href={`/effects/${effect.name}`} className="block group">
+        <div className="aspect-4/3 bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden relative ">
+          <Image src={effect.coverImage || "/assets/img/image01.webp"} alt={effect.title || effect.name} width={300} height={200} className="h-full w-full object-cover rounded-lg group-hover:scale-[1.1] duration-300 ease-in-out transition-all" />
           {/* Category badge */}
           <div className="absolute top-3 left-3">
             <span className="px-2.5 py-1 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 capitalize">
@@ -109,7 +100,7 @@ export function EffectCard({ effect }) {
           {effect.dependencies?.map((dep) => (
             <span
               key={dep}
-              className="px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 rounded text-xs text-neutral-500 dark:text-neutral-400"
+              className="px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800  text-xs text-neutral-500 dark:text-neutral-400"
             >
               {dep}
             </span>

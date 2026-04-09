@@ -6,7 +6,8 @@
       "description": "Interactive ASCII-style dither canvas with fluid mouse distortion over video",
       "category": "backgrounds",
       "dependencies": [],
-      "previewUrl": "/binary-effect"
+      "previewUrl": "/binary-effect",
+      "coverImage": "/assets/listing/diether-canvas.png"
     },
     {
       "name": "arrow-fill-button",
@@ -14,7 +15,8 @@
       "description": "Button with expanding circle fill and animated arrow icon on hover",
       "category": "buttons",
       "dependencies": [],
-      "previewUrl": "/buttons/arrow-fill-button"
+      "previewUrl": "/buttons/arrow-fill-button",
+      "coverImage": "/assets/listing/arrow-fill-button.png"
     },
     {
       "name": "char-stagger-button",
@@ -24,7 +26,8 @@
       "dependencies": [
         "lucide-react"
       ],
-      "previewUrl": "/buttons/char-stagger-button"
+      "previewUrl": "/buttons/char-stagger-button",
+      "coverImage": "/assets/listing/char-stagger-button.png"
     },
     {
       "name": "char-stagger-primary-button",
@@ -32,7 +35,8 @@
       "description": "Primary button with staggered character animation on hover",
       "category": "buttons",
       "dependencies": [],
-      "previewUrl": "/buttons/char-stagger-primary-button"
+      "previewUrl": "/buttons/char-stagger-primary-button",
+      "coverImage": "/assets/listing/char-stagger-primary-button.png"
     },
     {
       "name": "dot-fill-button",
@@ -40,7 +44,8 @@
       "description": "Button with expanding dot that fills the background on hover with character stagger",
       "category": "buttons",
       "dependencies": [],
-      "previewUrl": "/buttons/dot-fill-button"
+      "previewUrl": "/buttons/dot-fill-button",
+      "coverImage": "/assets/listing/dot-fill-button.png"
     },
     {
       "name": "link-button",
@@ -48,7 +53,8 @@
       "description": "Minimal link button with animated underline and rotating arrow icon",
       "category": "buttons",
       "dependencies": [],
-      "previewUrl": "/buttons/link-button"
+      "previewUrl": "/buttons/link-button",
+      "coverImage": "/assets/listing/link-button.png"
     },
     {
       "name": "scramble-link-button",
@@ -56,7 +62,8 @@
       "description": "Link button with text scramble effect on hover, optional underline and arrow",
       "category": "buttons",
       "dependencies": [],
-      "previewUrl": "/buttons/scramble-link-button"
+      "previewUrl": "/buttons/scramble-link-button",
+      "coverImage": "/assets/listing/scramble-link-button.png"
     },
     {
       "name": "animated-faq",
@@ -66,7 +73,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/animated-faq"
+      "previewUrl": "/animated-faq",
+      "coverImage": "/assets/listing/animated-faq.png"
     },
     {
       "name": "chevron-bird",
@@ -76,7 +84,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/animated-faq"
+      "previewUrl": "/animated-faq",
+      "coverImage": "/assets/listing/chevron-bird.png"
     },
     {
       "name": "custom-video-player",
@@ -86,7 +95,8 @@
       "dependencies": [
         "lucide-react"
       ],
-      "previewUrl": "/video-player"
+      "previewUrl": "/video-player",
+      "coverImage": "/assets/listing/custom-video-player.png"
     },
     {
       "name": "form",
@@ -94,7 +104,8 @@
       "description": "Config-driven contact form with validation for text, phone, select, textarea, and checkbox fields",
       "category": "components",
       "dependencies": [],
-      "previewUrl": "/form"
+      "previewUrl": "/form",
+      "coverImage": "/assets/listing/form.png"
     },
     {
       "name": "hover-stack",
@@ -102,7 +113,8 @@
       "description": "Overlapping card stack that fans out around the hovered card",
       "category": "components",
       "dependencies": [],
-      "previewUrl": "/stack-hovered-cards"
+      "previewUrl": "/stack-hovered-cards",
+      "coverImage": "/assets/listing/hover-stack.png"
     },
     {
       "name": "modal",
@@ -112,7 +124,8 @@
       "dependencies": [
         "lucide-react"
       ],
-      "previewUrl": "/modal"
+      "previewUrl": "/modal",
+      "coverImage": "/assets/listing/modal.png"
     },
     {
       "name": "tabs",
@@ -122,7 +135,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/tabs"
+      "previewUrl": "/tabs",
+      "coverImage": "/assets/listing/tabs.png"
     },
     {
       "name": "testimonial-swiper",
@@ -134,7 +148,8 @@
         "lucide-react",
         "next"
       ],
-      "previewUrl": "/testimonial"
+      "previewUrl": "/testimonial",
+      "coverImage": "/assets/listing/testimonial-swiper.png"
     },
     {
       "name": "colorful-cursor-aura",
@@ -144,7 +159,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/aero"
+      "previewUrl": "/aero",
+      "coverImage": "/assets/listing/colorful-cursor-aura.png"
     },
     {
       "name": "phantom-image-trail",
@@ -154,7 +170,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/mouse-hover-image"
+      "previewUrl": "/mouse-hover-image",
+      "coverImage": "/assets/listing/phantom-image-trail.png"
     },
     {
       "name": "directional-menu",
@@ -164,7 +181,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/directional-menu"
+      "previewUrl": "/directional-menu",
+      "coverImage": "/assets/listing/directional-menu.png"
     },
     {
       "name": "full-screen-navigation",
@@ -174,7 +192,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/fullscreen-nav"
+      "previewUrl": "/fullscreen-nav",
+      "coverImage": "/assets/listing/full-screen-navigation.png"
     },
     {
       "name": "draggable-marquee",
@@ -184,7 +203,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/draggable-marquee"
+      "previewUrl": "/draggable-marquee",
+      "coverImage": "/assets/listing/draggable-marquee.png"
     },
     {
       "name": "helix-slider",
@@ -194,7 +214,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/cylindrical-scroll"
+      "previewUrl": "/cylindrical-scroll",
+      "coverImage": "/assets/listing/helix-slider.png"
     },
     {
       "name": "horizon-scroll",
@@ -204,7 +225,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/horizontal-scroll-section"
+      "previewUrl": "/horizontal-scroll-section",
+      "coverImage": "/assets/listing/horizon-scroll.png"
     },
     {
       "name": "infinite-perspective-slider",
@@ -214,7 +236,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/surf-index"
+      "previewUrl": "/surf-index",
+      "coverImage": "/assets/listing/infinite-perspective-slider.png"
     },
     {
       "name": "orbit-slider",
@@ -224,7 +247,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/circular-split-roll"
+      "previewUrl": "/circular-split-roll",
+      "coverImage": "/assets/listing/orbit-slider.png"
     },
     {
       "name": "parallax-footer",
@@ -232,7 +256,8 @@
       "description": "Fixed footer that reveals with a parallax scrolling effect",
       "category": "scroll",
       "dependencies": [],
-      "previewUrl": "/parallax-footer"
+      "previewUrl": "/parallax-footer",
+      "coverImage": "/assets/listing/parallax-footer.png"
     },
     {
       "name": "parallax-gallery",
@@ -242,7 +267,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/frame-slider"
+      "previewUrl": "/frame-slider",
+      "coverImage": "/assets/listing/parallax-gallery.png"
     },
     {
       "name": "parallax-image",
@@ -252,7 +278,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/parallax-image-animation"
+      "previewUrl": "/parallax-image-animation",
+      "coverImage": "/assets/listing/parallax-image.png"
     },
     {
       "name": "parallax-slider",
@@ -263,7 +290,8 @@
         "gsap",
         "next"
       ],
-      "previewUrl": "/parallax-slider"
+      "previewUrl": "/parallax-slider",
+      "coverImage": "/assets/listing/parallax-slider.png"
     },
     {
       "name": "rotating-carousel",
@@ -274,7 +302,8 @@
         "gsap",
         "lucide-react"
       ],
-      "previewUrl": "/circular-slider"
+      "previewUrl": "/circular-slider",
+      "coverImage": "/assets/listing/rotating-carousel.png"
     },
     {
       "name": "scroll-shuffled-cards",
@@ -284,7 +313,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/scroll-shuffled-cards"
+      "previewUrl": "/scroll-shuffled-cards",
+      "coverImage": "/assets/listing/scroll-shuffled-cards.png"
     },
     {
       "name": "scroll-stack",
@@ -294,7 +324,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/stacked-card"
+      "previewUrl": "/stacked-card",
+      "coverImage": "/assets/listing/scroll-stack.png"
     },
     {
       "name": "smooth-scroll",
@@ -304,7 +335,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": null
+      "previewUrl": null,
+      "coverImage": "/assets/listing/smooth-scroll.png"
     },
     {
       "name": "split-canvas",
@@ -315,7 +347,8 @@
         "gsap",
         "three"
       ],
-      "previewUrl": "/dgrees-pixel-scroll"
+      "previewUrl": "/dgrees-pixel-scroll",
+      "coverImage": "/assets/listing/split-canvas.png"
     },
     {
       "name": "stacking-cards",
@@ -326,7 +359,8 @@
         "gsap",
         "next"
       ],
-      "previewUrl": "/stacking-cards"
+      "previewUrl": "/stacking-cards",
+      "coverImage": "/assets/listing/stacking-cards.png"
     },
     {
       "name": "sticky-content-wrapper",
@@ -336,7 +370,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/sticky-content-wrapper"
+      "previewUrl": "/sticky-content-wrapper",
+      "coverImage": "/assets/listing/sticky-content-wrapper.png"
     },
     {
       "name": "blur-text",
@@ -346,7 +381,8 @@
       "dependencies": [
         "framer-motion"
       ],
-      "previewUrl": "/blur-text-reveal"
+      "previewUrl": "/blur-text-reveal",
+      "coverImage": "/assets/listing/blur-text.png"
     },
     {
       "name": "circle-text-reveal",
@@ -356,7 +392,8 @@
       "dependencies": [
         "framer-motion"
       ],
-      "previewUrl": "/circle-reveal"
+      "previewUrl": "/circle-reveal",
+      "coverImage": "/assets/listing/circle-text-reveal.png"
     },
     {
       "name": "mask-text-reveal",
@@ -366,7 +403,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/mask-text-reveal"
+      "previewUrl": "/mask-text-reveal",
+      "coverImage": "/assets/listing/mask-text-reveal.png"
     },
     {
       "name": "overflow-stagger-text",
@@ -376,7 +414,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/overflow-stagger-text"
+      "previewUrl": "/overflow-stagger-text",
+      "coverImage": "/assets/listing/overflow-stagger-text.png"
     },
     {
       "name": "overflow-text-reveal",
@@ -386,7 +425,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/overflow-text-reveal"
+      "previewUrl": "/overflow-text-reveal",
+      "coverImage": "/assets/listing/overflow-text-reveal.png"
     },
     {
       "name": "perspective-text-reveal",
@@ -396,7 +436,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/perspective-text-reveal"
+      "previewUrl": "/perspective-text-reveal",
+      "coverImage": "/assets/listing/perspective-text-reveal.png"
     },
     {
       "name": "rectangular-text-reveal",
@@ -406,7 +447,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/rectangular-text-reveal"
+      "previewUrl": "/rectangular-text-reveal",
+      "coverImage": "/assets/listing/rectangular-text-reveal.png"
     },
     {
       "name": "scramble-text",
@@ -416,7 +458,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/scramble-text"
+      "previewUrl": "/scramble-text",
+      "coverImage": "/assets/listing/scramble-text.png"
     },
     {
       "name": "slide-text-reveal",
@@ -426,7 +469,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/slide-text-reveal"
+      "previewUrl": "/slide-text-reveal",
+      "coverImage": "/assets/listing/slide-text-reveal.png"
     },
     {
       "name": "text-fill-animation",
@@ -436,7 +480,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/text-fill-animation"
+      "previewUrl": "/text-fill-animation",
+      "coverImage": "/assets/listing/text-fill-animation.png"
     },
     {
       "name": "text-hover-expand",
@@ -446,7 +491,8 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/text-hover"
+      "previewUrl": "/text-hover",
+      "coverImage": "/assets/listing/text-hover-expand.png"
     }
   ]
 }
