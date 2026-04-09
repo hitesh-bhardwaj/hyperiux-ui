@@ -69,17 +69,28 @@ export default function MyComponent() {
                 <p className="text-neutral-500 dark:text-neutral-400">{effect.description}</p>
               </div>
               {/* Preview */}
-              <div className="bg-white dark:bg-neutral-900 rounded-lg border-10 border-white dark:border-neutral-900 overflow-hidden">
-                <div className="aspect-video bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
-                  <div className="text-8xl opacity-10 dark:opacity-20 text-neutral-900 dark:text-neutral-100">
-                    {effect.category === "text" && "Aa"}
-                    {effect.category === "backgrounds" && "◐"}
-                    {effect.category === "buttons" && "◉"}
-                    {effect.category === "scroll" && "↕"}
-                    {effect.category === "cursor" && "◈"}
-                  </div>
-                </div>
-              </div>
+              <div className="aspect-video bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+  {effect.videoUrl ? (
+    <video
+      src={effect.videoUrl}
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="w-full h-full object-cover"
+    />
+  ) : (
+    <div className="flex items-center justify-center h-full">
+      <div className="text-8xl opacity-10 dark:opacity-20 text-neutral-900 dark:text-neutral-100">
+        {effect.category === "text" && "Aa"}
+        {effect.category === "backgrounds" && "◐"}
+        {effect.category === "buttons" && "◉"}
+        {effect.category === "scroll" && "↕"}
+        {effect.category === "cursor" && "◈"}
+      </div>
+    </div>
+  )}
+</div>
 
               {/* Documentation */}
               <div className="space-y-6">
