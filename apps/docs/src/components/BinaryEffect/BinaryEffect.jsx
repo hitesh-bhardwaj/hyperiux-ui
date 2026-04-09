@@ -7,7 +7,7 @@ const FC = 80, FR = 60, FN = FC * FR;
 const CC = 145, CR = 80;
 const EDGE_LO = 90, EDGE_HI = 125;
 const EDGES = [".", ",", "=", "+", "-"];
-const BRIGHTS = ["U", "N", "S", "E", "E", "N"];
+const BRIGHTS = ["H", "Y", "P", "E", "R", "I","U", "X"];
 const ALL_CHARS = [...EDGES, ...BRIGHTS]; // 11 chars
 const BAYER = [0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
 const TL = 320, TS = 10, TM = 72;
@@ -88,7 +88,7 @@ void main(){
   float ca = texture(uAtlas, vec2(au, cp.y)).a;
   if(ca < 0.05) discard;
 
-  vec3 col = invDark ? vec3(0.078) : vec3(0.467, 0.478, 0.478);
+   vec3 col = invDark ? vec3(0.078) : vec3(0.467, 0.478, 0.478);
   float a = invDark ? (0.55 + hm * 0.45) * ca : ca;
   O = vec4(col * a, a);
 }`;

@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <ButtonDemoShell
       title="Arrow Fill Button"
-      backgroundSrc="/assets/buttonbg/primary-btn-bg.jpg"
+      backgroundSrc="/assets/buttonbg/image01.png"
     >
       <ArrowBgFillPrimaryBtn
         className="bg-[#ff6b00]"

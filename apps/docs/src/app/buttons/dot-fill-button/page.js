@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <ButtonDemoShell
       title="Dot Fill Button"
-      backgroundSrc="/assets/buttonbg/primary-btn-bg.jpg"
+      backgroundSrc="/assets/buttonbg/bg02.png"
     >
       <DotScaleFillCharBtn
         href="#"

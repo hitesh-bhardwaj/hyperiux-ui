@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <ButtonDemoShell
       title="Link Button"
-      backgroundSrc="/assets/buttonbg/bg-img.jpg"
+      backgroundSrc="/assets/buttonbg/new-bg-img.jpg"
     >
       <LinkButton
         text="Hover me"

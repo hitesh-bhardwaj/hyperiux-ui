@@ -1,5 +1,6 @@
 .video-demo-page__hero {
   position: relative;
+  background-color: #FFF8EC;
   display: flex;
   width: 100vw;
   height: auto;
@@ -20,7 +21,7 @@
   font-size: 4.5vw;
   line-height: 1;
   font-weight: 500;
-  color: #ffffff;
+  color: #111111;
   text-align: center;
 }
 

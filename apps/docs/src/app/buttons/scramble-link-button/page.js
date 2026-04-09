@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <ButtonDemoShell
       title="Scramble Link Button"
-      backgroundSrc="/assets/buttonbg/bg-img.jpg"
+      backgroundSrc="/assets/buttonbg/bg03.png"
     >
       <ScrambleLinkButton
         href="#"

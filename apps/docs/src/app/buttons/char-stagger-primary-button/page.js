@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <ButtonDemoShell
       title="Character Stagger Primary Button"
-      backgroundSrc="/assets/buttonbg/primary-btn-bg.jpg"
+      backgroundSrc="/assets/buttonbg/link-btns-bg-img.jpg"
     >
       <CharStaggerPrimaryBtn
         href="#"
