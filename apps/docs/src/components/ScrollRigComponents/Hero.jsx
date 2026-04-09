@@ -1,7 +1,6 @@
 import React from 'react'
 import UseImageAsTexture from "@/components/ScrollRigComponents/Utils/UseImageAsTexture";
 import UseWebGLText from "@/components/ScrollRigComponents/Utils/UseWebGLText";
-import { MagneticButton } from '../effects';
 
 export default function Hero({fontUrl}) {
     return (

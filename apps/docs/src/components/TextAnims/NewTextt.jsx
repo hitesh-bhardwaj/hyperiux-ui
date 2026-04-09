@@ -105,7 +105,7 @@ export default function TextClipAnim({
   bgColor = "transparent",
   textSize = "text-[2vw]",
   mobileTextSize = "text-[3vw]",
-  fontClass = "font-serif",
+  fontClass = "font-sans",
   containerWidth = "max-w-5xl",
   className = "",
   start = "top top",

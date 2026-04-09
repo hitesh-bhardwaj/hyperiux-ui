@@ -8,7 +8,7 @@
     "gsap"
   ],
   "registryDependencies": [],
-  "previewUrl": null,
+  "previewUrl": "/animated-faq",
   "files": [
     {
       "path": "chevron-bird.jsx",

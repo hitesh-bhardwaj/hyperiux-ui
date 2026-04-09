@@ -1,9 +1,0 @@
-{
-  "name": "rgb-shift-fluid",
-  "type": "registry:component",
-  "title": "RGB Shift Fluid",
-  "description": "A Three.js cursor effect with chromatic aberration and fluid distortion that follows mouse movement",
-  "category": "cursor",
-  "dependencies": ["three"],
-  "registryDependencies": []
-}

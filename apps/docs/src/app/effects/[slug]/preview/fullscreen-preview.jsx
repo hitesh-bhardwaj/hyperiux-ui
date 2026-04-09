@@ -5,12 +5,8 @@ import Link from "next/link";
 import { PropsPanel } from "@/components/ui/PropsPanel";
 
 // Import all effects
-import { BlurText } from "@/components/effects/blur-text";
-import { AuroraBackground } from "@/components/effects/aurora";
-import { MagneticButton } from "@/components/effects/magnetic-button";
-import { ShimmerButton } from "@/components/effects/shimmer-button";
+import BlurText from "@/components/effects/BlueText";
 import { TextReveal } from "@/components/effects/text-reveal";
-import { RgbShiftFluid } from "@/components/effects/rgb-shift-fluid";
 
 // Effects that need special handling
 const SCROLL_EFFECTS = ["text-reveal", "smooth-scroll"];
@@ -27,44 +23,6 @@ function BlurTextDemo({ props, replayKey }) {
     >
       Beautiful Blur Effect
     </BlurText>
-  );
-}
-
-function AuroraBackgroundDemo({ props }) {
-  return (
-    <AuroraBackground
-      blur={props.blur}
-      speed={props.speed}
-      className="absolute inset-0 flex items-center justify-center"
-    >
-      <h2 className="text-4xl md:text-6xl font-bold text-white relative z-10">
-        Aurora Background
-      </h2>
-    </AuroraBackground>
-  );
-}
-
-function MagneticButtonDemo({ props }) {
-  return (
-    <MagneticButton
-      strength={props.strength}
-      radius={props.radius}
-      className="px-12 py-6 bg-white text-black rounded-2xl font-semibold text-2xl hover:bg-neutral-100 transition-colors"
-    >
-      Hover Me
-    </MagneticButton>
-  );
-}
-
-function ShimmerButtonDemo({ props }) {
-  return (
-    <ShimmerButton
-      duration={props.duration}
-      shimmerColor={props.shimmerColor}
-      className="px-12 py-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl font-semibold text-2xl"
-    >
-      Shimmer Effect
-    </ShimmerButton>
   );
 }
 
@@ -101,37 +59,10 @@ function SmoothScrollDemo() {
   );
 }
 
-function RgbShiftFluidDemo({ props }) {
-  return (
-    <RgbShiftFluid
-      intensity={props.intensity}
-      smoothing={props.smoothing}
-      rgbShiftAmount={props.rgbShiftAmount}
-      distortionStrength={props.distortionStrength}
-      className="absolute inset-0"
-    >
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
-            Move Your Cursor
-          </h2>
-          <p className="text-white/60 text-lg">
-            Watch the RGB shift and fluid distortion follow your mouse
-          </p>
-        </div>
-      </div>
-    </RgbShiftFluid>
-  );
-}
-
 const demoComponents = {
   "blur-text": BlurTextDemo,
-  "aurora-background": AuroraBackgroundDemo,
-  "magnetic-button": MagneticButtonDemo,
-  "shimmer-button": ShimmerButtonDemo,
   "text-reveal": TextRevealDemo,
   "smooth-scroll": SmoothScrollDemo,
-  "rgb-shift-fluid": RgbShiftFluidDemo,
 };
 
 export function FullscreenPreview({ slug, effect, config }) {
@@ -151,7 +82,7 @@ export function FullscreenPreview({ slug, effect, config }) {
 
   const DemoComponent = demoComponents[slug];
   const isScrollEffect = SCROLL_EFFECTS.includes(slug);
-  const isFullscreen = slug === "aurora-background" || slug === "rgb-shift-fluid";
+  const isFullscreen = false;
 
   return (
     <div className="fixed inset-0 bg-neutral-950 flex">

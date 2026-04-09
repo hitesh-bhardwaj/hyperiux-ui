@@ -1,9 +1,0 @@
-{
-  "name": "text-reveal",
-  "type": "registry:component",
-  "title": "Text Reveal",
-  "description": "Scroll-triggered text reveal animation with GSAP",
-  "category": "text",
-  "dependencies": ["gsap"],
-  "registryDependencies": []
-}

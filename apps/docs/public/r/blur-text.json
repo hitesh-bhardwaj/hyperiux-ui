@@ -8,7 +8,7 @@
     "framer-motion"
   ],
   "registryDependencies": [],
-  "previewUrl": null,
+  "previewUrl": "/blur-text-reveal",
   "files": [
     {
       "path": "blur-text.jsx",

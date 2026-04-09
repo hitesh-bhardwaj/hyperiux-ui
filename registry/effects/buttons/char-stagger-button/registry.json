@@ -6,5 +6,5 @@
   "category": "buttons",
   "dependencies": ["lucide-react"],
   "registryDependencies": [],
-  "previewUrl": "/buttons/link-buttons"
+  "previewUrl": "/buttons/char-stagger-button"
 }
