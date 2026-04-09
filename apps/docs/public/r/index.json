@@ -7,7 +7,7 @@
       "category": "backgrounds",
       "dependencies": [],
       "previewUrl": "/binary-effect",
-      "coverImage": "/assets/list/diether-canvas.png"
+      "coverImage": "/assets/listing/diether-canvas.png"
     },
     {
       "name": "arrow-fill-button",
@@ -16,7 +16,7 @@
       "category": "buttons",
       "dependencies": [],
       "previewUrl": "/buttons/arrow-fill-button",
-      "coverImage": "/assets/list/arrow-fill-button.png"
+      "coverImage": "/assets/listing/arrow-fill-button.png"
     },
     {
       "name": "char-stagger-button",
@@ -27,7 +27,7 @@
         "lucide-react"
       ],
       "previewUrl": "/buttons/char-stagger-button",
-      "coverImage": "/assets/list/char-stagger-button.png"
+      "coverImage": "/assets/listing/char-stagger-button.png"
     },
     {
       "name": "char-stagger-primary-button",
@@ -36,7 +36,7 @@
       "category": "buttons",
       "dependencies": [],
       "previewUrl": "/buttons/char-stagger-primary-button",
-      "coverImage": "/assets/list/char-stagger-primary-button.png"
+      "coverImage": "/assets/listing/char-stagger-primary-button.png"
     },
     {
       "name": "dot-fill-button",
@@ -45,7 +45,7 @@
       "category": "buttons",
       "dependencies": [],
       "previewUrl": "/buttons/dot-fill-button",
-      "coverImage": "/assets/list/dot-fill-button.png"
+      "coverImage": "/assets/listing/dot-fill-button.png"
     },
     {
       "name": "link-button",
@@ -54,7 +54,7 @@
       "category": "buttons",
       "dependencies": [],
       "previewUrl": "/buttons/link-button",
-      "coverImage": "/assets/list/link-button.png"
+      "coverImage": "/assets/listing/link-button.png"
     },
     {
       "name": "scramble-link-button",
@@ -63,7 +63,7 @@
       "category": "buttons",
       "dependencies": [],
       "previewUrl": "/buttons/scramble-link-button",
-      "coverImage": "/assets/list/scramble-link-button.png"
+      "coverImage": "/assets/listing/scramble-link-button.png"
     },
     {
       "name": "animated-faq",
@@ -74,7 +74,7 @@
         "gsap"
       ],
       "previewUrl": "/animated-faq",
-      "coverImage": "/assets/list/animated-faq.png"
+      "coverImage": "/assets/listing/animated-faq.png"
     },
     {
       "name": "chevron-bird",
@@ -85,7 +85,7 @@
         "gsap"
       ],
       "previewUrl": "/animated-faq",
-      "coverImage": "/assets/list/chevron-bird.png"
+      "coverImage": "/assets/listing/chevron-bird.png"
     },
     {
       "name": "custom-video-player",
@@ -96,7 +96,7 @@
         "lucide-react"
       ],
       "previewUrl": "/video-player",
-      "coverImage": "/assets/list/custom-video-player.png"
+      "coverImage": "/assets/listing/custom-video-player.png"
     },
     {
       "name": "form",
@@ -105,7 +105,7 @@
       "category": "components",
       "dependencies": [],
       "previewUrl": "/form",
-      "coverImage": "/assets/list/form.png"
+      "coverImage": "/assets/listing/form.png"
     },
     {
       "name": "hover-stack",
@@ -114,7 +114,7 @@
       "category": "components",
       "dependencies": [],
       "previewUrl": "/stack-hovered-cards",
-      "coverImage": "/assets/list/hover-stack.png"
+      "coverImage": "/assets/listing/hover-stack.png"
     },
     {
       "name": "modal",
@@ -125,7 +125,7 @@
         "lucide-react"
       ],
       "previewUrl": "/modal",
-      "coverImage": "/assets/list/modal.png"
+      "coverImage": "/assets/listing/modal.png"
     },
     {
       "name": "tabs",
@@ -136,7 +136,7 @@
         "gsap"
       ],
       "previewUrl": "/tabs",
-      "coverImage": "/assets/list/tabs.png"
+      "coverImage": "/assets/listing/tabs.png"
     },
     {
       "name": "testimonial-swiper",
@@ -149,7 +149,7 @@
         "next"
       ],
       "previewUrl": "/testimonial",
-      "coverImage": "/assets/list/testimonial-swiper.png"
+      "coverImage": "/assets/listing/testimonial-swiper.png"
     },
     {
       "name": "colorful-cursor-aura",
@@ -160,7 +160,7 @@
         "gsap"
       ],
       "previewUrl": "/aero",
-      "coverImage": "/assets/list/colorful-cursor-aura.png"
+      "coverImage": "/assets/listing/colorful-cursor-aura.png"
     },
     {
       "name": "phantom-image-trail",
@@ -171,7 +171,7 @@
         "gsap"
       ],
       "previewUrl": "/mouse-hover-image",
-      "coverImage": "/assets/list/phantom-image-trail.png"
+      "coverImage": "/assets/listing/phantom-image-trail.png"
     },
     {
       "name": "directional-menu",
@@ -182,7 +182,7 @@
         "gsap"
       ],
       "previewUrl": "/directional-menu",
-      "coverImage": "/assets/list/directional-menu.png"
+      "coverImage": "/assets/listing/directional-menu.png"
     },
     {
       "name": "full-screen-navigation",
@@ -193,7 +193,7 @@
         "gsap"
       ],
       "previewUrl": "/fullscreen-nav",
-      "coverImage": "/assets/list/full-screen-navigation.png"
+      "coverImage": "/assets/listing/full-screen-navigation.png"
     },
     {
       "name": "draggable-marquee",
@@ -204,7 +204,7 @@
         "gsap"
       ],
       "previewUrl": "/draggable-marquee",
-      "coverImage": "/assets/list/draggable-marquee.png"
+      "coverImage": "/assets/listing/draggable-marquee.png"
     },
     {
       "name": "helix-slider",
@@ -215,7 +215,7 @@
         "gsap"
       ],
       "previewUrl": "/cylindrical-scroll",
-      "coverImage": "/assets/list/helix-slider.png"
+      "coverImage": "/assets/listing/helix-slider.png"
     },
     {
       "name": "horizon-scroll",
@@ -226,7 +226,7 @@
         "gsap"
       ],
       "previewUrl": "/horizontal-scroll-section",
-      "coverImage": "/assets/list/horizon-scroll.png"
+      "coverImage": "/assets/listing/horizon-scroll.png"
     },
     {
       "name": "infinite-perspective-slider",
@@ -237,7 +237,7 @@
         "gsap"
       ],
       "previewUrl": "/surf-index",
-      "coverImage": "/assets/list/infinite-perspective-slider.png"
+      "coverImage": "/assets/listing/infinite-perspective-slider.png"
     },
     {
       "name": "orbit-slider",
@@ -248,7 +248,7 @@
         "gsap"
       ],
       "previewUrl": "/circular-split-roll",
-      "coverImage": "/assets/list/orbit-slider.png"
+      "coverImage": "/assets/listing/orbit-slider.png"
     },
     {
       "name": "parallax-footer",
@@ -257,7 +257,7 @@
       "category": "scroll",
       "dependencies": [],
       "previewUrl": "/parallax-footer",
-      "coverImage": "/assets/list/parallax-footer.png"
+      "coverImage": "/assets/listing/parallax-footer.png"
     },
     {
       "name": "parallax-gallery",
@@ -268,7 +268,7 @@
         "gsap"
       ],
       "previewUrl": "/frame-slider",
-      "coverImage": "/assets/list/parallax-gallery.png"
+      "coverImage": "/assets/listing/parallax-gallery.png"
     },
     {
       "name": "parallax-image",
@@ -279,7 +279,7 @@
         "gsap"
       ],
       "previewUrl": "/parallax-image-animation",
-      "coverImage": "/assets/list/parallax-image.png"
+      "coverImage": "/assets/listing/parallax-image.png"
     },
     {
       "name": "parallax-slider",
@@ -291,7 +291,7 @@
         "next"
       ],
       "previewUrl": "/parallax-slider",
-      "coverImage": "/assets/list/parallax-slider.png"
+      "coverImage": "/assets/listing/parallax-slider.png"
     },
     {
       "name": "rotating-carousel",
@@ -303,7 +303,7 @@
         "lucide-react"
       ],
       "previewUrl": "/circular-slider",
-      "coverImage": "/assets/list/rotating-carousel.png"
+      "coverImage": "/assets/listing/rotating-carousel.png"
     },
     {
       "name": "scroll-shuffled-cards",
@@ -314,7 +314,7 @@
         "gsap"
       ],
       "previewUrl": "/scroll-shuffled-cards",
-      "coverImage": "/assets/list/scroll-shuffled-cards.png"
+      "coverImage": "/assets/listing/scroll-shuffled-cards.png"
     },
     {
       "name": "scroll-stack",
@@ -325,7 +325,7 @@
         "gsap"
       ],
       "previewUrl": "/stacked-card",
-      "coverImage": "/assets/list/scroll-stack.png"
+      "coverImage": "/assets/listing/scroll-stack.png"
     },
     {
       "name": "smooth-scroll",
@@ -336,7 +336,7 @@
         "gsap"
       ],
       "previewUrl": null,
-      "coverImage": "/assets/list/smooth-scroll.png"
+      "coverImage": "/assets/listing/smooth-scroll.png"
     },
     {
       "name": "split-canvas",
@@ -348,7 +348,7 @@
         "three"
       ],
       "previewUrl": "/dgrees-pixel-scroll",
-      "coverImage": "/assets/list/split-canvas.png"
+      "coverImage": "/assets/listing/split-canvas.png"
     },
     {
       "name": "stacking-cards",
@@ -360,7 +360,7 @@
         "next"
       ],
       "previewUrl": "/stacking-cards",
-      "coverImage": "/assets/list/stacking-cards.png"
+      "coverImage": "/assets/listing/stacking-cards.png"
     },
     {
       "name": "sticky-content-wrapper",
@@ -371,7 +371,7 @@
         "gsap"
       ],
       "previewUrl": "/sticky-content-wrapper",
-      "coverImage": "/assets/list/sticky-content-wrapper.png"
+      "coverImage": "/assets/listing/sticky-content-wrapper.png"
     },
     {
       "name": "blur-text",
@@ -382,7 +382,7 @@
         "framer-motion"
       ],
       "previewUrl": "/blur-text-reveal",
-      "coverImage": "/assets/list/blur-text.png"
+      "coverImage": "/assets/listing/blur-text.png"
     },
     {
       "name": "circle-text-reveal",
@@ -393,7 +393,7 @@
         "framer-motion"
       ],
       "previewUrl": "/circle-reveal",
-      "coverImage": "/assets/list/circle-text-reveal.png"
+      "coverImage": "/assets/listing/circle-text-reveal.png"
     },
     {
       "name": "mask-text-reveal",
@@ -404,7 +404,7 @@
         "gsap"
       ],
       "previewUrl": "/mask-text-reveal",
-      "coverImage": "/assets/list/mask-text-reveal.png"
+      "coverImage": "/assets/listing/mask-text-reveal.png"
     },
     {
       "name": "overflow-stagger-text",
@@ -415,7 +415,7 @@
         "gsap"
       ],
       "previewUrl": "/overflow-stagger-text",
-      "coverImage": "/assets/list/overflow-stagger-text.png"
+      "coverImage": "/assets/listing/overflow-stagger-text.png"
     },
     {
       "name": "overflow-text-reveal",
@@ -426,7 +426,7 @@
         "gsap"
       ],
       "previewUrl": "/overflow-text-reveal",
-      "coverImage": "/assets/list/overflow-text-reveal.png"
+      "coverImage": "/assets/listing/overflow-text-reveal.png"
     },
     {
       "name": "perspective-text-reveal",
@@ -437,7 +437,7 @@
         "gsap"
       ],
       "previewUrl": "/perspective-text-reveal",
-      "coverImage": "/assets/list/perspective-text-reveal.png"
+      "coverImage": "/assets/listing/perspective-text-reveal.png"
     },
     {
       "name": "rectangular-text-reveal",
@@ -448,7 +448,7 @@
         "gsap"
       ],
       "previewUrl": "/rectangular-text-reveal",
-      "coverImage": "/assets/list/rectangular-text-reveal.png"
+      "coverImage": "/assets/listing/rectangular-text-reveal.png"
     },
     {
       "name": "scramble-text",
@@ -459,7 +459,7 @@
         "gsap"
       ],
       "previewUrl": "/scramble-text",
-      "coverImage": "/assets/list/scramble-text.png"
+      "coverImage": "/assets/listing/scramble-text.png"
     },
     {
       "name": "slide-text-reveal",
@@ -470,7 +470,7 @@
         "gsap"
       ],
       "previewUrl": "/slide-text-reveal",
-      "coverImage": "/assets/list/slide-text-reveal.png"
+      "coverImage": "/assets/listing/slide-text-reveal.png"
     },
     {
       "name": "text-fill-animation",
@@ -481,7 +481,7 @@
         "gsap"
       ],
       "previewUrl": "/text-fill-animation",
-      "coverImage": "/assets/list/text-fill-animation.png"
+      "coverImage": "/assets/listing/text-fill-animation.png"
     },
     {
       "name": "text-hover-expand",
@@ -492,7 +492,7 @@
         "gsap"
       ],
       "previewUrl": "/text-hover",
-      "coverImage": "/assets/list/text-hover-expand.png"
+      "coverImage": "/assets/listing/text-hover-expand.png"
     }
   ]
 }

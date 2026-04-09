@@ -7,7 +7,7 @@
   "dependencies": [],
   "registryDependencies": [],
   "previewUrl": "/binary-effect",
-  "coverImage": "/assets/listing/diether-canvas.png",
+  "coverImage": "/assets/listing/binary-canvas.png",
   "files": [
     {
       "path": "dither-canvas.jsx",

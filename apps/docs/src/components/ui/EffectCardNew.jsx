@@ -35,7 +35,7 @@ export function EffectCard({ effect }) {
     <div className="group relative bg-white dark:bg-neutral-700 rounded-lg border-10 border-white dark:border-neutral-700 overflow-hidden transition-all duration-300 hover:shadow-lg">
       {/* Preview Image */}
       <Link href={`/effects/${effect.name}`} className="block group">
-        <div className="aspect-4/3 bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden relative ">
+        <div className="aspect-video bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden relative ">
           <Image src={effect.coverImage || "/assets/img/image01.webp"} alt={effect.title || effect.name} width={300} height={200} className="h-full w-full object-cover rounded-lg group-hover:scale-[1.1] duration-300 ease-in-out transition-all" />
           {/* Category badge */}
           <div className="absolute top-3 left-3">
