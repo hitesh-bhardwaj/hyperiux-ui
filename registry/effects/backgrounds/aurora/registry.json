@@ -1,9 +1,0 @@
-{
-  "name": "aurora-background",
-  "type": "registry:component",
-  "title": "Aurora Background",
-  "description": "Animated gradient background that follows mouse movement",
-  "category": "backgrounds",
-  "dependencies": ["framer-motion"],
-  "registryDependencies": []
-}

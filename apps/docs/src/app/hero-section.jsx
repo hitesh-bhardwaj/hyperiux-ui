@@ -1,21 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { BlurText } from "@/components/effects/blur-text";
-import { AuroraBackground } from "@/components/effects/aurora";
+import BlurText from "@/components/effects/BlueText";
 
 export function HeroSection({ effectCount }) {
   return (
     <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Aurora background */}
-      <AuroraBackground
-        className="absolute inset-0"
-        colors={["#3B82F6", "#8B5CF6", "#EC4899", "#10B981"]}
-        blur={150}
-        speed={0.3}
-      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#1d4ed8_0%,rgba(29,78,216,0.22)_22%,transparent_52%),radial-gradient(circle_at_80%_30%,rgba(236,72,153,0.3)_0%,transparent_34%),radial-gradient(circle_at_20%_80%,rgba(16,185,129,0.22)_0%,transparent_34%),linear-gradient(180deg,#050816_0%,#020617_55%,#000000_100%)]" />
 
-      {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm mb-8">
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
@@ -67,7 +59,6 @@ export function HeroSection({ effectCount }) {
         </div>
       </div>
 
-      {/* Gradient fade at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
     </div>
   );

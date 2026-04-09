@@ -1,9 +1,0 @@
-{
-  "name": "magnetic-button",
-  "type": "registry:component",
-  "title": "Magnetic Button",
-  "description": "Button that attracts to the cursor with magnetic effect",
-  "category": "buttons",
-  "dependencies": ["framer-motion"],
-  "registryDependencies": []
-}

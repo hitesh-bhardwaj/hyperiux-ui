@@ -22,9 +22,9 @@ export default page
 
 const data = [
   {
-    heading: "Magnetic Button",
-    text: "Cursor-reactive button with smooth magnetic pull",
-    link: "/components/magnetic-button",
+    heading: "Arrow Fill Button",
+    text: "Primary button with an expanding fill and animated arrow",
+    link: "/buttons/arrow-fill-button",
     bgColor: "#655A7C",
     textColor: "#2A2433",
   },

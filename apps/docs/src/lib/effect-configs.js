@@ -17,45 +17,6 @@ export const effectConfigs = {
     demoClassName: "text-4xl font-bold text-white",
   },
 
-  "aurora-background": {
-    props: [
-      { name: "blur", type: "range", min: 50, max: 200, step: 10, description: "Blur amount for the gradient" },
-      { name: "speed", type: "range", min: 0.1, max: 2, step: 0.1, description: "Animation speed multiplier" },
-    ],
-    defaults: {
-      blur: 100,
-      speed: 0.5,
-    },
-    demoClassName: "w-full h-[300px]",
-    demoContent: "Aurora Background",
-  },
-
-  "magnetic-button": {
-    props: [
-      { name: "strength", type: "range", min: 0.1, max: 1, step: 0.1, description: "Magnetic pull strength" },
-      { name: "radius", type: "range", min: 50, max: 300, step: 10, description: "Activation radius in pixels" },
-    ],
-    defaults: {
-      strength: 0.5,
-      radius: 150,
-    },
-    demoText: "Hover Me",
-    demoClassName: "px-6 py-3 bg-white text-black rounded-lg font-medium",
-  },
-
-  "shimmer-button": {
-    props: [
-      { name: "duration", type: "range", min: 0.5, max: 3, step: 0.1, description: "Shimmer animation duration" },
-      { name: "shimmerColor", type: "color", description: "Color of the shimmer effect" },
-    ],
-    defaults: {
-      duration: 1.5,
-      shimmerColor: "rgba(255, 255, 255, 0.4)",
-    },
-    demoText: "Shimmer Button",
-    demoClassName: "px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-medium",
-  },
-
   "smooth-scroll": {
     props: [],
     defaults: {},
@@ -176,22 +137,6 @@ export const effectConfigs = {
     demoClassName: "text-3xl font-bold text-white",
   },
 
-  "rgb-shift-fluid": {
-    props: [
-      { name: "intensity", type: "range", min: 0.1, max: 1, step: 0.1, description: "Effect intensity" },
-      { name: "smoothing", type: "range", min: 0.05, max: 0.3, step: 0.01, description: "Mouse follow smoothing" },
-      { name: "rgbShiftAmount", type: "range", min: 0.005, max: 0.05, step: 0.005, description: "Chromatic aberration amount" },
-      { name: "distortionStrength", type: "range", min: 0.1, max: 0.8, step: 0.1, description: "Fluid distortion strength" },
-    ],
-    defaults: {
-      intensity: 0.5,
-      smoothing: 0.1,
-      rgbShiftAmount: 0.02,
-      distortionStrength: 0.3,
-    },
-    demoClassName: "w-full h-[400px]",
-    note: "Three.js WebGL effect with RGB shift and fluid distortion following cursor movement.",
-  },
 };
 
 export function getEffectConfig(slug) {

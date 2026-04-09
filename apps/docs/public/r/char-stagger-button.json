@@ -8,7 +8,7 @@
     "lucide-react"
   ],
   "registryDependencies": [],
-  "previewUrl": "/buttons/link-buttons",
+  "previewUrl": "/buttons/char-stagger-button",
   "files": [
     {
       "path": "char-stagger-button.css",
