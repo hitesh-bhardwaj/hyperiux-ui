@@ -10,6 +10,9 @@ const categoryNames = {
   buttons: "Buttons",
   scroll: "Scroll Animations",
   cursor: "Cursor Effects",
+  components: "Components",
+  navigation: "Navigation",
+  transitions: "Page Transitions",
 };
 
 export function VaultHeader({ searchQuery, onSearchChange, totalEffects, effectName, showSearch = true }) {

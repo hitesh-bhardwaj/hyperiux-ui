@@ -14,7 +14,7 @@ export default function BrushStrokesNavbar() {
           className={`text-xs font-medium tracking-tight px-4 py-2 rounded-full hover:text-[#82A0FF] ${
             pathname === "/page-transitions/brush-strokes"
               ? "text-[#82A0FF]"
-              : ""
+              : "text-white"
           }`}
         >
          Page I
@@ -22,9 +22,9 @@ export default function BrushStrokesNavbar() {
         <Link
           href="/page-transitions/brush-strokes/page2"
           className={`text-xs font-medium tracking-tight px-4 py-2 rounded-full hover:text-[#82A0FF] ${
-            pathname === "/page-transitions/brush-strokes/work"
+            pathname === "/page-transitions/brush-strokes/page2"
               ? "text-[#82A0FF]"
-              : ""
+              : "text-white"
           }`}
         >
           Page II

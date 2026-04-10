@@ -8,7 +8,7 @@ export default function ChessGridHeader() {
   const pathname = usePathname()
 
   return (
-    <header className='fixed top-0 mix-blend-difference left-0 w-full z-50 p-4 flex items-center justify-between'>
+    <header className='fixed top-0 left-0 w-full z-50 p-8 flex items-center justify-between'>
       <Link href='/page-transitions/chess-grids' className='text-sm  uppercase font-bold'>
         Chess Grids
       </Link>
