@@ -7,8 +7,8 @@
       "category": "backgrounds",
       "dependencies": [],
       "previewUrl": "/binary-effect",
-      "coverImage": "/assets/listing/diether-canvas.png",
-      "videoUrl": "/assets/video-listing/dither-canvas.mp4"
+      "coverImage": "/assets/listing/binary-canvas.png",
+      "videoUrl": "hyperiux-ui-videos/dither-canvas"
     },
     {
       "name": "arrow-fill-button",
@@ -18,7 +18,7 @@
       "dependencies": [],
       "previewUrl": "/buttons/arrow-fill-button",
       "coverImage": "/assets/listing/arrow-fill-button.png",
-      "videoUrl": "/assets/video-listing/arrow-fill-button.mov"
+      "videoUrl": "hyperiux-ui-videos/arrow-fill-button"
     },
     {
       "name": "char-stagger-button",
@@ -30,7 +30,7 @@
       ],
       "previewUrl": "/buttons/char-stagger-button",
       "coverImage": "/assets/listing/char-stagger-button.png",
-      "videoUrl": "/assets/video-listing/char-stagger-button.mov"
+      "videoUrl": "hyperiux-ui-videos/char-stagger-button"
     },
     {
       "name": "char-stagger-primary-button",
@@ -40,7 +40,7 @@
       "dependencies": [],
       "previewUrl": "/buttons/char-stagger-primary-button",
       "coverImage": "/assets/listing/char-stagger-primary-button.png",
-      "videoUrl": "/assets/video-listing/char-stagger-primary-button.mov"
+      "videoUrl": "hyperiux-ui-videos/char-stagger-primary-button"
     },
     {
       "name": "dot-fill-button",
@@ -50,7 +50,7 @@
       "dependencies": [],
       "previewUrl": "/buttons/dot-fill-button",
       "coverImage": "/assets/listing/dot-fill-button.png",
-      "videoUrl": "/assets/video-listing/dot-fill-button.mov"
+      "videoUrl": "hyperiux-ui-videos/dot-fill-button"
     },
     {
       "name": "link-button",
@@ -60,7 +60,7 @@
       "dependencies": [],
       "previewUrl": "/buttons/link-button",
       "coverImage": "/assets/listing/link-button.png",
-      "videoUrl": "/assets/video-listing/link-button.mov"
+      "videoUrl": "hyperiux-ui-videos/link-button"
     },
     {
       "name": "scramble-link-button",
@@ -70,7 +70,7 @@
       "dependencies": [],
       "previewUrl": "/buttons/scramble-link-button",
       "coverImage": "/assets/listing/scramble-link-button.png",
-      "videoUrl": "/assets/video-listing/scramble-link-button.mov"
+      "videoUrl": "hyperiux-ui-videos/scramble-link-button"
     },
     {
       "name": "animated-faq",
@@ -82,7 +82,7 @@
       ],
       "previewUrl": "/animated-faq",
       "coverImage": "/assets/listing/animated-faq.png",
-      "videoUrl": "/assets/video-listing/animated-faq.mov"
+      "videoUrl": "hyperiux-ui-videos/animated-faq"
     },
     {
       "name": "chevron-bird",
@@ -94,7 +94,7 @@
       ],
       "previewUrl": "/animated-faq",
       "coverImage": "/assets/listing/chevron-bird.png",
-      "videoUrl": "/assets/video-listing/chevron-bird.mov"
+      "videoUrl": "hyperiux-ui-videos/chevron-bird"
     },
     {
       "name": "custom-video-player",
@@ -106,7 +106,7 @@
       ],
       "previewUrl": "/video-player",
       "coverImage": "/assets/listing/custom-video-player.png",
-      "videoUrl": "/assets/video-listing/custom-video-player.mp4"
+      "videoUrl": "hyperiux-ui-videos/custom-video-player"
     },
     {
       "name": "form",
@@ -116,7 +116,7 @@
       "dependencies": [],
       "previewUrl": "/form",
       "coverImage": "/assets/listing/form.png",
-      "videoUrl": "/assets/video-listing/form.mov"
+      "videoUrl": "hyperiux-ui-videos/form"
     },
     {
       "name": "hover-stack",
@@ -126,7 +126,7 @@
       "dependencies": [],
       "previewUrl": "/stack-hovered-cards",
       "coverImage": "/assets/listing/hover-stack.png",
-      "videoUrl": "/assets/video-listing/hover-stack.mov"
+      "videoUrl": "hyperiux-ui-videos/hover-stack"
     },
     {
       "name": "modal",
@@ -138,7 +138,7 @@
       ],
       "previewUrl": "/modal",
       "coverImage": "/assets/listing/modal.png",
-      "videoUrl": "/assets/video-listing/modal.mov"
+      "videoUrl": "hyperiux-ui-videos/modal"
     },
     {
       "name": "tabs",
@@ -150,7 +150,7 @@
       ],
       "previewUrl": "/tabs",
       "coverImage": "/assets/listing/tabs.png",
-      "videoUrl": "/assets/video-listing/tabs.mov"
+      "videoUrl": "hyperiux-ui-videos/tabs"
     },
     {
       "name": "testimonial-swiper",
@@ -164,7 +164,7 @@
       ],
       "previewUrl": "/testimonial",
       "coverImage": "/assets/listing/testimonial-swiper.png",
-      "videoUrl": "/assets/video-listing/testimonial-swiper.mov"
+      "videoUrl": "hyperiux-ui-videos/testimonial-swiper"
     },
     {
       "name": "colorful-cursor-aura",
@@ -176,7 +176,7 @@
       ],
       "previewUrl": "/aero",
       "coverImage": "/assets/listing/colorful-cursor-aura.png",
-      "videoUrl": "/assets/video-listing/colorful-cursor-aura.mov"
+      "videoUrl": "hyperiux-ui-videos/colorful-cursor-aura"
     },
     {
       "name": "phantom-image-trail",
@@ -188,7 +188,7 @@
       ],
       "previewUrl": "/mouse-hover-image",
       "coverImage": "/assets/listing/phantom-image-trail.png",
-      "videoUrl": "/assets/video-listing/phantom-image-trail.mp4"
+      "videoUrl": "hyperiux-ui-videos/phantom-image-trail"
     },
     {
       "name": "directional-menu",
@@ -200,7 +200,7 @@
       ],
       "previewUrl": "/directional-menu",
       "coverImage": "/assets/listing/directional-menu.png",
-      "videoUrl": "/assets/video-listing/directional-menu.mov"
+      "videoUrl": "hyperiux-ui-videos/directional-menu"
     },
     {
       "name": "full-screen-navigation",
@@ -212,7 +212,7 @@
       ],
       "previewUrl": "/fullscreen-nav",
       "coverImage": "/assets/listing/full-screen-navigation.png",
-      "videoUrl": "/assets/video-listing/full-screen-navigation.mp4"
+      "videoUrl": "hyperiux-ui-videos/full-screen-navigation"
     },
     {
       "name": "draggable-marquee",
@@ -224,7 +224,7 @@
       ],
       "previewUrl": "/draggable-marquee",
       "coverImage": "/assets/listing/draggable-marquee.png",
-      "videoUrl": "/assets/video-listing/draggable-marquee.mp4"
+      "videoUrl": "draggable-marquee"
     },
     {
       "name": "helix-slider",
@@ -236,7 +236,7 @@
       ],
       "previewUrl": "/cylindrical-scroll",
       "coverImage": "/assets/listing/helix-slider.png",
-      "videoUrl": "/assets/video-listing/helix-slider.mp4"
+      "videoUrl": "hyperiux-ui-videos/helix-slider"
     },
     {
       "name": "horizon-scroll",
@@ -248,7 +248,7 @@
       ],
       "previewUrl": "/horizontal-scroll-section",
       "coverImage": "/assets/listing/horizon-scroll.png",
-      "videoUrl": "/assets/video-listing/horizon-scroll.mov"
+      "videoUrl": "hyperiux-ui-videos/horizon-scroll"
     },
     {
       "name": "infinite-perspective-slider",
@@ -260,7 +260,7 @@
       ],
       "previewUrl": "/surf-index",
       "coverImage": "/assets/listing/infinite-perspective-slider.png",
-      "videoUrl": "/assets/video-listing/infinite-perspective-slider.mp4"
+      "videoUrl": "hyperiux-ui-videos/infinite-perspective-slider"
     },
     {
       "name": "orbit-slider",
@@ -272,7 +272,7 @@
       ],
       "previewUrl": "/circular-split-roll",
       "coverImage": "/assets/listing/orbit-slider.png",
-      "videoUrl": "/assets/video-listing/orbit-slider.mp4"
+      "videoUrl": "hyperiux-ui-videos/orbit-slider"
     },
     {
       "name": "parallax-footer",
@@ -282,7 +282,7 @@
       "dependencies": [],
       "previewUrl": "/parallax-footer",
       "coverImage": "/assets/listing/parallax-footer.png",
-      "videoUrl": "/assets/video-listing/parallax-footer.mov"
+      "videoUrl": "hyperiux-ui-videos/parallax-footer"
     },
     {
       "name": "parallax-gallery",
@@ -294,7 +294,7 @@
       ],
       "previewUrl": "/frame-slider",
       "coverImage": "/assets/listing/parallax-gallery.png",
-      "videoUrl": "/assets/video-listing/parallax-gallery.mp4"
+      "videoUrl": "hyperiux-ui-videos/parallax-gallery"
     },
     {
       "name": "parallax-image",
@@ -306,7 +306,7 @@
       ],
       "previewUrl": "/parallax-image-animation",
       "coverImage": "/assets/listing/parallax-image.png",
-      "videoUrl": "/assets/video-listing/parallax-image.mp4"
+      "videoUrl": "hyperiux-ui-videos/parallax-image"
     },
     {
       "name": "parallax-slider",
@@ -319,7 +319,7 @@
       ],
       "previewUrl": "/parallax-slider",
       "coverImage": "/assets/listing/parallax-slider.png",
-      "videoUrl": "/assets/video-listing/parallax-slider.mp4"
+      "videoUrl": "hyperiux-ui-videos/parallax-slider"
     },
     {
       "name": "rotating-carousel",
@@ -332,7 +332,7 @@
       ],
       "previewUrl": "/circular-slider",
       "coverImage": "/assets/listing/rotating-carousel.png",
-      "videoUrl": "/assets/video-listing/rotating-carousel.mov"
+      "videoUrl": "hyperiux-ui-videos/rotating-carousel"
     },
     {
       "name": "scroll-shuffled-cards",
@@ -344,7 +344,7 @@
       ],
       "previewUrl": "/scroll-shuffled-cards",
       "coverImage": "/assets/listing/scroll-shuffled-cards.png",
-      "videoUrl": "/assets/video-listing/scroll-shuffled-cards.mov"
+      "videoUrl": "hyperiux-ui-videos/scroll-shuffled-cards"
     },
     {
       "name": "scroll-stack",
@@ -356,7 +356,7 @@
       ],
       "previewUrl": "/stacked-card",
       "coverImage": "/assets/listing/scroll-stack.png",
-      "videoUrl": "/assets/video-listing/scroll-stack.mov"
+      "videoUrl": "hyperiux-ui-videos/scroll-stack"
     },
     {
       "name": "split-canvas",
@@ -369,7 +369,7 @@
       ],
       "previewUrl": "/dgrees-pixel-scroll",
       "coverImage": "/assets/listing/split-canvas.png",
-      "videoUrl": "/assets/video-listing/split-canvas.mov"
+      "videoUrl": "hyperiux-ui-videos/split-canvas"
     },
     {
       "name": "stacking-cards",
@@ -382,7 +382,7 @@
       ],
       "previewUrl": "/stacking-cards",
       "coverImage": "/assets/listing/stacking-cards.png",
-      "videoUrl": "/assets/video-listing/stacking-cards.mp4"
+      "videoUrl": "hyperiux-ui-videos/stacking-cards "
     },
     {
       "name": "sticky-content-wrapper",
@@ -394,7 +394,7 @@
       ],
       "previewUrl": "/sticky-content-wrapper",
       "coverImage": "/assets/listing/sticky-content-wrapper.png",
-      "videoUrl": "/assets/video-listing/sticky-content-wrapper.mp4"
+      "videoUrl": "hyperiux-ui-videos/sticky-content-wrapper"
     },
     {
       "name": "blur-text",
@@ -406,7 +406,7 @@
       ],
       "previewUrl": "/blur-text-reveal",
       "coverImage": "/assets/listing/blur-text.png",
-      "videoUrl": "/assets/video-listing/blur-text.mov"
+      "videoUrl": "hyperiux-ui-videos/blur-text"
     },
     {
       "name": "circle-text-reveal",
@@ -418,7 +418,7 @@
       ],
       "previewUrl": "/circle-reveal",
       "coverImage": "/assets/listing/circle-text-reveal.png",
-      "videoUrl": "/assets/video-listing/circle-text-reveal.mov"
+      "videoUrl": "hyperiux-ui-videos/circle-text-reveal"
     },
     {
       "name": "mask-text-reveal",
@@ -430,7 +430,7 @@
       ],
       "previewUrl": "/mask-text-reveal",
       "coverImage": "/assets/listing/mask-text-reveal.png",
-      "videoUrl": "/assets/video-listing/mask-text-reveal.mov"
+      "videoUrl": "hyperiux-ui-videos/mask-text-reveal"
     },
     {
       "name": "overflow-stagger-text",
@@ -442,7 +442,7 @@
       ],
       "previewUrl": "/overflow-stagger-text",
       "coverImage": "/assets/listing/overflow-stagger-text.png",
-      "videoUrl": "/assets/video-listing/overflow-stagger-text.mov"
+      "videoUrl": "hyperiux-ui-videos/overflow-stagger-text"
     },
     {
       "name": "overflow-text-reveal",
@@ -454,7 +454,7 @@
       ],
       "previewUrl": "/overflow-text-reveal",
       "coverImage": "/assets/listing/overflow-text-reveal.png",
-      "videoUrl": "/assets/video-listing/overflow-text-reveal.mov"
+      "videoUrl": "hyperiux-ui-videos/overflow-text-reveal"
     },
     {
       "name": "perspective-text-reveal",
@@ -466,7 +466,7 @@
       ],
       "previewUrl": "/perspective-text-reveal",
       "coverImage": "/assets/listing/perspective-text-reveal.png",
-      "videoUrl": "/assets/video-listing/perspective-text-reveal.mov"
+      "videoUrl": "hyperiux-ui-videos/perspective-text-reveal"
     },
     {
       "name": "rectangular-text-reveal",
@@ -478,7 +478,7 @@
       ],
       "previewUrl": "/rectangular-text-reveal",
       "coverImage": "/assets/listing/rectangular-text-reveal.png",
-      "videoUrl": "/assets/video-listing/rectangular-text-reveal.mov"
+      "videoUrl": "hyperiux-ui-videos/rectangular-text-reveal"
     },
     {
       "name": "scramble-text",
@@ -490,7 +490,7 @@
       ],
       "previewUrl": "/scramble-text",
       "coverImage": "/assets/listing/scramble-text.png",
-      "videoUrl": "/assets/video-listing/scramble-text.mov"
+      "videoUrl": "hyperiux-ui-videos/scramble-text"
     },
     {
       "name": "slide-text-reveal",
@@ -502,7 +502,7 @@
       ],
       "previewUrl": "/slide-text-reveal",
       "coverImage": "/assets/listing/slide-text-reveal.png",
-      "videoUrl": "/assets/video-listing/slide-text-reveal.mov"
+      "videoUrl": "hyperiux-ui-videos/slide-text-reveal"
     },
     {
       "name": "text-fill-animation",
@@ -514,7 +514,7 @@
       ],
       "previewUrl": "/text-fill-animation",
       "coverImage": "/assets/listing/text-fill-animation.png",
-      "videoUrl": "/assets/video-listing/text-fill-animation.mov"
+      "videoUrl": "hyperiux-ui-videos/text-fill-animation"
     },
     {
       "name": "text-hover-expand",
@@ -526,7 +526,7 @@
       ],
       "previewUrl": "/text-hover",
       "coverImage": "/assets/listing/text-hover-expand.png",
-      "videoUrl": "/assets/video-listing/text-hover-expand.mov"
+      "videoUrl": "hyperiux-ui-videos/text-hover-expand"
     }
   ]
 }

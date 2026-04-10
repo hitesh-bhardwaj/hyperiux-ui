@@ -5,6 +5,8 @@ import Link from "next/link";
 import { VaultLayout } from "@/components/layout/VaultLayout";
 import { VaultHeader } from "@/components/layout/VaultHeader";
 import { EffectCard } from "@/components/ui/EffectCardNew";
+import { CldVideoPlayer } from "next-cloudinary";
+import "next-cloudinary/dist/cld-video-player.css";
 
 export function EffectDetailContent({
   slug,
@@ -15,6 +17,7 @@ export function EffectDetailContent({
   effectCounts,
 }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [error, setError] = useState(false);
 
   const toggleWishlist = () => {
     const wishlist = JSON.parse(localStorage.getItem("hyperiux-wishlist") || "[]");
@@ -71,13 +74,17 @@ export default function MyComponent() {
               {/* Preview */}
               <div className="aspect-video bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
   {effect.videoUrl ? (
-    <video
+    <CldVideoPlayer
       src={effect.videoUrl}
-      autoPlay
+      width="1920"
+      height="1080"
+      autoplay
       loop
       muted
-      playsInline
+      playsinline
+      controls={false}
       className="w-full h-full object-cover"
+      onError={() => setError(true)}
     />
   ) : (
     <div className="flex items-center justify-center h-full">
