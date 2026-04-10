@@ -184,6 +184,8 @@
       "description": "Cursor-driven image trail that spawns and fades stacked visuals as you move",
       "category": "cursor",
       "dependencies": [
+
+        
         "gsap"
       ],
       "previewUrl": "/mouse-hover-image",
