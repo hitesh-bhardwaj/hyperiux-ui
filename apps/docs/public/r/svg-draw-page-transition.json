@@ -11,7 +11,7 @@
   "registryDependencies": [],
   "previewUrl": "/page-transitions/brush-strokes",
   "coverImage": "/assets/listing/svg-draw-page-transition.png",
-  "videoUrl": "hyperiux-ui-videos/svg-draw-page-transition",
+  "videoUrl": "svg-draw-page-transition",
   "files": [
     {
       "path": "svg-draw-page-transition.jsx",
