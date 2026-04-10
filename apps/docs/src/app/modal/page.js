@@ -85,8 +85,8 @@ export default function Page() {
             }}
             btnText="Open a Modal"
             bgColor="#ff6b00"
-            textColor="#ffffff"
-            fillColor="#ffffff"
+            textColor="#000000"
+            fillColor="#000000"
             hoverTextColor="#ff6b00"
           />
 

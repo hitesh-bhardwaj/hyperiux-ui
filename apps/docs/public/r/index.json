@@ -8,7 +8,7 @@
       "dependencies": [],
       "previewUrl": "/binary-effect",
       "coverImage": "/assets/listing/diether-canvas.png",
-      "videoUrl": "/assets/video-listing/dither-canvas.mov"
+      "videoUrl": "/assets/video-listing/dither-canvas.mp4"
     },
     {
       "name": "arrow-fill-button",
@@ -106,7 +106,7 @@
       ],
       "previewUrl": "/video-player",
       "coverImage": "/assets/listing/custom-video-player.png",
-      "videoUrl": "/assets/video-listing/custom-video-player.mov"
+      "videoUrl": "/assets/video-listing/custom-video-player.mp4"
     },
     {
       "name": "form",
@@ -188,7 +188,7 @@
       ],
       "previewUrl": "/mouse-hover-image",
       "coverImage": "/assets/listing/phantom-image-trail.png",
-      "videoUrl": "/assets/video-listing/phantom-image-trail.mov"
+      "videoUrl": "/assets/video-listing/phantom-image-trail.mp4"
     },
     {
       "name": "directional-menu",
@@ -212,7 +212,7 @@
       ],
       "previewUrl": "/fullscreen-nav",
       "coverImage": "/assets/listing/full-screen-navigation.png",
-      "videoUrl": "/assets/video-listing/full-screen-navigation.mov"
+      "videoUrl": "/assets/video-listing/full-screen-navigation.mp4"
     },
     {
       "name": "draggable-marquee",
@@ -224,7 +224,7 @@
       ],
       "previewUrl": "/draggable-marquee",
       "coverImage": "/assets/listing/draggable-marquee.png",
-      "videoUrl": "/assets/video-listing/draggable-marquee.mov"
+      "videoUrl": "/assets/video-listing/draggable-marquee.mp4"
     },
     {
       "name": "helix-slider",
@@ -236,7 +236,7 @@
       ],
       "previewUrl": "/cylindrical-scroll",
       "coverImage": "/assets/listing/helix-slider.png",
-      "videoUrl": "/assets/video-listing/helix-slider.mov"
+      "videoUrl": "/assets/video-listing/helix-slider.mp4"
     },
     {
       "name": "horizon-scroll",
@@ -260,7 +260,7 @@
       ],
       "previewUrl": "/surf-index",
       "coverImage": "/assets/listing/infinite-perspective-slider.png",
-      "videoUrl": "/assets/video-listing/infinite-perspective-slider.mov"
+      "videoUrl": "/assets/video-listing/infinite-perspective-slider.mp4"
     },
     {
       "name": "orbit-slider",
@@ -272,7 +272,7 @@
       ],
       "previewUrl": "/circular-split-roll",
       "coverImage": "/assets/listing/orbit-slider.png",
-      "videoUrl": "/assets/video-listing/orbit-slider.mov"
+      "videoUrl": "/assets/video-listing/orbit-slider.mp4"
     },
     {
       "name": "parallax-footer",
@@ -294,7 +294,7 @@
       ],
       "previewUrl": "/frame-slider",
       "coverImage": "/assets/listing/parallax-gallery.png",
-      "videoUrl": "/assets/video-listing/parallax-gallery.mov"
+      "videoUrl": "/assets/video-listing/parallax-gallery.mp4"
     },
     {
       "name": "parallax-image",
@@ -306,7 +306,7 @@
       ],
       "previewUrl": "/parallax-image-animation",
       "coverImage": "/assets/listing/parallax-image.png",
-      "videoUrl": "/assets/video-listing/parallax-image.mov"
+      "videoUrl": "/assets/video-listing/parallax-image.mp4"
     },
     {
       "name": "parallax-slider",
@@ -319,7 +319,7 @@
       ],
       "previewUrl": "/parallax-slider",
       "coverImage": "/assets/listing/parallax-slider.png",
-      "videoUrl": "/assets/video-listing/parallax-slider.mov"
+      "videoUrl": "/assets/video-listing/parallax-slider.mp4"
     },
     {
       "name": "rotating-carousel",
@@ -382,7 +382,7 @@
       ],
       "previewUrl": "/stacking-cards",
       "coverImage": "/assets/listing/stacking-cards.png",
-      "videoUrl": "/assets/video-listing/stacking-cards.mov"
+      "videoUrl": "/assets/video-listing/stacking-cards.mp4"
     },
     {
       "name": "sticky-content-wrapper",
@@ -394,7 +394,7 @@
       ],
       "previewUrl": "/sticky-content-wrapper",
       "coverImage": "/assets/listing/sticky-content-wrapper.png",
-      "videoUrl": "/assets/video-listing/sticky-content-wrapper.mov"
+      "videoUrl": "/assets/video-listing/sticky-content-wrapper.mp4"
     },
     {
       "name": "blur-text",
