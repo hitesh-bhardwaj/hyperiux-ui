@@ -13,6 +13,7 @@ const categories = [
   { id: "components", name: "Components", icon: "⬡" },
   { id: "navigation", name: "Navigation", icon: "☰" },
   { id: "cursor", name: "Cursor Effects", icon: "◈" },
+  { id: "transitions", name: "Page Transitions", icon: "⇄" },
 ];
 
 export function Sidebar({ effectCounts = {} }) {
