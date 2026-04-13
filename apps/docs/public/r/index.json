@@ -627,7 +627,7 @@
       ],
       "previewUrl": "/page-transitions/chess-grids",
       "coverImage": "/assets/listing/chess-grid-transition.png",
-      "videoUrl": "hyperiux-ui-videos/chess-grid-transition"
+      "videoUrl": "chess-grid-transition"
     },
     {
       "name": "page-flip-transition",
@@ -640,7 +640,7 @@
       ],
       "previewUrl": "/page-transitions/flip",
       "coverImage": "/assets/listing/page-flip-transition.png",
-      "videoUrl": "hyperiux-ui-videos/page-flip-transition"
+      "videoUrl": "page-flip-transition"
     },
     {
       "name": "svg-draw-page-transition",
@@ -653,7 +653,7 @@
       ],
       "previewUrl": "/page-transitions/brush-strokes",
       "coverImage": "/assets/listing/svg-draw-page-transition.png",
-      "videoUrl": "hyperiux-ui-videos/svg-draw-page-transition"
+      "videoUrl": "svg-draw-page-transition"
     }
   ]
 }
