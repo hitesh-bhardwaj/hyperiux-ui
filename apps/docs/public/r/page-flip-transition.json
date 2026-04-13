@@ -11,7 +11,7 @@
   "registryDependencies": [],
   "previewUrl": "/page-transitions/flip",
   "coverImage": "/assets/listing/page-flip-transition.png",
-  "videoUrl": "page-flip-transition",
+  "videoUrl": "hyperiux-ui-videos/page-flip-transition",
   "files": [
     {
       "path": "page-flip-transition.jsx",

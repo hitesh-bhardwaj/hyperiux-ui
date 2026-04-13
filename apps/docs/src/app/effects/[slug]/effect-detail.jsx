@@ -73,30 +73,30 @@ export default function MyComponent() {
               </div>
               {/* Preview */}
               <div className="h-[45vh]!  overflow-hidden">
-  {effect.videoUrl ? (
-    <CldVideoPlayer
-      src={effect.videoUrl}
-   
-      autoplay
-      loop
-      muted
-      playsinline
-      controls={false}
-      className="w-full h-full object-cover"
-      onError={() => setError(true)}
-    />
-  ) : (
-    <div className="flex items-center justify-center h-full">
-      <div className="text-8xl opacity-10 dark:opacity-20 text-neutral-900 dark:text-neutral-100">
-        {effect.category === "text" && "Aa"}
-        {effect.category === "backgrounds" && "◐"}
-        {effect.category === "buttons" && "◉"}
-        {effect.category === "scroll" && "↕"}
-        {effect.category === "cursor" && "◈"}
-      </div>
-    </div>
-  )}
-</div>
+                {effect.videoUrl ? (
+                  <CldVideoPlayer
+                    src={effect.videoUrl}
+                    poster={effect.coverImage}
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    controls={false}
+                    className="w-full h-full object-cover"
+                    onError={() => setError(true)}
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="text-8xl opacity-10 dark:opacity-20 text-neutral-900 dark:text-neutral-100">
+                      {effect.category === "text" && "Aa"}
+                      {effect.category === "backgrounds" && "◐"}
+                      {effect.category === "buttons" && "◉"}
+                      {effect.category === "scroll" && "↕"}
+                      {effect.category === "cursor" && "◈"}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Documentation */}
               <div className="space-y-6">
@@ -171,11 +171,10 @@ export default function MyComponent() {
 
                 <button
                   onClick={toggleWishlist}
-                  className={`p-2.5 rounded-lg border transition-colors ${
-                    isWishlisted
+                  className={`p-2.5 rounded-lg border transition-colors ${isWishlisted
                       ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/20 text-red-500"
                       : "bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300"
-                  }`}
+                    }`}
                 >
                   <svg
                     className="w-5 h-5"

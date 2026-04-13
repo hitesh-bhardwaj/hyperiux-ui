@@ -9,7 +9,7 @@ import BlurText from "@/components/effects/BlueText";
 import { TextReveal } from "@/components/effects/text-reveal";
 
 // Effects that need special handling
-const SCROLL_EFFECTS = ["text-reveal", "smooth-scroll"];
+const SCROLL_EFFECTS = ["text-reveal"];
 
 // Demo components for each effect
 function BlurTextDemo({ props, replayKey }) {
@@ -43,26 +43,9 @@ function TextRevealDemo({ props, replayKey, scrollerRef }) {
   );
 }
 
-function SmoothScrollDemo() {
-  return (
-    <div className="text-center">
-      <div className="w-16 h-24 mx-auto rounded-full border-2 border-white/30 flex items-start justify-center p-4 mb-6">
-        <div className="w-2 h-5 bg-white/50 rounded-full animate-bounce" />
-      </div>
-      <p className="text-xl text-white/70">
-        Smooth Scroll is a page wrapper component
-      </p>
-      <p className="text-white/40 mt-2">
-        Wrap your page content for momentum-based scrolling
-      </p>
-    </div>
-  );
-}
-
 const demoComponents = {
   "blur-text": BlurTextDemo,
   "text-reveal": TextRevealDemo,
-  "smooth-scroll": SmoothScrollDemo,
 };
 
 export function FullscreenPreview({ slug, effect, config }) {

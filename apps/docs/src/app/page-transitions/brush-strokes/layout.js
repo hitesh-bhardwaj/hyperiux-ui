@@ -7,6 +7,6 @@ export default function layout({ children }) {
         <BrushStrokesTransition>
             <BrushStrokesNavbar />
             {children}
-        </BrushStrokesTransition >
+        </BrushStrokesTransition>
     )
 }

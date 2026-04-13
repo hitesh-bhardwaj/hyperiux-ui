@@ -17,13 +17,6 @@ export const effectConfigs = {
     demoClassName: "text-4xl font-bold text-white",
   },
 
-  "smooth-scroll": {
-    props: [],
-    defaults: {},
-    isContainer: true,
-    note: "Wrap your entire page content with SmoothScroll for momentum-based scrolling.",
-  },
-
   "text-reveal": {
     props: [
       { name: "duration", type: "range", min: 0.5, max: 2, step: 0.1, description: "Animation duration" },
