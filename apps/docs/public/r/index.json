@@ -167,6 +167,34 @@
       "videoUrl": "testimonial-swiper"
     },
     {
+      "name": "butterfly-trail-cursor",
+      "title": "Butterfly Trail Cursor",
+      "description": "3D butterfly swarm that spawns around the pointer and fades through space",
+      "category": "cursor",
+      "dependencies": [
+        "@react-three/drei",
+        "@react-three/fiber",
+        "three"
+      ],
+      "previewUrl": "/cursors/butterflies",
+      "coverImage": "/assets/listing/butterfly-trail-cursor.png",
+      "videoUrl": "butterfly-trail-cursor"
+    },
+    {
+      "name": "coffee-bean-cursor",
+      "title": "Coffee Bean Cursor",
+      "description": "Mouse-reactive 3D coffee bean flow with velocity-based lighting and fluid drift",
+      "category": "cursor",
+      "dependencies": [
+        "@react-three/drei",
+        "@react-three/fiber",
+        "three"
+      ],
+      "previewUrl": "/cursors/coffee",
+      "coverImage": "/assets/listing/coffee-bean-cursor.png",
+      "videoUrl": "coffee-bean-cursor"
+    },
+    {
       "name": "colorful-cursor-aura",
       "title": "Colorful Cursor Aura",
       "description": "Layered radial color aura that follows the cursor across oversized headline text",
@@ -179,18 +207,50 @@
       "videoUrl": "colorful-cursor-aura"
     },
     {
+      "name": "fiddle-ascii-cursor",
+      "title": "Fiddle Ascii Cursor",
+      "description": "Cursor-reactive media grid that swaps nearby cells into a textured ASCII collage",
+      "category": "cursor",
+      "dependencies": [],
+      "previewUrl": "/cursors/feddle-ascii-cursor",
+      "coverImage": "/assets/listing/fiddle-ascii-cursor.png",
+      "videoUrl": "fiddle-ascii-cursor"
+    },
+    {
+      "name": "noise-ripple-cursor",
+      "title": "Noise Ripple Cursor",
+      "description": "Interactive shader overlay that distorts and dithers an image with fluid cursor ripples",
+      "category": "cursor",
+      "dependencies": [
+        "three"
+      ],
+      "previewUrl": "/cursors/noiseripple",
+      "coverImage": "/assets/listing/noise-ripple-cursor.png",
+      "videoUrl": "noise-ripple-cursor"
+    },
+    {
       "name": "phantom-image-trail",
       "title": "Phantom Image Trail",
       "description": "Cursor-driven image trail that spawns and fades stacked visuals as you move",
       "category": "cursor",
       "dependencies": [
-
-        
         "gsap"
       ],
       "previewUrl": "/mouse-hover-image",
       "coverImage": "/assets/listing/phantom-image-trail.png",
       "videoUrl": "phantom-image-trail"
+    },
+    {
+      "name": "rope-cursor",
+      "title": "Rope Cursor",
+      "description": "Soft trailing rope that lags behind the pointer with a smooth SVG path",
+      "category": "cursor",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/cursors/rope",
+      "coverImage": "/assets/listing/rope-cursor.png",
+      "videoUrl": "rope-cursor"
     },
     {
       "name": "directional-menu",
@@ -337,6 +397,20 @@
       "videoUrl": "rotating-carousel"
     },
     {
+      "name": "scroll-distortion",
+      "title": "Scroll Distortion",
+      "description": "Scroll-synced WebGL image transition with displacement distortion and fullscreen typography",
+      "category": "scroll",
+      "dependencies": [
+        "gsap",
+        "lenis",
+        "three"
+      ],
+      "previewUrl": "/scroll-based-effects/scroll-distortion",
+      "coverImage": "/assets/listing/scroll-distortion.png",
+      "videoUrl": "scroll-distortion"
+    },
+    {
       "name": "scroll-shuffled-cards",
       "title": "Scroll Shuffled Cards",
       "description": "Pinned scroll section that drifts a shuffled stack of editorial cards across the viewport",
@@ -361,18 +435,6 @@
       "videoUrl": "scroll-stack"
     },
     {
-      "name": "smooth-scroll",
-      "title": "Smooth Scroll",
-      "description": "GSAP-powered smooth scrolling with momentum effect",
-      "category": "scroll",
-      "dependencies": [
-        "gsap"
-      ],
-      "previewUrl": null,
-      "coverImage": "/assets/listing/smooth-scroll.png",
-      "videoUrl": "smooth-scroll"
-    },
-    {
       "name": "split-canvas",
       "title": "Split Canvas",
       "description": "Scroll-synced canvas transition that reveals images through sliced pixel-grid shutters",
@@ -384,6 +446,18 @@
       "previewUrl": "/dgrees-pixel-scroll",
       "coverImage": "/assets/listing/split-canvas.png",
       "videoUrl": "split-canvas"
+    },
+    {
+      "name": "square-translate",
+      "title": "Square Translate",
+      "description": "Scroll-driven list where a rotating square marker tracks progress and nudges nearby rows",
+      "category": "scroll",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/scroll-based-effects/square-translate",
+      "coverImage": "/assets/listing/square-translate.png",
+      "videoUrl": "square-translate"
     },
     {
       "name": "stacking-cards",
@@ -553,7 +627,7 @@
       ],
       "previewUrl": "/page-transitions/chess-grids",
       "coverImage": "/assets/listing/chess-grid-transition.png",
-      "videoUrl": "hyperiux-ui-videos/chess-grid-transition"
+      "videoUrl": "chess-grid-transition"
     },
     {
       "name": "page-flip-transition",
@@ -566,7 +640,7 @@
       ],
       "previewUrl": "/page-transitions/flip",
       "coverImage": "/assets/listing/page-flip-transition.png",
-      "videoUrl": "hyperiux-ui-videos/page-flip-transition"
+      "videoUrl": "page-flip-transition"
     },
     {
       "name": "svg-draw-page-transition",
@@ -579,7 +653,7 @@
       ],
       "previewUrl": "/page-transitions/brush-strokes",
       "coverImage": "/assets/listing/svg-draw-page-transition.png",
-      "videoUrl": "hyperiux-ui-videos/svg-draw-page-transition"
+      "videoUrl": "svg-draw-page-transition"
     }
   ]
 }
