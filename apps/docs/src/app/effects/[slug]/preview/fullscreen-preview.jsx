@@ -68,14 +68,15 @@ export function FullscreenPreview({ slug, effect, config }) {
   const isFullscreen = false;
 
   return (
-    <div className="fixed inset-0 bg-neutral-950 flex">
+    <div className="fixed inset-0 bg-dark-surface flex">
       {/* Main preview area */}
       <div className="flex-1 relative">
         {/* Header */}
-        <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-black/50 to-transparent">
+        <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-6 py-5 bg-gradient-to-b from-dark-surface/90 to-transparent backdrop-blur-sm">
           <Link
             href={`/effects/${slug}`}
-            className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-sm transition-colors backdrop-blur-sm"
+            className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-primary-hover text-white text-sm transition-colors backdrop-blur-sm font-sans font-medium"
+            style={{ borderRadius: '56px' }}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -87,7 +88,8 @@ export function FullscreenPreview({ slug, effect, config }) {
             {/* Replay button */}
             <button
               onClick={handleReplay}
-              className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-sm transition-colors backdrop-blur-sm"
+              className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-primary-hover text-white text-sm transition-colors backdrop-blur-sm font-sans font-medium"
+              style={{ borderRadius: '56px' }}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -99,11 +101,12 @@ export function FullscreenPreview({ slug, effect, config }) {
             {config?.props?.length > 0 && (
               <button
                 onClick={() => setShowProps(!showProps)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors backdrop-blur-sm ${
+                className={`flex items-center gap-2 px-5 py-2.5 text-sm transition-colors backdrop-blur-sm font-sans font-medium ${
                   showProps
-                    ? "bg-white text-black"
-                    : "bg-white/10 hover:bg-white/20 text-white"
+                    ? "bg-white text-dark-surface"
+                    : "bg-white/10 hover:bg-primary-hover text-white"
                 }`}
+                style={{ borderRadius: '56px' }}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -115,9 +118,9 @@ export function FullscreenPreview({ slug, effect, config }) {
         </div>
 
         {/* Effect title */}
-        <div className="absolute bottom-6 left-6 z-20">
-          <h1 className="text-2xl font-bold text-white">{effect.title}</h1>
-          <p className="text-white/60 mt-1">{effect.description}</p>
+        <div className="absolute bottom-8 left-8 z-20">
+          <h1 className="font-display text-3xl font-normal text-white mb-2" style={{ lineHeight: '1.1' }}>{effect.title}</h1>
+          <p className="text-white/70 text-base font-sans" style={{ lineHeight: '1.5' }}>{effect.description}</p>
         </div>
 
         {/* Preview content */}
@@ -155,8 +158,8 @@ export function FullscreenPreview({ slug, effect, config }) {
 
       {/* Props panel */}
       {showProps && config?.props?.length > 0 && (
-        <div className="w-80 bg-neutral-900 border-l border-neutral-800 p-6 overflow-y-auto">
-          <h3 className="text-lg font-medium text-white mb-6">Properties</h3>
+        <div className="w-80 bg-dark-card border-l border-border/20 p-8 overflow-y-auto">
+          <h3 className="font-display text-2xl font-normal text-white mb-8" style={{ lineHeight: '1.1' }}>Properties</h3>
           <div className="space-y-6">
             {config.props.map((prop) => (
               <PropControlDark
@@ -177,11 +180,11 @@ function PropControlDark({ prop, value, onChange }) {
   const { name, type, min, max, step, options, description } = prop;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-white">{name}</label>
+        <label className="text-sm font-semibold text-white font-sans">{name}</label>
         {type === "range" && (
-          <span className="text-xs text-neutral-400">{value}</span>
+          <span className="text-xs text-white/60 font-mono px-2 py-1 bg-dark-surface rounded" style={{ borderRadius: '8px' }}>{value}</span>
         )}
       </div>
 
@@ -193,7 +196,7 @@ function PropControlDark({ prop, value, onChange }) {
           step={step || 1}
           value={value}
           onChange={(e) => onChange(parseFloat(e.target.value))}
-          className="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer accent-white"
+          className="w-full h-2 bg-dark-surface rounded-lg appearance-none cursor-pointer accent-primary"
         />
       )}
 
@@ -205,29 +208,29 @@ function PropControlDark({ prop, value, onChange }) {
           step={step || 1}
           value={value}
           onChange={(e) => onChange(parseFloat(e.target.value))}
-          className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-sm text-white focus:outline-none focus:border-neutral-500"
+          className="w-full px-4 py-2.5 bg-dark-surface border border-border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-sans"
         />
       )}
 
       {type === "color" && (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <input
             type="color"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="w-10 h-10 rounded border border-neutral-700 cursor-pointer bg-transparent"
+            className="w-12 h-12 rounded-xl border border-border cursor-pointer bg-transparent"
           />
           <input
             type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-sm text-white focus:outline-none focus:border-neutral-500"
+            className="flex-1 px-4 py-2.5 bg-dark-surface border border-border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-mono"
           />
         </div>
       )}
 
       {description && (
-        <p className="text-xs text-neutral-500">{description}</p>
+        <p className="text-xs text-white/60 font-sans" style={{ lineHeight: '1.5' }}>{description}</p>
       )}
     </div>
   );

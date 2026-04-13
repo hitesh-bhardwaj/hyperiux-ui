@@ -5,36 +5,41 @@ import BlurText from "@/components/effects/BlueText";
 
 export function HeroSection({ effectCount }) {
   return (
-    <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#1d4ed8_0%,rgba(29,78,216,0.22)_22%,transparent_52%),radial-gradient(circle_at_80%_30%,rgba(236,72,153,0.3)_0%,transparent_34%),radial-gradient(circle_at_20%_80%,rgba(16,185,129,0.22)_0%,transparent_34%),linear-gradient(180deg,#050816_0%,#020617_55%,#000000_100%)]" />
+    <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white dark:bg-dark-surface">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,95,0,0.08)_0%,transparent_50%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(255,95,0,0.15)_0%,transparent_50%)]" />
 
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm mb-8">
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span>{effectCount} effects available</span>
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto py-20">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-secondary-surface dark:bg-dark-card border border-border text-sm mb-10 font-medium">
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          <span className="text-foreground dark:text-white">{effectCount} effects available</span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+        {/* Hero headline - Coinbase Display style: 80px, line-height 1.0 */}
+        <h1 className="font-display text-[64px] md:text-[80px] font-normal mb-6 text-foreground dark:text-white" style={{ lineHeight: '1.0' }}>
           <BlurText delay={0.2} duration={0.8} blur={15}>
             Beautiful Effects
           </BlurText>
           <br />
-          <span className="text-neutral-400">
+          <span className="text-muted dark:text-white/70">
             <BlurText delay={0.5} duration={0.8} blur={15}>
               For Your Website
             </BlurText>
           </span>
         </h1>
 
-        <p className="text-xl text-neutral-400 mb-10 max-w-2xl mx-auto">
+        {/* Body text - 18px with proper line-height */}
+        <p className="text-lg md:text-[18px] text-muted dark:text-white/70 mb-12 max-w-2xl mx-auto font-sans" style={{ lineHeight: '1.56' }}>
           A collection of animated effects and UI components. Copy-paste or use
           our CLI to add stunning animations to your Next.js project.
         </p>
 
+        {/* CTA buttons - 56px radius pills */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/effects"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black rounded-xl font-semibold hover:bg-neutral-200 transition-colors"
+            className="btn-pill btn-pill-primary w-full sm:w-auto inline-flex items-center justify-center gap-2"
           >
             Browse Effects
             <svg
@@ -52,14 +57,15 @@ export function HeroSection({ effectCount }) {
             </svg>
           </Link>
 
-          <div className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-neutral-900 border border-neutral-800 rounded-xl font-mono text-sm">
-            <span className="text-green-500">$</span>
-            <span>npx hyperiux init</span>
+          <div className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-secondary-surface dark:bg-dark-card border border-border font-mono text-sm" style={{ borderRadius: '56px' }}>
+            <span className="text-primary">$</span>
+            <span className="text-foreground dark:text-white">npx hyperiux init</span>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
+      {/* Gradient fade to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white/50 dark:from-dark-surface/50 to-transparent" />
     </div>
   );
 }
