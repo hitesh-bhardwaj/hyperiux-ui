@@ -38,7 +38,7 @@ export function VaultContent({ effects, effectCounts }) {
 
   return (
     <VaultLayout effectCounts={effectCounts} effects={effects}>
-      <div className="min-h-screen bg-neutral-100 dark:bg-neutral-950">
+      <div className="min-h-screen bg-white dark:bg-dark-surface">
         {/* Sticky Header with Search */}
         <VaultHeader
           searchQuery={searchQuery}
@@ -46,16 +46,16 @@ export function VaultContent({ effects, effectCounts }) {
           totalEffects={totalEffects}
         />
 
-        {/* Hero Section */}
-        <div className="">
-          <div className="max-w-5xl mx-auto px-8 py-12 text-center">
-            <p className="text-neutral-500 dark:text-neutral-400 mb-3">Welcome to</p>
-            <h1 className="text-5xl md:text-6xl font-bold text-neutral-900 dark:text-white mb-6">
+        {/* Hero Section - Coinbase style */}
+        <div className="bg-white dark:bg-dark-surface">
+          <div className="max-w-5xl mx-auto px-8 py-16 text-center">
+            <p className="text-muted dark:text-white/60 mb-4 text-base font-sans">Welcome to</p>
+            <h1 className="font-display text-6xl md:text-7xl font-normal text-foreground dark:text-white mb-8" style={{ lineHeight: '1.0' }}>
               The Vault
             </h1>
 
             {/* Quick stats */}
-            <div className="flex items-center justify-center gap-6 text-sm text-neutral-500 dark:text-neutral-400">
+            <div className="flex items-center justify-center gap-6 text-sm text-muted dark:text-white/70 font-sans">
               <span>{totalEffects} effects</span>
               <span>•</span>
               <span>Free & open source</span>
@@ -69,17 +69,17 @@ export function VaultContent({ effects, effectCounts }) {
         <div className="max-w-7xl mx-auto px-8 py-12">
           {/* Active filter indicator */}
           {(categoryFilter !== "all" || searchQuery) && (
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-sm text-neutral-500 dark:text-neutral-400">
+            <div className="flex items-center gap-3 mb-8">
+              <span className="text-sm text-muted dark:text-white/70 font-sans">
                 Showing {filteredEffects.length} of {totalEffects} effects
               </span>
               {categoryFilter !== "all" && (
-                <span className="px-3 py-1 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-full text-sm capitalize">
+                <span className="px-4 py-1.5 bg-dark-surface dark:bg-white text-white dark:text-dark-surface text-sm capitalize font-medium" style={{ borderRadius: '56px' }}>
                   {categoryFilter}
                 </span>
               )}
               {searchQuery && (
-                <span className="px-3 py-1 bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-full text-sm">
+                <span className="px-4 py-1.5 bg-secondary-surface dark:bg-dark-card text-foreground dark:text-white text-sm font-medium" style={{ borderRadius: '56px' }}>
                   &quot;{searchQuery}&quot;
                 </span>
               )}
@@ -88,12 +88,12 @@ export function VaultContent({ effects, effectCounts }) {
 
           {/* Grid */}
           {filteredEffects.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-medium text-neutral-900 dark:text-white mb-2">
+            <div className="text-center py-20">
+              <div className="text-6xl mb-6">🔍</div>
+              <h3 className="font-display text-3xl font-normal text-foreground dark:text-white mb-3" style={{ lineHeight: '1.1' }}>
                 No effects found
               </h3>
-              <p className="text-neutral-500 dark:text-neutral-400">
+              <p className="text-muted dark:text-white/70 font-sans text-base">
                 Try adjusting your search or filter criteria
               </p>
             </div>

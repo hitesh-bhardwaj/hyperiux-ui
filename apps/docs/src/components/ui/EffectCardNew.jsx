@@ -1,11 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 export function EffectCard({ effect }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef(null);
+
+  // Construct Cloudinary video URL from videoUrl field
+  const videoPreviewUrl = effect.videoUrl
+    ? `https://res.cloudinary.com/hyperiux/video/upload/v1775820344/${effect.videoUrl}.mp4`
+    : null;
 
   // Load wishlist state from localStorage
   useEffect(() => {
@@ -13,6 +20,20 @@ export function EffectCard({ effect }) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsWishlisted(wishlist.includes(effect.name));
   }, [effect.name]);
+
+  // Handle video play/pause on hover
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isHovered) {
+        videoRef.current.play().catch(() => {
+          // Ignore play errors (e.g., if video not loaded yet)
+        });
+      } else {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0; // Reset to start
+      }
+    }
+  }, [isHovered]);
 
   const toggleWishlist = (e) => {
     e.preventDefault();
@@ -32,27 +53,54 @@ export function EffectCard({ effect }) {
   };
 
   return (
-    <div className="group relative bg-white dark:bg-neutral-700 rounded-lg border-10 border-white dark:border-neutral-700 overflow-hidden transition-all duration-300 hover:shadow-lg">
-      {/* Preview Image */}
-      <Link href={`/effects/${effect.name}`} className="block group">
-        <div className="aspect-video bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden relative ">
-          <Image src={effect.coverImage || "/assets/img/image01.webp"} alt={effect.title || effect.name} width={300} height={200} className="h-full w-full object-cover rounded-lg group-hover:scale-[1.1] duration-300 ease-in-out transition-all" />
+    <div
+      className="group relative bg-secondary-surface dark:bg-dark-card rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/50"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Preview Image/Video */}
+      <Link href={`/effects/${effect.name}`} className="block">
+        <div className="aspect-video bg-neutral-100 dark:bg-dark-surface rounded-lg overflow-hidden relative">
+          {/* Static Image */}
+          <Image
+            src={effect.coverImage || "/assets/img/image01.webp"}
+            alt={effect.title || effect.name}
+            width={300}
+            height={200}
+            className={`h-full w-full object-cover rounded-lg transition-all duration-500 ${
+              isHovered && videoPreviewUrl ? 'opacity-0' : 'opacity-100 group-hover:scale-[1.05]'
+            }`}
+          />
+
+          {/* Video Preview on Hover - Cloudinary */}
+          {videoPreviewUrl && (
+            <video
+              ref={videoRef}
+              src={videoPreviewUrl}
+              muted
+              loop
+              playsInline
+              className={`absolute inset-0 h-full w-full object-cover rounded-lg transition-opacity duration-300 ${
+                isHovered ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          )}
           {/* Category badge */}
           <div className="absolute top-3 left-3">
-            <span className="px-2.5 py-1 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 capitalize">
+            <span className="px-3 py-1.5 bg-white/95 dark:bg-dark-card/95 backdrop-blur-sm text-xs font-semibold text-foreground dark:text-white capitalize font-sans" style={{ borderRadius: '56px' }}>
               {effect.category}
             </span>
           </div>
 
           {/* Action buttons - top right */}
-          <div className="absolute top-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute top-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <button
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 window.open(effect.previewUrl || `/effects/${effect.name}/preview`, '_blank');
               }}
-              className="p-2 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-white dark:hover:bg-neutral-800 transition-colors"
+              className="p-2.5 bg-white/95 dark:bg-dark-card/95 backdrop-blur-sm text-foreground dark:text-white rounded-lg hover:bg-primary hover:text-white transition-colors"
               aria-label="Preview"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,10 +110,10 @@ export function EffectCard({ effect }) {
             </button>
             <button
               onClick={toggleWishlist}
-              className={`p-2 backdrop-blur-sm rounded-lg transition-colors ${
+              className={`p-2.5 backdrop-blur-sm rounded-lg transition-colors ${
                 isWishlisted
-                  ? "bg-red-500 text-white"
-                  : "bg-white/90 dark:bg-neutral-900/90 text-neutral-700 dark:text-neutral-300 hover:bg-white dark:hover:bg-neutral-800"
+                  ? "bg-primary text-white"
+                  : "bg-white/95 dark:bg-dark-card/95 text-foreground dark:text-white hover:bg-primary hover:text-white"
               }`}
               aria-label="Add to wishlist"
             >
@@ -88,19 +136,20 @@ export function EffectCard({ effect }) {
       </Link>
 
       {/* Info */}
-      <div className="p-4">
+      <div className="p-5">
         <Link href={`/effects/${effect.name}`} className="block">
-          <h3 className="font-medium text-neutral-900 dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+          <h3 className="font-sans font-semibold text-base text-foreground dark:text-white group-hover:text-primary transition-colors">
             {effect.title}
           </h3>
         </Link>
 
         {/* Dependencies */}
-        <div className="flex items-center gap-2 mt-3">
+        <div className="flex items-center gap-2 mt-3 flex-wrap">
           {effect.dependencies?.map((dep) => (
             <span
               key={dep}
-              className="px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800  text-xs text-neutral-500 dark:text-neutral-400"
+              className="px-3 py-1 bg-white dark:bg-dark-surface text-xs text-muted dark:text-white/70 font-medium font-mono"
+              style={{ borderRadius: '56px' }}
             >
               {dep}
             </span>

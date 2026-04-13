@@ -21,42 +21,42 @@ export function VaultHeader({ searchQuery, onSearchChange, totalEffects, effectN
   const currentCategory = searchParams.get("category");
 
   return (
-    <header className="sticky h-18 top-0 z-30 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800">
-      <div className="flex items-center h-full justify-between px-5">
+    <header className="sticky h-18 top-0 z-30 bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md border-b border-border">
+      <div className="flex items-center h-full justify-between px-6">
         {/* Left side - Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm">
+        <nav className="flex items-center gap-2 text-sm font-sans">
           <Link
             href="/effects"
             className={`transition-colors ${
               currentCategory || effectName
-                ? "text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
-                : "text-neutral-900 dark:text-white font-medium"
+                ? "text-muted dark:text-white/60 hover:text-foreground dark:hover:text-white"
+                : "text-foreground dark:text-white font-semibold"
             }`}
           >
             The Vault
           </Link>
           {currentCategory && !effectName && (
             <>
-              <svg className="w-4 h-4 text-neutral-300 dark:text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-border" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-              <span className="text-neutral-900 dark:text-white font-medium">
+              <span className="text-foreground dark:text-white font-semibold">
                 {categoryNames[currentCategory] || currentCategory}
               </span>
             </>
           )}
           {effectName && (
             <>
-              <svg className="w-4 h-4 text-neutral-300 dark:text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-border" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-              <span className="text-neutral-900 dark:text-white font-medium">
+              <span className="text-foreground dark:text-white font-semibold">
                 {effectName}
               </span>
             </>
           )}
           {totalEffects !== undefined && (
-            <span className="ml-2 px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 rounded-full text-xs text-neutral-500 dark:text-neutral-400">
+            <span className="ml-2 px-3 py-1 bg-secondary-surface dark:bg-dark-card text-xs text-muted dark:text-white/70 font-medium" style={{ borderRadius: '56px' }}>
               {totalEffects}
             </span>
           )}
@@ -67,7 +67,7 @@ export function VaultHeader({ searchQuery, onSearchChange, totalEffects, effectN
           {/* Search Bar */}
           {showSearch && (
             <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted dark:text-white/60">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -77,18 +77,18 @@ export function VaultHeader({ searchQuery, onSearchChange, totalEffects, effectN
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
                 placeholder="Search effects..."
-                className="w-64 pl-9 pr-3 py-2 bg-neutral-100 dark:bg-neutral-800 border border-transparent rounded-lg text-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent transition-all"
+                className="w-64 pl-10 pr-3 py-2.5 bg-secondary-surface dark:bg-dark-card border border-border rounded-xl text-sm text-foreground dark:text-white placeholder:text-muted dark:placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-sans"
               />
-              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex px-1.5 py-0.5 bg-neutral-200 dark:bg-neutral-700 rounded text-[10px] text-neutral-500 dark:text-neutral-400">
+              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex px-2 py-1 bg-white/80 dark:bg-dark-surface/80 border border-border rounded text-[10px] text-muted dark:text-white/60 font-mono">
                 ⌘K
               </kbd>
             </div>
           )}
 
-          {/* Theme Toggle */}
+          {/* Theme Toggle - Coinbase pill style */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+            className="p-2.5 rounded-xl bg-secondary-surface dark:bg-dark-card text-muted dark:text-white/80 hover:bg-primary-hover hover:text-white transition-colors"
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
           >
             {theme === "light" ? (
