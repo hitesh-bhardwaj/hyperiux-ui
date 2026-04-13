@@ -72,11 +72,11 @@ export default function MyComponent() {
                 <p className="text-neutral-500 dark:text-neutral-400">{effect.description}</p>
               </div>
               {/* Preview */}
-              <div className="aspect-auto bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+              <div className="h-[45vh]!  overflow-hidden">
   {effect.videoUrl ? (
     <CldVideoPlayer
       src={effect.videoUrl}
-      
+   
       autoplay
       loop
       muted

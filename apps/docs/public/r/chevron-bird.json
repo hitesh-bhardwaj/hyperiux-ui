@@ -10,7 +10,7 @@
   "registryDependencies": [],
   "previewUrl": "/animated-faq",
   "coverImage": "/assets/listing/chevron-bird.png",
-  "videoUrl": "chevron-bird",
+  "videoUrl": "animated-faq",
   "files": [
     {
       "path": "chevron-bird.jsx",
