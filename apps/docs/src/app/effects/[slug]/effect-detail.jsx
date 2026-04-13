@@ -122,13 +122,16 @@ export default function MyComponent() {
           alt="thumbnail"
           fill
           sizes="(min-width: 1024px) 66vw, 100vw"
-          className="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none opacity-100 transition-opacity duration-500"
+          className={`absolute inset-0 w-full h-full object-cover z-10 pointer-events-none transition-opacity duration-100 ease-in-out ${
+    showThumbnail ? "opacity-100" : "opacity-0"
+  }`}
         />
       )}
 
       <CldVideoPlayer
         key={effect.videoUrl}
         src={effect.videoUrl}
+        poster={effect.coverImage}
         autoplay
         loop
         muted
