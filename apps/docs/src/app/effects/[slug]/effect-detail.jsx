@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { VaultLayout } from "@/components/layout/VaultLayout";
 import { VaultHeader } from "@/components/layout/VaultHeader";
 import { EffectCard } from "@/components/ui/EffectCardNew";
@@ -17,7 +18,10 @@ export function EffectDetailContent({
   effectCounts,
 }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const [error, setError] = useState(false);
+  const [loadedVideoUrl, setLoadedVideoUrl] = useState(null);
+  const [introVideoUrl, setIntroVideoUrl] = useState(null);
+  const playerRef = useRef(null);
+  const videoRef = useRef(null);
 
   const toggleWishlist = () => {
     const wishlist = JSON.parse(localStorage.getItem("hyperiux-wishlist") || "[]");
@@ -50,6 +54,42 @@ export default function MyComponent() {
 }`;
 
   const installCode = `npx hyperiux add ${slug}`;
+  const isLoaded = loadedVideoUrl === effect.videoUrl;
+  const hasIntroDelayElapsed = introVideoUrl === effect.videoUrl;
+  const showThumbnail = Boolean(effect.coverImage) && (!hasIntroDelayElapsed || !isLoaded);
+
+  useEffect(() => {
+    if (!effect.videoUrl) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIntroVideoUrl(effect.videoUrl);
+    }, 800);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [effect.videoUrl]);
+
+  useEffect(() => {
+    if (!effect.videoUrl || !isLoaded || !hasIntroDelayElapsed) {
+      return;
+    }
+
+    const startPlayback = async () => {
+      try {
+        if (typeof playerRef.current?.play === "function") {
+          await playerRef.current.play();
+          return;
+        }
+
+        await videoRef.current?.play?.();
+      } catch {
+        // Ignore autoplay rejections; the muted player is retried through the native video element.
+      }
+    };
+
+    startPlayback();
+  }, [effect.videoUrl, hasIntroDelayElapsed, isLoaded]);
 
   return (
     <VaultLayout effectCounts={effectCounts}>
@@ -72,19 +112,34 @@ export default function MyComponent() {
                 <p className="text-neutral-500 dark:text-neutral-400">{effect.description}</p>
               </div>
               {/* Preview */}
-              <div className="h-[45vh]!  overflow-hidden">
+            <div className="h-[45vh] overflow-hidden relative">
   {effect.videoUrl ? (
-    <CldVideoPlayer
-      src={effect.videoUrl}
-   
-      autoplay
-      loop
-      muted
-      playsinline
-      controls={false}
-      className="w-full h-full object-cover"
-      onError={() => setError(true)}
-    />
+    <>
+      {/* Thumbnail from coverImage */}
+      {showThumbnail && (
+        <Image
+          src={effect.coverImage}
+          alt="thumbnail"
+          fill
+          sizes="(min-width: 1024px) 66vw, 100vw"
+          className="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none opacity-100 transition-opacity duration-500"
+        />
+      )}
+
+      <CldVideoPlayer
+        key={effect.videoUrl}
+        src={effect.videoUrl}
+        autoplay
+        loop
+        muted
+        playsinline
+        controls={false}
+        playerRef={playerRef}
+        videoRef={videoRef}
+        className="w-full h-full object-cover"
+        onDataLoad={() => setLoadedVideoUrl(effect.videoUrl)}
+      />
+    </>
   ) : (
     <div className="flex items-center justify-center h-full">
       <div className="text-8xl opacity-10 dark:opacity-20 text-neutral-900 dark:text-neutral-100">
@@ -93,7 +148,7 @@ export default function MyComponent() {
         {effect.category === "buttons" && "◉"}
         {effect.category === "scroll" && "↕"}
         {effect.category === "cursor" && "◈"}
-      </div>
+    </div>
     </div>
   )}
 </div>
