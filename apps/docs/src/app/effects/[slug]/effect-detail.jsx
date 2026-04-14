@@ -112,7 +112,7 @@ export default function MyComponent() {
                 <p className="text-neutral-500 dark:text-neutral-400">{effect.description}</p>
               </div>
               {/* Preview */}
-            <div className="h-[45vh] overflow-hidden relative">
+            <div className="h-[48vh]  overflow-hidden relative">
   {effect.videoUrl ? (
     <>
       {/* Thumbnail from coverImage */}

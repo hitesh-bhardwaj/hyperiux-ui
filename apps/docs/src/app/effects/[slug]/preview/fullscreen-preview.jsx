@@ -5,7 +5,7 @@ import Link from "next/link";
 import { PropsPanel } from "@/components/ui/PropsPanel";
 
 // Import all effects
-import BlurText from "@/components/effects/BlueText";
+import BlurText from "@/components/effects/BlurText";
 import { TextReveal } from "@/components/effects/text-reveal";
 
 // Effects that need special handling
