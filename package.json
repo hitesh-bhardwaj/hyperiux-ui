@@ -15,5 +15,9 @@
   "devDependencies": {
     "turbo": "^2.4.4"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.0",
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "maath": "^0.10.8"
+  }
 }
