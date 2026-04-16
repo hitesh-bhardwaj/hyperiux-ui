@@ -3,10 +3,13 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { useLenis } from "lenis/react";
+import gsap from "gsap";
 
 // ─── vertex shader ───
 const vertexShader = /* glsl */ `
   uniform float uFold;
+  uniform float uHover;
+  uniform vec2 uHoverPos;
   varying vec2 vUv;
   varying float vShade;
 
@@ -17,41 +20,35 @@ const vertexShader = /* glsl */ `
     float strength = abs(uFold);
     float dir = sign(uFold);
 
-    // When entering from bottom (dir < 0, uFold negative): fold the top edge (uv.y = 1)
-    // When exiting to top (dir > 0, uFold positive): fold the bottom edge (uv.y = 0)
     float edgeUV = dir < 0.0 ? uv.y : (1.0 - uv.y);
 
-    // Limit the fold to cover a bit more than half of the plane (e.g. 1.8 units out of 3.0)
     float foldLength = 1.8;
     float distFromEdge = (1.0 - edgeUV) * 3.0; 
     float localUV = clamp((foldLength - distFromEdge) / foldLength, 0.0, 1.0);
 
-    // Square localUV so twist and shading strictly obey the confined halved fold
     float edgeCurve = localUV * localUV;
 
-    // Perfect localized soft-flap: purely realistic with localized curvature starting right at the hinge
-    float A = max(strength * 3.14159, 0.001); // Fold up to 180 degrees
-    float t = localUV * foldLength; // Physical distance from the hinge
+    float A = max(strength * 3.14159, 0.001);
+    float t = localUV * foldLength;
     
-    // Further smoothen the geometric curve by massively expanding the bend radius to prevent steepness
-    float L_bend = 2.0; // Length of the curved crease
-    float R = L_bend / A; // dynamic arc radius
+    float L_bend = 2.0;
+    float R = L_bend / A;
     
-    // Separate into a bending portion and a flapped straight portion
     float t_bend = min(t, L_bend);
     float theta = (t_bend / L_bend) * A;
     float t_straight = max(t - L_bend, 0.0);
 
-    // Z lift: cylinder crease + straight tangent orientation
     float foldZ = R * (1.0 - cos(theta)) + t_straight * sin(A);
     pos.z += foldZ;
 
-    // Y pull: guarantees absolute perfect arc length over both crease and straight flap
     float foldPull = (t_bend - R * sin(theta)) + t_straight * (1.0 - cos(A));
     pos.y += foldPull * dir;
 
-    // Slight lateral twist
     pos.x += edgeCurve * strength * 0.1 * dir;
+
+    float dist = length(uv - uHoverPos);
+    float hoverBend = smoothstep(0.7, 0.0, dist) * 0.9 * uHover;
+    pos.z += hoverBend;
 
     vShade = 1.0 - edgeCurve * strength * 0.4;
 
@@ -59,14 +56,22 @@ const vertexShader = /* glsl */ `
   }
 `;
 
-// ─── fragment shader ───
 const fragmentShader = /* glsl */ `
   uniform sampler2D uTexture;
+  uniform vec2 uPlaneSize;
+  uniform vec2 uImageSize;
   varying vec2 vUv;
   varying float vShade;
 
   void main() {
-    vec4 color = texture2D(uTexture, vUv);
+    vec2 planeAspect = vec2(uPlaneSize.x / uPlaneSize.y, uPlaneSize.y / uPlaneSize.x);
+    vec2 imageAspect = vec2(uImageSize.x / uImageSize.y, uImageSize.y / uImageSize.x);
+    
+    vec2 ratio = min(planeAspect / imageAspect, 1.0);
+    vec2 uv = vUv * ratio + (1.0 - ratio) * 0.5;
+
+    vec4 color = texture2D(uTexture, uv);
+    color.rgb *= vShade; // Apply shading for 3D depth perception
     gl_FragColor = color;
   }
 `;
@@ -78,9 +83,47 @@ const mod = (n, m) => ((n % m) + m) % m;
 export default function WebGLSlider({ images = [] }) {
   const containerRef = useRef(null);
   const scrollRef = useRef(0);
+  const lastScroll = useRef(0);
+  const scrollTimeout = useRef(null);
+  const isSnapping = useRef(false);
 
   useLenis((lenis) => {
+    if (isSnapping.current) return;
     scrollRef.current = lenis.scroll;
+
+    if (Math.abs(lenis.scroll - lastScroll.current) > 0.1) {
+      lastScroll.current = lenis.scroll;
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+
+      scrollTimeout.current = setTimeout(() => {
+        if (!isSnapping.current) {
+          const currentScroll = lenis.scroll;
+          const vh = window.innerHeight;
+          const targetScroll = Math.round(currentScroll / vh) * vh;
+
+          if (Math.abs(currentScroll - targetScroll) > 2) {
+            isSnapping.current = true;
+            lenis.stop();
+
+            const obj = { y: currentScroll };
+            gsap.to(obj, {
+              y: targetScroll,
+              duration: 0.6,
+              ease: "power2.inOut",
+              onUpdate: () => {
+                window.scrollTo(0, obj.y);
+                scrollRef.current = obj.y;
+              },
+              onComplete: () => {
+                isSnapping.current = false;
+                lastScroll.current = targetScroll;
+                lenis.start();
+              },
+            });
+          }
+        }
+      }, 30);
+    }
   });
 
   useEffect(() => {
@@ -93,6 +136,15 @@ export default function WebGLSlider({ images = [] }) {
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
 
+    // ─── mouse ───
+    const mouse = new THREE.Vector2(-100, -100);
+
+    const onMouseMove = (event) => {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener("mousemove", onMouseMove);
+
     // ─── scene & camera ───
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -104,9 +156,10 @@ export default function WebGLSlider({ images = [] }) {
     camera.position.z = 7;
 
     // ─── layout settings ───
-    const CARD_W = 3.2;
-    const CARD_H = 3.0;
-    const GAP = 4.5;
+    const isMobile = window.innerWidth < 768;
+    const CARD_W = isMobile ? 2.0 : 3.2;
+    const CARD_H = isMobile ? 1.8 : 3.0;
+    const GAP = isMobile ? 4.0 : 4.5;
     const total = images.length;
 
     const vFov = (camera.fov * Math.PI) / 180;
@@ -115,6 +168,16 @@ export default function WebGLSlider({ images = [] }) {
     const loopLength = total * GAP;
     const pxPerWorldUnit = window.innerHeight / GAP;
 
+    // ─── cache DOM refs once ───
+    const textEls = images.map((_, i) => {
+      const el = document.getElementById(`slider-text-${i}`);
+      if (el && el.classList.contains("hidden")) {
+        el.classList.remove("hidden");
+        el.style.display = "none";
+      }
+      return el;
+    });
+
     // ─── textures & meshes ───
     const loader = new THREE.TextureLoader();
     const meshes = [];
@@ -122,20 +185,32 @@ export default function WebGLSlider({ images = [] }) {
     const geo = new THREE.PlaneGeometry(CARD_W, CARD_H, 64, 64);
 
     images.forEach((img, i) => {
-      const tex = loader.load(img.src);
-      tex.colorSpace = THREE.SRGBColorSpace;
-
       const mat = new THREE.ShaderMaterial({
         uniforms: {
-          uTexture: { value: tex },
+          uTexture: { value: null },
           uFold: { value: 0.0 },
+          uHover: { value: 0.0 },
+          uHoverPos: { value: new THREE.Vector2(0.5, 0.5) },
+          uPlaneSize: { value: new THREE.Vector2(CARD_W, CARD_H) },
+          uImageSize: { value: new THREE.Vector2(1, 1) },
         },
         vertexShader,
         fragmentShader,
         transparent: true,
         side: THREE.DoubleSide,
-        depthWrite: false,
+        depthWrite: true,
       });
+
+      const tex = loader.load(img.src, (texture) => {
+        if (texture && texture.image) {
+          mat.uniforms.uImageSize.value.set(
+            texture.image.width || texture.image.videoWidth || 1,
+            texture.image.height || texture.image.videoHeight || 1
+          );
+        }
+      });
+      tex.colorSpace = THREE.SRGBColorSpace;
+      mat.uniforms.uTexture.value = tex;
 
       const mesh = new THREE.Mesh(geo, mat);
       mesh.userData.index = i;
@@ -145,72 +220,111 @@ export default function WebGLSlider({ images = [] }) {
 
     document.body.style.height = `${total * 100 + 100}vh`;
 
+    // ─── reusable per-frame state to avoid allocations ───
+    let rafId;
+    const targetUv = new THREE.Vector2();
+    const mouseWorldDir = new THREE.Vector3();
+    const halfViewConst = viewH / 2;
+    const foldRangeConst = halfViewConst + CARD_H;
+    const loopHalf = loopLength / 2;
+    // pre-compute reciprocals
+    const invFoldRange = 1 / foldRangeConst;
+    const CARD_W_OFFSET = isMobile ? CARD_W * 0.40 : CARD_W * 0.70;
+    const CARD_H_75 = CARD_H * 0.75;
+    const HALF_PI = Math.PI * 0.5;
+
     // ─── animation loop ───
     const tick = () => {
-      requestAnimationFrame(tick);
+      rafId = requestAnimationFrame(tick);
+
+      // Calculate mouse world position at Z=0
+      mouseWorldDir.set(mouse.x, mouse.y, 0.5).unproject(camera).sub(camera.position).normalize();
+      const mouseDist = -camera.position.z / mouseWorldDir.z;
+      const mouseWorldPos = camera.position.clone().add(mouseWorldDir.multiplyScalar(mouseDist));
+
+      const viewW = viewH * camera.aspect;
+      const arcRadiusX = isMobile ? viewW * 1.7 : viewW * 1.2;
+      const arcRadiusY = isMobile ? viewH * 1.0 : viewW * 1.2;
+      const invArcRadius = 1 / (isMobile ? arcRadiusY : (viewW * 1.2));
 
       const worldOffset = scrollRef.current / pxPerWorldUnit;
       const wrappedOffset = mod(worldOffset, loopLength);
 
-      const halfView = viewH / 2;
-      const foldRange = halfView + CARD_H;
-      const viewW = viewH * camera.aspect;
-      // Make the circle larger to create a gentler, less curvy path
-      const arcRadius = viewW * 1.2;
+      const halfScreenW = window.innerWidth / 2;
+      const halfScreenH = window.innerHeight / 2;
+      const invHalfViewW = 1 / (viewW / 2);
+      const invHalfViewH = 1 / (viewH / 2);
 
-      meshes.forEach((mesh) => {
+      for (let idx = 0; idx < meshes.length; idx++) {
+        const mesh = meshes[idx];
         const i = mesh.userData.index;
         const baseY = -i * GAP;
 
-        // y represents the arc length along the curved path
-        let y = mod(baseY + wrappedOffset + loopLength / 2, loopLength) - loopLength / 2;
+        let y = mod(baseY + wrappedOffset + loopHalf, loopLength) - loopHalf;
 
-        // Map linear y to an angle along a semi-circle centered at the middle-left of the screen
-        const theta = y / arcRadius;
-        mesh.position.x = -arcRadius + arcRadius * Math.cos(theta);
-        mesh.position.y = arcRadius * Math.sin(theta);
+        const theta = y * invArcRadius;
+        const cosTheta = Math.cos(theta);
+        const sinTheta = Math.sin(theta);
+
+        mesh.position.x = -arcRadiusX + arcRadiusX * cosTheta;
+        mesh.position.y = arcRadiusY * sinTheta;
         mesh.rotation.z = theta;
 
-        let fold = clamp(y / foldRange, -1, 1);
-        mesh.material.uniforms.uFold.value = fold;
+        // Force outer folding planes to draw over center planes
+        mesh.renderOrder = Math.floor(Math.abs(y) * 100);
 
-        const isVisible = Math.abs(y) < foldRange + CARD_H;
-        mesh.visible = isVisible;
+        const isVisible = Math.abs(y) < foldRangeConst + CARD_H;
+        if (mesh.visible !== isVisible) mesh.visible = isVisible;
 
-        // --- Text Synchronization ---
-        const textEl = document.getElementById(`slider-text-${i}`);
-        if (textEl) {
-          if (isVisible) {
-            textEl.style.display = "block";
+        const textEl = textEls[i];
 
-            // Text starts on the left side of the plane (fold = -1 or +1)
-            // Reaches the right side of the plane precisely when at the middle of the screen (fold = 0)
-            // Using a cosine curve instead of absolute value provides smooth easing, eliminating any sharp "glitchy" bounce at the peak
-            const progressToCenter = Math.cos(fold * Math.PI * 0.5); // 0 at screen edges, 1 at screen center
+        // --- Calculate local UV based on world distance ---
+        const planeX = mesh.position.x;
+        const planeY = mesh.position.y;
+        const angle = mesh.rotation.z;
 
-            // Start closer to the right (horizontal center at edges), reaching exact same right shift at center
-            // This strictly maps 0.0 to 1.0, preventing it from ever crossing into the left side
-            const localOffsetX = progressToCenter * (CARD_W * 0.70);
+        const dx = mouseWorldPos.x - planeX;
+        const dy = mouseWorldPos.y - planeY;
 
-            // Start further from bottom, and exit further from top
-            const localOffsetY = fold * (CARD_H * 0.75);
+        const cosA = Math.cos(-angle);
+        const sinA = Math.sin(-angle);
+        const localX = dx * cosA - dy * sinA;
+        const localY = dx * sinA + dy * cosA;
 
-            // Add the local X and Y offsets in world space respecting the tilt/rotation of the plane
-            const textWorldX = mesh.position.x + localOffsetX * Math.cos(theta) - localOffsetY * Math.sin(theta);
-            const textWorldY = mesh.position.y + localOffsetX * Math.sin(theta) + localOffsetY * Math.cos(theta);
+        targetUv.set((localX / CARD_W) + 0.5, (localY / CARD_H) + 0.5);
+        mesh.material.uniforms.uHoverPos.value.lerp(targetUv, 0.15);
 
-            // Project 3D coordinate directly to 2D pixels
-            const screenX = window.innerWidth / 2 + (textWorldX / (viewW / 2)) * (window.innerWidth / 2);
-            const screenY = window.innerHeight / 2 - (textWorldY / (viewH / 2)) * (window.innerHeight / 2);
+        const isMouseOffscreen = mouse.x < -10 || mouse.y < -10;
+        const hoverTarget = isMouseOffscreen ? 0.0 : 1.0;
+        mesh.material.uniforms.uHover.value += (hoverTarget - mesh.material.uniforms.uHover.value) * 0.1;
 
-            // Apply translate and rotation without any fading
-            textEl.style.transform = `translate3d(${screenX}px, ${screenY}px, 0) rotate(${-theta}rad)`;
-            textEl.style.opacity = "1";
-          } else {
+        if (!isVisible) {
+          if (textEl && textEl.style.display !== "none") {
             textEl.style.display = "none";
           }
+          // skip fold uniform update for invisible meshes
+          continue;
         }
-      });
+
+        const fold = isMobile ? 0.0 : clamp(y * invFoldRange, -1, 1);
+        mesh.material.uniforms.uFold.value = fold;
+
+        if (textEl) {
+          if (textEl.style.display === "none") textEl.style.display = "block";
+
+          const progressToCenter = Math.cos(fold * HALF_PI);
+          const localOffsetX = progressToCenter * CARD_W_OFFSET;
+          const localOffsetY = fold * CARD_H_75;
+
+          const textWorldX = mesh.position.x + localOffsetX * cosTheta - localOffsetY * sinTheta;
+          const textWorldY = mesh.position.y + localOffsetX * sinTheta + localOffsetY * cosTheta;
+
+          const screenX = halfScreenW + textWorldX * invHalfViewW * halfScreenW;
+          const screenY = halfScreenH - textWorldY * invHalfViewH * halfScreenH;
+
+          textEl.style.transform = `translate3d(${screenX}px, ${screenY}px, 0) rotate(${-theta}rad)`;
+        }
+      }
 
       renderer.render(scene, camera);
     };
@@ -227,6 +341,9 @@ export default function WebGLSlider({ images = [] }) {
 
     // ─── cleanup ───
     return () => {
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", onResize);
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -253,9 +370,8 @@ export default function WebGLSlider({ images = [] }) {
             id={`slider-text-${i}`}
             className="absolute top-0 left-0 hidden will-change-transform"
           >
-            {/* Centering achieved locally allowing top-level translate3d to act purely as a coordinate plotter */}
             <div className="flex flex-col -translate-x-1/2 -translate-y-1/2 origin-center">
-              <h1 className="text-[7vw] font-bold leading-[0.85] tracking-tighter whitespace-pre-wrap">
+              <h1 className="text-[7vw] max-sm:text-[12vw] font-bold leading-[0.85] tracking-tighter whitespace-pre-wrap">
                 {img.text}
               </h1>
             </div>
