@@ -1,30 +1,33 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import * as THREE from "three";
 import Lenis from "lenis";
+import gsap from "gsap";
 
-export default function WebGLInfiniteSlider() {
+export default function WebGLInfiniteSlider({ items }) {
   const containerRef = useRef(null);
+  const circleRef = useRef(null);
+  const textContainerRef = useRef(null);
+  const activeTextRef = useRef(null);
+  const prevRawIndexRef = useRef(0);
 
   useEffect(() => {
     let scene, camera, renderer;
     let planes = [];
     let rafId;
+    let currentRadius = 35;
 
     const container = containerRef.current;
 
-    // ---------------------------
-    // LENIS (INFINITE SCROLL)
-    // ---------------------------
+
     const lenis = new Lenis({
       infinite: true,
       lerp: 0.1,
     });
 
-    // ---------------------------
-    // THREE SETUP
-    // ---------------------------
+   
     scene = new THREE.Scene();
 
     const width = window.innerWidth;
@@ -44,11 +47,6 @@ export default function WebGLInfiniteSlider() {
     // ---------------------------
     const loader = new THREE.TextureLoader();
 
-    const images = Array.from({ length: 21 }, (_, i) => {
-      const num = String(i + 1).padStart(2, "0");
-      return `/assets/ghost/ghost${num}.webp`;
-    });
-
     // FULLSCREEN CALC
     const frustumHeight =
       2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
@@ -62,8 +60,8 @@ export default function WebGLInfiniteSlider() {
     // Speed factor: converts scroll pixels → Three.js world units
     const speedFactor = 0.01;
 
-    images.forEach((src, i) => {
-      const texture = loader.load(src);
+    items.forEach((item, i) => {
+      const texture = loader.load(item.url);
       texture.minFilter = THREE.LinearFilter;
 
       const geometry = new THREE.PlaneGeometry(
@@ -105,7 +103,11 @@ export default function WebGLInfiniteSlider() {
       planes.push(mesh);
     });
 
-    const totalWidth = spacing * images.length;
+    const totalWidth = spacing * items.length;
+
+    // Unbounded offset via delta tracking (handles Lenis infinite wrap)
+    let offset = 0;
+    let prevScroll = null;
 
     // ---------------------------
     // COMBINED RAF + RENDER LOOP
@@ -113,8 +115,72 @@ export default function WebGLInfiniteSlider() {
     function raf(time) {
       lenis.raf(time);
 
-      // animatedScroll grows unboundedly with infinite mode
-      const scrollOffset = lenis.animatedScroll * speedFactor;
+      // Delta tracking on wrapped scroll value
+      const currentScroll = lenis.scroll;
+      const limit = lenis.limit;
+
+      let delta = 0;
+      if (prevScroll !== null && limit > 0) {
+        delta = currentScroll - prevScroll;
+        // Correct for wrap-around
+        if (delta > limit / 2) delta -= limit;
+        if (delta < -limit / 2) delta += limit;
+        offset += delta;
+      }
+      prevScroll = currentScroll;
+
+      const scrollOffset = offset * speedFactor;
+
+      const targetRadius = Math.min(35 + Math.abs(delta) * 0.2, 55);
+      currentRadius += (targetRadius - currentRadius) * 0.1;
+
+      if (circleRef.current) {
+        const R = -(scrollOffset / spacing) * (360 / 21);
+        circleRef.current.style.transform = `translate(-50%, -50%) rotate(${R}deg)`;
+        circleRef.current.style.setProperty('--radius', `-${currentRadius}vh`);
+        circleRef.current.style.setProperty('--rotation', `${R}deg`);
+      }
+
+      if (textContainerRef.current) {
+        let rawIndex = Math.floor((scrollOffset / spacing) + 0.5);
+
+        if (rawIndex !== prevRawIndexRef.current) {
+          const isForward = rawIndex > prevRawIndexRef.current;
+          prevRawIndexRef.current = rawIndex;
+
+          let activeIndex = ((rawIndex % items.length) + items.length) % items.length;
+          const newText = items[activeIndex].description;
+          
+          if (textContainerRef.current.dataset.activeText !== newText) {
+            textContainerRef.current.dataset.activeText = newText;
+            
+            const oldDiv = activeTextRef.current;
+            
+            const newDiv = document.createElement("div");
+            newDiv.className = "absolute w-full h-full flex items-center justify-center";
+            newDiv.innerText = newText;
+            
+            textContainerRef.current.appendChild(newDiv);
+            activeTextRef.current = newDiv;
+
+            const yOffset = isForward ? 30 : -30;
+
+            gsap.fromTo(newDiv, { y: yOffset }, { y: 0, duration: 0.5, ease: "power3.out" });
+            if (oldDiv) {
+              gsap.to(oldDiv, { 
+                y: -yOffset, 
+                duration: 0.5, 
+                ease: "power3.out", 
+                onComplete: () => {
+                  if (oldDiv.parentNode) {
+                    oldDiv.parentNode.removeChild(oldDiv);
+                  }
+                } 
+              });
+            }
+          }
+        }
+      }
 
       planes.forEach((plane, i) => {
         // Base position minus scroll offset
@@ -126,11 +192,17 @@ export default function WebGLInfiniteSlider() {
 
         plane.position.x = x;
 
-        // SMOOTH TEXTURE ZOOM — lerp toward target each frame
+        // SMOOTH TEXTURE ZOOM — cosine easing for circular-path feel
+        // Use wrapped position for zoom calculation to avoid glitches at high speeds
         const dist = Math.abs(x);
-        const targetZoom = 1 + Math.min(dist * 0.6, 1.8);
-        const currentZoom = plane.material.uniforms.uZoom.value;
-        plane.material.uniforms.uZoom.value += (targetZoom - currentZoom) * 0.08;
+        const maxDist = frustumWidth;
+        const norm = Math.min(dist / maxDist, 1);
+
+        // Cosine arc: 1 at center → 0 at edge (smooth circular curve)
+        const arc = Math.cos(norm * Math.PI * 0.5);
+        const targetZoom = 1 + (1 - arc) * 1.5;
+
+        plane.material.uniforms.uZoom.value = targetZoom;
       });
 
       renderer.render(scene, camera);
@@ -147,9 +219,46 @@ export default function WebGLInfiniteSlider() {
     };
   }, []);
 
+  const scrollHeight = items.length * 100; // 100vh per image for smooth infinite scrolling
+
   return (
-    <div className="w-full h-[300vh] bg-black">
-      <div ref={containerRef} className="sticky top-0 h-screen w-full" />
+    <div className={`w-full bg-black`} style={{ height: `${scrollHeight}vh` }}>
+      <div ref={containerRef} className="sticky top-0 h-screen w-full overflow-hidden">
+        <div
+          ref={textContainerRef}
+          data-active-text={items[0].description}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg uppercase tracking-[0.2em] z-20 pointer-events-none mix-blend-difference overflow-hidden h-7.5 w-50"
+        >
+          <div ref={activeTextRef} className="absolute w-full h-full flex items-center justify-center">
+            {items[0].description}
+          </div>
+        </div>
+        <div 
+          ref={circleRef} 
+          className="absolute top-1/2 left-1/2 w-0 h-0 pointer-events-none z-10"
+          style={{ transform: "translate(-50%, -50%) rotate(0deg)" }}
+        >
+          {items.map((item, i) => {
+            const angle = i * (360 / items.length);
+            return (
+              <div
+                key={i}
+                className="absolute w-7 h-9 -ml-[14px] -mt-[18px]"
+                style={{
+                  transform: `rotate(${angle}deg) translateY(var(--radius, -35vh)) rotate(calc(-${angle}deg - var(--rotation, 0deg)))`
+                }}
+              >
+              <Image 
+                src={item.url} 
+                className="w-full h-full object-cover" 
+                alt={item.description} 
+                fill
+              />
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
