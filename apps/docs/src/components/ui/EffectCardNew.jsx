@@ -61,7 +61,7 @@ export function EffectCard({ effect, priority = false }) {
 
   return (
     <div
-      className="group relative bg-secondary-surface dark:bg-dark-card p-4 rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/50"
+      className="group relative bg-neutral-100 dark:bg-[#171717] p-4 rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/50"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
     >
