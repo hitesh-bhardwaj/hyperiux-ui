@@ -1,292 +1,6 @@
 {
   "items": [
     {
-      "name": "dither-canvas",
-      "title": "Dither Canvas",
-      "description": "Interactive ASCII-style dither canvas with fluid mouse distortion over video",
-      "category": "backgrounds",
-      "dependencies": [],
-      "previewUrl": "/binary-effect",
-      "coverImage": "/assets/listing/dither-canvas.png",
-      "videoUrl": "dither-canvas"
-    },
-    {
-      "name": "animated-toggle",
-      "title": "Animated Toggle",
-      "description": "Pure CSS animated icon components: ChevronBird (chevron/arrow), Cross (plus to X), and Plus (open/close). No animation libraries required.",
-      "category": "buttons",
-      "dependencies": [],
-      "previewUrl": "/buttons/animated-toggle",
-      "coverImage": "/assets/listing/animated-toggle.png",
-      "videoUrl": "animated-toggle"
-    },
-    {
-      "name": "arrow-fill-button",
-      "title": "Arrow Fill Button",
-      "description": "Button with expanding circle fill and animated arrow icon on hover",
-      "category": "buttons",
-      "dependencies": [],
-      "previewUrl": "/buttons/arrow-fill-button",
-      "coverImage": "/assets/listing/arrow-fill-button.png",
-      "videoUrl": "arrow-fill-button"
-    },
-    {
-      "name": "char-stagger-button",
-      "title": "Character Stagger Button",
-      "description": "Link button with staggered character animation on hover",
-      "category": "buttons",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "previewUrl": "/buttons/char-stagger-button",
-      "coverImage": "/assets/listing/char-stagger-button.png",
-      "videoUrl": "char-stagger-button"
-    },
-    {
-      "name": "char-stagger-primary-button",
-      "title": "Character Stagger Primary Button",
-      "description": "Primary button with staggered character animation on hover",
-      "category": "buttons",
-      "dependencies": [],
-      "previewUrl": "/buttons/char-stagger-primary-button",
-      "coverImage": "/assets/listing/char-stagger-primary-button.png",
-      "videoUrl": "char-stagger-primary-button"
-    },
-    {
-      "name": "dot-fill-button",
-      "title": "Dot Fill Button",
-      "description": "Button with expanding dot that fills the background on hover with character stagger",
-      "category": "buttons",
-      "dependencies": [],
-      "previewUrl": "/buttons/dot-fill-button",
-      "coverImage": "/assets/listing/dot-fill-button.png",
-      "videoUrl": "dot-fill-button"
-    },
-    {
-      "name": "link-button",
-      "title": "Link Button",
-      "description": "Minimal link button with animated underline and rotating arrow icon",
-      "category": "buttons",
-      "dependencies": [],
-      "previewUrl": "/buttons/link-button",
-      "coverImage": "/assets/listing/link-button.png",
-      "videoUrl": "link-button"
-    },
-    {
-      "name": "scramble-link-button",
-      "title": "Scramble Link Button",
-      "description": "Link button with text scramble effect on hover, optional underline and arrow",
-      "category": "buttons",
-      "dependencies": [],
-      "previewUrl": "/buttons/scramble-link-button",
-      "coverImage": "/assets/listing/scramble-link-button.png",
-      "videoUrl": "scramble-link-button"
-    },
-    {
-      "name": "animated-faq",
-      "title": "Animated FAQ",
-      "description": "Accessible accordion-style FAQ component with smooth GSAP animations",
-      "category": "components",
-      "dependencies": [
-        "gsap"
-      ],
-      "previewUrl": "/animated-faq",
-      "coverImage": "/assets/listing/animated-faq.png",
-      "videoUrl": "animated-faq"
-    },
-    {
-      "name": "custom-video-player",
-      "title": "Custom Video Player",
-      "description": "Minimal cinematic video player with timed controls, scrubbing, and mute state",
-      "category": "components",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "previewUrl": "/video-player",
-      "coverImage": "/assets/listing/custom-video-player.png",
-      "videoUrl": "custom-video-player"
-    },
-    {
-      "name": "form",
-      "title": "Form",
-      "description": "Config-driven contact form with validation for text, phone, select, textarea, and checkbox fields",
-      "category": "components",
-      "dependencies": [],
-      "previewUrl": "/form",
-      "coverImage": "/assets/listing/form.png",
-      "videoUrl": "form"
-    },
-    {
-      "name": "hover-stack",
-      "title": "Hover Stack",
-      "description": "Overlapping card stack that fans out around the hovered card",
-      "category": "components",
-      "dependencies": [],
-      "previewUrl": "/stack-hovered-cards",
-      "coverImage": "/assets/listing/hover-stack.png",
-      "videoUrl": "hover-stack"
-    },
-    {
-      "name": "modal",
-      "title": "Modal",
-      "description": "Backdrop-blurred fullscreen modal with escape, backdrop, and close-button support",
-      "category": "components",
-      "dependencies": [
-        "lucide-react"
-      ],
-      "previewUrl": "/modal",
-      "coverImage": "/assets/listing/modal.png",
-      "videoUrl": "modal"
-    },
-    {
-      "name": "tabs",
-      "title": "Tabs",
-      "description": "Animated tabs with a moving active indicator and panel transitions",
-      "category": "components",
-      "dependencies": [
-        "gsap"
-      ],
-      "previewUrl": "/tabs",
-      "coverImage": "/assets/listing/tabs.png",
-      "videoUrl": "tabs"
-    },
-    {
-      "name": "testimonial-swiper",
-      "title": "Testimonial Swiper",
-      "description": "Editorial testimonial slider with split-text quote transitions and directional controls",
-      "category": "components",
-      "dependencies": [
-        "gsap",
-        "lucide-react",
-        "next"
-      ],
-      "previewUrl": "/testimonial",
-      "coverImage": "/assets/listing/testimonial-swiper.png",
-      "videoUrl": "testimonial-swiper"
-    },
-    {
-      "name": "butterfly-trail-cursor",
-      "title": "Butterfly Trail Cursor",
-      "description": "3D butterfly swarm that spawns around the pointer and fades through space",
-      "category": "cursor",
-      "dependencies": [
-        "@react-three/drei",
-        "@react-three/fiber",
-        "three"
-      ],
-      "previewUrl": "/cursors/butterflies",
-      "coverImage": "/assets/listing/butterfly-trail-cursor.png",
-      "videoUrl": "butterfly-trail-cursor"
-    },
-    {
-      "name": "coffee-bean-cursor",
-      "title": "Coffee Bean Cursor",
-      "description": "Mouse-reactive 3D coffee bean flow with velocity-based lighting and fluid drift",
-      "category": "cursor",
-      "dependencies": [
-        "@react-three/drei",
-        "@react-three/fiber",
-        "three"
-      ],
-      "previewUrl": "/cursors/coffee",
-      "coverImage": "/assets/listing/coffee-bean-cursor.png",
-      "videoUrl": "coffee-bean-cursor"
-    },
-    {
-      "name": "colorful-cursor-aura",
-      "title": "Colorful Cursor Aura",
-      "description": "Layered radial color aura that follows the cursor across oversized headline text",
-      "category": "cursor",
-      "dependencies": [
-        "gsap"
-      ],
-      "previewUrl": "/aero",
-      "coverImage": "/assets/listing/colorful-cursor-aura.png",
-      "videoUrl": "colorful-cursor-aura"
-    },
-    {
-      "name": "fiddle-ascii-cursor",
-      "title": "Fiddle Ascii Cursor",
-      "description": "Cursor-reactive media grid that swaps nearby cells into a textured ASCII collage",
-      "category": "cursor",
-      "dependencies": [],
-      "previewUrl": "/cursors/feddle-ascii-cursor",
-      "coverImage": "/assets/listing/fiddle-ascii-cursor.png",
-      "videoUrl": "fiddle-ascii-cursor"
-    },
-    {
-      "name": "inertia-img",
-      "title": "Inertia Image",
-      "description": "Image grid with physics-based inertia and wobble effect on mouse hover using GSAP InertiaPlugin.",
-      "category": "cursor",
-      "dependencies": [
-        "gsap"
-      ],
-      "previewUrl": "/inertia-img",
-      "coverImage": "/assets/listing/inertia-img.png",
-      "videoUrl": "inertia-img"
-    },
-    {
-      "name": "noise-ripple-cursor",
-      "title": "Noise Ripple Cursor",
-      "description": "Interactive shader overlay that distorts and dithers an image with fluid cursor ripples",
-      "category": "cursor",
-      "dependencies": [
-        "three"
-      ],
-      "previewUrl": "/cursors/noiseripple",
-      "coverImage": "/assets/listing/noise-ripple-cursor.png",
-      "videoUrl": "noise-ripple-cursor"
-    },
-    {
-      "name": "phantom-image-trail",
-      "title": "Phantom Image Trail",
-      "description": "Cursor-driven image trail that spawns and fades stacked visuals as you move",
-      "category": "cursor",
-      "dependencies": [
-        "gsap"
-      ],
-      "previewUrl": "/mouse-hover-image",
-      "coverImage": "/assets/listing/phantom-image-trail.png",
-      "videoUrl": "phantom-image-trail"
-    },
-    {
-      "name": "rope-cursor",
-      "title": "Rope Cursor",
-      "description": "Soft trailing rope that lags behind the pointer with a smooth SVG path",
-      "category": "cursor",
-      "dependencies": [
-        "gsap"
-      ],
-      "previewUrl": "/cursors/rope",
-      "coverImage": "/assets/listing/rope-cursor.png",
-      "videoUrl": "rope-cursor"
-    },
-    {
-      "name": "directional-menu",
-      "title": "Directional Menu",
-      "description": "Mega menu with directional content transitions using GSAP",
-      "category": "navigation",
-      "dependencies": [
-        "gsap"
-      ],
-      "previewUrl": "/directional-menu",
-      "coverImage": "/assets/listing/directional-menu.png",
-      "videoUrl": "directional-menu"
-    },
-    {
-      "name": "full-screen-navigation",
-      "title": "Full Screen Navigation",
-      "description": "Clip-path powered full-screen navigation overlay with animated hamburger transitions",
-      "category": "navigation",
-      "dependencies": [
-        "gsap"
-      ],
-      "previewUrl": "/fullscreen-nav",
-      "coverImage": "/assets/listing/full-screen-navigation.png",
-      "videoUrl": "full-screen-navigation"
-    },
-    {
       "name": "draggable-marquee",
       "title": "Draggable Marquee",
       "description": "Infinite horizontal marquee with drag interaction and momentum physics",
@@ -507,6 +221,153 @@
       "videoUrl": "svg-path-marquee"
     },
     {
+      "name": "butterfly-trail-cursor",
+      "title": "Butterfly Trail Cursor",
+      "description": "3D butterfly swarm that spawns around the pointer and fades through space",
+      "category": "cursor",
+      "dependencies": [
+        "@react-three/drei",
+        "@react-three/fiber",
+        "three"
+      ],
+      "previewUrl": "/cursors/butterflies",
+      "coverImage": "/assets/listing/butterfly-trail-cursor.png",
+      "videoUrl": "butterfly-trail-cursor"
+    },
+    {
+      "name": "coffee-bean-cursor",
+      "title": "Coffee Bean Cursor",
+      "description": "Mouse-reactive 3D coffee bean flow with velocity-based lighting and fluid drift",
+      "category": "cursor",
+      "dependencies": [
+        "@react-three/drei",
+        "@react-three/fiber",
+        "three"
+      ],
+      "previewUrl": "/cursors/coffee",
+      "coverImage": "/assets/listing/coffee-bean-cursor.png",
+      "videoUrl": "coffee-bean-cursor"
+    },
+    {
+      "name": "colorful-cursor-aura",
+      "title": "Colorful Cursor Aura",
+      "description": "Layered radial color aura that follows the cursor across oversized headline text",
+      "category": "cursor",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/aero",
+      "coverImage": "/assets/listing/colorful-cursor-aura.png",
+      "videoUrl": "colorful-cursor-aura"
+    },
+    {
+      "name": "fiddle-ascii-cursor",
+      "title": "Fiddle Ascii Cursor",
+      "description": "Cursor-reactive media grid that swaps nearby cells into a textured ASCII collage",
+      "category": "cursor",
+      "dependencies": [],
+      "previewUrl": "/cursors/feddle-ascii-cursor",
+      "coverImage": "/assets/listing/fiddle-ascii-cursor.png",
+      "videoUrl": "fiddle-ascii-cursor"
+    },
+    {
+      "name": "inertia-img",
+      "title": "Inertia Image",
+      "description": "Image grid with physics-based inertia and wobble effect on mouse hover using GSAP InertiaPlugin.",
+      "category": "cursor",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/inertia-img",
+      "coverImage": "/assets/listing/inertia-img.png",
+      "videoUrl": "inertia-img"
+    },
+    {
+      "name": "noise-ripple-cursor",
+      "title": "Noise Ripple Cursor",
+      "description": "Interactive shader overlay that distorts and dithers an image with fluid cursor ripples",
+      "category": "cursor",
+      "dependencies": [
+        "three"
+      ],
+      "previewUrl": "/cursors/noiseripple",
+      "coverImage": "/assets/listing/noise-ripple-cursor.png",
+      "videoUrl": "noise-ripple-cursor"
+    },
+    {
+      "name": "phantom-image-trail",
+      "title": "Phantom Image Trail",
+      "description": "Cursor-driven image trail that spawns and fades stacked visuals as you move",
+      "category": "cursor",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/mouse-hover-image",
+      "coverImage": "/assets/listing/phantom-image-trail.png",
+      "videoUrl": "phantom-image-trail"
+    },
+    {
+      "name": "rope-cursor",
+      "title": "Rope Cursor",
+      "description": "Soft trailing rope that lags behind the pointer with a smooth SVG path",
+      "category": "cursor",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/cursors/rope",
+      "coverImage": "/assets/listing/rope-cursor.png",
+      "videoUrl": "rope-cursor"
+    },
+    {
+      "name": "dither-canvas",
+      "title": "Dither Canvas",
+      "description": "Interactive ASCII-style dither canvas with fluid mouse distortion over video",
+      "category": "backgrounds",
+      "dependencies": [],
+      "previewUrl": "/binary-effect",
+      "coverImage": "/assets/listing/dither-canvas.png",
+      "videoUrl": "dither-canvas"
+    },
+    {
+      "name": "chess-grid-transition",
+      "title": "Chess Grid Transition",
+      "description": "Staggered fullscreen grid wipe that sweeps blocks across the viewport during route changes",
+      "category": "transitions",
+      "dependencies": [
+        "gsap",
+        "next-transition-router"
+      ],
+      "previewUrl": "/page-transitions/chess-grids",
+      "coverImage": "/assets/listing/chess-grid-transition.png",
+      "videoUrl": "chess-grid-transition"
+    },
+    {
+      "name": "page-flip-transition",
+      "title": "Page Flip Transition",
+      "description": "Angular full-screen route wipe with a folding panel and staggered indicator bars",
+      "category": "transitions",
+      "dependencies": [
+        "gsap",
+        "next-transition-router"
+      ],
+      "previewUrl": "/page-transitions/flip",
+      "coverImage": "/assets/listing/page-flip-transition.png",
+      "videoUrl": "page-flip-transition"
+    },
+    {
+      "name": "svg-draw-page-transition",
+      "title": "Svg Draw Page Transition",
+      "description": "Brush-stroke navigation transition that draws a large SVG path across the viewport",
+      "category": "transitions",
+      "dependencies": [
+        "gsap",
+        "next-transition-router"
+      ],
+      "previewUrl": "/page-transitions/brush-strokes",
+      "coverImage": "/assets/listing/svg-draw-page-transition.png",
+      "videoUrl": "svg-draw-page-transition"
+    },
+    {
       "name": "blur-text",
       "title": "Blur Text",
       "description": "Text that reveals with a blur-to-focus animation on scroll",
@@ -649,43 +510,182 @@
       "videoUrl": "text-hover-expand"
     },
     {
-      "name": "chess-grid-transition",
-      "title": "Chess Grid Transition",
-      "description": "Staggered fullscreen grid wipe that sweeps blocks across the viewport during route changes",
-      "category": "transitions",
-      "dependencies": [
-        "gsap",
-        "next-transition-router"
-      ],
-      "previewUrl": "/page-transitions/chess-grids",
-      "coverImage": "/assets/listing/chess-grid-transition.png",
-      "videoUrl": "chess-grid-transition"
+      "name": "animated-toggle",
+      "title": "Animated Toggle",
+      "description": "Pure CSS animated icon components: ChevronBird (chevron/arrow), Cross (plus to X), and Plus (open/close). No animation libraries required.",
+      "category": "buttons",
+      "dependencies": [],
+      "previewUrl": "/buttons/animated-toggle",
+      "coverImage": "/assets/listing/animated-toggle.png",
+      "videoUrl": "animated-toggle"
     },
     {
-      "name": "page-flip-transition",
-      "title": "Page Flip Transition",
-      "description": "Angular full-screen route wipe with a folding panel and staggered indicator bars",
-      "category": "transitions",
-      "dependencies": [
-        "gsap",
-        "next-transition-router"
-      ],
-      "previewUrl": "/page-transitions/flip",
-      "coverImage": "/assets/listing/page-flip-transition.png",
-      "videoUrl": "page-flip-transition"
+      "name": "arrow-fill-button",
+      "title": "Arrow Fill Button",
+      "description": "Button with expanding circle fill and animated arrow icon on hover",
+      "category": "buttons",
+      "dependencies": [],
+      "previewUrl": "/buttons/arrow-fill-button",
+      "coverImage": "/assets/listing/arrow-fill-button.png",
+      "videoUrl": "arrow-fill-button"
     },
     {
-      "name": "svg-draw-page-transition",
-      "title": "Svg Draw Page Transition",
-      "description": "Brush-stroke navigation transition that draws a large SVG path across the viewport",
-      "category": "transitions",
+      "name": "char-stagger-button",
+      "title": "Character Stagger Button",
+      "description": "Link button with staggered character animation on hover",
+      "category": "buttons",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "previewUrl": "/buttons/char-stagger-button",
+      "coverImage": "/assets/listing/char-stagger-button.png",
+      "videoUrl": "char-stagger-button"
+    },
+    {
+      "name": "char-stagger-primary-button",
+      "title": "Character Stagger Primary Button",
+      "description": "Primary button with staggered character animation on hover",
+      "category": "buttons",
+      "dependencies": [],
+      "previewUrl": "/buttons/char-stagger-primary-button",
+      "coverImage": "/assets/listing/char-stagger-primary-button.png",
+      "videoUrl": "char-stagger-primary-button"
+    },
+    {
+      "name": "dot-fill-button",
+      "title": "Dot Fill Button",
+      "description": "Button with expanding dot that fills the background on hover with character stagger",
+      "category": "buttons",
+      "dependencies": [],
+      "previewUrl": "/buttons/dot-fill-button",
+      "coverImage": "/assets/listing/dot-fill-button.png",
+      "videoUrl": "dot-fill-button"
+    },
+    {
+      "name": "link-button",
+      "title": "Link Button",
+      "description": "Minimal link button with animated underline and rotating arrow icon",
+      "category": "buttons",
+      "dependencies": [],
+      "previewUrl": "/buttons/link-button",
+      "coverImage": "/assets/listing/link-button.png",
+      "videoUrl": "link-button"
+    },
+    {
+      "name": "scramble-link-button",
+      "title": "Scramble Link Button",
+      "description": "Link button with text scramble effect on hover, optional underline and arrow",
+      "category": "buttons",
+      "dependencies": [],
+      "previewUrl": "/buttons/scramble-link-button",
+      "coverImage": "/assets/listing/scramble-link-button.png",
+      "videoUrl": "scramble-link-button"
+    },
+    {
+      "name": "animated-faq",
+      "title": "Animated FAQ",
+      "description": "Accessible accordion-style FAQ component with smooth GSAP animations",
+      "category": "components",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/animated-faq",
+      "coverImage": "/assets/listing/animated-faq.png",
+      "videoUrl": "animated-faq"
+    },
+    {
+      "name": "custom-video-player",
+      "title": "Custom Video Player",
+      "description": "Minimal cinematic video player with timed controls, scrubbing, and mute state",
+      "category": "components",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "previewUrl": "/video-player",
+      "coverImage": "/assets/listing/custom-video-player.png",
+      "videoUrl": "custom-video-player"
+    },
+    {
+      "name": "form",
+      "title": "Form",
+      "description": "Config-driven contact form with validation for text, phone, select, textarea, and checkbox fields",
+      "category": "components",
+      "dependencies": [],
+      "previewUrl": "/form",
+      "coverImage": "/assets/listing/form.png",
+      "videoUrl": "form"
+    },
+    {
+      "name": "hover-stack",
+      "title": "Hover Stack",
+      "description": "Overlapping card stack that fans out around the hovered card",
+      "category": "components",
+      "dependencies": [],
+      "previewUrl": "/stack-hovered-cards",
+      "coverImage": "/assets/listing/hover-stack.png",
+      "videoUrl": "hover-stack"
+    },
+    {
+      "name": "modal",
+      "title": "Modal",
+      "description": "Backdrop-blurred fullscreen modal with escape, backdrop, and close-button support",
+      "category": "components",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "previewUrl": "/modal",
+      "coverImage": "/assets/listing/modal.png",
+      "videoUrl": "modal"
+    },
+    {
+      "name": "tabs",
+      "title": "Tabs",
+      "description": "Animated tabs with a moving active indicator and panel transitions",
+      "category": "components",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/tabs",
+      "coverImage": "/assets/listing/tabs.png",
+      "videoUrl": "tabs"
+    },
+    {
+      "name": "testimonial-swiper",
+      "title": "Testimonial Swiper",
+      "description": "Editorial testimonial slider with split-text quote transitions and directional controls",
+      "category": "components",
       "dependencies": [
         "gsap",
-        "next-transition-router"
+        "lucide-react",
+        "next"
       ],
-      "previewUrl": "/page-transitions/brush-strokes",
-      "coverImage": "/assets/listing/svg-draw-page-transition.png",
-      "videoUrl": "svg-draw-page-transition"
+      "previewUrl": "/testimonial",
+      "coverImage": "/assets/listing/testimonial-swiper.png",
+      "videoUrl": "testimonial-swiper"
+    },
+    {
+      "name": "directional-menu",
+      "title": "Directional Menu",
+      "description": "Mega menu with directional content transitions using GSAP",
+      "category": "navigation",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/directional-menu",
+      "coverImage": "/assets/listing/directional-menu.png",
+      "videoUrl": "directional-menu"
+    },
+    {
+      "name": "full-screen-navigation",
+      "title": "Full Screen Navigation",
+      "description": "Clip-path powered full-screen navigation overlay with animated hamburger transitions",
+      "category": "navigation",
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/fullscreen-nav",
+      "coverImage": "/assets/listing/full-screen-navigation.png",
+      "videoUrl": "full-screen-navigation"
     }
   ]
 }
