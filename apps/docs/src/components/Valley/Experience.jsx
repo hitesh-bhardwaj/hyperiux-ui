@@ -9,17 +9,23 @@ import useValleyData from "./useValleyData";
 const FLOWER_CONFIG = {
   flowerProbability: 1.0, // Controls how many flower patches appear (0.0 to 1.0)
   patchScale: 0.1, // How large the patches are (smaller number = larger patches)
-  globalScale: .8, // Overall scale multiplier for all sprites
+  globalScale: .9, // Overall scale multiplier for all sprites
   minScale: 0.1,  // Minimum random scale
   maxScaleRandom: 1.5, // Maximum additional random scale
-  flowerThreshold: 0.4, // Threshold for spawning flower patches (> 0 defaults to grass)
+  flowerThreshold: 0.1, // Threshold for spawning flower patches (> 0 defaults to grass)
   flowerDensity: 0.35, // Density of flowers within a patch
   grassScaleMult: 0.8, // Scale multiplier specifically for base grass
   flowerScaleMult: 1.2, // Scale multiplier specifically for flowers
   flowerYOffset: -0.02, // How much higher flowers sit above the base grass (negative embeds them in grass)
-  colorTint: new THREE.Color(0.22, 0.23, 0.28), // brighten tint for "little light"
+  colorTint: new THREE.Color(0.1, 0.1, 0.1), // brighten tint for "little light"
   rows: 300, // Number of rows along the path
-  perRow: 360 // Number of sprites per row
+  perRow: 360, // Number of sprites per row
+  // Hover Interaction Config
+  defaultFlowerBloom: 1.5,      // Constant ambient brightness multiplier for flowers ONLY
+  hoverGlowMultiplier: 5.0,      // Max brightness multiplier for the bloom
+  hoverMagneticStrength: 0.1,    // How aggressively flowers are sucked towards the mouse (0 to 1+)
+  hoverMagneticDirection: 1.0,  // 1 is pull to cursor, -1 is repel away from cursor
+  hoverZPull: .2                // How far flowers leap towards the camera lens in 3D
 };
 
 export default function Experience() {
@@ -49,8 +55,7 @@ export default function Experience() {
       rotation: [cam.rotation.x, cam.rotation.y, cam.rotation.z],
     };
   }, [gltf]);
-
-  const { curve, flowers } = useValleyData(gltf, terrainTex, FLOWER_CONFIG);
+  const { curve, flowers, pathOffset } = useValleyData(gltf, terrainTex, FLOWER_CONFIG);
 
   if (!curve || !flowers) return null;
 
@@ -58,12 +63,17 @@ export default function Experience() {
     <>
       <CameraRig curve={curve} cameraProps={cameraProps} scrollConfig={{
         scrollIntensity: 0.1,
-        autoSpeed: 0.00009,
+        autoSpeed: 0.00015,
         damping: 0.97,
         lerpSpeed: 0.03,
-        
+        loopPoint: 0.85,
       }} />
+      {/* Copy 1: flowers at original position */}
       <Flowers data={flowers} sprite={sprite} config={FLOWER_CONFIG} />
+      {/* Copy 2: same flowers shifted forward — fills the gap at the end */}
+      <group position={pathOffset}>
+        <Flowers data={flowers} sprite={sprite} config={FLOWER_CONFIG} />
+      </group>
     </>
   );
 }

@@ -6,23 +6,37 @@ import { VERTEX, FRAGMENT } from "./shaders";
 export default function Flowers({ data, sprite, config }) {
   const pointsRef = useRef();
 
+  const targetMouse = useRef(new THREE.Vector2(0.5, 0.5));
+  const currentMouse = useRef(new THREE.Vector2(0.5, 0.5));
+  const targetIntensity = useRef(0.0);
+  const currentIntensity = useRef(0.0);
+  const lastRawMouse = useRef(new THREE.Vector2(-999, -999));
+
   const material = useMemo(() => {
     return new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
         uCamFar: { value: 77 },
-        uBrightness: { value: 1.0 },
-        uSaturation: { value: 3.0 },
+        uBrightness: { value: 4.5 },
+        uSaturation: { value: 1.5 },
         uSpriteSheet: { value: sprite },
-        uColorTint: { value:config?.colorTint  },
-      
+        uColorTint: { value: config?.colorTint },
+        uMouse: { value: currentMouse.current },
+        uAspect: { value: 1.0 },
+        uHoverIntensity: { value: 0.0 },
+        
+        // Custom Hover Configs sent to shaders
+        uDefaultFlowerBloom: { value: config?.defaultFlowerBloom ?? 1.5 },
+        uHoverGlowMultiplier: { value: config?.hoverGlowMultiplier ?? 6.0 },
+        uHoverMagneticStrength: { value: config?.hoverMagneticStrength ?? 0.6 },
+        uHoverMagneticDirection: { value: config?.hoverMagneticDirection ?? 1.0 },
+        uHoverZPull: { value: config?.hoverZPull ?? 2.5 }
       },
       vertexShader: VERTEX,
       fragmentShader: FRAGMENT,
       transparent: true,
       depthTest: false,
       depthWrite: false,
-      // blending: THREE.AdditiveBlending,
     });
   }, [sprite, config]);
 
@@ -30,9 +44,45 @@ export default function Flowers({ data, sprite, config }) {
     return () => material?.dispose();
   }, [material]);
 
-  useFrame((state) => {
+  // Track raw mouse position in NDC (-1 to 1) and calculate velocity/intensity
+  useEffect(() => {
+    const handleMove = (e) => {
+      targetMouse.current.x = e.clientX / window.innerWidth;
+      targetMouse.current.y = 1.0 - (e.clientY / window.innerHeight);
+      
+      // Calculate raw pixel distance moved
+      const dx = e.clientX - lastRawMouse.current.x;
+      const dy = e.clientY - lastRawMouse.current.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      // If moved appreciably, spike target intensity to 1.0
+      if (lastRawMouse.current.x !== -999 && dist > 1.0) {
+        targetIntensity.current = 1.0;
+      }
+      
+      lastRawMouse.current.set(e.clientX, e.clientY);
+    };
+    window.addEventListener("pointermove", handleMove);
+    return () => window.removeEventListener("pointermove", handleMove);
+  }, []);
+
+  useFrame((state, delta) => {
     if (material) {
       material.uniforms.uTime.value = state.clock.elapsedTime;
+      material.uniforms.uAspect.value = state.size.width / state.size.height;
+
+      // EXTREME SMOOTHNESS: The actual mathematical center of the interaction heavily lags behind the 
+      // physical cursor, creating a syrupy, organic drag (reduced from 8.0 to 3.0)
+      currentMouse.current.lerp(targetMouse.current, Math.min(1.0, delta * 3.0));
+      material.uniforms.uMouse.value = currentMouse.current;
+
+      // Slowly decay the target intensity if not moving (fades completely in ~3 seconds for "smoothest more duration")
+      targetIntensity.current = Math.max(0.0, targetIntensity.current - delta * 0.35);
+      
+      // EXTREME SMOOTHNESS: The elasticity of the magnetic pull and bloom fade-in/fade-out
+      // is slowed down drastically (reduced from 2.5 to 1.5)
+      currentIntensity.current += (targetIntensity.current - currentIntensity.current) * Math.min(1.0, delta * 1.5);
+      material.uniforms.uHoverIntensity.value = currentIntensity.current;
     }
   });
 

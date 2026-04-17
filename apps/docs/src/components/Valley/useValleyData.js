@@ -107,9 +107,9 @@ function generateValleyFlowers(curve, terrain, config) {
   const right = new THREE.Vector3();
   const localUp = new THREE.Vector3();
 
-  const WIDTH = 7;
-  const MIN_LAT = 0.3;
-  const SLOPE = 0.4;
+  const WIDTH = 5;
+  const MIN_LAT = 0.;
+  const SLOPE = .7;
 
   let pIdx = 0;
 
@@ -167,7 +167,14 @@ function generateValleyFlowers(curve, terrain, config) {
       positions[pIdx * 3 + 2] = pz;
 
       const grassRow = 1 + Math.floor(Math.random() * 2);
-      const grassCol = Math.floor(Math.random() * SPRITE_COLS);
+      let grassCol = Math.floor(Math.random() * SPRITE_COLS);
+
+      // The user requested removing white flowers from grass rows (Rows 5 & 6 top-down, which is Row 2 bottom-up)
+      // Row 2, columns 5 and 6 contain the white grass daisies. Filter them out!
+      if (grassRow === 2 && (grassCol === 5 || grassCol === 6)) {
+        grassCol = Math.floor(Math.random() * 5); // Remap to safe green grass
+      }
+
       colorCoords[pIdx * 2] = (grassCol + 0.5) / SPRITE_COLS;
       colorCoords[pIdx * 2 + 1] = (grassRow + 0.5) / SPRITE_ROWS;
 
@@ -175,7 +182,7 @@ function generateValleyFlowers(curve, terrain, config) {
       scales[pIdx] = baseScale * grassScaleMult; // grass a bit smaller
       seeds[pIdx] = baseSeed;
       growNoise[pIdx] = baseGrow;
-      
+
       pIdx++;
 
       // 🌸 STEP 2: FLOWER OVERLAY
@@ -197,7 +204,13 @@ function generateValleyFlowers(curve, terrain, config) {
         else if (colorNoise < 0.75) fRow = 5;
         else fRow = 6;
 
-        const fCol = Math.floor(Math.random() * SPRITE_COLS);
+        let fCol = Math.floor(Math.random() * SPRITE_COLS);
+
+        // Remove white daisy from row 4 (far right)
+        if (fRow === 4 && fCol === 7) fCol = 0;
+        // Remove white/pale daisies from row 6 (far right)
+        if (fRow === 6 && fCol >= 6) fCol = 0;
+
         colorCoords[pIdx * 2] = (fCol + 0.5) / SPRITE_COLS;
         colorCoords[pIdx * 2 + 1] = (fRow + 0.5) / SPRITE_ROWS;
 
@@ -205,19 +218,19 @@ function generateValleyFlowers(curve, terrain, config) {
         scales[pIdx] = baseScale * flowerScaleMult; // flower bigger
         seeds[pIdx] = baseSeed + 0.1;
         growNoise[pIdx] = baseGrow;
-        
+
         pIdx++;
       }
     }
   }
 
-  return { 
-    positions: positions.slice(0, pIdx * 3), 
-    colorCoords: colorCoords.slice(0, pIdx * 2), 
-    scales: scales.slice(0, pIdx), 
-    seeds: seeds.slice(0, pIdx), 
-    growNoise: growNoise.slice(0, pIdx), 
-    count: pIdx 
+  return {
+    positions: positions.slice(0, pIdx * 3),
+    colorCoords: colorCoords.slice(0, pIdx * 2),
+    scales: scales.slice(0, pIdx),
+    seeds: seeds.slice(0, pIdx),
+    growNoise: growNoise.slice(0, pIdx),
+    count: pIdx
   };
 }
 
@@ -241,5 +254,13 @@ export default function useValleyData(gltf, terrainTex, config) {
     return generateValleyFlowers(curve, terrain, config);
   }, [curve, terrain, config]);
 
-  return { curve, terrain, flowers };
+  // Compute the path displacement vector (end - start)
+  const pathOffset = useMemo(() => {
+    if (!curve) return [0, 0, 0];
+    const start = curve.getPointAt(0);
+    const end = curve.getPointAt(0.999); // just before the very end
+    return [end.x - start.x, end.y - start.y, end.z - start.z];
+  }, [curve]);
+
+  return { curve, terrain, flowers, pathOffset };
 }

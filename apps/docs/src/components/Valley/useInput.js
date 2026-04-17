@@ -50,13 +50,30 @@ export default function useInput({
 
   useEffect(() => {
     let running = true;
+
     const update = () => {
       if (!running) return;
+
+      // damping
       velocity.current *= damping;
+
+      // clamp velocity
+      const MAX_VEL = 0.005;
+      velocity.current = Math.max(-MAX_VEL, Math.min(MAX_VEL, velocity.current));
+
+      // update scroll
       scroll.current += velocity.current + autoSpeed;
-      // Reset to beginning before reaching the end
-      if (scroll.current >= loopPoint) scroll.current = 0;
-      if (scroll.current < 0) scroll.current = loopPoint - 0.001;
+
+      // Reset at loopPoint — the second valley copy fills the visual gap
+      if (scroll.current >= loopPoint) {
+        scroll.current = 0;
+        velocity.current = 0;
+      }
+      if (scroll.current < 0) {
+        scroll.current = loopPoint - 0.001;
+        velocity.current = 0;
+      }
+
       requestAnimationFrame(update);
     };
     update();
