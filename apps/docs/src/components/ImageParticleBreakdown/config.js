@@ -37,15 +37,15 @@ export const CONFIG = {
   pointerLookAtY: 0.0,
   pointerLerp: 0.06,
 
-  motionStart: 0.0,
+  motionStart: 0.05,
   motionEnd: 0.3,
 
-  fadeStart: 0.08,
-  fadeEnd: 0.4,
+  fadeStart: 0.2,
+  fadeEnd: 0.3,
 
   // center particles start scattering more after this scroll progress
-  centerScatterStart: 0.05,
-  centerScatterEnd: 0.4,
+  centerScatterStart: 0.1,
+  centerScatterEnd: 0.2,
   centerEndScatter: 10.2,
 
   scatterXMin: 0.08,
