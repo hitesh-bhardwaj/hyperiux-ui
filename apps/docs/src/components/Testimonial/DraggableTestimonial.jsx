@@ -23,11 +23,21 @@ export default function DraggableTestimonial({
 
       const containerRect = container.getBoundingClientRect();
 
-      const cols = Math.ceil(Math.sqrt(cards.length));
+      const isMobile = containerRect.width < 640;
+      const cols = isMobile ? 2 : Math.ceil(Math.sqrt(cards.length));
       const rows = Math.ceil(cards.length / cols);
 
       const cellWidth = containerRect.width / cols;
-      const cellHeight = containerRect.height / rows;
+
+      // On mobile, base cellHeight on actual card height instead of screen height
+      const firstCardRect = cards[0]?.getBoundingClientRect();
+      const cardHeight = firstCardRect?.height || 0;
+      const cellHeight = isMobile
+        ? cardHeight + 50
+        : containerRect.height / rows;
+
+      // Shared z-index counter across all cards
+      let zCounter = cards.length;
 
       cards.forEach((card, i) => {
         const col = i % cols;
@@ -52,6 +62,7 @@ export default function DraggableTestimonial({
           x,
           y,
           rotation: gsap.utils.random(-3, 3),
+          zIndex: i + 1,
         });
 
         let lastX = x;
@@ -72,12 +83,15 @@ export default function DraggableTestimonial({
             lastY = gsap.getProperty(card, "y");
             lastTime = performance.now();
 
+            // Assign the next highest z-index on press
+            zCounter += 1;
+            card.style.zIndex = zCounter;
+
             gsap.to(card, {
               scale: 1.05,
               duration: 0.2,
               ease: "power2.out",
             });
-            card.style.zIndex = 1000;
           },
 
           onDrag() {
@@ -150,7 +164,7 @@ export default function DraggableTestimonial({
       ref={containerRef}
       className={`relative w-screen h-screen overflow-hidden ${bgColor}`}
     >
-      {/* Background Text */}
+
       <h1
         className={`absolute inset-0 flex items-center justify-center text-7xl md:text-9xl font-light pointer-events-none select-none text-center leading-none ${bgTextColor}`}
       >
@@ -171,11 +185,11 @@ export default function DraggableTestimonial({
   );
 }
 
-/* ------------------ CARD COMPONENT ------------------ */
+
 function Card({ item, cardBg, cardTextColor, barBg }) {
   return (
     <div className="testimonial-card absolute cursor-grab active:cursor-grabbing">
-      <div className={`w-96 shadow-2xl ${cardBg} ${cardTextColor}`}>
+      <div className={`w-96 max-sm:w-50 shadow-2xl ${cardBg} ${cardTextColor}`}>
         {/* Top bar */}
         <div
           className={`flex justify-between text-xs px-3 py-1  ${barBg}`}
@@ -185,7 +199,7 @@ function Card({ item, cardBg, cardTextColor, barBg }) {
         </div>
 
         {/* Content */}
-        <div className="p-6 text-lg leading-snug font-light">
+        <div className="p-6 text-lg leading-none font-light">
           {item.text}
         </div>
       </div>
