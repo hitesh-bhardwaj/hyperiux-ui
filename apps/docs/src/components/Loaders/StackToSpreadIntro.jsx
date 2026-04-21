@@ -32,98 +32,149 @@ export default function StackToSpreadIntro() {
                 willChange: "transform",
             })
 
-            const tl = gsap.timeline({
-                defaults: { ease: "cubic-bezier(0.25,1,0.5,1)" }
-            })
+            const tl = gsap.timeline({})
 
             // 🚀 ENTRY
-            tl.fromTo("#imgs-wrapper", { yPercent: 500 }, {
-                yPercent: 0,
-                duration: 0.5,
-            })
+            tl.fromTo("#imgs-wrapper", 
+                { yPercent: 500 }, 
+                {
+                    yPercent: 0,
+                    duration: 0.5,
+                    ease: "cubic-bezier(0.25,1,0.5,1)"
+                }
+            )
 
-            tl.to([text1.words, text2.words, descriptionText.lines], {
-                rotateX: 0,
-                opacity: 1,
-                stagger: 0.08,
-            }, "<+0.5")
+            tl.to(
+                [text1.words, text2.words, descriptionText.lines],
+                {
+                    rotateX: 0,
+                    opacity: 1,
+                    stagger: 0.08,
+                    ease: "cubic-bezier(0.25,1,0.5,1)"
+                }, 
+                "<+0.5"
+            )
 
             // 🟡 CHAOS Z-INDEX
             imgs.forEach((img, i) => {
-                tl.to(img, {
-                    zIndex: i,
-                    duration: 0.1,
-                }, i * 0.2)
+                tl.to(
+                    img, 
+                    {
+                        zIndex: i,
+                        duration: 0.1,
+                        ease: "cubic-bezier(0.25,1,0.5,1)"
+                    }, 
+                    i * 0.2
+                )
             }, "<")
 
             // 🔻 TEXT OUT
-            tl.to(descriptionText.lines, {
-                rotateX: 90,
-                transformOrigin: "top center",
-                opacity: 0,
-                duration: 0.5,
-                stagger: 0.08,
-            }, "<+0.2")
+            tl.to(
+                descriptionText.lines,
+                {
+                    rotateX: 90,
+                    transformOrigin: "top center",
+                    opacity: 0,
+                    duration: 0.5,
+                    stagger: 0.08,
+                    ease: "cubic-bezier(0.25,1,0.5,1)"
+                },
+                "<+0.2"
+            )
 
             // 🟢 STACK
-            tl.to(imgs, {
-                scale: i => 1 + i * 0.15,
-                yPercent: i => -(i * 20),
-                stagger: {
-                    each: 0.01,
-                    from: "end",
+            tl.to(
+                imgs,
+                {
+                    scale: i => 1 + i * 0.15,
+                    yPercent: i => -(i * 20),
+                    duration: 1,
+                    stagger: {
+                        each: 0.01,
+                        from: "end",
+                    },
+                    ease: "power3.inOut"
                 },
-            }, "<")
+                "<"
+            )
 
-            tl.to("#imgs-wrapper", {
-                yPercent: 50,
-            }, "<")
+            // tl.to(
+            //     "#imgs-wrapper",
+            //     {
+            //         yPercent: 50,
+            //         duration: .5,
+            //         ease: "power2.inOut"
+            //     },
+            //     "<"
+            // )
 
             // 🔵 SPREAD (centered)
-            tl.to(imgs, {
-                scale: 1,
-                yPercent: (i, _, arr) => {
-                    const n = arr.length
-                    if (n === 1) return 0
-                    const totalSpread = 110 * (n - 1)
-                    return -totalSpread / 2 + i * 110
+            tl.to(
+                imgs,
+                {
+                    scale: 1,
+                    yPercent: (i, _, arr) => {
+                        const n = arr.length
+                        if (n === 1) return 0
+                        const totalSpread = 110 * (n - 1)
+                        return -totalSpread / 2 + i * 110
+                    },
+                    duration: 1,
+                    stagger: {
+                        each: 0.01,
+                        from: "end",
+                    },
+                    ease: "power3.inOut"
                 },
-                stagger: {
-                    each: 0.01,
-                    from: "end",
-                },
-            }, "+=0.2")
+                "+=0.2"
+            )
 
-            tl.to("#imgs-wrapper", {
-                yPercent: 0,
-            }, "<")
+            tl.to(
+                "#imgs-wrapper",
+                {
+                    yPercent: 0,
+                    ease: "cubic-bezier(0.25,1,0.5,1)"
+                },
+                "<"
+            )
 
             // 🔻 TEXT OUT FINAL
-            tl.to([text1.words, text2.words], {
-                opacity: 0,
-                duration: 0.5,
-                rotateX: 90,
-                transformOrigin: "top center",
-                stagger: 0.08,
-            })
+            tl.to(
+                [text1.words, text2.words],
+                {
+                    opacity: 0,
+                    duration: 0.5,
+                    rotateX: 90,
+                    transformOrigin: "top center",
+                    stagger: 0.08,
+                    ease: "cubic-bezier(0.25,1,0.5,1)"
+                }
+            )
 
             // 🧨 FADE OUT IMAGES
-            tl.to(imgs, {
-                opacity: 0,
-                stagger: {
-                    each: 0.08,
-                    from: "end",
+            tl.to(
+                imgs,
+                {
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: {
+                        each: 0.08,
+                        from: "end",
+                    },
+                    // ease: "cubic-bezier(0.25,1,0.5,1)",
+                    onComplete: () => {
+                        gsap.to(rootRef.current, {
+                            opacity: 0,
+                            duration: 0.5,
+                            ease: "cubic-bezier(0.25,1,0.5,1)",
+                            onComplete: () => {
+                                gsap.set(rootRef.current, { display: "none" })
+                            }
+                        })
+                    }
                 },
-                onComplete: () => {
-                    gsap.to(rootRef.current, {
-                        opacity: 0,
-                        duration: 0.5,
-                        onComplete: () => {
-                            gsap.set(rootRef.current, { display: "none" })
-                        }
-                    })
-                }
-            }, "<+0.2")
+                "<+0.2"
+            )
 
             // 🔚 LOADER REMOVE
 
