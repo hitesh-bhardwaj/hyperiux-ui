@@ -60,7 +60,7 @@ export default function Page() {
         onPointerLeave={handlePointerUp}
       >
         <Image
-          src="/assets/nature/nature01.png"
+          src="/assets/img/image02.webp"
           alt="Pixelated nature scene"
           fill
           priority
