@@ -19,13 +19,11 @@ export default function GlassPillDesktopNav() {
   const dropdownItemsRef = useRef([]);
   const dropdownTextData = useRef([]);
   const linkData = useRef([]);
-
   const activeDropdownIndexRef = useRef(null);
   const isPointerInsideDropdownRef = useRef(false);
   const hideCallRef = useRef(null);
   const switchTweenRef = useRef(null);
   const itemTweenRef = useRef(null);
-
   const [activeIndex, setActiveIndex] = useState(null);
   const [renderedDropdownIndex, setRenderedDropdownIndex] = useState(null);
 
