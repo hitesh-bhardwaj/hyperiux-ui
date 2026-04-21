@@ -7,7 +7,7 @@ import { VaultLayout } from "@/components/layout/VaultLayout";
 import { VaultHeader } from "@/components/layout/VaultHeader";
 import { EffectCard } from "@/components/ui/EffectCardNew";
 import { CldVideoPlayer } from "next-cloudinary";
-import "next-cloudinary/dist/cld-video-player.css";
+// import "next-cloudinary/dist/cld-video-player.css";
 
 export function EffectDetailContent({
   slug,
