@@ -25,19 +25,19 @@ export default function FiddelAsciiCursor({
   const animationRef = useRef(null)
   const cellImageMapRef = useRef(new Map())
   const trailRef = useRef([])
+  const sequenceRef = useRef(0) //  added for sequential indexing
 
   useEffect(() => {
     const images = []
     let loadedCount = 0
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 0; i <= 9; i++) {
       const img = new Image()
-      img.src = `/assets/cursors/FeddleAsciCursor/grid-${i}.jpg`
-      img.onload = () => { if (++loadedCount === 10) setGridImages(images) }
+      img.src = `/assets/cursors/FeddleAsciCursor/grid-${i}.1.png`
+      img.onload = () => { if (++loadedCount === 9) setGridImages(images) }
       images.push(img)
     }
   }, [])
 
-  // Register with 2dCanvasTracker
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -55,9 +55,7 @@ export default function FiddelAsciiCursor({
           trailRef.current.length = maxTrailLength
         }
       },
-      onLeave: () => {
-        // Optionally clear trail on leave
-      }
+      onLeave: () => {}
     }
 
     registerFxTarget(container, handlers)
@@ -87,7 +85,6 @@ export default function FiddelAsciiCursor({
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
 
-    // Helper function to draw media with cover behavior
     const drawMediaCover = (media, ctx, canvasWidth, canvasHeight) => {
       const mediaWidth = type === 'video' ? media.videoWidth : media.naturalWidth
       const mediaHeight = type === 'video' ? media.videoHeight : media.naturalHeight
@@ -103,13 +100,11 @@ export default function FiddelAsciiCursor({
       let srcX, srcY, srcW, srcH
 
       if (mediaAspect > canvasAspect) {
-        // Media is wider - crop sides
         srcH = mediaHeight
         srcW = mediaHeight * canvasAspect
         srcX = (mediaWidth - srcW) / 2
         srcY = 0
       } else {
-        // Media is taller - crop top/bottom
         srcW = mediaWidth
         srcH = mediaWidth / canvasAspect
         srcX = 0
@@ -160,7 +155,15 @@ export default function FiddelAsciiCursor({
         if (cell) {
           cell.timestamp = timestamp
         } else {
-          cellImageMapRef.current.set(key, { gridIndex: Math.floor(Math.random() * 10), timestamp, randomDelay: Math.random() * 500 })
+          //  sequential instead of random
+          const index = sequenceRef.current % gridImages.length
+          sequenceRef.current++
+
+          cellImageMapRef.current.set(key, { 
+            gridIndex: index, 
+            timestamp, 
+            randomDelay: Math.random() * 500 
+          })
         }
       }
 
@@ -199,7 +202,6 @@ export default function FiddelAsciiCursor({
       media.addEventListener('play', startRender)
       if (media.readyState >= 2) startRender()
     } else {
-      // For images, start rendering once loaded
       if (media.complete) {
         startRender()
       } else {
