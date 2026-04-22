@@ -89,7 +89,7 @@ export default function TextMarquee({ items = [] }) {
         }
 
         const direction = delta > 0 ? -1 : 1;
-        const boost = Math.min(maxBoost, baseSpeed + Math.pow(Math.abs(delta), 1.2) * 0.05);
+        const boost = Math.min(maxBoost, baseSpeed + Math.pow(Math.abs(delta), 1.2) * 0.08);
 
         metricsRef.current.lastScrollDirection = direction;
         metricsRef.current.targetVelocity = direction * boost;
