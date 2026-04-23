@@ -9,7 +9,5 @@ export default function page() {
       <GlassPillDesktopNav />
       <GlassPillMobileNav />
     </div>
-
-
   )
 }

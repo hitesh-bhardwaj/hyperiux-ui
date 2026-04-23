@@ -6,7 +6,7 @@ import { GlobalSearch } from "./SearchBar";
 
 function SidebarFallback({ totalEffects }) {
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-[260px] bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40">
+    <aside className="fixed left-0 top-0 bottom-0 w-65 bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40">
       <div className="p-5 border-b border-neutral-200 dark:border-neutral-800">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
@@ -35,7 +35,7 @@ export function VaultLayout({ children, effectCounts = {}, effects = [] }) {
       <Suspense fallback={<SidebarFallback totalEffects={totalEffects} />}>
         <Sidebar effectCounts={effectCounts} totalEffects={totalEffects} />
       </Suspense>
-      <main className="ml-[260px]">
+      <main className="ml-65">
         {children}
       </main>
       <GlobalSearch effects={effects} />

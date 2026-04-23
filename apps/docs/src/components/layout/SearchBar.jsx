@@ -108,10 +108,10 @@ export function GlobalSearch({ effects = [] }) {
           </div>
 
           {/* Results */}
-          <div className="max-h-[300px] overflow-y-auto">
+          <div className="max-h-75 overflow-y-auto">
             {filteredEffects.length === 0 ? (
               <div className="px-4 py-8 text-center text-neutral-500 dark:text-neutral-400">
-                No effects found for "{query}"
+                No effects found for &quot;{query}&quot;
               </div>
             ) : (
               <div className="py-2">

@@ -100,11 +100,29 @@ export function VaultContent({ effects, effectCounts }) {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredEffects.map((effect, i) => (
-                <EffectCard key={effect.name} effect={effect} priority={i < 4} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredEffects.map((effect, i) => (
+                  <EffectCard key={effect.name} effect={effect} priority={i < 4} />
+                ))}
+              </div>
+
+              {/* End-of-listing statement */}
+              <div className="mt-40 select-none overflow-hidden">
+                <p
+                  className="font-display font-normal text-center tracking-tight text-foreground/50 dark:text-white/50"
+                  style={{ fontSize: "clamp(2rem, 2vw, 7.5rem)", lineHeight: 0.9 }}
+                >
+                  From subtle interactions to complex motion
+                </p>
+                <p
+                  className="font-display font-normal text-center tracking-tight text-foreground/50 dark:text-white/50 mt-4"
+                  style={{ fontSize: "clamp(1.5rem, 2vw, 5.25rem)", lineHeight: 1, fontStyle: "italic" }}
+                >
+                  — for those who care about detail.
+                </p>
+              </div>
+            </>
           )}
         </div>
       </div>
