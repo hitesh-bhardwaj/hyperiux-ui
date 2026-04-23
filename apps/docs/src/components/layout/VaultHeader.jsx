@@ -82,8 +82,8 @@ export function VaultHeader({ searchQuery, onSearchChange, totalEffects, effectN
                 placeholder="Search effects..."
                 className="w-64 pl-10 pr-3 py-2.5 bg-secondary-surface dark:bg-dark-card border border-border rounded-xl text-sm text-foreground dark:text-white placeholder:text-muted dark:placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-sans"
               />
-              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex px-2 py-1 bg-white/80 dark:bg-dark-surface/80 border border-border rounded text-[10px] text-muted dark:text-white/60 font-mono">
-                ⌘K
+              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex px-2 py-1 bg-white/80 dark:bg-dark-surface/80 border border-border rounded text-xs text-muted dark:text-white/60 font-mono">
+                ⌘ K
               </kbd>
             </div>
           )}

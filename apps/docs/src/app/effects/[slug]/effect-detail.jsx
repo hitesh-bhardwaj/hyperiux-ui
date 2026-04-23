@@ -2,12 +2,11 @@
 
 import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { VaultLayout } from "@/components/layout/VaultLayout";
 import { VaultHeader } from "@/components/layout/VaultHeader";
 import { EffectCard } from "@/components/ui/EffectCardNew";
 import { CldVideoPlayer } from "next-cloudinary";
-// import "next-cloudinary/dist/cld-video-player.css";
+import "next-cloudinary/dist/cld-video-player.css";
 
 export function EffectDetailContent({
   slug,
@@ -56,7 +55,6 @@ export default function MyComponent() {
   const installCode = `npx hyperiux add ${slug}`;
   const isLoaded = loadedVideoUrl === effect.videoUrl;
   const hasIntroDelayElapsed = introVideoUrl === effect.videoUrl;
-  const showThumbnail = Boolean(effect.coverImage) && (!hasIntroDelayElapsed || !isLoaded);
 
   useEffect(() => {
     if (!effect.videoUrl) {
@@ -112,54 +110,39 @@ export default function MyComponent() {
                 <p className="text-neutral-500 dark:text-neutral-400">{effect.description}</p>
               </div>
               {/* Preview */}
-            <div className="h-[48vh]  overflow-hidden relative">
-  {effect.videoUrl ? (
-    <>
-      {/* Thumbnail from coverImage */}
-      {showThumbnail && (
-        <Image
-          src={effect.coverImage}
-          alt="thumbnail"
-          fill
-          sizes="(min-width: 1024px) 66vw, 100vw"
-          className={`absolute inset-0 w-full h-full object-cover z-10 pointer-events-none transition-opacity duration-100 ease-in-out ${
-    showThumbnail ? "opacity-100" : "opacity-0"
-  }`}
-        />
-      )}
-
-      <CldVideoPlayer
-        key={effect.videoUrl}
-        src={effect.videoUrl}
-        poster={effect.coverImage}
-        autoplay
-        loop
-        muted
-        playsinline
-        controls={false}
-        playerRef={playerRef}
-        videoRef={videoRef}
-        className="w-full h-full object-cover"
-        onDataLoad={() => setLoadedVideoUrl(effect.videoUrl)}
-      />
-    </>
-  ) : (
-    <div className="flex items-center justify-center h-full">
-      <div className="text-8xl opacity-10 dark:opacity-20 text-neutral-900 dark:text-neutral-100">
-        {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
-          <span key={cat}>
-            {cat === "text" && "Aa"}
-            {cat === "backgrounds" && "◐"}
-            {cat === "buttons" && "◉"}
-            {cat === "scroll" && "↕"}
-            {cat === "cursor" && "◈"}
-            {cat === "webgl" && "◈"}
-          </span>
-        ))}
-    </div>
-    </div>
-  )}
-</div>
+              <div className="h-[50vh] overflow-hidden relative">
+                {effect.videoUrl ? (
+                  <CldVideoPlayer
+                    key={effect.videoUrl}
+                    src={effect.videoUrl}
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    controls={false}
+                    playerRef={playerRef}
+                    videoRef={videoRef}
+                    className="w-full h-full object-cover"
+                    poster={true}
+                    onDataLoad={() => setLoadedVideoUrl(effect.videoUrl)}
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="text-8xl opacity-10 dark:opacity-20 text-neutral-900 dark:text-neutral-100">
+                      {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
+                        <span key={cat}>
+                          {cat === "text" && "Aa"}
+                          {cat === "backgrounds" && "◐"}
+                          {cat === "buttons" && "◉"}
+                          {cat === "scroll" && "↕"}
+                          {cat === "cursor" && "◈"}
+                          {cat === "webgl" && "◈"}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Documentation */}
               <div className="space-y-6">
@@ -235,8 +218,8 @@ export default function MyComponent() {
                 <button
                   onClick={toggleWishlist}
                   className={`p-2.5 rounded-lg border transition-colors ${isWishlisted
-                      ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/20 text-red-500"
-                      : "bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300"
+                    ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/20 text-red-500"
+                    : "bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300"
                     }`}
                 >
                   <svg
