@@ -13,6 +13,9 @@ const categoryNames = {
   components: "Components",
   navigation: "Navigation",
   transitions: "Page Transitions",
+  loaders: "Website Loaders",
+  webgl: "WebGL",
+  others: "Others",
 };
 
 export function VaultHeader({ searchQuery, onSearchChange, totalEffects, effectName, showSearch = true }) {

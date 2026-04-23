@@ -4,6 +4,9 @@
   "title": "Hover Stack",
   "description": "Overlapping card stack that fans out around the hovered card",
   "category": "components",
+  "categories": [
+    "components"
+  ],
   "dependencies": [],
   "registryDependencies": [],
   "previewUrl": "/stack-hovered-cards",

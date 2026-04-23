@@ -4,9 +4,7 @@ import { Suspense } from "react";
 import { Sidebar } from "./Sidebar";
 import { GlobalSearch } from "./SearchBar";
 
-function SidebarFallback({ effectCounts }) {
-  const totalEffects = Object.values(effectCounts).reduce((a, b) => a + b, 0);
-
+function SidebarFallback({ totalEffects }) {
   return (
     <aside className="fixed left-0 top-0 bottom-0 w-[260px] bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40">
       <div className="p-5 border-b border-neutral-200 dark:border-neutral-800">
@@ -31,10 +29,11 @@ function SidebarFallback({ effectCounts }) {
 }
 
 export function VaultLayout({ children, effectCounts = {}, effects = [] }) {
+  const totalEffects = effects.length;
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
-      <Suspense fallback={<SidebarFallback effectCounts={effectCounts} />}>
-        <Sidebar effectCounts={effectCounts} />
+      <Suspense fallback={<SidebarFallback totalEffects={totalEffects} />}>
+        <Sidebar effectCounts={effectCounts} totalEffects={totalEffects} />
       </Suspense>
       <main className="ml-[260px]">
         {children}

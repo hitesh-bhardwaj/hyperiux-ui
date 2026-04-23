@@ -15,17 +15,19 @@ export function VaultContent({ effects, effectCounts }) {
   const filteredEffects = useMemo(() => {
     return effects.filter((effect) => {
       // Category filter
-      if (categoryFilter !== "all" && effect.category !== categoryFilter) {
-        return false;
+      if (categoryFilter !== "all") {
+        const cats = effect.categories?.length ? effect.categories : [effect.category];
+        if (!cats.includes(categoryFilter)) return false;
       }
 
       // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
+        const cats = effect.categories?.length ? effect.categories : [effect.category];
         return (
           effect.name.toLowerCase().includes(query) ||
           effect.title.toLowerCase().includes(query) ||
-          effect.category?.toLowerCase().includes(query) ||
+          cats.some((c) => c?.toLowerCase().includes(query)) ||
           effect.description?.toLowerCase().includes(query)
         );
       }

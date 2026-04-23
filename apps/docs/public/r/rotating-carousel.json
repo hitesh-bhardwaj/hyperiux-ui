@@ -4,6 +4,9 @@
   "title": "Rotating Carousel",
   "description": "Scroll-driven circular carousel that rotates a ring of editorial cards through view",
   "category": "scroll",
+  "categories": [
+    "scroll"
+  ],
   "dependencies": [
     "gsap",
     "lucide-react"

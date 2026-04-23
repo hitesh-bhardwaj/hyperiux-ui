@@ -36,7 +36,7 @@ export default function EffectsPage() {
   return (
     <Suspense fallback={<VaultFallback />}>
       <VaultContent
-        effects={registry.items}
+        effects={[...registry.items].sort((a, b) => (b.addedAt ?? 0) - (a.addedAt ?? 0))}
         effectCounts={effectCounts}
       />
     </Suspense>

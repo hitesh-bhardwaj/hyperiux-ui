@@ -30,11 +30,11 @@ export function getEffectsByCategory() {
   const categories = {};
 
   for (const item of index.items) {
-    const category = item.category || "other";
-    if (!categories[category]) {
-      categories[category] = [];
+    const cats = item.categories?.length ? item.categories : [item.category || "other"];
+    for (const cat of cats) {
+      if (!categories[cat]) categories[cat] = [];
+      categories[cat].push(item);
     }
-    categories[category].push(item);
   }
 
   return categories;

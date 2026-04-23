@@ -4,6 +4,9 @@
   "title": "Link Button",
   "description": "Minimal link button with animated underline and rotating arrow icon",
   "category": "buttons",
+  "categories": [
+    "buttons"
+  ],
   "dependencies": [],
   "registryDependencies": [],
   "previewUrl": "/buttons/link-button",

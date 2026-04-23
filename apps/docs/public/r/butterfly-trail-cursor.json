@@ -4,6 +4,9 @@
   "title": "Butterfly Trail Cursor",
   "description": "3D butterfly swarm that spawns around the pointer and fades through space",
   "category": "cursor",
+  "categories": [
+    "cursor"
+  ],
   "dependencies": [
     "@react-three/drei",
     "@react-three/fiber",

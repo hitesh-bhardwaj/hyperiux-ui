@@ -4,6 +4,9 @@
   "title": "Split Canvas",
   "description": "Scroll-synced canvas transition that reveals images through sliced pixel-grid shutters",
   "category": "scroll",
+  "categories": [
+    "scroll"
+  ],
   "dependencies": [
     "gsap",
     "three"

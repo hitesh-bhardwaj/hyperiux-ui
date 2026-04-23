@@ -4,6 +4,9 @@
   "title": "Helix Slider",
   "description": "Pinned scroll gallery that arranges cards through a helix-like cylindrical path",
   "category": "scroll",
+  "categories": [
+    "scroll"
+  ],
   "dependencies": [
     "gsap"
   ],

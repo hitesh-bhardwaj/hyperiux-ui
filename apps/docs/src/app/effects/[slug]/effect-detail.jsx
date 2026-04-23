@@ -146,11 +146,16 @@ export default function MyComponent() {
   ) : (
     <div className="flex items-center justify-center h-full">
       <div className="text-8xl opacity-10 dark:opacity-20 text-neutral-900 dark:text-neutral-100">
-        {effect.category === "text" && "Aa"}
-        {effect.category === "backgrounds" && "◐"}
-        {effect.category === "buttons" && "◉"}
-        {effect.category === "scroll" && "↕"}
-        {effect.category === "cursor" && "◈"}
+        {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
+          <span key={cat}>
+            {cat === "text" && "Aa"}
+            {cat === "backgrounds" && "◐"}
+            {cat === "buttons" && "◉"}
+            {cat === "scroll" && "↕"}
+            {cat === "cursor" && "◈"}
+            {cat === "webgl" && "◈"}
+          </span>
+        ))}
     </div>
     </div>
   )}
@@ -257,7 +262,9 @@ export default function MyComponent() {
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-neutral-500 dark:text-neutral-400">Category</span>
-                    <span className="text-neutral-900 dark:text-white capitalize">{effect.category}</span>
+                    <span className="text-neutral-900 dark:text-white capitalize">
+                      {(effect.categories?.length ? effect.categories : [effect.category]).join(", ")}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-neutral-500 dark:text-neutral-400">Dependencies</span>
@@ -274,9 +281,11 @@ export default function MyComponent() {
                 {/* Tags */}
                 <div className="pt-3 border-t border-neutral-200 dark:border-neutral-800">
                   <div className="flex flex-wrap gap-2">
-                    <span className="px-2.5 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-xs text-neutral-600 dark:text-neutral-400 capitalize">
-                      {effect.category}
-                    </span>
+                    {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
+                      <span key={cat} className="px-2.5 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-xs text-neutral-600 dark:text-neutral-400 capitalize">
+                        {cat}
+                      </span>
+                    ))}
                     {effect.dependencies?.map((dep) => (
                       <span
                         key={dep}

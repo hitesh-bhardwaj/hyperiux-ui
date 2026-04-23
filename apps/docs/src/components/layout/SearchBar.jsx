@@ -62,11 +62,15 @@ export function GlobalSearch({ effects = [] }) {
     }
   }, [isOpen]);
 
-  const filteredEffects = effects.filter((effect) =>
-    effect.name.toLowerCase().includes(query.toLowerCase()) ||
-    effect.title.toLowerCase().includes(query.toLowerCase()) ||
-    effect.category?.toLowerCase().includes(query.toLowerCase())
-  );
+  const filteredEffects = effects.filter((effect) => {
+    const q = query.toLowerCase();
+    const cats = effect.categories?.length ? effect.categories : [effect.category];
+    return (
+      effect.name.toLowerCase().includes(q) ||
+      effect.title.toLowerCase().includes(q) ||
+      cats.some((c) => c?.toLowerCase().includes(q))
+    );
+  });
 
   const handleSelect = (effect) => {
     router.push(`/effects/${effect.name}`);
@@ -122,7 +126,9 @@ export function GlobalSearch({ effects = [] }) {
                     </div>
                     <div>
                       <div className="font-medium text-neutral-900 dark:text-white">{effect.title}</div>
-                      <div className="text-sm text-neutral-500 dark:text-neutral-400 capitalize">{effect.category}</div>
+                      <div className="text-sm text-neutral-500 dark:text-neutral-400 capitalize">
+                        {(effect.categories?.length ? effect.categories : [effect.category]).join(", ")}
+                      </div>
                     </div>
                   </button>
                 ))}

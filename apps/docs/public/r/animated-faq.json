@@ -4,6 +4,9 @@
   "title": "Animated FAQ",
   "description": "Accessible accordion-style FAQ component with smooth GSAP animations",
   "category": "components",
+  "categories": [
+    "components"
+  ],
   "dependencies": [
     "gsap"
   ],
