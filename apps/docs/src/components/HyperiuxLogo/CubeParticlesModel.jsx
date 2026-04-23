@@ -3,13 +3,12 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { Center, useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 import { snapToGrid } from "./utils/snapToGrid";
 import { InteractiveParticles } from "./InteractiveParticles";
 import { FloatingCubes } from "./FloatingCubes";
 
 export function CubeParticlesModel({
-  modelPath = "/assets/models/hyperiux-new-model.glb",
+  modelPath = "/assets/models/modelv3.glb",
   texturePath = "/assets/models/new-logo-texture.png",
 
   position = [0, 0, 0],
@@ -19,6 +18,10 @@ export function CubeParticlesModel({
   particleCount = 1800,
   cubeSize = 0.16,
   cubeScaleVariation = 0.08,
+  centerCubeScaleMin = 0.55,
+  middleBridgeScaleMin = 0.45,
+  middleBridgeXInfluence = 0.34,
+  middleBridgeYInfluence = 0.18,
 
   modelOpacity = 0.015,
   outlineColor = "#ffffff",
@@ -57,6 +60,7 @@ export function CubeParticlesModel({
   floatingXSpreadMultiplier = 1.25,
 
   actionPhase = "idle",
+  holdProgress = 0,
   burstKey = 0,
   explosionDuration = 0.7,
   explodedHoldDuration = 0.5,
@@ -67,6 +71,8 @@ export function CubeParticlesModel({
   explosionSpreadY = 12,
   explosionForwardMin = 2.5,
   explosionForwardMax = 7,
+  explosionBackwardMin = 2,
+  explosionBackwardMax = 5,
   explosionRotateMax = 3.2,
 }) {
   const gltf = useGLTF(modelPath);
@@ -137,33 +143,42 @@ export function CubeParticlesModel({
 
     if (!prepared.meshes.length) return particles;
 
-    const tempPosition = new THREE.Vector3();
-    const tempNormal = new THREE.Vector3();
-    const tempScale = new THREE.Vector3();
-    const tempQuaternion = new THREE.Quaternion();
-    const tempMatrix = new THREE.Matrix4();
-    const tempPos = new THREE.Vector3();
-    const tempQuat = new THREE.Quaternion();
-    const tempScl = new THREE.Vector3();
-
     const frontDir = new THREE.Vector3(...frontVector).normalize();
     const grid = cubeSize * gridSnapFactor;
 
+    const bbox = prepared.bbox.clone();
     const bboxCenter = new THREE.Vector3();
     const bboxSize = new THREE.Vector3();
-    prepared.bbox.getCenter(bboxCenter);
-    prepared.bbox.getSize(bboxSize);
+    bbox.getCenter(bboxCenter);
+    bbox.getSize(bboxSize);
+
+    const upCandidate =
+      Math.abs(frontDir.y) > 0.95
+        ? new THREE.Vector3(1, 0, 0)
+        : new THREE.Vector3(0, 1, 0);
+
+    const planeX = new THREE.Vector3()
+      .crossVectors(upCandidate, frontDir)
+      .normalize();
+
+    const planeY = new THREE.Vector3()
+      .crossVectors(frontDir, planeX)
+      .normalize();
+
+    const project2D = (point) => {
+      const local = point.clone().sub(bboxCenter);
+      return {
+        x: local.dot(planeX),
+        y: local.dot(planeY),
+        z: local.dot(frontDir),
+      };
+    };
 
     const halfExtentAlongFront =
       (Math.abs(frontDir.x) * bboxSize.x +
         Math.abs(frontDir.y) * bboxSize.y +
         Math.abs(frontDir.z) * bboxSize.z) *
       0.5;
-
-    const samplers = prepared.meshes.map((mesh) => {
-      const sampler = new MeshSurfaceSampler(mesh).build();
-      return { sampler, mesh };
-    });
 
     const computeFrontness = (pos) => {
       const centered = pos.clone().sub(bboxCenter);
@@ -176,102 +191,156 @@ export function CubeParticlesModel({
       return THREE.MathUtils.clamp(normalized, 0, 1);
     };
 
-    const shouldKeep = (pos, edge = false) => {
-      const frontness = computeFrontness(pos);
-      let probability =
-        backFill + (1 - backFill) * Math.pow(frontness, frontBiasPower);
-
-      if (edge) {
-        probability = THREE.MathUtils.clamp(probability * 1.28, 0, 1);
-      }
-
-      return Math.random() < probability;
+    const pseudoRandom = (x, y, z) => {
+      const s = Math.sin(x * 12.9898 + y * 78.233 + z * 37.719) * 43758.5453;
+      return s - Math.floor(s);
     };
 
     const addCube = (pos, size) => {
       const snapped = snapToGrid(pos, grid);
-      const key = `${snapped.x.toFixed(4)}|${snapped.y.toFixed(
-        4,
-      )}|${snapped.z.toFixed(4)}`;
+      const key = `${snapped.x.toFixed(4)}|${snapped.y.toFixed(4)}|${snapped.z.toFixed(4)}`;
 
       if (occupied.has(key)) return false;
       occupied.add(key);
 
-      tempQuaternion.identity();
-      tempScale.set(size, size, size);
-      tempMatrix.compose(snapped.clone(), tempQuaternion.clone(), tempScale);
-      tempMatrix.decompose(tempPos, tempQuat, tempScl);
-
       particles.push({
-        position: tempPos.clone(),
-        quaternion: tempQuat.clone(),
-        scale: tempScl.clone(),
+        position: snapped.clone(),
+        quaternion: new THREE.Quaternion(),
+        scale: new THREE.Vector3(size, size, size),
       });
 
       return true;
     };
 
-    let attempts = 0;
-    const maxAttempts = particleCount * 12;
+    const raycastGroup = new THREE.Group();
+    prepared.meshes.forEach((m) => raycastGroup.add(m.clone()));
+    raycastGroup.updateMatrixWorld(true);
 
-    while (particles.length < particleCount && attempts < maxAttempts) {
-      const source = samplers[attempts % samplers.length];
-      source.sampler.sample(tempPosition, tempNormal);
+    const raycaster = new THREE.Raycaster();
+    const frontStartDistance = halfExtentAlongFront + Math.max(cubeSize * 6, 2);
 
-      const p = tempPosition
-        .clone()
-        .addScaledVector(
-          tempNormal,
-          (Math.random() - 0.5) * cubeSize * surfaceJitter,
-        );
-
-      if (!shouldKeep(p, false)) {
-        attempts++;
-        continue;
+    const corners = [];
+    for (const x of [bbox.min.x, bbox.max.x]) {
+      for (const y of [bbox.min.y, bbox.max.y]) {
+        for (const z of [bbox.min.z, bbox.max.z]) {
+          corners.push(project2D(new THREE.Vector3(x, y, z)));
+        }
       }
-
-      const size =
-        cubeSize *
-        (1 - cubeScaleVariation + Math.random() * cubeScaleVariation);
-      addCube(p, size);
-      attempts++;
     }
 
-    const edgeTarget = Math.floor(particleCount * edgeBoost);
-    let edgeAttempts = 0;
-    const maxEdgeAttempts = edgeTarget * 14;
+    const min2DX = Math.min(...corners.map((c) => c.x));
+    const max2DX = Math.max(...corners.map((c) => c.x));
+    const min2DY = Math.min(...corners.map((c) => c.y));
+    const max2DY = Math.max(...corners.map((c) => c.y));
 
-    while (
-      edgeAttempts < maxEdgeAttempts &&
-      particles.length < particleCount + edgeTarget
-    ) {
-      const source = samplers[edgeAttempts % samplers.length];
-      source.sampler.sample(tempPosition, tempNormal);
+    const start = new THREE.Vector3();
+    const rayOrigin = new THREE.Vector3();
+    const hitPoint = new THREE.Vector3();
 
-      const p = tempPosition
-        .clone()
-        .addScaledVector(
-          tempNormal,
-          cubeSize * (edgeOutwardBias + Math.random() * edgeOutwardBias),
-        )
-        .add(
-          new THREE.Vector3(
-            (Math.random() - 0.5) * cubeSize * edgeJitter,
-            (Math.random() - 0.5) * cubeSize * edgeJitter,
-            (Math.random() - 0.5) * cubeSize * edgeJitter,
-          ),
-        );
+    const faceCandidates = [];
 
-      if (!shouldKeep(p, true)) {
-        edgeAttempts++;
-        continue;
+    for (let py = min2DY; py <= max2DY; py += grid) {
+      for (let px = min2DX; px <= max2DX; px += grid) {
+        start
+          .copy(bboxCenter)
+          .addScaledVector(planeX, px)
+          .addScaledVector(planeY, py);
+
+        rayOrigin.copy(start).addScaledVector(frontDir, frontStartDistance);
+
+        raycaster.set(rayOrigin, frontDir.clone().multiplyScalar(-1));
+        const hits = raycaster.intersectObject(raycastGroup, true);
+
+        if (!hits.length) continue;
+
+        hitPoint.copy(hits[0].point);
+
+        const frontness = computeFrontness(hitPoint);
+        if (frontness < backFill * 0.4) continue;
+
+        faceCandidates.push({
+          position: hitPoint.clone(),
+          frontness,
+          type: "face",
+        });
       }
+    }
+
+    const edgeCandidates = [];
+    prepared.meshes.forEach((mesh) => {
+      const geometry = mesh.geometry.clone();
+      const edges = new THREE.EdgesGeometry(geometry);
+      const edgeAttr = edges.attributes.position;
+
+      if (!edgeAttr) return;
+
+      const a = new THREE.Vector3();
+      const b = new THREE.Vector3();
+      const p = new THREE.Vector3();
+
+      for (let i = 0; i < edgeAttr.count; i += 2) {
+        a.fromBufferAttribute(edgeAttr, i).applyMatrix4(mesh.matrixWorld);
+        b.fromBufferAttribute(edgeAttr, i + 1).applyMatrix4(mesh.matrixWorld);
+
+        const length = a.distanceTo(b);
+        const steps = Math.max(2, Math.ceil(length / (cubeSize * 0.75)));
+
+        for (let s = 0; s <= steps; s++) {
+          const t = s / steps;
+          p.lerpVectors(a, b, t);
+
+          const frontness = computeFrontness(p);
+          if (frontness < backFill * 0.3) continue;
+
+          edgeCandidates.push({
+            position: p.clone(),
+            frontness,
+            type: "edge",
+          });
+        }
+      }
+    });
+
+    const candidates = [...faceCandidates, ...edgeCandidates];
+
+    candidates.sort((a, b) => {
+      const wa = a.frontness * (a.type === "edge" ? 1.25 : 1.6);
+      const wb = b.frontness * (b.type === "edge" ? 1.25 : 1.6);
+      return wb - wa;
+    });
+
+    const targetCount =
+      particleCount + Math.floor(particleCount * edgeBoost * 0.12);
+
+    for (let i = 0; i < candidates.length; i++) {
+      const c = candidates[i];
+
+      const keepBase =
+        c.type === "face"
+          ? Math.pow(c.frontness, Math.max(1, frontBiasPower * 0.35))
+          : Math.min(
+              1,
+              Math.pow(c.frontness, Math.max(1, frontBiasPower * 0.65)) *
+                (1 + edgeBoost * 0.08)
+            );
+
+      const r = pseudoRandom(c.position.x, c.position.y, c.position.z);
+      if (r > keepBase) continue;
 
       const size =
         cubeSize *
-        (1 - cubeScaleVariation + Math.random() * cubeScaleVariation);
-      addCube(p, size);
-      edgeAttempts++;
+        (1 -
+          cubeScaleVariation +
+          pseudoRandom(
+            c.position.x * 1.7,
+            c.position.y * 2.3,
+            c.position.z * 3.1
+          ) *
+            cubeScaleVariation);
+
+      addCube(c.position, size);
+
+      if (particles.length >= targetCount) break;
     }
 
     return particles;
@@ -285,10 +354,7 @@ export function CubeParticlesModel({
     frontBiasPower,
     backFill,
     edgeBoost,
-    edgeOutwardBias,
-    edgeJitter,
     gridSnapFactor,
-    surfaceJitter,
   ]);
 
   useEffect(() => {
@@ -300,6 +366,15 @@ export function CubeParticlesModel({
       }
     });
   }, [prepared.sceneClone, modelOpacity]);
+
+  const floatingPauseTarget =
+    actionPhase === "holding"
+      ? 0.22
+      : actionPhase === "exploding"
+      ? 0
+      : actionPhase === "reforming"
+      ? 1
+      : 1;
 
   return (
     <>
@@ -319,7 +394,9 @@ export function CubeParticlesModel({
         easePower={floatingEasePower}
         rotationSpeedMax={floatingRotationSpeedMax}
         xSpreadMultiplier={floatingXSpreadMultiplier}
-        pauseTarget={actionPhase === "holding" ? 0 : 1}
+        pauseTarget={floatingPauseTarget}
+        parallaxPositionStrength={0.28}
+        parallaxRotationStrength={0.12}
       />
 
       <Center>
@@ -345,16 +422,19 @@ export function CubeParticlesModel({
               outlineColor={outlineColor}
               faceColor={faceColor}
               actionPhase={actionPhase}
+              holdProgress={holdProgress}
               burstKey={burstKey}
               explosionDuration={explosionDuration}
               explodedHoldDuration={explodedHoldDuration}
               reformDuration={reformDuration}
-              holdShakeAmount={holdShakeAmount}
-              holdShakeSpeed={holdShakeSpeed}
+            //   holdShakeAmount={holdShakeAmount}
+            //   holdShakeSpeed={holdShakeSpeed}
               explosionSpreadX={explosionSpreadX}
               explosionSpreadY={explosionSpreadY}
               explosionForwardMin={explosionForwardMin}
               explosionForwardMax={explosionForwardMax}
+              explosionBackwardMin={explosionBackwardMin}
+              explosionBackwardMax={explosionBackwardMax}
               explosionRotateMax={explosionRotateMax}
             />
           </group>
@@ -364,4 +444,4 @@ export function CubeParticlesModel({
   );
 }
 
-useGLTF.preload("/assets/models/hyperiux-new-model.glb");
+useGLTF.preload("/assets/models/modelv3.glb");

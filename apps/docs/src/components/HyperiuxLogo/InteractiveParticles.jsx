@@ -5,12 +5,54 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { CubeVisual } from "./CubeVisual";
 
-function easeOutPower3(t) {
-  return 1 - Math.pow(1 - t, 3);
+function cubicBezierEase(x1, y1, x2, y2) {
+  const cx = 3 * x1;
+  const bx = 3 * (x2 - x1) - cx;
+  const ax = 1 - cx - bx;
+
+  const cy = 3 * y1;
+  const by = 3 * (y2 - y1) - cy;
+  const ay = 1 - cy - by;
+
+  const sampleCurveX = (t) => ((ax * t + bx) * t + cx) * t;
+  const sampleCurveY = (t) => ((ay * t + by) * t + cy) * t;
+  const sampleCurveDerivativeX = (t) => (3 * ax * t + 2 * bx) * t + cx;
+
+  const solveCurveX = (x) => {
+    let t2 = x;
+
+    for (let i = 0; i < 8; i++) {
+      const x2 = sampleCurveX(t2) - x;
+      if (Math.abs(x2) < 1e-6) return t2;
+      const d2 = sampleCurveDerivativeX(t2);
+      if (Math.abs(d2) < 1e-6) break;
+      t2 -= x2 / d2;
+    }
+
+    let t0 = 0;
+    let t1 = 1;
+    t2 = x;
+
+    while (t0 < t1) {
+      const x2 = sampleCurveX(t2);
+      if (Math.abs(x2 - x) < 1e-6) return t2;
+      if (x > x2) t0 = t2;
+      else t1 = t2;
+      t2 = (t1 - t0) * 0.5 + t0;
+    }
+
+    return t2;
+  };
+
+  return (x) => sampleCurveY(solveCurveX(x));
 }
 
-function easeInOutPower2(t) {
-  return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+const explosionEase = cubicBezierEase(0, 0.94, 0.51, 0.96);
+const reformEase = cubicBezierEase(0.54, 0.05, 0.66, 0.72);
+
+function deterministicNoise(x, y, z) {
+  const s = Math.sin(x * 12.9898 + y * 78.233 + z * 37.719) * 43758.5453;
+  return s - Math.floor(s);
 }
 
 function ParticleCube({
@@ -20,12 +62,23 @@ function ParticleCube({
   faceColor = "#1a1a1a",
   outlineColor = "#ffffff",
 }) {
+  const localRef = useRef(null);
+
+  useEffect(() => {
+    const node = localRef.current;
+    if (!node) return;
+
+    node.position.copy(data.position);
+    node.quaternion.copy(data.quaternion);
+    node.scale.copy(data.scale);
+  }, [data]);
+
   return (
     <group
-      ref={registerRef}
-      position={data.position}
-      quaternion={data.quaternion}
-      scale={data.scale}
+      ref={(node) => {
+        localRef.current = node;
+        registerRef(node);
+      }}
     >
       <CubeVisual
         texture={texture}
@@ -50,20 +103,25 @@ export function InteractiveParticles({
   faceColor = "#1a1a1a",
 
   actionPhase = "idle",
+  holdStartTime = 0,
+  holdTriggerDuration = 3,
   burstKey = 0,
-  explosionDuration = 0.7,
-  explodedHoldDuration = 0.5,
-  reformDuration = 0.8,
-  holdShakeAmount = 0.08,
-  holdShakeSpeed = 22,
-  explosionSpreadX = 18,
-  explosionSpreadY = 12,
-  explosionForwardMin = 2.5,
-  explosionForwardMax = 7,
-  explosionRotateMax = 3.2,
+  explosionDuration = 3,
+  explodedHoldDuration = 1,
+  reformDuration = 2.5,
+  holdShakeAmount = 0.12,
+  holdShakeSpeed = 30,
+  explosionSpreadX = 16,
+  explosionSpreadY = 10,
+  explosionForwardMin = 2,
+  explosionForwardMax = 5,
+  explosionBackwardMin = 1.5,
+  explosionBackwardMax = 4,
+  explosionRotateMax = 2.2,
 }) {
   const particleRefs = useRef([]);
-  const hoveredRef = useRef(false);
+  const hoveredRef = useRef(true);
+
   const { camera, pointer, viewport, clock } = useThree();
 
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
@@ -80,11 +138,20 @@ export function InteractiveParticles({
   const initializedRef = useRef(false);
 
   const phaseStartRef = useRef(0);
-  const explosionDataRef = useRef([]);
+  const burstTracksRef = useRef([]);
+
+  useEffect(() => {
+    hoveredRef.current = true;
+    return () => {
+      hoveredRef.current = false;
+    };
+  }, []);
 
   const registerRef = useCallback((index) => {
     return (node) => {
-      particleRefs.current[index] = node;
+      if (node) {
+        particleRefs.current[index] = node;
+      }
     };
   }, []);
 
@@ -93,29 +160,57 @@ export function InteractiveParticles({
   }, [actionPhase]);
 
   useEffect(() => {
-    const width = viewport.width * 2.4 + explosionSpreadX;
-    const height = viewport.height * 2.2 + explosionSpreadY;
+    const width = viewport.width + explosionSpreadX;
+    const height = viewport.height + explosionSpreadY;
 
-    explosionDataRef.current = particles.map((base) => {
-      const dir = new THREE.Vector3(
-        THREE.MathUtils.randFloatSpread(width),
-        THREE.MathUtils.randFloatSpread(height),
-        THREE.MathUtils.randFloat(explosionForwardMin, explosionForwardMax),
-      ).normalize();
+    burstTracksRef.current = particles.map((base, index) => {
+      const bx = base.position.x;
+      const by = base.position.y;
+      const bz = base.position.z;
 
-      const distance = THREE.MathUtils.randFloat(
-        Math.max(width, height) * 0.35,
-        Math.max(width, height) * 0.85,
-      );
+      const n1 = deterministicNoise(bx * 0.91, by * 1.13, bz * 1.37);
+      const n2 = deterministicNoise(bx * 1.71, by * 0.77, bz * 1.91);
+      const n3 = deterministicNoise(bx * 2.11, by * 1.43, bz * 0.63);
+      const n4 = deterministicNoise(bx * 1.27, by * 2.21, bz * 1.05);
+      const n5 = deterministicNoise(bx * 0.57, by * 1.59, bz * 2.47);
+      const n6 = deterministicNoise(bx * 2.73, by * 0.89, bz * 1.31);
+
+      const explodedX = (n1 * 2 - 1) * width * 0.9;
+      const explodedY = (n2 * 2 - 1) * height * 0.9;
+
+      const explodedZ =
+        n3 > 0.5
+          ? THREE.MathUtils.lerp(
+              explosionForwardMin,
+              explosionForwardMax,
+              (n3 - 0.5) * 2
+            )
+          : THREE.MathUtils.lerp(
+              explosionBackwardMin,
+              explosionBackwardMax,
+              n3 * 2
+            );
 
       return {
-        offset: dir.multiplyScalar(distance),
-        rotation: new THREE.Euler(
-          THREE.MathUtils.randFloatSpread(explosionRotateMax),
-          THREE.MathUtils.randFloatSpread(explosionRotateMax),
-          THREE.MathUtils.randFloatSpread(explosionRotateMax),
+        seed: n4 * 1000 + index * 0.01,
+        explodedX,
+        explodedY,
+        explodedZ,
+        explodedRotX: THREE.MathUtils.lerp(
+          -explosionRotateMax,
+          explosionRotateMax,
+          n4
         ),
-        seed: Math.random() * 1000,
+        explodedRotY: THREE.MathUtils.lerp(
+          -explosionRotateMax,
+          explosionRotateMax,
+          n5
+        ),
+        explodedRotZ: THREE.MathUtils.lerp(
+          -explosionRotateMax,
+          explosionRotateMax,
+          n6
+        ),
       };
     });
   }, [
@@ -127,6 +222,8 @@ export function InteractiveParticles({
     explosionSpreadY,
     explosionForwardMin,
     explosionForwardMax,
+    explosionBackwardMin,
+    explosionBackwardMax,
     explosionRotateMax,
   ]);
 
@@ -143,152 +240,139 @@ export function InteractiveParticles({
     const now = performance.now() / 1000;
     const phaseElapsed = now - phaseStartRef.current;
 
-    const allowPointerInteraction =
-      actionPhase === "idle" || actionPhase === "holding";
+    const isIdle = actionPhase === "idle";
+    const isHolding = actionPhase === "holding";
+    const isExploding = actionPhase === "exploding";
+    const isReforming = actionPhase === "reforming";
 
-    if (allowPointerInteraction) {
-      group.getWorldPosition(groupWorldPos);
-      camera.getWorldDirection(planeNormal).normalize();
-      plane.setFromNormalAndCoplanarPoint(planeNormal, groupWorldPos);
-
-      raycaster.setFromCamera(pointer, camera);
-      const hit = raycaster.ray.intersectPlane(plane, worldPoint);
-
-      if (hit) {
-        localPoint.copy(worldPoint);
-        group.worldToLocal(localPoint);
-      }
-
-      const targetPosX =
-        basePositionRef.current.x + pointer.x * parallaxPositionStrength;
-      const targetPosY =
-        basePositionRef.current.y + pointer.y * parallaxPositionStrength;
-
-      group.position.x = THREE.MathUtils.lerp(
-        group.position.x,
-        targetPosX,
-        0.08,
-      );
-      group.position.y = THREE.MathUtils.lerp(
-        group.position.y,
-        targetPosY,
-        0.08,
-      );
-
-      targetEuler.set(
-        actionPhase === "holding" ? 0 : -pointer.y * parallaxRotationStrength,
-        actionPhase === "holding" ? 0 : pointer.x * parallaxRotationStrength,
+    let holdProgress = 0;
+    if (isHolding && holdStartTime > 0) {
+      const heldFor = (performance.now() - holdStartTime) / 1000;
+      holdProgress = THREE.MathUtils.clamp(
+        heldFor / holdTriggerDuration,
         0,
-        "XYZ",
+        1
       );
-      targetQuat
-        .copy(baseQuatRef.current)
-        .multiply(new THREE.Quaternion().setFromEuler(targetEuler));
-      group.quaternion.slerp(targetQuat, 0.08);
-    } else {
-      group.position.x = THREE.MathUtils.lerp(
-        group.position.x,
-        basePositionRef.current.x,
-        0.08,
-      );
-      group.position.y = THREE.MathUtils.lerp(
-        group.position.y,
-        basePositionRef.current.y,
-        0.08,
-      );
-      group.quaternion.slerp(baseQuatRef.current, 0.08);
     }
+
+    const shakeProgress = Math.pow(holdProgress, 0.55);
+    const currentShakeAmount = holdShakeAmount * (0.9 + shakeProgress * 4.2);
+
+    group.getWorldPosition(groupWorldPos);
+    camera.getWorldDirection(planeNormal).normalize();
+    plane.setFromNormalAndCoplanarPoint(planeNormal, groupWorldPos);
+
+    raycaster.setFromCamera(pointer, camera);
+    const hit = raycaster.ray.intersectPlane(plane, worldPoint);
+
+    if (hit) {
+      localPoint.copy(worldPoint);
+      group.worldToLocal(localPoint);
+    }
+
+    const targetPosX =
+      basePositionRef.current.x +
+      (isHolding ? 0 : pointer.x * parallaxPositionStrength);
+    const targetPosY =
+      basePositionRef.current.y +
+      (isHolding ? 0 : pointer.y * parallaxPositionStrength);
+
+    group.position.x = THREE.MathUtils.lerp(group.position.x, targetPosX, 0.08);
+    group.position.y = THREE.MathUtils.lerp(group.position.y, targetPosY, 0.08);
+
+    targetEuler.set(
+      isHolding ? 0 : -pointer.y * parallaxRotationStrength,
+      isHolding ? 0 : pointer.x * parallaxRotationStrength,
+      0,
+      "XYZ"
+    );
+
+    targetQuat
+      .copy(baseQuatRef.current)
+      .multiply(new THREE.Quaternion().setFromEuler(targetEuler));
+
+    group.quaternion.slerp(targetQuat, 0.08);
+
+    const isExplodedHoldWindow =
+      isExploding && phaseElapsed >= explosionDuration;
 
     for (let i = 0; i < particles.length; i++) {
       const ref = particleRefs.current[i];
       if (!ref) continue;
 
       const base = particles[i];
+      const track = burstTracksRef.current[i];
       const baseScale = base.scale;
-      const explosion = explosionDataRef.current[i];
 
-      let px = base.position.x;
-      let py = base.position.y;
-      let pz = base.position.z;
+      if (!track) continue;
 
-      let rx = 0;
-      let ry = 0;
-      let rz = 0;
+      const baseX = base.position.x;
+      const baseY = base.position.y;
+      const baseZ = base.position.z;
 
-      if (actionPhase === "holding") {
-        const tt = clock.elapsedTime * holdShakeSpeed + explosion.seed;
-        px += Math.sin(tt) * holdShakeAmount;
-        py += Math.cos(tt * 1.1) * holdShakeAmount;
-        pz += Math.sin(tt * 0.9) * holdShakeAmount * 0.5;
-      }
+      let px = baseX;
+      let py = baseY;
+      let pz = baseZ;
 
-      if (actionPhase === "exploding") {
+      let rotX = 0;
+      let rotY = 0;
+      let rotZ = 0;
+
+      if (isHolding) {
+        const tt = clock.elapsedTime * holdShakeSpeed + track.seed;
+
+        px += Math.sin(tt) * currentShakeAmount;
+        py += Math.cos(tt * 1.17) * currentShakeAmount;
+        pz += Math.sin(tt * 1.43) * currentShakeAmount * 1.05;
+
+        px += Math.sin(tt * 2.2) * currentShakeAmount * 0.42;
+        py += Math.cos(tt * 2.6) * currentShakeAmount * 0.42;
+        pz += Math.sin(tt * 2.9) * currentShakeAmount * 0.34;
+      } else if (isExploding) {
         const t = Math.min(phaseElapsed / explosionDuration, 1);
-        const eased = easeOutPower3(t);
+        const eased = explosionEase(t);
 
-        px = base.position.x + explosion.offset.x * eased;
-        py = base.position.y + explosion.offset.y * eased;
-        pz = base.position.z + explosion.offset.z * eased;
+        if (isExplodedHoldWindow || t >= 1) {
+          px = track.explodedX;
+          py = track.explodedY;
+          pz = track.explodedZ;
 
-        rx = explosion.rotation.x * eased;
-        ry = explosion.rotation.y * eased;
-        rz = explosion.rotation.z * eased;
+          rotX = track.explodedRotX;
+          rotY = track.explodedRotY;
+          rotZ = track.explodedRotZ;
+        } else {
+          px = THREE.MathUtils.lerp(baseX, track.explodedX, eased);
+          py = THREE.MathUtils.lerp(baseY, track.explodedY, eased);
+          pz = THREE.MathUtils.lerp(baseZ, track.explodedZ, eased);
+
+          rotX = track.explodedRotX * eased;
+          rotY = track.explodedRotY * eased;
+          rotZ = track.explodedRotZ * eased;
+        }
+      } else if (isReforming) {
+        const rawT = phaseElapsed / reformDuration;
+        const t = Math.min(rawT, 1);
+        const eased = reformEase(t);
+
+        px = THREE.MathUtils.lerp(track.explodedX, baseX, eased);
+        py = THREE.MathUtils.lerp(track.explodedY, baseY, eased);
+        pz = THREE.MathUtils.lerp(track.explodedZ, baseZ, eased);
+
+        rotX = track.explodedRotX * (1 - eased);
+        rotY = track.explodedRotY * (1 - eased);
+        rotZ = track.explodedRotZ * (1 - eased);
       }
 
-      if (actionPhase === "exploded") {
-        px = base.position.x + explosion.offset.x;
-        py = base.position.y + explosion.offset.y;
-        pz = base.position.z + explosion.offset.z;
-
-        rx = explosion.rotation.x;
-        ry = explosion.rotation.y;
-        rz = explosion.rotation.z;
-      }
-
-      if (actionPhase === "reforming") {
-        const t = Math.min(phaseElapsed / reformDuration, 1);
-        const eased = easeInOutPower2(t);
-        const inv = 1 - eased;
-
-        px = base.position.x + explosion.offset.x * inv;
-        py = base.position.y + explosion.offset.y * inv;
-        pz = base.position.z + explosion.offset.z * inv;
-
-        rx = explosion.rotation.x * inv;
-        ry = explosion.rotation.y * inv;
-        rz = explosion.rotation.z * inv;
-      }
-
-      const posFollow =
-        actionPhase === "exploding"
-          ? 0.28
-          : actionPhase === "exploded"
-            ? 0.45
-            : actionPhase === "reforming"
-              ? 0.16
-              : 0.14;
-
-      const rotFollow =
-        actionPhase === "exploding"
-          ? 0.24
-          : actionPhase === "exploded"
-            ? 0.4
-            : actionPhase === "reforming"
-              ? 0.14
-              : 0.12;
-
-      ref.position.x = THREE.MathUtils.lerp(ref.position.x, px, posFollow);
-      ref.position.y = THREE.MathUtils.lerp(ref.position.y, py, posFollow);
-      ref.position.z = THREE.MathUtils.lerp(ref.position.z, pz, posFollow);
-
-      ref.rotation.x = THREE.MathUtils.lerp(ref.rotation.x, rx, rotFollow);
-      ref.rotation.y = THREE.MathUtils.lerp(ref.rotation.y, ry, rotFollow);
-      ref.rotation.z = THREE.MathUtils.lerp(ref.rotation.z, rz, rotFollow);
+      ref.position.set(px, py, pz);
+      ref.rotation.set(rotX, rotY, rotZ);
 
       let targetMultiplier = 1;
 
-      if (allowPointerInteraction && hoveredRef.current) {
-        const dist = base.position.distanceTo(localPoint);
+      if ((isIdle || isHolding) && hoveredRef.current && hit) {
+        const dx = baseX - localPoint.x;
+        const dy = baseY - localPoint.y;
+        const dz = baseZ - localPoint.z;
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
         if (dist < interactionRadius) {
           const t = 1 - dist / interactionRadius;
@@ -301,29 +385,23 @@ export function InteractiveParticles({
       ref.scale.x = THREE.MathUtils.lerp(
         ref.scale.x,
         baseScale.x * targetMultiplier,
-        scaleLerp,
+        scaleLerp
       );
       ref.scale.y = THREE.MathUtils.lerp(
         ref.scale.y,
         baseScale.y * targetMultiplier,
-        scaleLerp,
+        scaleLerp
       );
       ref.scale.z = THREE.MathUtils.lerp(
         ref.scale.z,
         baseScale.z * targetMultiplier,
-        scaleLerp,
+        scaleLerp
       );
     }
   });
+
   return (
-    <group
-      onPointerEnter={() => {
-        if (actionPhase === "idle") hoveredRef.current = true;
-      }}
-      onPointerLeave={() => {
-        hoveredRef.current = false;
-      }}
-    >
+    <group>
       {particles.map((particle, i) => (
         <ParticleCube
           key={i}

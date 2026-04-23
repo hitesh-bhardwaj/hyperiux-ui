@@ -1,9 +1,14 @@
 "use client";
 
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { CubeVisual } from "./CubeVisual";
+
+function deterministicNoise(x, y, z) {
+  const s = Math.sin(x * 12.9898 + y * 78.233 + z * 37.719) * 43758.5453;
+  return s - Math.floor(s);
+}
 
 function FloatingCube({
   data,
@@ -14,41 +19,44 @@ function FloatingCube({
 }) {
   const ref = useRef(null);
 
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const d = data.current;
+    const y = THREE.MathUtils.lerp(d.yStart, d.yEnd, d.progress);
+
+    node.position.set(d.x, y, d.z);
+    node.rotation.set(d.xRot, d.yRot, d.zRot);
+    node.scale.setScalar(d.scale);
+  }, [data]);
+
   useFrame((_, delta) => {
     if (!ref.current) return;
 
     const d = data.current;
+
     d.progress += delta * d.speed * speedFactorRef.current;
 
-    if (d.progress > 1) {
-      d.progress = 0;
-      d.x = THREE.MathUtils.randFloat(d.xMin, d.xMax);
-      d.z = THREE.MathUtils.randFloat(d.zMin, d.zMax);
-      d.scale = THREE.MathUtils.randFloat(d.scaleMin, d.scaleMax);
-      d.yRot = THREE.MathUtils.randFloat(-Math.PI, Math.PI);
-      d.zRot = THREE.MathUtils.randFloat(-Math.PI, Math.PI);
-      d.yRotSpeed = THREE.MathUtils.randFloat(-d.rotSpeedMax, d.rotSpeedMax);
-      d.zRotSpeed = THREE.MathUtils.randFloat(-d.rotSpeedMax, d.rotSpeedMax);
-    }
+    if (d.progress > 1) d.progress -= 1;
+    if (d.progress < 0) d.progress = 0;
 
-    ref.current.position.set(
-      d.x,
-      THREE.MathUtils.lerp(d.yStart, d.yEnd, d.progress),
-      d.z
-    );
+    const y = THREE.MathUtils.lerp(d.yStart, d.yEnd, d.progress);
 
-    ref.current.rotation.y += d.yRotSpeed * delta * speedFactorRef.current;
-    ref.current.rotation.z += d.zRotSpeed * delta * speedFactorRef.current;
+    ref.current.position.set(d.x, y, d.z);
+
+    ref.current.rotation.x =
+      d.xRot + d.xRotSpeed * d.progress * d.rotationTravel;
+    ref.current.rotation.y =
+      d.yRot + d.yRotSpeed * d.progress * d.rotationTravel;
+    ref.current.rotation.z =
+      d.zRot + d.zRotSpeed * d.progress * d.rotationTravel;
+
     ref.current.scale.setScalar(d.scale);
   });
 
   return (
-    <group
-      ref={ref}
-      position={[data.current.x, data.current.yStart, data.current.z]}
-      rotation={[0, data.current.yRot, data.current.zRot]}
-      scale={data.current.scale}
-    >
+    <group ref={ref}>
       <CubeVisual
         texture={texture}
         faceColor={faceColor}
@@ -71,51 +79,108 @@ export function FloatingCubes({
   scaleMax = 0.28,
   speedMin = 0.08,
   speedMax = 0.22,
+  easePower = 2.2,
   rotationSpeedMax = 1.2,
   xSpreadMultiplier = 1.15,
   pauseTarget = 1,
+  parallaxPositionStrength = 0.18,
+  parallaxRotationStrength = 0.08,
 }) {
-  const { viewport } = useThree();
+  const { viewport, pointer, size } = useThree();
   const speedFactorRef = useRef(1);
+  const layerRef = useRef(null);
+
+  // Freeze field bounds so camera shake / tiny viewport shifts do not regenerate paths
+  const frozenBoundsRef = useRef(null);
+
+  if (!frozenBoundsRef.current) {
+    frozenBoundsRef.current = {
+      width: viewport.width,
+      height: viewport.height,
+      screenWidth: size.width,
+      screenHeight: size.height,
+    };
+  }
+
+  // Only refresh frozen bounds if actual screen size changes materially
+  useEffect(() => {
+    const current = frozenBoundsRef.current;
+    if (!current) return;
+
+    if (
+      current.screenWidth !== size.width ||
+      current.screenHeight !== size.height
+    ) {
+      frozenBoundsRef.current = {
+        width: viewport.width,
+        height: viewport.height,
+        screenWidth: size.width,
+        screenHeight: size.height,
+      };
+    }
+  }, [size.width, size.height, viewport.width, viewport.height]);
 
   const cubes = useMemo(() => {
-    const xMin = -viewport.width * xSpreadMultiplier * 0.5;
-    const xMax = viewport.width * xSpreadMultiplier * 0.5;
-    const yStart = -viewport.height  - yStartOffset;
-    const yEnd = viewport.height  + yEndOffset;
+    const frozen = frozenBoundsRef.current;
+    const fieldWidth = frozen?.width ?? viewport.width;
+    const fieldHeight = frozen?.height ?? viewport.height;
 
-    return Array.from({ length: count }, () => ({
-      current: {
-        progress: Math.random(),
-        x: THREE.MathUtils.randFloat(xMin, xMax),
-        xMin,
-        xMax,
-        yStart,
-        yEnd,
-        z: THREE.MathUtils.randFloat(zMin, zMax),
-        zMin,
-        zMax,
-        scale: THREE.MathUtils.randFloat(scaleMin, scaleMax),
-        scaleMin,
-        scaleMax,
-        speed: THREE.MathUtils.randFloat(speedMin, speedMax),
-        yRot: THREE.MathUtils.randFloat(-Math.PI, Math.PI),
-        zRot: THREE.MathUtils.randFloat(-Math.PI, Math.PI),
-        yRotSpeed: THREE.MathUtils.randFloat(
-          -rotationSpeedMax,
-          rotationSpeedMax
-        ),
-        zRotSpeed: THREE.MathUtils.randFloat(
-          -rotationSpeedMax,
-          rotationSpeedMax
-        ),
-        rotSpeedMax: rotationSpeedMax,
-      },
-    }));
+    const xMin = -fieldWidth * xSpreadMultiplier * 0.5;
+    const xMax = fieldWidth * xSpreadMultiplier * 0.5;
+    const yStart = -fieldHeight - yStartOffset;
+    const yEnd = fieldHeight + yEndOffset;
+
+    return Array.from({ length: count }, (_, i) => {
+      const t = i + 1;
+
+      const n1 = deterministicNoise(t * 0.73, 1.17, 2.31);
+      const n2 = deterministicNoise(t * 1.19, 2.07, 0.91);
+      const n3 = deterministicNoise(t * 1.83, 0.63, 2.77);
+      const n4 = deterministicNoise(t * 2.41, 1.37, 1.93);
+      const n5 = deterministicNoise(t * 0.51, 2.91, 1.41);
+      const n6 = deterministicNoise(t * 1.61, 1.11, 2.21);
+      const n7 = deterministicNoise(t * 2.91, 0.71, 1.27);
+      const n8 = deterministicNoise(t * 1.07, 2.47, 0.57);
+      const n9 = deterministicNoise(t * 2.03, 1.53, 1.83);
+
+      return {
+        current: {
+          progress: n1,
+          x: THREE.MathUtils.lerp(xMin, xMax, n2),
+          yStart,
+          yEnd,
+          z: THREE.MathUtils.lerp(zMin, zMax, n3),
+          scale: THREE.MathUtils.lerp(scaleMin, scaleMax, n4),
+          speed: THREE.MathUtils.lerp(speedMin, speedMax, n5),
+
+          xRot: THREE.MathUtils.lerp(-Math.PI, Math.PI, n6),
+          yRot: THREE.MathUtils.lerp(-Math.PI, Math.PI, n7),
+          zRot: THREE.MathUtils.lerp(-Math.PI, Math.PI, n8),
+
+          xRotSpeed: THREE.MathUtils.lerp(
+            -rotationSpeedMax,
+            rotationSpeedMax,
+            deterministicNoise(t * 1.7, 0.4, 2.2)
+          ),
+          yRotSpeed: THREE.MathUtils.lerp(
+            -rotationSpeedMax,
+            rotationSpeedMax,
+            deterministicNoise(t * 0.8, 1.9, 2.9)
+          ),
+          zRotSpeed: THREE.MathUtils.lerp(
+            -rotationSpeedMax,
+            rotationSpeedMax,
+            deterministicNoise(t * 2.3, 1.2, 0.6)
+          ),
+
+          rotationTravel: THREE.MathUtils.lerp(1.2, 3.4, n9),
+          easePower,
+        },
+      };
+    });
   }, [
     count,
-    viewport.width,
-    viewport.height,
+    xSpreadMultiplier,
     yStartOffset,
     yEndOffset,
     zMin,
@@ -124,20 +189,55 @@ export function FloatingCubes({
     scaleMax,
     speedMin,
     speedMax,
+    easePower,
     rotationSpeedMax,
-    xSpreadMultiplier,
   ]);
+
+  useEffect(() => {
+    if (!layerRef.current) return;
+    layerRef.current.position.set(0, 0, 0);
+    layerRef.current.rotation.set(0, 0, 0);
+  }, []);
 
   useFrame(() => {
     speedFactorRef.current = THREE.MathUtils.lerp(
       speedFactorRef.current,
       pauseTarget,
+      0.045
+    );
+
+    if (!layerRef.current) return;
+
+    const targetX = pointer.x * parallaxPositionStrength;
+    const targetY = pointer.y * parallaxPositionStrength;
+    const targetRotY = pointer.x * parallaxRotationStrength;
+    const targetRotX = -pointer.y * parallaxRotationStrength * 0.6;
+
+    layerRef.current.position.x = THREE.MathUtils.lerp(
+      layerRef.current.position.x,
+      targetX,
+      0.06
+    );
+    layerRef.current.position.y = THREE.MathUtils.lerp(
+      layerRef.current.position.y,
+      targetY,
+      0.06
+    );
+
+    layerRef.current.rotation.x = THREE.MathUtils.lerp(
+      layerRef.current.rotation.x,
+      targetRotX,
+      0.06
+    );
+    layerRef.current.rotation.y = THREE.MathUtils.lerp(
+      layerRef.current.rotation.y,
+      targetRotY,
       0.06
     );
   });
 
   return (
-    <group>
+    <group ref={layerRef}>
       {cubes.map((cube, i) => (
         <FloatingCube
           key={i}
