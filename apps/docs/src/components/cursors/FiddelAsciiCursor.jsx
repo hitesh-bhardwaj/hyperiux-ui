@@ -9,6 +9,8 @@ const MAX_TRAIL_LENGTH = 8
 const CELL_LIFETIME = 100
 
 
+
+
 export default function FiddelAsciiCursor({ 
   src, 
   type = 'video', 
