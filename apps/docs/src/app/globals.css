@@ -13,6 +13,7 @@
   --dark-card: #282b31;
   --border: rgba(91, 97, 110, 0.2);
   --muted: #5b616e;
+  
 }
 
 .dark {
@@ -49,6 +50,9 @@
   --radius-2xl: 40px;
   --radius-pill: 56px;
   --radius-full: 100000px;
+
+  --breakpoint-md: 1025px;
+  --breakpoint-sm: 768px;
 }
 
 * {

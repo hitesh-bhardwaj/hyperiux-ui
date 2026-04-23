@@ -107,17 +107,17 @@ export default function Page() {
         >
           <div className="sticky top-0 h-screen overflow-hidden">
             {/* Background Gradients */}
-            <div className="gradient-1 pointer-events-none absolute inset-0 z-[0]">
+            <div className="gradient-1 pointer-events-none absolute inset-0 z-0">
               <div className="absolute bottom-0 left-0 h-[60vh] w-screen bg-linear-to-b from-[#0A1057]/0 to-[#0A1057]" />
             </div>
-            <div className="gradient-2 pointer-events-none absolute inset-0 z-[0]">
+            <div className="gradient-2 pointer-events-none absolute inset-0 z-0">
               <div className="absolute bottom-0 left-0 h-[25vh] w-screen bg-linear-to-b from-[#2D5F92]/0 to-[#2D5F92]" />
             </div>
 
             {/* NEW COMPONENT LAYER - GRID (z-index 5, top layer) */}
             <div
               ref={gridLayerRef}
-              className="absolute inset-0 z-[5] pointer-events-none"
+              className="absolute inset-0 z-5 pointer-events-none"
             >
               <StickyPointPlaneSection
                 sectionRef={sectionRef} // MUST PASS THIS REF
