@@ -1,8 +1,10 @@
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getRegistryIndex } from "@/lib/registry";
 import { HeroSection } from "./hero-section";
 
 export default function Home() {
+  redirect("/effects");
   const registry = getRegistryIndex();
   const effectCount = registry.items.length;
 

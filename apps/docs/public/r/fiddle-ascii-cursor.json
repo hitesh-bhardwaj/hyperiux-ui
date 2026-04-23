@@ -4,6 +4,9 @@
   "title": "Fiddle Ascii Cursor",
   "description": "Cursor-reactive media grid that swaps nearby cells into a textured ASCII collage",
   "category": "cursor",
+  "categories": [
+    "cursor"
+  ],
   "dependencies": [],
   "registryDependencies": [],
   "previewUrl": "/cursors/feddle-ascii-cursor",

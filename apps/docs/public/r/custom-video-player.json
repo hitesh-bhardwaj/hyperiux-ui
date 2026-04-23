@@ -4,6 +4,9 @@
   "title": "Custom Video Player",
   "description": "Minimal cinematic video player with timed controls, scrubbing, and mute state",
   "category": "components",
+  "categories": [
+    "components"
+  ],
   "dependencies": [
     "lucide-react"
   ],

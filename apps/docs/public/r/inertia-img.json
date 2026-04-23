@@ -4,6 +4,9 @@
   "title": "Inertia Image",
   "description": "Image grid with physics-based inertia and wobble effect on mouse hover using GSAP InertiaPlugin.",
   "category": "cursor",
+  "categories": [
+    "cursor"
+  ],
   "dependencies": [
     "gsap"
   ],

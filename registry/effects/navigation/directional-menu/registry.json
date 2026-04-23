@@ -6,5 +6,5 @@
   "category": "navigation",
   "dependencies": ["gsap"],
   "registryDependencies": ["chevron-bird"],
-  "previewUrl": "/directional-menu"
+  "previewUrl": "/navigation/directional-menu"
 }

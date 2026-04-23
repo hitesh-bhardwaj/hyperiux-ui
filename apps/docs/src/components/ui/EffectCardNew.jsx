@@ -61,7 +61,7 @@ export function EffectCard({ effect, priority = false }) {
 
   return (
     <div
-      className="group relative bg-secondary-surface dark:bg-dark-card p-4 rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/50"
+      className="group relative bg-neutral-100 dark:bg-[#171717] p-4 rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/50"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -93,11 +93,13 @@ export function EffectCard({ effect, priority = false }) {
               }`}
             />
           )}
-          {/* Category badge */}
-          <div className="absolute top-3 left-3">
-            <span className="px-3 py-1.5 bg-white/95 dark:bg-dark-card/95 backdrop-blur-sm text-xs font-semibold text-foreground dark:text-white capitalize font-sans" style={{ borderRadius: '56px' }}>
-              {effect.category}
-            </span>
+          {/* Category badge(s) */}
+          <div className="absolute top-3 left-3 flex gap-1 flex-wrap">
+            {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
+              <span key={cat} className="px-3 py-1.5 bg-white/95 dark:bg-dark-card/95 backdrop-blur-sm text-xs font-semibold text-foreground dark:text-white capitalize font-sans" style={{ borderRadius: '56px' }}>
+                {cat}
+              </span>
+            ))}
           </div>
 
           {/* Action buttons - top right */}

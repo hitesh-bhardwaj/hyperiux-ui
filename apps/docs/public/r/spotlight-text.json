@@ -4,6 +4,9 @@
   "title": "Spotlight Text",
   "description": "Mouse-tracked spotlight that reveals bright text through a radial gradient mask over dimmed text. Disabled on mobile.",
   "category": "text",
+  "categories": [
+    "text"
+  ],
   "dependencies": [],
   "registryDependencies": [],
   "previewUrl": "/spotlight-text",

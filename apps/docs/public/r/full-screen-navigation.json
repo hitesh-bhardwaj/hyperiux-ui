@@ -4,11 +4,14 @@
   "title": "Full Screen Navigation",
   "description": "Clip-path powered full-screen navigation overlay with animated hamburger transitions",
   "category": "navigation",
+  "categories": [
+    "navigation"
+  ],
   "dependencies": [
     "gsap"
   ],
   "registryDependencies": [],
-  "previewUrl": "/fullscreen-nav",
+  "previewUrl": "/navigation/fullscreen-nav",
   "coverImage": "/assets/listing/full-screen-navigation.png",
   "videoUrl": "full-screen-navigation",
   "files": [

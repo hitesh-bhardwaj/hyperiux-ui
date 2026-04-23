@@ -8,6 +8,22 @@ const __dirname = path.dirname(__filename);
 const REGISTRY_PATH = path.join(__dirname, "../../../registry/effects");
 const OUTPUT_PATH = path.join(__dirname, "../public/r");
 
+// Controls the order categories appear in the listing.
+// Categories not listed here will appear at the end alphabetically.
+const CATEGORY_ORDER = [
+  "scroll",
+  "cursor",
+  "backgrounds",
+  "transitions",
+  "text",
+  "buttons",
+  "components",
+  "navigation",
+  "loaders",
+  "webgl",
+  "others",
+];
+
 async function buildRegistry() {
   console.log("Building registry...");
 
@@ -20,14 +36,33 @@ async function buildRegistry() {
     items: [],
   };
 
-  // Walk through registry directories
-  const categories = fs.readdirSync(REGISTRY_PATH);
+  // Walk through registry directories, sorted by CATEGORY_ORDER
+  const allCategories = fs.readdirSync(REGISTRY_PATH);
+  const categories = [
+    ...CATEGORY_ORDER.filter((c) => allCategories.includes(c)),
+    ...allCategories
+      .filter((c) => !CATEGORY_ORDER.includes(c))
+      .sort(),
+  ];
 
   for (const category of categories) {
     const categoryPath = path.join(REGISTRY_PATH, category);
     if (!fs.statSync(categoryPath).isDirectory()) continue;
 
-    const effects = fs.readdirSync(categoryPath);
+    // Sort effects within category by optional `order` field in registry.json (ascending), then alphabetically
+    const effectDirs = fs.readdirSync(categoryPath);
+    const effects = effectDirs.sort((a, b) => {
+      const aJson = path.join(categoryPath, a, "registry.json");
+      const bJson = path.join(categoryPath, b, "registry.json");
+      const aOrder = fs.existsSync(aJson)
+        ? (JSON.parse(fs.readFileSync(aJson, "utf-8")).order ?? 99)
+        : 99;
+      const bOrder = fs.existsSync(bJson)
+        ? (JSON.parse(fs.readFileSync(bJson, "utf-8")).order ?? 99)
+        : 99;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      return a.localeCompare(b);
+    });
 
     for (const effect of effects) {
       const effectPath = path.join(categoryPath, effect);
@@ -61,13 +96,20 @@ async function buildRegistry() {
         };
       });
 
+      // Resolve categories: support both legacy `category` string and new `categories` array
+      const primaryCategory = registryJson.category || category;
+      const categories_list = registryJson.categories
+        ? registryJson.categories
+        : [primaryCategory];
+
       // Build the full registry item
       const registryItem = {
         name: registryJson.name,
         type: registryJson.type || "registry:component",
         title: registryJson.title,
         description: registryJson.description,
-        category: registryJson.category || category,
+        category: primaryCategory,
+        categories: categories_list,
         dependencies: registryJson.dependencies || [],
         registryDependencies: registryJson.registryDependencies || [],
         previewUrl: registryJson.previewUrl || null,
@@ -82,17 +124,20 @@ async function buildRegistry() {
       fs.writeFileSync(outputFile, JSON.stringify(registryItem, null, 2));
       console.log(`  Created ${registryJson.name}.json`);
 
-      // Add to index
+      // Add to index — record mtime so the vault can sort by recently added
+      const addedAt = fs.statSync(registryJsonPath).mtimeMs;
       index.items.push({
         name: registryJson.name,
         title: registryJson.title,
         description: registryJson.description,
-        category: registryJson.category || category,
+        category: primaryCategory,
+        categories: categories_list,
         dependencies: registryJson.dependencies || [],
         previewUrl: registryJson.previewUrl || null,
         coverImage:
           registryJson.coverImage || `/assets/listing/${registryJson.name}.png`,
         videoUrl: registryJson.videoUrl || registryJson.name,
+        addedAt,
       });
     }
   }

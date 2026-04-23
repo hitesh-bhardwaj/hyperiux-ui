@@ -4,6 +4,9 @@
   "title": "Page Flip Transition",
   "description": "Angular full-screen route wipe with a folding panel and staggered indicator bars",
   "category": "transitions",
+  "categories": [
+    "transitions"
+  ],
   "dependencies": [
     "gsap",
     "next-transition-router"
