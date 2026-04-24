@@ -16,7 +16,7 @@ export default function AnimatedTogglePage() {
         <>
             <section className="min-h-dvh w-full flex items-center relative justify-center">
                 <div className="z-1">
-                    <h1 className="text-6xl mb-10">Animated Toggle</h1>
+                    <h1 className="text-6xl text-neutral-400 mb-10">Animated Toggle</h1>
                     <div className="flex gap-8 justify-center">
                         <button
                             onClick={() => setChevronActive(prev => !prev)}
