@@ -105,8 +105,7 @@ export default function RoomModel({ onClick, isZoomed, videoRef, ...props }) {
   const tvMatRef = useRef();
   const { gl } = useThree();
 
-  const { nodes, materials } = useGLTF("/601/finall.glb");
-  console.log(nodes);
+  const { nodes } = useGLTF("/601/finall.glb");
 
 
   // =========================
@@ -235,6 +234,30 @@ export default function RoomModel({ onClick, isZoomed, videoRef, ...props }) {
   });
 
 
+  useEffect(() => {
+    if (!videoTexture?.image) return;
+
+    videoRef.current = videoTexture.image;
+
+    // preload
+    videoTexture.image.preload = "auto";
+    videoTexture.image.load();
+
+  }, [videoTexture]);
+
+  useEffect(() => {
+    if (!videoTexture?.image) return;
+
+    if (isZoomed) {
+      setTimeout(() => {
+        videoTexture.image.play();
+      }, 300);
+    } else {
+      videoTexture.image.pause();
+    }
+  }, [isZoomed]);
+
+
 
   // =========================
   // 🎨 MATERIALS
@@ -246,7 +269,7 @@ export default function RoomModel({ onClick, isZoomed, videoRef, ...props }) {
     color: "#000",
     normalMap,
     normalScale: new THREE.Vector2(0.3, 0.3),
-    roughness: 0.8,
+    roughness: 10.,
     side: THREE.DoubleSide
   };
 
@@ -274,7 +297,7 @@ export default function RoomModel({ onClick, isZoomed, videoRef, ...props }) {
 
       {/* <mesh geometry={nodes.switch.}><meshStandardMaterial {...baseMat} /></mesh> */}
 
-      {/* <mesh 
+      <mesh 
       position={[0, 0, 1]}
         geometry={nodes.ladder.geometry}
       >
@@ -295,8 +318,8 @@ export default function RoomModel({ onClick, isZoomed, videoRef, ...props }) {
         geometry={nodes.Body4002_2.geometry}
       >
         <meshStandardMaterial {...baseMat} />
-      </mesh> */}
- 
+      </mesh>
+
 
 
       {/* 📺 TV */}
@@ -318,7 +341,7 @@ export default function RoomModel({ onClick, isZoomed, videoRef, ...props }) {
         </mesh>
       </group>
 
-       
+
 
       {/* 🪞 FLOOR */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
@@ -327,13 +350,13 @@ export default function RoomModel({ onClick, isZoomed, videoRef, ...props }) {
           resolution={1024}
           blur={[200, 50]}
           mixBlur={2}
-          mixStrength={300}
+          mixStrength={100}
           roughness={0.1}
           distortionMap={roughnessMap}
           distortion={0.0}
           reflectorOffset={0}
           color="#111"
-          metalness={0.8}
+          metalness={.9}
         />
       </mesh>
 

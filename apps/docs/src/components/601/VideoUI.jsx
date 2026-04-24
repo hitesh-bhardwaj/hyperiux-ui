@@ -1,32 +1,39 @@
 import React, { useRef, useEffect } from 'react';
-import gsap from 'gsap';
 
+const VideoUI = ({ isZoomed, setIsZoomed, videoRef }) => {
+    const progressRef = useRef(null);
 
-const VideoUI = ({ isZoomed, setIsZoomed, progress }) => {
-    const progressRef = useRef();
-    const progressVal = useRef(progress);
+    useEffect(() => {
+        let rafId;
 
-    // GSAP animate the progress bar width smoothly
-    // useEffect(() => {
-    //     if (!progressRef.current) return;
-    //     if (typeof progress !== "number") return;
-    //     // Save most recent value for gsap overwrite
-    //     progressVal.current = progress;
-    //     gsap.to(progressRef.current, {
-    //         width: `${progress * 100}%`,
-    //         overwrite: 'auto'
-    //     });
-    // }, [progress]);
+        const tick = () => {
+            const video = videoRef?.current;
+            const bar = progressRef.current;
+
+            if (bar && video && video.duration > 0 && !isNaN(video.duration)) {
+                const pct = (video.currentTime / video.duration) * 100;
+                bar.style.width = `${pct}%`;
+            }
+
+            rafId = requestAnimationFrame(tick);
+        };
+
+        rafId = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(rafId);
+    }, [videoRef]);
 
     return (
+        <>
+        <p className={`absolute top-[2vw] left-1/2 -translate-x-1/2 uppercase text-white/50 transition-opacity duration-1000 text-xs ${isZoomed ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>[ESC] to back</p>
         <div className={`absolute bottom-0 left-0 w-full p-8 flex justify-between items-center text-white/50 text-xs font-mono transition-opacity duration-1000 ${isZoomed ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+
             {/* Left */}
             <div className="flex items-center gap-2">
                 <span className="uppercase">HYPERIUX IMMERSION LABS</span>
             </div>
 
             {/* Center */}
-            <button 
+            <button
                 onClick={() => setIsZoomed(false)}
                 className="hover:text-white transition-colors cursor-pointer "
             >
@@ -38,10 +45,12 @@ const VideoUI = ({ isZoomed, setIsZoomed, progress }) => {
                 <div
                     ref={progressRef}
                     className="h-full bg-orange-500"
-                    style={{ width: `${progress * 100}%`, transition: "none" }} // no css transition: gsap handles animation
+                    style={{ width: '0%', transition: 'none' }}
                 />
             </div>
         </div>
+        </>
+
     );
 };
 

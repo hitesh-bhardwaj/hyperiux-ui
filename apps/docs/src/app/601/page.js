@@ -2,29 +2,33 @@
 
 import React, { useRef, useEffect, useCallback, useState } from 'react'
 import { Canvas, useThree, useFrame } from '@react-three/fiber'
-import { Environment, Center, Stats } from '@react-three/drei'
+import { Environment, Center } from '@react-three/drei'
 import RoomModel from '@/components/601/RoomModel'
-import VideoUI from '@/components/601/VideoUI'
 import { degToRad } from 'three/src/math/MathUtils'
 import gsap from 'gsap'
 import CustomGrainNoise from '@/components/601/CustomGrainNoise'
 import { EffectComposer } from '@react-three/postprocessing'
+import VideoUI from '@/components/601/VideoUI'
+import EdgeBlurEffect from '@/components/Valley/EdgeBlurEffect'
 
-// MovingPointLight component
-function MovingPointLight(props) {
-  const lightRef = useRef()
+// 🌟 CONFIGURATION - tweak these for env intensity levels 🌟
+const ENV_INTENSITY_CONFIG = {
+  zoomed: 0,            // HDRI environment intensity when zoomed in (float)
+  out: 0.1,            // HDRI env intensity when zoomed out (float)
+  lightZoomed: 0,       // Point light intensity when zoomed
+  lightOut: 3           // Point light intensity when zoomed out
+}
+
+// MovingPointLight
+function MovingPointLight({ lightRef }) {
   const { gl } = useThree()
   const targetRef = useRef({ x: 0, y: 0 })
 
-  // Mousemove: update normalized coords (relative to canvas)
-  const handlePointerMove = useCallback(
-    event => {
-      const rect = gl.domElement.getBoundingClientRect()
-      targetRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
-      targetRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
-    },
-    [gl]
-  )
+  const handlePointerMove = useCallback((event) => {
+    const rect = gl.domElement.getBoundingClientRect()
+    targetRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+    targetRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
+  }, [gl])
 
   useEffect(() => {
     const dom = gl.domElement
@@ -32,56 +36,50 @@ function MovingPointLight(props) {
     return () => dom.removeEventListener('mousemove', handlePointerMove)
   }, [gl, handlePointerMove])
 
-  // Animate light position smoothly
   useFrame(() => {
     const light = lightRef.current
     if (!light) return
-    const basePos = { x: 0, y: -1.3, z: -2 }
-    const spread = { x: 1.8, y: 0.0, z: 0.08 } // y/y=0.0 means very little y
-    const tx = basePos.x + targetRef.current.x * spread.x
-    const ty = basePos.y + targetRef.current.y * spread.y
-    const tz = basePos.z + targetRef.current.y * spread.z
-    const lerp = 0.1
 
-    light.position.x += (tx - light.position.x) * lerp
-    light.position.y += (ty - light.position.y) * lerp
-    light.position.z += (tz - light.position.z) * lerp
+    const basePos = { x: 0, y: -1.3, z: -2 }
+    const spread = { x: 1.8, y: 0.0, z: 0.08 }
+
+    const tx = basePos.x + targetRef.current.x * spread.x
+    const tz = basePos.z + targetRef.current.y * spread.z
+
+    light.position.x += (tx - light.position.x) * 0.1
+    light.position.z += (tz - light.position.z) * 0.1
   })
 
   return (
     <pointLight
-      castShadow
       ref={lightRef}
+      castShadow
       position={[0, -1.3, -2]}
-      {...props}
+      distance={100}
+      decay={0.7}
+      color="#fff"
     />
   )
 }
-
-// SceneContent component
 function SceneContent({ isZoomed, setIsZoomed, videoRef }) {
   const groupRef = useRef()
-  const { camera } = useThree()
-  const [envIntensity, setEnvIntensity] = useState(0.4)
-  const [lightIntensity, setLightIntensity] = useState(3)
-  const intensityState = useRef({ env: 0.5, light: 3 })
+  const lightRef = useRef()
+  const { camera, scene } = useThree()
 
-  // Toggle zoom and animate scene/camera
-  // Handles model click and ESC key to toggle zoom
-  const handleModelClick = useCallback(
-    e => {
-      if (e) e.stopPropagation()
-      setIsZoomed(prev => !prev)
-    },
-    [setIsZoomed]
-  )
+  // Use config for initial values
+  const intensityState = useRef({
+    env: ENV_INTENSITY_CONFIG.out,
+    light: ENV_INTENSITY_CONFIG.lightOut
+  })
 
-  // Toggle off zoom when Esc is pressed
+  const handleModelClick = useCallback((e) => {
+    e?.stopPropagation()
+    setIsZoomed(prev => !prev)
+  }, [setIsZoomed])
+
   useEffect(() => {
-    const handleKeyDown = e => {
-      if (e.key === "Escape" || e.key === "Esc") {
-        setIsZoomed(false)
-      }
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setIsZoomed(false)
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
@@ -90,50 +88,52 @@ function SceneContent({ isZoomed, setIsZoomed, videoRef }) {
   useEffect(() => {
     const duration = 1.5
     const ease = 'power3.inOut'
+
+    gsap.killTweensOf(camera.position)
+    if (groupRef.current) gsap.killTweensOf(groupRef.current.rotation)
+
     if (isZoomed) {
       gsap.to(camera.position, { x: 0, y: 0.05, z: 2.5, duration, ease })
-      if (groupRef.current) {
-        gsap.to(groupRef.current.rotation, { x: 0, y: 0, z: 0, duration, ease })
-      }
-      gsap.to(intensityState.current, {
-        env: 0,
-        light: 0,
-        duration,
-        ease,
-        onUpdate: () => {
-          setEnvIntensity(intensityState.current.env)
-          setLightIntensity(intensityState.current.light)
-        }
-      })
+      gsap.to(groupRef.current.rotation, { x: 0, y: 0, z: 0, duration, ease })
     } else {
-      gsap.to(camera.position, { x: 0, y: 0, z: 5, duration, ease })
-      if (groupRef.current) {
-        gsap.to(groupRef.current.rotation, { x: 0, y: 0, z: degToRad(-5), duration, ease })
-      }
-      gsap.to(intensityState.current, {
-        env: 2,
-        light: 3,
-        duration,
-        ease,
-        onUpdate: () => {
-          setEnvIntensity(intensityState.current.env)
-          setLightIntensity(intensityState.current.light)
-        }
-      })
+      gsap.to(camera.position, { x: 0, y: 0, z: 4.8, duration, ease })
+      gsap.to(groupRef.current.rotation, { x: 0, y: 0, z: degToRad(-5), duration, ease })
     }
+
+    // Use config for environment/light intensity
+    gsap.to(intensityState.current, {
+      env: isZoomed ? ENV_INTENSITY_CONFIG.zoomed : ENV_INTENSITY_CONFIG.out,
+      light: isZoomed ? ENV_INTENSITY_CONFIG.lightZoomed : ENV_INTENSITY_CONFIG.lightOut,
+      duration,
+      ease,
+    })
+
   }, [isZoomed, camera])
+
+  // 🔥 APPLY VALUES EVERY FRAME (NO RE-RENDER)
+  useFrame(() => {
+    scene.environmentIntensity = intensityState.current.env
+    if (lightRef.current) {
+      lightRef.current.intensity = intensityState.current.light
+    }
+  })
 
   return (
     <>
-      <MovingPointLight intensity={lightIntensity} color="#FFF" distance={100} decay={0.7} />
+      <MovingPointLight lightRef={lightRef} />
+
       <Environment
         background={false}
-        environmentRotation={[degToRad(0), degToRad(40), degToRad(0)]}
         files='https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/wooden_studio_08_1k.exr'
-        environmentIntensity={0.4}
+        environmentRotation={[0, degToRad(40), 0]}
       />
-      <group rotation={[0, 0, degToRad(-5)]} ref={groupRef}>
-        <RoomModel onClick={handleModelClick} isZoomed={isZoomed} videoRef={videoRef} />
+
+      <group ref={groupRef} rotation={[0, 0, degToRad(-5)]}>
+        <RoomModel
+          onClick={handleModelClick}
+          isZoomed={isZoomed}
+          videoRef={videoRef}
+        />
       </group>
     </>
   )
@@ -142,46 +142,31 @@ function SceneContent({ isZoomed, setIsZoomed, videoRef }) {
 export default function Page() {
   const [isZoomed, setIsZoomed] = useState(false)
   const videoRef = useRef(null)
-  const [progress, setProgress] = useState(0)
-
-  // Track video playback progress (only when zoomed in)
-  useEffect(() => {
-    let req
-    const updateProgress = () => {
-      if (videoRef.current) {
-        const curr = videoRef.current.currentTime
-        const dur = videoRef.current.duration
-        const prog = dur ? curr / dur : 0
-        setProgress(isNaN(prog) ? 0 : prog)
-      }
-      req = requestAnimationFrame(updateProgress)
-    }
-    if (isZoomed) {
-      req = requestAnimationFrame(updateProgress)
-    }
-    return () => req && cancelAnimationFrame(req)
-  }, [isZoomed])
-
   return (
-    <section className="w-full h-screen bg-black flex items-center justify-center relative overflow-hidden">
+    <section className="w-full h-screen bg-black">
       <Canvas
         dpr={[1, 2]}
-        gl={{ antialias: true }}
-        className="h-full w-full"
-        camera={{ position: [0, 0, 4], fov: 55 }}
+        camera={{ position: [0, 0, 4.8], fov: 55 }}
       >
-        {/* <Stats /> */}
         <Center>
-          <SceneContent isZoomed={isZoomed} setIsZoomed={setIsZoomed} videoRef={videoRef} />
+          <SceneContent
+            isZoomed={isZoomed}
+            setIsZoomed={setIsZoomed}
+            videoRef={videoRef}
+          />
         </Center>
-        {/* <OrbitControls /> */}
-        <EffectComposer>
 
+        <EffectComposer>
+          <EdgeBlurEffect blurType="classic" blurStrength={1.5} blurStart={0.4} />
+          {/* <EdgeBlurEffect blurType="frosted" blurStrength={.1} blurStart={0.4} /> */}
           <CustomGrainNoise amount={0.01} scale={1.5} opacity={0.9} />
         </EffectComposer>
       </Canvas>
-      {/* UI Overlay */}
-      <VideoUI isZoomed={isZoomed} setIsZoomed={setIsZoomed} progress={progress} />
+      <VideoUI
+        videoRef={videoRef}
+        isZoomed={isZoomed}
+        setIsZoomed={setIsZoomed}
+      />
     </section>
   )
 }
