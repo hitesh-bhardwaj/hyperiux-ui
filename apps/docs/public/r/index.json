@@ -521,6 +521,20 @@
       "addedAt": 1776836654996.1172
     },
     {
+      "name": "spider-particles",
+      "title": "Spider Particles",
+      "description": "Canvas particle network background with connecting lines and mouse-driven repulsion — pure canvas, zero dependencies",
+      "category": "backgrounds",
+      "categories": [
+        "backgrounds"
+      ],
+      "dependencies": [],
+      "previewUrl": "/spider-particles",
+      "coverImage": "/assets/listing/spider-particles.png",
+      "videoUrl": "spider-particles",
+      "addedAt": 1777275032877.4126
+    },
+    {
       "name": "chess-grid-transition",
       "title": "Chess Grid Transition",
       "description": "Staggered fullscreen grid wipe that sweeps blocks across the viewport during route changes",
@@ -553,6 +567,23 @@
       "coverImage": "/assets/listing/page-flip-transition.png",
       "videoUrl": "page-flip-transition",
       "addedAt": 1776836655023.0193
+    },
+    {
+      "name": "pie-rotation-transition",
+      "title": "Pie Rotation Transition",
+      "description": "Conic-gradient page transition that sweeps a pie-slice mask across the viewport using GSAP, revealing and hiding pages with a smooth rotational wipe",
+      "category": "transitions",
+      "categories": [
+        "transitions"
+      ],
+      "dependencies": [
+        "gsap",
+        "next-transition-router"
+      ],
+      "previewUrl": "/page-transitions/pie-rotation",
+      "coverImage": "/assets/listing/pie-rotation-transition.png",
+      "videoUrl": "pie-rotation-transition",
+      "addedAt": 1777274472887.2002
     },
     {
       "name": "svg-draw-page-transition",
@@ -1084,6 +1115,22 @@
       "addedAt": 1776859895143.421
     },
     {
+      "name": "lines-loader",
+      "title": "Lines Loader",
+      "description": "Two GSAP-powered line loaders: staggered horizontal lines wipe from dark to light (Option 1), or a diamond cone that peels away to reveal a hero message (Option 2)",
+      "category": "loaders",
+      "categories": [
+        "loaders"
+      ],
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/loaders/lines-loading",
+      "coverImage": "/assets/listing/lines-loader.png",
+      "videoUrl": "lines-loader",
+      "addedAt": 1777275767843.861
+    },
+    {
       "name": "numeric-tunnel",
       "title": "Numeric Tunnel",
       "description": "WebGL loader with a 3D numeric tunnel that crossfades into a chromatic aberration warp effect",
@@ -1101,6 +1148,24 @@
       "coverImage": "/assets/listing/numeric-tunnel.png",
       "videoUrl": "numeric-tunnel",
       "addedAt": 1776859859557.8518
+    },
+    {
+      "name": "strip-slider",
+      "title": "Strip Slider",
+      "description": "WebGL image slider that splits each slide into vertical strips, transitioning with a staggered wave distortion using Three.js shader materials and GSAP",
+      "category": "webgl",
+      "categories": [
+        "webgl",
+        "scroll"
+      ],
+      "dependencies": [
+        "three",
+        "gsap"
+      ],
+      "previewUrl": "/strip-slider",
+      "coverImage": "/assets/listing/strip-slider.png",
+      "videoUrl": "strip-slider",
+      "addedAt": 1777274100757.4785
     },
     {
       "name": "webgl-portfolio-slider",
