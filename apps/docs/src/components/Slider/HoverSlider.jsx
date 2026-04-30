@@ -371,7 +371,7 @@ const opacity = Math.max(0, baseOpacity - dist * 0.22) * anim.alpha;
     >
       <header
         className="relative z-20 flex items-start justify-between text-[11px]"
-        style={{ color: "rgba(30,28,24,0.35)" }}
+        style={{ color: "rgba(30,28,24,0.6)" }}
       >
         <div>1470px × 797px</div>
         <nav className="absolute left-1/2 top-0 flex -translate-x-1/2 gap-3">
@@ -390,8 +390,8 @@ const opacity = Math.max(0, baseOpacity - dist * 0.22) * anim.alpha;
           className="grid gap-5 pb-4 text-[10px] uppercase tracking-widest"
           style={{
             gridTemplateColumns: "72px minmax(140px,1fr) minmax(180px,1.1fr) 64px",
-            color: "rgba(30,28,24,0.28)",
-            borderBottom: "1px solid rgba(30,28,24,0.10)",
+            color: "rgba(30,28,24,0.6)",
+            borderBottom: "1px solid rgba(30,28,24,0.06)",
           }}
         >
           <div>ID</div>
@@ -414,7 +414,7 @@ const opacity = Math.max(0, baseOpacity - dist * 0.22) * anim.alpha;
                 borderBottom: "1px solid rgba(30,28,24,0.06)",
                 cursor: "crosshair",
                 transition: "color 0.15s",
-                color: active ? "#e63000" : "rgba(30,28,24,0.16)",
+                color: active ? "#e63000" : "rgba(30,28,24,0.6)",
               }}
             >
               <div style={{ fontSize: 11, letterSpacing: "0.03em" }}>{item.id}</div>
@@ -428,7 +428,7 @@ const opacity = Math.max(0, baseOpacity - dist * 0.22) * anim.alpha;
 
       <p
         className="pointer-events-none absolute right-[10vw] top-[22vh] z-20 max-w-[320px] text-center text-[12px] leading-relaxed"
-        style={{ color: "rgba(30,28,24,0.11)" }}
+        style={{ color: "rgba(30,28,24,0.6)" }}
       >
         A curated collection of work — from collaborations and experiments to
         personal projects, capturing finished pieces and ideas in motion.
