@@ -15,17 +15,19 @@ export function VaultContent({ effects, effectCounts }) {
   const filteredEffects = useMemo(() => {
     return effects.filter((effect) => {
       // Category filter
-      if (categoryFilter !== "all" && effect.category !== categoryFilter) {
-        return false;
+      if (categoryFilter !== "all") {
+        const cats = effect.categories?.length ? effect.categories : [effect.category];
+        if (!cats.includes(categoryFilter)) return false;
       }
 
       // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
+        const cats = effect.categories?.length ? effect.categories : [effect.category];
         return (
           effect.name.toLowerCase().includes(query) ||
           effect.title.toLowerCase().includes(query) ||
-          effect.category?.toLowerCase().includes(query) ||
+          cats.some((c) => c?.toLowerCase().includes(query)) ||
           effect.description?.toLowerCase().includes(query)
         );
       }
@@ -98,11 +100,29 @@ export function VaultContent({ effects, effectCounts }) {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredEffects.map((effect) => (
-                <EffectCard key={effect.name} effect={effect} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredEffects.map((effect, i) => (
+                  <EffectCard key={effect.name} effect={effect} priority={i < 4} />
+                ))}
+              </div>
+
+              {/* End-of-listing statement */}
+              <div className="mt-40 select-none overflow-hidden">
+                <p
+                  className="font-display font-normal text-center tracking-tight text-foreground/50 dark:text-white/50"
+                  style={{ fontSize: "clamp(2rem, 2vw, 7.5rem)", lineHeight: 0.9 }}
+                >
+                  From subtle interactions to complex motion
+                </p>
+                <p
+                  className="font-display font-normal text-center tracking-tight text-foreground/50 dark:text-white/50 mt-4"
+                  style={{ fontSize: "clamp(1.5rem, 2vw, 5.25rem)", lineHeight: 1, fontStyle: "italic" }}
+                >
+                  — for those who care about detail.
+                </p>
+              </div>
+            </>
           )}
         </div>
       </div>

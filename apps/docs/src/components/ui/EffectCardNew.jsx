@@ -4,12 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-export function EffectCard({ effect }) {
+export function EffectCard({ effect, priority = false }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [videoSrc, setVideoSrc] = useState(null);
   const videoRef = useRef(null);
 
-  // Construct Cloudinary video URL from videoUrl field
+  // Only construct the URL, don't assign to video until first hover
   const videoPreviewUrl = effect.videoUrl
     ? `https://res.cloudinary.com/hyperiux/video/upload/v1775820344/${effect.videoUrl}.mp4`
     : null;
@@ -21,16 +22,22 @@ export function EffectCard({ effect }) {
     setIsWishlisted(wishlist.includes(effect.name));
   }, [effect.name]);
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    // Lazy-load video src on first hover
+    if (videoPreviewUrl && !videoSrc) {
+      setVideoSrc(videoPreviewUrl);
+    }
+  };
+
   // Handle video play/pause on hover
   useEffect(() => {
     if (videoRef.current) {
       if (isHovered) {
-        videoRef.current.play().catch(() => {
-          // Ignore play errors (e.g., if video not loaded yet)
-        });
+        videoRef.current.play().catch(() => {});
       } else {
         videoRef.current.pause();
-        videoRef.current.currentTime = 0; // Reset to start
+        videoRef.current.currentTime = 0;
       }
     }
   }, [isHovered]);
@@ -54,42 +61,45 @@ export function EffectCard({ effect }) {
 
   return (
     <div
-      className="group relative bg-secondary-surface dark:bg-dark-card rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/50"
-      onMouseEnter={() => setIsHovered(true)}
+      className="group relative bg-neutral-100 dark:bg-[#171717] p-4 rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/50"
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Preview Image/Video */}
       <Link href={`/effects/${effect.name}`} className="block">
-        <div className="aspect-video bg-neutral-100 dark:bg-dark-surface rounded-lg overflow-hidden relative">
+        <div className="aspect-video bg-neutral-100 dark:bg-dark-surface rounded-md overflow-hidden relative">
           {/* Static Image */}
           <Image
             src={effect.coverImage || "/assets/img/image01.webp"}
             alt={effect.title || effect.name}
-            width={300}
-            height={200}
-            className={`h-full w-full object-cover rounded-lg transition-all duration-500 ${
-              isHovered && videoPreviewUrl ? 'opacity-0' : 'opacity-100 group-hover:scale-[1.05]'
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={priority}
+            className={`object-cover transition-all duration-500 ${
+              isHovered && videoSrc ? 'opacity-0' : 'opacity-100'
             }`}
           />
 
-          {/* Video Preview on Hover - Cloudinary */}
+          {/* Video Preview on Hover - src only set after first hover */}
           {videoPreviewUrl && (
             <video
               ref={videoRef}
-              src={videoPreviewUrl}
+              src={videoSrc || undefined}
               muted
               loop
               playsInline
-              className={`absolute inset-0 h-full w-full object-cover rounded-lg transition-opacity duration-300 ${
-                isHovered ? 'opacity-100' : 'opacity-0'
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+                isHovered && videoSrc ? 'opacity-100' : 'opacity-0'
               }`}
             />
           )}
-          {/* Category badge */}
-          <div className="absolute top-3 left-3">
-            <span className="px-3 py-1.5 bg-white/95 dark:bg-dark-card/95 backdrop-blur-sm text-xs font-semibold text-foreground dark:text-white capitalize font-sans" style={{ borderRadius: '56px' }}>
-              {effect.category}
-            </span>
+          {/* Category badge(s) */}
+          <div className="absolute top-3 left-3 flex gap-1 flex-wrap">
+            {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
+              <span key={cat} className="px-3 py-1.5 bg-white/95 dark:bg-dark-card/95 backdrop-blur-sm text-xs font-semibold text-foreground dark:text-white capitalize font-sans" style={{ borderRadius: '56px' }}>
+                {cat}
+              </span>
+            ))}
           </div>
 
           {/* Action buttons - top right */}

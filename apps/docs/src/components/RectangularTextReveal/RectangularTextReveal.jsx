@@ -8,6 +8,42 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(SplitText, CustomEase, ScrollTrigger);
 
+// direction: "left" | "right" | "top" | "bottom"
+//   left = left to right (default)
+//   right = right to left
+//   top = top to bottom
+//   bottom = bottom to top
+
+function getOrigins(direction) {
+  switch (direction) {
+    case "right":
+      return {
+        enterOrigin: "100% 50%",
+        exitOrigin: "0% 50%",
+        axis: "scaleX",
+      };
+    case "top":
+      return {
+        enterOrigin: "50% 0%",
+        exitOrigin: "50% 100%",
+        axis: "scaleY",
+      };
+    case "bottom":
+      return {
+        enterOrigin: "50% 100%",
+        exitOrigin: "50% 0%",
+        axis: "scaleY",
+      };
+    case "left":
+    default:
+      return {
+        enterOrigin: "0% 50%",
+        exitOrigin: "100% 50%",
+        axis: "scaleX",
+      };
+  }
+}
+
 export default function TextBlockReveal({
   children,
   as: Tag = "div",
@@ -24,11 +60,15 @@ export default function TextBlockReveal({
   insetY = "0.08em",
   triggerStart = "top 85%",
   once = true,
+  direction = "left",
+  delay=0,
 }) {
   const elementRef = useRef(null);
 
   useLayoutEffect(() => {
     if (!elementRef.current) return;
+
+    const { enterOrigin, exitOrigin, axis } = getOrigins(direction);
 
     CustomEase.create("hyperEase", "0.4,0,0.2,1");
 
@@ -70,8 +110,8 @@ export default function TextBlockReveal({
         top: `-${insetY}`,
         bottom: `-${insetY}`,
         background: baseColor,
-        transformOrigin: "0% 50%",
-        transform: "scaleX(0)",
+        transformOrigin: enterOrigin,
+        transform: axis === "scaleX" ? "scaleX(0)" : "scaleY(0)",
         zIndex: "2",
         pointerEvents: "none",
         willChange: "transform",
@@ -91,8 +131,8 @@ export default function TextBlockReveal({
           top: `-${insetY}`,
           bottom: `-${insetY}`,
           background: overlayColor,
-          transformOrigin: "0% 50%",
-          transform: "scaleX(0)",
+          transformOrigin: enterOrigin,
+          transform: axis === "scaleX" ? "scaleX(0)" : "scaleY(0)",
           zIndex: "3",
           pointerEvents: "none",
           willChange: "transform",
@@ -117,10 +157,10 @@ export default function TextBlockReveal({
         tl.to(
           overlayRect,
           {
-            scaleX: 1,
+            [axis]: 1,
             duration: overlayEnterDuration,
             ease: "hyperEase",
-            transformOrigin: "0% 50%",
+            transformOrigin: enterOrigin,
           },
           startAt + 0.1
         );
@@ -129,30 +169,29 @@ export default function TextBlockReveal({
       tl.to(
         baseRect,
         {
-          scaleX: 1,
+          [axis]: 1,
           duration: coverDuration,
           ease: "hyperEase",
-          transformOrigin: "0% 50%",
+          transformOrigin: enterOrigin,
         },
         startAt
-      )
-        .set(
-          line,
-          {
-            opacity: 1,
-          },
-          startAt + coverDuration
-        );
+      ).set(
+        line,
+        {
+          opacity: 1,
+        },
+        startAt + coverDuration
+      );
 
       if (useOverlay && overlayRect) {
         tl.to(
           overlayRect,
           {
-            scaleX: 0,
+            [axis]: 0,
             delay: 0.15,
             duration: overlayExitDuration,
             ease: "hyperEase",
-            transformOrigin: "100% 50%",
+            transformOrigin: exitOrigin,
           },
           startAt + coverDuration + 0.1
         );
@@ -161,11 +200,11 @@ export default function TextBlockReveal({
       tl.to(
         baseRect,
         {
-          scaleX: 0,
+          [axis]: 0,
           delay: useOverlay ? 0.2 : 0.12,
           duration: revealDuration,
           ease: "hyperEase",
-          transformOrigin: "100% 50%",
+          transformOrigin: exitOrigin,
         },
         startAt + coverDuration + 0.1
       );
@@ -175,7 +214,9 @@ export default function TextBlockReveal({
       trigger: elementRef.current,
       start: triggerStart,
       once,
-      onEnter: () => tl.play(),
+      onEnter: () => {
+    gsap.delayedCall(delay, () => tl.play());
+  },
       ...(once
         ? {}
         : {
@@ -188,16 +229,16 @@ export default function TextBlockReveal({
 
               baseRects.forEach((rect) => {
                 gsap.set(rect, {
-                  scaleX: 0,
-                  transformOrigin: "0% 50%",
+                  [axis]: 0,
+                  transformOrigin: enterOrigin,
                 });
               });
 
               overlayRects.forEach((rect) => {
                 if (!rect) return;
                 gsap.set(rect, {
-                  scaleX: 0,
-                  transformOrigin: "0% 50%",
+                  [axis]: 0,
+                  transformOrigin: enterOrigin,
                 });
               });
             },
@@ -231,6 +272,8 @@ export default function TextBlockReveal({
     insetY,
     triggerStart,
     once,
+    direction,
+    delay,
   ]);
 
   return (

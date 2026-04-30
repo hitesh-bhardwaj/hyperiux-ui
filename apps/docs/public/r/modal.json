@@ -4,6 +4,9 @@
   "title": "Modal",
   "description": "Backdrop-blurred fullscreen modal with escape, backdrop, and close-button support",
   "category": "components",
+  "categories": [
+    "components"
+  ],
   "dependencies": [
     "lucide-react"
   ],

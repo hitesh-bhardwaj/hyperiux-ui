@@ -1,8 +1,10 @@
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getRegistryIndex } from "@/lib/registry";
 import { HeroSection } from "./hero-section";
 
 export default function Home() {
+  redirect("/effects");
   const registry = getRegistryIndex();
   const effectCount = registry.items.length;
 
@@ -95,7 +97,7 @@ export default function Home() {
           </h2>
           <div className="max-w-2xl mx-auto space-y-8">
             <div className="flex gap-5">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-dark-surface dark:bg-white text-white dark:text-dark-surface flex items-center justify-center font-semibold text-base">
+              <div className="shrink-0 w-10 h-10 rounded-full bg-dark-surface dark:bg-white text-white dark:text-dark-surface flex items-center justify-center font-semibold text-base">
                 1
               </div>
               <div className="flex-1">
@@ -107,7 +109,7 @@ export default function Home() {
             </div>
 
             <div className="flex gap-5">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-dark-surface dark:bg-white text-white dark:text-dark-surface flex items-center justify-center font-semibold text-base">
+              <div className="shrink-0 w-10 h-10 rounded-full bg-dark-surface dark:bg-white text-white dark:text-dark-surface flex items-center justify-center font-semibold text-base">
                 2
               </div>
               <div className="flex-1">
@@ -119,7 +121,7 @@ export default function Home() {
             </div>
 
             <div className="flex gap-5">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-dark-surface dark:bg-white text-white dark:text-dark-surface flex items-center justify-center font-semibold text-base">
+              <div className="shrink-0 w-10 h-10 rounded-full bg-dark-surface dark:bg-white text-white dark:text-dark-surface flex items-center justify-center font-semibold text-base">
                 3
               </div>
               <div className="flex-1">

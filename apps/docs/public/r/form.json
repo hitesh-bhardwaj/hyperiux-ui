@@ -4,6 +4,9 @@
   "title": "Form",
   "description": "Config-driven contact form with validation for text, phone, select, textarea, and checkbox fields",
   "category": "components",
+  "categories": [
+    "components"
+  ],
   "dependencies": [],
   "registryDependencies": [],
   "previewUrl": "/form",

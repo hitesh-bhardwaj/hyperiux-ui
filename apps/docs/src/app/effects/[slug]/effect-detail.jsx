@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
 import { VaultLayout } from "@/components/layout/VaultLayout";
 import { VaultHeader } from "@/components/layout/VaultHeader";
@@ -17,7 +17,10 @@ export function EffectDetailContent({
   effectCounts,
 }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const [error, setError] = useState(false);
+  const [loadedVideoUrl, setLoadedVideoUrl] = useState(null);
+  const [introVideoUrl, setIntroVideoUrl] = useState(null);
+  const playerRef = useRef(null);
+  const videoRef = useRef(null);
 
   const toggleWishlist = () => {
     const wishlist = JSON.parse(localStorage.getItem("hyperiux-wishlist") || "[]");
@@ -50,6 +53,41 @@ export default function MyComponent() {
 }`;
 
   const installCode = `npx hyperiux add ${slug}`;
+  const isLoaded = loadedVideoUrl === effect.videoUrl;
+  const hasIntroDelayElapsed = introVideoUrl === effect.videoUrl;
+
+  useEffect(() => {
+    if (!effect.videoUrl) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIntroVideoUrl(effect.videoUrl);
+    }, 800);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [effect.videoUrl]);
+
+  useEffect(() => {
+    if (!effect.videoUrl || !isLoaded || !hasIntroDelayElapsed) {
+      return;
+    }
+
+    const startPlayback = async () => {
+      try {
+        if (typeof playerRef.current?.play === "function") {
+          await playerRef.current.play();
+          return;
+        }
+
+        await videoRef.current?.play?.();
+      } catch {
+        // Ignore autoplay rejections; the muted player is retried through the native video element.
+      }
+    };
+
+    startPlayback();
+  }, [effect.videoUrl, hasIntroDelayElapsed, isLoaded]);
 
   return (
     <VaultLayout effectCounts={effectCounts}>
@@ -72,27 +110,35 @@ export default function MyComponent() {
                 <p className="text-neutral-500 dark:text-neutral-400">{effect.description}</p>
               </div>
               {/* Preview */}
-              <div className="h-[45vh]!  overflow-hidden">
+              <div className="h-[50vh] overflow-hidden relative">
                 {effect.videoUrl ? (
                   <CldVideoPlayer
+                    key={effect.videoUrl}
                     src={effect.videoUrl}
-                    poster={effect.coverImage}
                     autoplay
                     loop
                     muted
                     playsinline
                     controls={false}
+                    playerRef={playerRef}
+                    videoRef={videoRef}
                     className="w-full h-full object-cover"
-                    onError={() => setError(true)}
+                    poster={true}
+                    onDataLoad={() => setLoadedVideoUrl(effect.videoUrl)}
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full">
                     <div className="text-8xl opacity-10 dark:opacity-20 text-neutral-900 dark:text-neutral-100">
-                      {effect.category === "text" && "Aa"}
-                      {effect.category === "backgrounds" && "◐"}
-                      {effect.category === "buttons" && "◉"}
-                      {effect.category === "scroll" && "↕"}
-                      {effect.category === "cursor" && "◈"}
+                      {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
+                        <span key={cat}>
+                          {cat === "text" && "Aa"}
+                          {cat === "backgrounds" && "◐"}
+                          {cat === "buttons" && "◉"}
+                          {cat === "scroll" && "↕"}
+                          {cat === "cursor" && "◈"}
+                          {cat === "webgl" && "◈"}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -172,8 +218,8 @@ export default function MyComponent() {
                 <button
                   onClick={toggleWishlist}
                   className={`p-2.5 rounded-lg border transition-colors ${isWishlisted
-                      ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/20 text-red-500"
-                      : "bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300"
+                    ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/20 text-red-500"
+                    : "bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300"
                     }`}
                 >
                   <svg
@@ -199,7 +245,9 @@ export default function MyComponent() {
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-neutral-500 dark:text-neutral-400">Category</span>
-                    <span className="text-neutral-900 dark:text-white capitalize">{effect.category}</span>
+                    <span className="text-neutral-900 dark:text-white capitalize">
+                      {(effect.categories?.length ? effect.categories : [effect.category]).join(", ")}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-neutral-500 dark:text-neutral-400">Dependencies</span>
@@ -216,9 +264,11 @@ export default function MyComponent() {
                 {/* Tags */}
                 <div className="pt-3 border-t border-neutral-200 dark:border-neutral-800">
                   <div className="flex flex-wrap gap-2">
-                    <span className="px-2.5 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-xs text-neutral-600 dark:text-neutral-400 capitalize">
-                      {effect.category}
-                    </span>
+                    {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
+                      <span key={cat} className="px-2.5 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-xs text-neutral-600 dark:text-neutral-400 capitalize">
+                        {cat}
+                      </span>
+                    ))}
                     {effect.dependencies?.map((dep) => (
                       <span
                         key={dep}

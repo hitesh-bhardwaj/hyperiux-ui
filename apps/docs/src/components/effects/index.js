@@ -1,2 +1,2 @@
-export { BlurText } from "./BlueText";
+export { BlurText } from "./BlurText";
 export { TextReveal, TextRevealByLine, RevealLine } from "./text-reveal";

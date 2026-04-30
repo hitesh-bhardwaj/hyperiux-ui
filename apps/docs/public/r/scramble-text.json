@@ -4,6 +4,9 @@
   "title": "Scramble Text",
   "description": "Hacker-style text scramble effect that reveals text character by character on scroll",
   "category": "text",
+  "categories": [
+    "text"
+  ],
   "dependencies": [
     "gsap"
   ],

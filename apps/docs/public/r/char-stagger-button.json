@@ -4,6 +4,9 @@
   "title": "Character Stagger Button",
   "description": "Link button with staggered character animation on hover",
   "category": "buttons",
+  "categories": [
+    "buttons"
+  ],
   "dependencies": [
     "lucide-react"
   ],

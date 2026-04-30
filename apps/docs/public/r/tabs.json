@@ -4,6 +4,9 @@
   "title": "Tabs",
   "description": "Animated tabs with a moving active indicator and panel transitions",
   "category": "components",
+  "categories": [
+    "components"
+  ],
   "dependencies": [
     "gsap"
   ],

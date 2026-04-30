@@ -14,17 +14,18 @@ const categories = [
   { id: "navigation", name: "Navigation", icon: "☰" },
   { id: "cursor", name: "Cursor Effects", icon: "◈" },
   { id: "transitions", name: "Page Transitions", icon: "⇄" },
+  { id: "loaders", name: "Website Loaders", icon: "⏳" },
+  { id: "webgl", name: "WebGL", icon: "◈" },
+  { id: "others", name: "Others", icon: "⊹" },
 ];
 
-export function Sidebar({ effectCounts = {} }) {
+export function Sidebar({ effectCounts = {}, totalEffects = 0 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category") || "all";
 
-  const totalEffects = Object.values(effectCounts).reduce((a, b) => a + b, 0);
-
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-[260px] bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40">
+    <aside className="fixed left-0 top-0 bottom-0 w-65 bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40">
       {/* Logo */}
       <div className="h-18 flex items-center px-5 border-b border-neutral-200 dark:border-neutral-800">
         <Link href="/" className="flex items-center gap-3">
@@ -41,6 +42,7 @@ export function Sidebar({ effectCounts = {} }) {
             height={24}
             className="dark:invert"
           />
+          <span className="text-xl -ml-1">UI</span>
         </Link>
       </div>
 

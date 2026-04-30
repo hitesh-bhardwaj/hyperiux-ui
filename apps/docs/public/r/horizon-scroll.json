@@ -4,6 +4,9 @@
   "title": "Horizon Scroll",
   "description": "Horizontal storytelling section that converts vertical scroll into a panoramic gallery track",
   "category": "scroll",
+  "categories": [
+    "scroll"
+  ],
   "dependencies": [
     "gsap"
   ],

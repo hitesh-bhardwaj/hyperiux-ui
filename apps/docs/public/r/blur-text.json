@@ -4,6 +4,9 @@
   "title": "Blur Text",
   "description": "Text that reveals with a blur-to-focus animation on scroll",
   "category": "text",
+  "categories": [
+    "text"
+  ],
   "dependencies": [
     "framer-motion"
   ],
