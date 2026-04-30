@@ -5,10 +5,11 @@ import SplitText from "gsap/dist/SplitText";
 
 gsap.registerPlugin(SplitText);
 
-export default function ClippathSlider({ slides = [] }) {
+export default function ClippathSlider({ slides = [], cursorBg = "#d9f99d", cursorLineColor = "#000", }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [nextSlideIndex, setNextSlideIndex] = useState(0);
+  const isInside = useRef(false);
 
   const [layerA, setLayerA] = useState({ index: 0 });
   const [layerB, setLayerB] = useState({ index: 0 });
@@ -29,7 +30,7 @@ const line2Ref = useRef(null);
 const mouse = useRef({ x: 0, y: 0 });
 const pos = useRef({ x: 0, y: 0 });
 
-  // ✅ Init on mount
+  // Init on mount
   useEffect(() => {
     // Active layer A: visible, locked at 1.25 (resting state after canvas zoom)
     if (bgRefA.current) gsap.set(bgRefA.current, { scale: 1.25, opacity: 1, zIndex: 1 });
@@ -44,7 +45,7 @@ const pos = useRef({ x: 0, y: 0 });
     drawStaticLines();
   }, []);
 
-  // ✅ Redraw lines on resize
+  //  Redraw lines on resize
   useEffect(() => {
     const handleResize = () => {
       const canvas = canvasRef.current;
@@ -58,7 +59,7 @@ const pos = useRef({ x: 0, y: 0 });
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // ✅ AUTO PLAY
+  //  AUTO PLAY
   useEffect(() => {
     if (isTransitioning || slides.length === 0) return;
     autoPlayTimerRef.current = setTimeout(() => {
@@ -67,7 +68,7 @@ const pos = useRef({ x: 0, y: 0 });
     return () => clearTimeout(autoPlayTimerRef.current);
   }, [currentSlide, isTransitioning]);
 
-  // ✅ TEXT IN
+  // TEXT IN
   useEffect(() => {
     if (!textRef.current || isTransitioning) return;
 
@@ -94,7 +95,7 @@ const pos = useRef({ x: 0, y: 0 });
     });
   }, [currentSlide]);
 
-  // ✅ FADE OUT TEXT
+  //  FADE OUT TEXT
   const fadeOutText = () => {
     return new Promise((resolve) => {
       if (!textRef.current) return resolve();
@@ -226,7 +227,8 @@ const pos = useRef({ x: 0, y: 0 });
           progress: 1,
           imgScale: 1.25,
           duration: 1.2,
-          ease: "cubic-bezier(.075, .82, .165, 1)",
+          // ease: "cubic-bezier(.075, .82, .165, 1)",
+          ease: "power2.inOut",
           onUpdate: draw,
           onComplete: () => {
             requestAnimationFrame(() => {
@@ -246,7 +248,7 @@ const pos = useRef({ x: 0, y: 0 });
     });
   };
 
-  // ✅ SLIDE CHANGE
+  //  SLIDE CHANGE
   const changeSlide = async (newIndex) => {
     if (isTransitioning || slides.length === 0) return;
 
@@ -291,7 +293,8 @@ const pos = useRef({ x: 0, y: 0 });
       gsap.to(outgoingRef.current, {
         scale: 1.0,
         duration: 1.2,
-        ease: "power1.inOut",
+        // ease: "power1.inOut",
+        ease: "power2.inOut",
       });
     }
 
@@ -326,7 +329,7 @@ const pos = useRef({ x: 0, y: 0 });
 
   if (slides.length === 0) return null;
 
-useEffect(() => {
+  useEffect(() => {
   const cursor = cursorRef.current;
   const l1 = line1Ref.current;
   const l2 = line2Ref.current;
@@ -337,68 +340,136 @@ useEffect(() => {
   gsap.set(cursor, {
     xPercent: -50,
     yPercent: -50,
+    opacity: 0, 
+    scale: 0.6,
   });
 
-  // IMPORTANT: anchor lines from left + center them
-  gsap.set([l1, l2], {
+  // lines setup (keep yours)
+  gsap.set(l1, {
     transformOrigin: "100% 50%",
     xPercent: -50,
     yPercent: -50,
+    y: -1.5,
+    rotation: 45,
+    x: 0,
   });
 
-  // initial state → RIGHT arrow (>)
-  gsap.set(l1, { rotation: 45, x: 4 });
-  gsap.set(l2, { rotation: -45, x: 4 });
+  gsap.set(l2, {
+    transformOrigin: "100% 50%",
+    xPercent: -50,
+    yPercent: -50,
+    y: 1.5,
+    rotation: -45,
+    x: 0,
+  });
 
   let currentSide = "right";
 
   const handleMove = (e) => {
-    mouse.current.x = e.clientX;
-    mouse.current.y = e.clientY;
+  const x = e.clientX;
+  const y = e.clientY;
 
-    const isLeft = e.clientX < window.innerWidth / 2;
-    const nextSide = isLeft ? "left" : "right";
+  mouse.current.x = x;
+  mouse.current.y = y;
 
-    if (nextSide !== currentSide) {
-      currentSide = nextSide;
+  //  detect if outside viewport (fixes top edge issue)
+  const isOut =
+    x <= 0 ||
+    y <= 0 ||
+    x >= window.innerWidth ||
+    y >= window.innerHeight;
 
-     if (nextSide === "left") {
-  // <
-  gsap.to(l1, {
-    rotation: 135,
-    x: '-1.5vw', // 👈 more left shift
-    duration: 0.35,
-    ease: "power3.inOut",
-  });
+  // ── OUTSIDE SCREEN ─────────────────────────────
+  if (isOut) {
+    if (isInside.current) {
+      isInside.current = false;
 
-  gsap.to(l2, {
-    rotation: -135,
-    x: '-1.5vw', // 👈 more left shift
-    duration: 0.35,
-    ease: "power3.inOut",
-  });
-} else {
-  // >
-  gsap.to(l1, {
-    rotation: 45,
-    x: 4,
-    duration: 0.35,
-    ease: "power3.inOut",
-  });
-
-  gsap.to(l2, {
-    rotation: -45,
-    x: 4,
-    duration: 0.35,
-    ease: "power3.inOut",
-  });
-}
+      gsap.to(cursorRef.current, {
+        opacity: 0,
+        scale: 0.6,
+        duration: 0.25,
+        ease: "power3.inOut",
+      });
     }
-  };
+    return;
+  }
+
+  // ── FIRST ENTRY (fix top-left jump) ────────────
+  if (!isInside.current) {
+    pos.current.x = x;
+    pos.current.y = y;
+
+    gsap.set(cursorRef.current, {
+      x: x,
+      y: y,
+    });
+
+    gsap.to(cursorRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.25,
+      ease: "power3.out",
+    });
+
+    isInside.current = true;
+  }
+
+  // ── ARROW SIDE LOGIC ───────────────────────────
+  const isLeft = x < window.innerWidth / 2;
+  const nextSide = isLeft ? "left" : "right";
+
+  if (nextSide !== currentSide) {
+    currentSide = nextSide;
+
+    if (nextSide === "left") {
+      // <
+      gsap.to(line1Ref.current, {
+        rotation: 135,
+        x: "-1vw",
+        duration: 0.35,
+        ease: "power3.inOut",
+      });
+
+      gsap.to(line2Ref.current, {
+        rotation: -135,
+        x: "-1vw",
+        duration: 0.35,
+        ease: "power3.inOut",
+      });
+    } else {
+      // >
+      gsap.to(line1Ref.current, {
+        rotation: 45,
+        x: 4,
+        duration: 0.35,
+        ease: "power3.inOut",
+      });
+
+      gsap.to(line2Ref.current, {
+        rotation: -45,
+        x: 4,
+        duration: 0.35,
+        ease: "power3.inOut",
+      });
+    }
+  }
+};
+
+  const handleLeave = () => {
+  isInside.current = false;
+
+  gsap.to(cursor, {
+    opacity: 0,
+    scale: 0.6, 
+    duration: 0.25,
+    ease: "power3.inOut",
+  });
+};
 
   window.addEventListener("mousemove", handleMove);
+  // window.addEventListener("mouseleave", handleLeave);
 
-  // smooth follow (lerp)
+  // smooth follow
   const render = () => {
     pos.current.x += (mouse.current.x - pos.current.x) * 0.12;
     pos.current.y += (mouse.current.y - pos.current.y) * 0.12;
@@ -415,6 +486,7 @@ useEffect(() => {
 
   return () => {
     window.removeEventListener("mousemove", handleMove);
+    window.removeEventListener("mouseleave", handleLeave);
   };
 }, []);
 
@@ -508,20 +580,24 @@ useEffect(() => {
   ref={cursorRef}
   className="fixed top-0 left-0 pointer-events-none z-100"
 >
-  <div className="w-20 h-20 rounded-full bg-[#d9f99d] flex items-center justify-center relative">
+ <div
+  className="w-15 h-15 rounded-full flex items-center justify-center relative"
+  style={{ backgroundColor: cursorBg }}
+>
     
     <div className="relative w-7.5 h-7.5 ">
       
       {/* line 1 */}
-      <span
+     <span
         ref={line1Ref}
-        className="absolute left-1/2 top-1/2 w-5 h-0.5 bg-black"
+        className="absolute left-1/2 top-1/2 w-4 h-0.5"
+        style={{ backgroundColor: cursorLineColor }}
       />
 
-      {/* line 2 */}
       <span
         ref={line2Ref}
-        className="absolute left-1/2 top-1/2 w-5 h-0.5 bg-black"
+        className="absolute left-1/2 top-1/2 w-4 h-0.5"
+        style={{ backgroundColor: cursorLineColor }}
       />
 
     </div>
