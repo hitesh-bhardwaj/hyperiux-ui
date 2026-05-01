@@ -197,6 +197,23 @@
       "addedAt": 1776836655013.478
     },
     {
+      "name": "rotation-slider",
+      "title": "Rotation Slider",
+      "description": "Scroll-pinned horizontal slider with 3D card rotation, vertical drift, and SplitText caption reveals.",
+      "category": "scroll",
+      "categories": [
+        "scroll"
+      ],
+      "dependencies": [
+        "gsap",
+        "next"
+      ],
+      "previewUrl": "/scroll-based-effects/rotation-slider",
+      "coverImage": "/assets/listing/rotation-slider.png",
+      "videoUrl": "rotation-slider",
+      "addedAt": 1777642064452.4944
+    },
+    {
       "name": "scroll-distortion",
       "title": "Scroll Distortion",
       "description": "Scroll-synced WebGL image transition with displacement distortion and fullscreen typography",
@@ -1036,6 +1053,20 @@
       "addedAt": 1776836655001.959
     },
     {
+      "name": "gooey-counter",
+      "title": "Gooey Counter",
+      "description": "Canvas-based animated counter that morphs pixel-grid blocks between numbers 0–10 using an SVG gooey filter. Blocks scatter to a random layout between each number with eased transitions.",
+      "category": "components",
+      "categories": [
+        "components"
+      ],
+      "dependencies": [],
+      "previewUrl": "/gooey-counter",
+      "coverImage": "/assets/listing/gooey-counter.png",
+      "videoUrl": "gooey-counter",
+      "addedAt": 1777641466188.9058
+    },
+    {
       "name": "hover-slider",
       "title": "Hover Slider",
       "description": "WebGL-powered list where hovering a row reveals a vertically-scrolling image stack with circular-arc curvature, velocity-based elastic snap, and GSAP-driven fade/curve transitions.",
@@ -1251,6 +1282,38 @@
       "coverImage": "/assets/listing/601-hero.png",
       "videoUrl": "601-hero",
       "addedAt": 1777630755245.6868
+    },
+    {
+      "name": "fractal-glass",
+      "title": "Fractal Glass",
+      "description": "WebGL glass-strip refraction effect with fractal distortion, edge blending, and pointer-reactive parallax.",
+      "category": "webgl",
+      "categories": [
+        "webgl"
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "previewUrl": "/webgl/fractal-glass",
+      "coverImage": "/assets/listing/fractal-glass.png",
+      "videoUrl": "fractal-glass",
+      "addedAt": 1777641893277.9226
+    },
+    {
+      "name": "grid-lift",
+      "title": "Grid Lift",
+      "description": "Interactive lifted grid mask with SVG/text modes, pointer-driven depth, and live Leva controls.",
+      "category": "webgl",
+      "categories": [
+        "webgl"
+      ],
+      "dependencies": [
+        "leva"
+      ],
+      "previewUrl": "/webgl/grid-lift",
+      "coverImage": "/assets/listing/grid-lift.png",
+      "videoUrl": "grid-lift",
+      "addedAt": 1777641732767.631
     },
     {
       "name": "milkyway",

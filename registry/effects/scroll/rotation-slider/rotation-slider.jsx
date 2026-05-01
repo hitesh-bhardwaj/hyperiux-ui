@@ -5,7 +5,7 @@ const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffec
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import RotationCard from "./RotationCard";
+import RotationCard from "./rotation-card";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
