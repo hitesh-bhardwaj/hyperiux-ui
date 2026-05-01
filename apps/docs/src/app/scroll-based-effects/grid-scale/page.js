@@ -7,21 +7,17 @@ import LenisSmoothScroll from '@/components/SmoothScroll/LenisScroll'
 gsap.registerPlugin(ScrollTrigger)
 
 const floatingWords = [
-    // Spread across the grid (similar to reference), then animate to center on scroll
     { text: 'INVITE', color: 'bg-sky-300', start: { top: '6%', left: '10%', xPercent: -50, yPercent: -50 } },
     { text: 'JOIN', color: 'bg-pink-300', start: { top: '6%', left: '52%', xPercent: -50, yPercent: -50 } },
     { text: 'CONNECT', color: 'bg-purple-300', start: { top: '12%', left: '78%', xPercent: -50, yPercent: -50 } },
     { text: 'DOWNLOADS', color: 'bg-pink-200', start: { top: '18%', left: '20%', xPercent: -50, yPercent: -50 } },
     { text: 'DISCOVER', color: 'bg-purple-200', start: { top: '26%', left: '88%', xPercent: -50, yPercent: -50 } },
-
     { text: 'DESIGN', color: 'bg-purple-200', start: { top: '42%', left: '10%', xPercent: -50, yPercent: -50 } },
     { text: 'EXPLORE', color: 'bg-orange-200', start: { top: '40%', left: '82%', xPercent: -50, yPercent: -50 } },
     { text: 'SHARE', color: 'bg-orange-300', start: { top: '65%', left: '72%', xPercent: -50, yPercent: -50 } },
-
     { text: 'PURCHASE', color: 'bg-sky-200', start: { top: '70%', left: '16%', xPercent: -50, yPercent: -50 } },
     { text: 'CREATE', color: 'bg-sky-200', start: { top: '85%', left: '44%', xPercent: -50, yPercent: -50 } },
     { text: 'BUILD', color: 'bg-pink-200', start: { top: '74%', left: '85%', xPercent: -50, yPercent: -50 } },
-
     { text: 'LAUNCH', color: 'bg-orange-200', start: { top: '88%', left: '12%', xPercent: -50, yPercent: -50 } },
     { text: 'INNOVATE', color: 'bg-sky-300', start: { top: '88%', left: '32%', xPercent: -50, yPercent: -50 } },
     { text: 'TRANSFORM', color: 'bg-purple-300', start: { top: '90%', left: '54%', xPercent: -50, yPercent: -50 } },
@@ -120,10 +116,6 @@ export default function Page() {
                 "<"
 
             );
-
-
-
-
         });
 
         return () => ctx.revert();
