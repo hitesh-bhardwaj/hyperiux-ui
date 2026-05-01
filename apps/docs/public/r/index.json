@@ -495,6 +495,22 @@
       "addedAt": 1776836655006.7603
     },
     {
+      "name": "liquid-glass-cursor",
+      "title": "Liquid Glass Cursor",
+      "description": "Fluid glass-like custom cursor with SVG displacement refraction, hover morph states, and GSAP-smoothed tracking.",
+      "category": "cursor",
+      "categories": [
+        "cursor"
+      ],
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/liquid-glass-cursor",
+      "coverImage": "/assets/listing/liquid-glass-cursor.png",
+      "videoUrl": "liquid-glass-cursor",
+      "addedAt": 1777642662724.9204
+    },
+    {
       "name": "noise-ripple-cursor",
       "title": "Noise Ripple Cursor",
       "description": "Interactive shader overlay that distorts and dithers an image with fluid cursor ripples",
@@ -1210,6 +1226,23 @@
       "coverImage": "/assets/listing/glass-pill-header.png",
       "videoUrl": "glass-pill-header",
       "addedAt": 1776866256550.4963
+    },
+    {
+      "name": "osmo-menu",
+      "title": "Osmo Menu",
+      "description": "Animated multi-column mega menu with GSAP timelines, square cursor indicators, and hover-fill link transitions.",
+      "category": "navigation",
+      "categories": [
+        "navigation"
+      ],
+      "dependencies": [
+        "gsap",
+        "next"
+      ],
+      "previewUrl": "/osmo-menu",
+      "coverImage": "/assets/listing/osmo-menu.png",
+      "videoUrl": "osmo-menu",
+      "addedAt": 1777642774935.7666
     },
     {
       "name": "cappen",

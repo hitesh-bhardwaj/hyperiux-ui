@@ -6,14 +6,13 @@
   /* Coinbase-inspired color palette */
   --background: #ffffff;
   --foreground: #0a0b0d;
-  --primary: #ff6b00;
+  --primary: #ff5f00;
   --primary-hover: #ff9253;
   --secondary-surface: #eef0f3;
   --dark-surface: #0a0b0d;
   --dark-card: #282b31;
   --border: rgba(91, 97, 110, 0.2);
   --muted: #5b616e;
-  
 }
 
 .dark {
