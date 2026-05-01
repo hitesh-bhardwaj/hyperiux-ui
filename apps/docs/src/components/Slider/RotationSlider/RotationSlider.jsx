@@ -1,5 +1,7 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useLayoutEffect } from "react";
+
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
@@ -35,7 +37,7 @@ export default function RotationSlider({ images }) {
     };
   }, [images]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const outer = outerRef.current;
     const track = trackRef.current;
     if (!outer || !track) return;
@@ -57,7 +59,7 @@ export default function RotationSlider({ images }) {
 
       const animateTextIn = (index) => {
         if (activeIndex === index) return;
-        
+
         if (activeIndex !== -1 && textsRef.current[activeIndex]) {
           const prevText = textsRef.current[activeIndex];
           gsap.killTweensOf(prevText.querySelectorAll("div"));
@@ -69,7 +71,7 @@ export default function RotationSlider({ images }) {
         if (currentText && currentText.innerText.trim() !== "") {
           gsap.set(currentText, { opacity: 1 });
           const split = new SplitText(currentText, { type: "chars,words" });
-          
+
           gsap.fromTo(split.chars,
             { opacity: 0, y: 20 },
             { opacity: 1, y: 0, duration: 0.4, stagger: 0.01, ease: "power2.out", onComplete: () => split.revert() }
@@ -93,14 +95,6 @@ export default function RotationSlider({ images }) {
 
         const rotateXValue = offset < 0 ? 5 : -5;
 
-        // Initial state for the card (rotated and offset in Y)
-        gsap.set(card, {
-          rotateY: -100,
-          rotateX: rotateXValue,
-          opacity: 0.8,
-          y: `${offset}vh`,
-        });
-
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: wrapper,
@@ -122,26 +116,37 @@ export default function RotationSlider({ images }) {
         });
 
         // Phase 1: Enter screen from right -> straight in the middle
-        tl.to(card, {
-          rotateY: 0,
-          rotateX: 0,
-          opacity: 1,
-          y: 0,
-          ease: "none",
-        })
+        tl.fromTo(card,
+          {
+            rotateY: -100,
+            rotateX: rotateXValue,
+            opacity: 0.8,
+            y: `${offset}vh`,
+          },
+          {
+            rotateY: 0,
+            rotateX: 0,
+            opacity: 1,
+            y: 0,
+            ease: "none",
+          }
+        )
 
-//         .set(card, {
-//   transformOrigin: "left center",
-// })
+          //         .set(card, {
+          //   transformOrigin: "left center",
+          // })
 
-        // Phase 2: Middle -> Exit offscreen to the left
-        .to(card, {
-          rotateY: 80,
-          opacity: 0.9,
-          y: `${-offset}vh`,
-          ease: "none",
-        });
+          // Phase 2: Middle -> Exit offscreen to the left
+          .to(card, {
+            rotateY: 80,
+            opacity: 0.9,
+            y: `${-offset}vh`,
+            ease: "none",
+          });
       });
+
+      // Force GSAP to apply all initial scroll calculations immediately before the first paint
+      ScrollTrigger.refresh();
     });
 
     return () => ctx.revert();
@@ -163,7 +168,7 @@ export default function RotationSlider({ images }) {
           </div>
         ))}
       </div>
-      <div 
+      <div
         className="sticky top-0 h-screen overflow-hidden flex items-center perspective-distant"
         style={{ perspective: "1200px" }}
       >
@@ -173,8 +178,8 @@ export default function RotationSlider({ images }) {
           style={{
             transformStyle: "preserve-3d",
             gap: "5vw",
-            paddingLeft: "32vw", // Start with some padding so first item comes from the right edge
-            paddingRight: "32vw", // End with padding so last item can leave viewport
+            paddingLeft: "31vw", // Centers the first item (31vw + 38vw/2 = 50vw)
+            paddingRight: "31vw", // Centers the last item
           }}
         >
           {images.map((img, i) => (
