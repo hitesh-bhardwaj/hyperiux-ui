@@ -10,7 +10,7 @@ const GRID_ROWS = 5
 const HERO_INDEX = 1
 const LAST_INDEX = GRID_COLS * GRID_ROWS - 1
 
-const SmoothTransition = ({ images = {} }) => {
+export function SmoothScrollAnimation({ images = {} }) {
   const {
     section1Img = '/assets/img/image03.webp',
     heroImg = '/assets/img/image03.webp',
@@ -76,12 +76,10 @@ const SmoothTransition = ({ images = {} }) => {
       gsap.set(section3TextRef.current, { y: '-120%', opacity: 0 })
       gsap.set(overlayImageRef.current, { opacity: 0, display: 'none' })
 
-      // phase3 state
       let phase3Initialized = false
       let heroBaseY = 0
       let ovData = null
 
-      // ── Single master ScrollTrigger driving everything via progress ─
       // Progress bands:
       //   Phase 1 : 0.00 → 0.40  hero flies in, texts appear
       //   Phase 2 : 0.40 → 0.64  grid appears, hero shrinks to cell
@@ -139,7 +137,6 @@ const SmoothTransition = ({ images = {} }) => {
             return
           }
 
-          // init phase3 measurements once
           if (!phase3Initialized) {
             phase3Initialized = true
             heroBaseY = parseFloat(gsap.getProperty(imageRef2.current, 'y') || 0)
@@ -171,19 +168,15 @@ const SmoothTransition = ({ images = {} }) => {
             gsap.set(lastEl, { opacity: 0 })
           }
 
-          // grid scrolls up
           gsap.set(gridRef.current,   { y: `${-p3 * 100}vh` })
 
-          // hero follows grid
           const gridShiftPx = (-p3 * 100 / 100) * window.innerHeight
           gsap.set(imageRef2.current, { y: heroBaseY + gridShiftPx })
 
-          // swap to placeholder when hero goes off-screen
           const isOffScreen = imageRef2.current.getBoundingClientRect().bottom < 0
           gsap.set(imageRef2.current,      { opacity: isOffScreen ? 0 : 1 })
           gsap.set(heroGridImgRef.current, { opacity: isOffScreen ? 1 : 0 })
 
-          // overlay expands
           if (ovData) {
             gsap.set(overlayImageRef.current, {
               left:   ovData.startLeft  + (ovData.targetLeft - ovData.startLeft)  * p3,
@@ -193,7 +186,6 @@ const SmoothTransition = ({ images = {} }) => {
             })
           }
 
-          // section3 text
           const textP = Math.max(0, (p3 - 0.3) / 0.7)
           gsap.set(section3TextRef.current, { y: `${-120 + textP * 120}%`, opacity: textP })
         },
@@ -312,5 +304,3 @@ const SmoothTransition = ({ images = {} }) => {
     </>
   )
 }
-
-export default SmoothTransition

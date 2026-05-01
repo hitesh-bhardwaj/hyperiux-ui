@@ -6,16 +6,11 @@ import { ReactLenis } from "lenis/react";
 const page = () => {
   return (
 
-        <ReactLenis root options={{infinite: true,}} >
-           <div>
-
-            {/* <LenisSmoothScroll /> */}
-
-      <SmoothAnim images={images} />
-      {/* <Component2 /> */}
-  
-           </div>
-         </ReactLenis>
+    <ReactLenis root options={{ infinite: true, }} >
+      <div className='bg-white text-black/90'>
+        <SmoothAnim images={images} />
+      </div>
+    </ReactLenis>
   )
 }
 
@@ -27,7 +22,7 @@ const images = {
   overlayImg: '/assets/img/image06.png',      // Overlay = grid's last image (LAST_INDEX = 24)
   gridImgs: [
     '/assets/nature/nature01.png',  // index 0
-    
+
     '/assets/img/image05.png',
     '/assets/nature/nature03.png',  // index 2 — matches heroImg
     '/assets/nature/nature04.png',  // index 3

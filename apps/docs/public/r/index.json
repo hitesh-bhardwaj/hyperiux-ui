@@ -17,6 +17,22 @@
       "addedAt": 1776836655009.6042
     },
     {
+      "name": "grid-scale",
+      "title": "Grid Scale",
+      "description": "Scroll-driven animation where a centered clip-path panel expands to fullscreen while corner boxes fly in, grid lines dissolve, and floating keyword pills converge to the center.",
+      "category": "scroll",
+      "categories": [
+        "scroll"
+      ],
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/scroll-based-effects/grid-scale",
+      "coverImage": "/assets/listing/grid-scale.png",
+      "videoUrl": "grid-scale",
+      "addedAt": 1777638748845.5647
+    },
+    {
       "name": "helix-slider",
       "title": "Helix Slider",
       "description": "Pinned scroll gallery that arranges cards through a helix-like cylindrical path",
@@ -229,6 +245,23 @@
       "coverImage": "/assets/listing/scroll-stack.png",
       "videoUrl": "scroll-stack",
       "addedAt": 1776836655014.891
+    },
+    {
+      "name": "smooth-scroll-animation",
+      "title": "Smooth Scroll Animation",
+      "description": "Three-phase scroll-driven sequence: parallax hero, image flies in with text, 5×5 grid materialises and shrinks hero to a cell, then grid scrolls off while the last image expands into a centred overlay. Powered by GSAP ScrollTrigger with Lenis infinite scroll.",
+      "category": "scroll",
+      "categories": [
+        "scroll"
+      ],
+      "dependencies": [
+        "gsap",
+        "lenis"
+      ],
+      "previewUrl": "/smooth-scroll-animation",
+      "coverImage": "/assets/listing/smooth-scroll-animation.png",
+      "videoUrl": "smooth-scroll-animation",
+      "addedAt": 1777639725422.8315
     },
     {
       "name": "split-canvas",
@@ -909,6 +942,22 @@
       "addedAt": 1776836654999.7444
     },
     {
+      "name": "clippath-slider",
+      "title": "Clip Path Slider",
+      "description": "Fullscreen image slider where transitions sweep via two canvas-drawn radial clip-path arcs. Includes a dual-layer background crossfade, GSAP SplitText line reveals, and a smooth custom cursor that flips direction arrows left/right.",
+      "category": "carousels",
+      "categories": [
+        "carousels"
+      ],
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/carousels/clippath-slider",
+      "coverImage": "/assets/listing/clippath-slider.png",
+      "videoUrl": "clippath-slider",
+      "addedAt": 1777639848802.513
+    },
+    {
       "name": "animated-faq",
       "title": "Animated FAQ",
       "description": "Accessible accordion-style FAQ component with smooth GSAP animations",
@@ -957,6 +1006,22 @@
       "addedAt": 1776926755334.5457
     },
     {
+      "name": "file-encryption",
+      "title": "File Encryption",
+      "description": "Auto-scrolling draggable card marquee with a WebGL laser beam that splits each card between its plain and ASCII/encrypted face, plus Canvas 2D particle scatter.",
+      "category": "components",
+      "categories": [
+        "components"
+      ],
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/file-encryption",
+      "coverImage": "/assets/listing/file-encryption.png",
+      "videoUrl": "file-encryption",
+      "addedAt": 1777639428953.782
+    },
+    {
       "name": "form",
       "title": "Form",
       "description": "Config-driven contact form with validation for text, phone, select, textarea, and checkbox fields",
@@ -969,6 +1034,23 @@
       "coverImage": "/assets/listing/form.png",
       "videoUrl": "form",
       "addedAt": 1776836655001.959
+    },
+    {
+      "name": "hover-slider",
+      "title": "Hover Slider",
+      "description": "WebGL-powered list where hovering a row reveals a vertically-scrolling image stack with circular-arc curvature, velocity-based elastic snap, and GSAP-driven fade/curve transitions.",
+      "category": "components",
+      "categories": [
+        "components"
+      ],
+      "dependencies": [
+        "three",
+        "gsap"
+      ],
+      "previewUrl": "/hover-slider",
+      "coverImage": "/assets/listing/hover-slider.png",
+      "videoUrl": "hover-slider",
+      "addedAt": 1777639185053.968
     },
     {
       "name": "hover-stack",
@@ -1148,6 +1230,49 @@
       "coverImage": "/assets/listing/numeric-tunnel.png",
       "videoUrl": "numeric-tunnel",
       "addedAt": 1776859859557.8518
+    },
+    {
+      "name": "601-hero",
+      "title": "601 Hero",
+      "description": "Immersive WebGL hero with a 3D room, interactive TV screen with pixelated video transition, mouse-tracked lighting, edge blur, and film grain post-processing.",
+      "category": "webgl",
+      "categories": [
+        "webgl"
+      ],
+      "dependencies": [
+        "@react-three/fiber",
+        "@react-three/drei",
+        "@react-three/postprocessing",
+        "postprocessing",
+        "gsap",
+        "three"
+      ],
+      "previewUrl": "/601-hero",
+      "coverImage": "/assets/listing/601-hero.png",
+      "videoUrl": "601-hero",
+      "addedAt": 1777630755245.6868
+    },
+    {
+      "name": "milkyway",
+      "title": "Milky Way",
+      "description": "GPU-accelerated GPGPU particle galaxy with spiral arms, curl-noise nebula smoke, twinkling sparkle stars, background starfield, and post-processing vignette + edge blur.",
+      "category": "webgl",
+      "categories": [
+        "webgl"
+      ],
+      "dependencies": [
+        "@react-three/fiber",
+        "@react-three/drei",
+        "@react-three/postprocessing",
+        "postprocessing",
+        "three",
+        "lucide-react",
+        "gsap"
+      ],
+      "previewUrl": "/milkyway",
+      "coverImage": "/assets/listing/milkyway.png",
+      "videoUrl": "milkyway",
+      "addedAt": 1777639027957.738
     },
     {
       "name": "strip-slider",
