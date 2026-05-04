@@ -68,7 +68,7 @@ export function VaultContent({ effects, effectCounts }) {
         </div>
 
         {/* Effects Grid */}
-        <div className="max-w-7xl mx-auto px-8 py-12">
+        <div className="max-w-7xl mx-auto px-6 pl-3 py-12">
           {/* Active filter indicator */}
           {(categoryFilter !== "all" || searchQuery) && (
             <div className="flex items-center gap-3 mb-8">
@@ -101,7 +101,7 @@ export function VaultContent({ effects, effectCounts }) {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {filteredEffects.map((effect, i) => (
                   <EffectCard key={effect.name} effect={effect} priority={i < 4} />
                 ))}
