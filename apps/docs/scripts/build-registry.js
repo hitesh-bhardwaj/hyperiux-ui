@@ -17,6 +17,7 @@ const CATEGORY_ORDER = [
   "transitions",
   "text",
   "buttons",
+  "carousels",
   "components",
   "navigation",
   "loaders",

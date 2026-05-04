@@ -2,34 +2,31 @@ import { useMemo, useEffect } from "react";
 import { Effect } from "postprocessing";
 import { Uniform, Vector2 } from "three";
 
-const fragmentShader = /* glsl */ `
+/**
+ * Both shaders share the same blur logic, but the output differs:
+ * - classic: pure blur, no frosted white overlay
+ * - frosted: blur + white, semi-transparent veil toward edges
+ */
+
+const classicBlurFragmentShader = /* glsl */ `
 uniform float uBlurStrength;
 uniform float uBlurStart;
 uniform vec2 uResolution;
 
 void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
-  // Distance from center (0 at center, ~0.7 at corners)
   vec2 center = uv - 0.5;
   float dist = length(center);
 
-  // Blur starts at uBlurStart, ramps up toward edges
   float blurAmount = smoothstep(uBlurStart, 0.75, dist) * uBlurStrength;
 
   if (blurAmount < 0.001) {
-    // Center — no blur, skip sampling for performance
     outputColor = inputColor;
     return;
   }
 
-  // Aspect-correct blur radius
   float aspect = uResolution.x / uResolution.y;
   vec2 texelSize = vec2(1.0 / uResolution.x, 1.0 / uResolution.y);
 
-  // Multi-tap disc blur (13 taps for quality bokeh-like softness)
-  vec4 sum = inputColor;
-  float totalWeight = 1.0;
-
-  // Poisson disc offsets for natural-looking blur
   const int TAPS = 12;
   vec2 offsets[12];
   offsets[0]  = vec2(-0.326, -0.406);
@@ -45,27 +42,103 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
   offsets[10] = vec2(-0.322, -0.933);
   offsets[11] = vec2(-0.792, -0.598);
 
-  float radius = blurAmount * 12.0; // blur radius in pixels
+  float radius = blurAmount * 12.0;
+
+  vec4 blurred = inputColor;
+  float totalWeight = 1.0;
 
   for (int i = 0; i < TAPS; i++) {
     vec2 offset = offsets[i] * radius * texelSize;
     vec4 s = texture2D(inputBuffer, uv + offset);
-    sum += s;
+    blurred += s;
     totalWeight += 1.0;
   }
 
-  outputColor = sum / totalWeight;
+  blurred /= totalWeight;
+
+  outputColor = blurred;
 }
 `;
 
+const frostedBlurFragmentShader = /* glsl */ `
+uniform float uBlurStrength;
+uniform float uBlurStart;
+uniform vec2 uResolution;
+
+void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
+  vec2 center = uv - 0.5;
+  float dist = length(center);
+
+  float blurAmount = smoothstep(uBlurStart, 0.75, dist) * uBlurStrength;
+
+  if (blurAmount < 0.001) {
+    outputColor = inputColor;
+    return;
+  }
+
+  float aspect = uResolution.x / uResolution.y;
+  vec2 texelSize = vec2(1.0 / uResolution.x, 1.0 / uResolution.y);
+
+  const int TAPS = 12;
+  vec2 offsets[12];
+  offsets[0]  = vec2(-0.326, -0.406);
+  offsets[1]  = vec2(-0.840, -0.074);
+  offsets[2]  = vec2(-0.696,  0.457);
+  offsets[3]  = vec2(-0.203,  0.621);
+  offsets[4]  = vec2( 0.962, -0.195);
+  offsets[5]  = vec2( 0.473, -0.480);
+  offsets[6]  = vec2( 0.519,  0.767);
+  offsets[7]  = vec2( 0.185, -0.893);
+  offsets[8]  = vec2( 0.507,  0.064);
+  offsets[9]  = vec2( 0.896,  0.412);
+  offsets[10] = vec2(-0.322, -0.933);
+  offsets[11] = vec2(-0.792, -0.598);
+
+  float radius = blurAmount * 12.0;
+
+  vec4 blurred = inputColor;
+  float totalWeight = 1.0;
+
+  for (int i = 0; i < TAPS; i++) {
+    vec2 offset = offsets[i] * radius * texelSize;
+    vec4 s = texture2D(inputBuffer, uv + offset);
+    blurred += s;
+    totalWeight += 1.0;
+  }
+
+  blurred /= totalWeight;
+
+  // White, semi-transparent veil for frosted-edge effect.
+  vec3 white = vec3(1.0, 1.0, 1.0);
+  float veilAlpha = 0.4 * blurAmount; // Max 0.4 opacity at the strongest blur
+
+  // Correct GLSL: mix(vec3, vec3, float)
+  vec3 outRgb = mix(blurred.rgb, white, veilAlpha);
+  float outAlpha = blurred.a;
+
+  outputColor = vec4(outRgb, outAlpha);
+}
+`;
+
+/**
+ * EdgeBlurEffect component
+ * @param {'classic'|'frosted'} blurType  Use "frosted" (default) for white edge, "classic" for pure blur
+ * @param {number} blurStrength
+ * @param {number} blurStart
+ */
 class EdgeBlurEffectImpl extends Effect {
-  constructor({ blurStrength = 1.0, blurStart = 0.25, resolution = [1280, 720] } = {}) {
+  constructor({
+    blurStrength = 1.0,
+    blurStart = 0.25,
+    resolution = [1280, 720],
+    frag = frostedBlurFragmentShader,
+  } = {}) {
     const uniforms = new Map([
       ["uBlurStrength", new Uniform(blurStrength)],
       ["uBlurStart", new Uniform(blurStart)],
       ["uResolution", new Uniform(new Vector2(resolution[0], resolution[1]))],
     ]);
-    super("EdgeBlurEffect", fragmentShader, { uniforms });
+    super("EdgeBlurEffect", frag, { uniforms });
   }
 
   setResolution(width, height) {
@@ -81,15 +154,31 @@ class EdgeBlurEffectImpl extends Effect {
   }
 }
 
-export default function EdgeBlurEffect({ blurStrength = 1.0, blurStart = 0.25 }) {
+export default function EdgeBlurEffect({
+  blurType = "classic", // "frosted" | "classic"
+  blurStrength = 1.0,
+  blurStart = 0.25,
+}) {
+  const frag =
+    blurType === "classic"
+      ? classicBlurFragmentShader
+      : frostedBlurFragmentShader;
+
   const effect = useMemo(() => {
-    let width = 1280, height = 720;
+    let width = 1280,
+      height = 720;
     if (typeof window !== "undefined") {
       width = window.innerWidth;
       height = window.innerHeight;
     }
-    return new EdgeBlurEffectImpl({ blurStrength, blurStart, resolution: [width, height] });
-  }, [blurStrength, blurStart]);
+    return new EdgeBlurEffectImpl({
+      blurStrength,
+      blurStart,
+      resolution: [width, height],
+      frag,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blurStrength, blurStart, frag]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
