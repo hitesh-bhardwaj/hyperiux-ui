@@ -725,9 +725,54 @@ const SmokeFlow = React.memo(function SmokeFlow() {
 })
 
 // ─────────────────────────────────────────────────────────────
+// Galaxy group — base pose + smooth mouse tilt (whole scene)
+// ─────────────────────────────────────────────────────────────
+const GALAXY_BASE_ROT = [degToRad(110), degToRad(-10), degToRad(0)]
+/** Max euler offset (rad) from mouse at screen edges — keep small for subtle parallax */
+const MOUSE_TILT = { x: 0.1, y: 0.12, z: 0.03 }
+/** How fast smoothed mouse catches the cursor (frame-rate independent lerp) */
+const MOUSE_LERP_LAMBDA = 1
+
+function GalaxyMouseGroup({ children }) {
+  const groupRef = useRef(null)
+  const mouseRef = useRef({ x: 0, y: 0 })
+  const smoothRef = useRef({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const onMove = (e) => {
+      const w = window.innerWidth || 1
+      const h = window.innerHeight || 1
+      mouseRef.current.x = (e.clientX / w) * 2 - 1
+      mouseRef.current.y = (e.clientY / h) * 2 - 1
+    }
+    window.addEventListener('mousemove', onMove)
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+
+  useFrame((_, dt) => {
+    const g = groupRef.current
+    if (!g) return
+    const m = mouseRef.current
+    const s = smoothRef.current
+    const t = 1 - Math.exp(-MOUSE_LERP_LAMBDA * dt)
+    s.x = THREE.MathUtils.lerp(s.x, m.x, t)
+    s.y = THREE.MathUtils.lerp(s.y, m.y, t)
+    g.rotation.x = GALAXY_BASE_ROT[0] - s.y * MOUSE_TILT.x
+    g.rotation.y = GALAXY_BASE_ROT[1] - s.x * MOUSE_TILT.y
+    // g.rotation.z = GALAXY_BASE_ROT[2] + s.x * s.y * MOUSE_TILT.z
+  })
+
+  return (
+    <group ref={groupRef} position={[-2, 2.2, 0]} rotation={GALAXY_BASE_ROT}>
+      {children}
+    </group>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
 // MilkyWayGPGPU — main R3F component
 // ─────────────────────────────────────────────────────────────
-const MilkyWayGPGPU = React.memo(function MilkyWayGPGPU({ groupRefOverall }) {
+const MilkyWayGPGPU = React.memo(function MilkyWayGPGPU() {
   const { gl } = useThree()
   const groupRef = useRef()
   const gpuRef = useRef(null)
@@ -846,8 +891,6 @@ export default function Page() {
     return () => window.removeEventListener('resize', onResize)
   }, [onResize])
 
-  const groupRef = useRef(null)
-
   return (
     <section style={{ width: '100%', height: '100vh', background: '#000' }}>
 
@@ -860,14 +903,10 @@ export default function Page() {
         <ResponsiveCamera />
         <BackgroundStars />
         <Center rotation={[degToRad(-10), degToRad(0), degToRad(0)]} position={[-1.2, 0.5, 0]}>
-          <group
-            ref={groupRef}
-            position={[-2, 2.2, 0]}
-            rotation={[degToRad(110), degToRad(-10), degToRad(0)]}
-          >
-            <MilkyWayGPGPU groupRefOverall={groupRef} />
+          <GalaxyMouseGroup>
+            <MilkyWayGPGPU />
             <SmokeFlow />
-          </group>
+          </GalaxyMouseGroup>
         </Center>
         <EffectComposer>
           {/* <Bloom
