@@ -162,7 +162,7 @@ export default function PixelTransition({
     >
       <canvas
         ref={canvasRef}
-        className="pointer-events-none fixed top-0 left-0 z-[999] h-screen w-screen opacity-0"
+        className="pointer-events-none fixed top-0 left-0 z-999 h-screen w-screen opacity-0"
       />
       <div className="relative h-full w-full">
         <div ref={wrapperRef} className="h-full w-full will-change-transform">
