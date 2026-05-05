@@ -2,75 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
+import Image from "next/image";
+import { HoverFillLink } from "./HoverFillLink";
+import { navigationData } from "./data";
 
 gsap.registerPlugin(CustomEase);
 
-import Image from "next/image";
-import Link from "next/link";
-import styles from "./HoverFillLink.module.css";
-
-function HoverFillLink({ href, children, className = "", isActive, ...props }) {
-    const text = typeof children === "string" ? children : "";
-    return (
-        <Link
-            href={href}
-            data-content={text}
-            data-active={isActive ? "true" : undefined}
-            className={`${styles.link} ${className}`}
-            {...props}
-        >
-            {children}
-        </Link>
-    );
-}
-
-const navigationData = [
-    {
-        name: "About", href: "#",
-    },
-    { name: "Work", href: "#" },
-    {
-        name: "Expertise",
-        href: "#",
-        sublinks: [
-            {
-                name: "Solutions", href: "#", nestedLinks: [
-                    { name: "Design", href: "#" },
-                    { name: "Development", href: "#" },
-                    { name: "Marketing", href: "#" },
-                    { name: "Strategy", href: "#" }
-                ]
-            },
-            {
-                name: "Industry", href: "#", nestedLinks: [
-                    { name: "Fintech", href: "#" },
-                    { name: "HealthCare", href: "#" },
-                    { name: "Education", href: "#" },
-                    { name: "Electronics", href: "#" }
-                ]
-            },
-            {
-                name: "Services",
-                href: "#",
-
-            }
-        ]
-    },
-    { name: "Career", href: "#" },
-    {
-        name: "Resources", href: "#", sublinks: [
-            { name: "Codepen", href: "#" },
-            { name: "Greensock", href: "#" },
-            {
-                name: "Webflow",
-                href: "#",
-            }
-        ]
-    },
-    { name: "Contact", href: "#" },
-];
-
-export default function OsmoMenu() {
+export function OsmoMenuDesktop() {
     const backgroundOverlayRef = useRef(null);
     const menuWrapperRef = useRef(null);
     const headerRef = useRef(null);
@@ -89,8 +27,8 @@ export default function OsmoMenu() {
     const mainSquareRef = useRef(null);
     const mainItemRefs = useRef([]);
 
-    // Quick constant for our menu's custom cubic-bezier easing
-    const menuEase = "cubic-bezier(0.625, 0.05, 0, 1)";
+    // The easing function string for cubic-bezier(0.625, 0.05, 0, 1)
+    const menuEasing = "cubic-bezier(0.625, 0.05, 0, 1)";
 
     useEffect(() => {
         const square = mainSquareRef.current;
@@ -98,12 +36,12 @@ export default function OsmoMenu() {
         if (!square || !items.length) return;
 
         if (activeMainIndex === null) {
-            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto", ease: menuEase });
-            gsap.to(items, { x: 0, duration: 0.4, ease: menuEase, overwrite: "auto" });
+            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto", ease: menuEasing });
+            gsap.to(items, { x: 0, duration: 0.4, ease: menuEasing, overwrite: "auto" });
             return;
         }
 
-        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto", ease: menuEase });
+        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto", ease: menuEasing });
 
         const targetItem = items[activeMainIndex];
         if (!targetItem) return;
@@ -114,7 +52,7 @@ export default function OsmoMenu() {
             y: targetY,
             rotation: activeMainIndex * 90,
             duration: 0.4,
-            ease: menuEase,
+            ease: menuEasing,
             overwrite: "auto"
         });
 
@@ -126,7 +64,7 @@ export default function OsmoMenu() {
             gsap.to(item, {
                 x: translateValue * (1 - distance),
                 duration: 0.4,
-                ease: menuEase,
+                ease: menuEasing,
                 overwrite: "auto"
             });
         });
@@ -140,12 +78,12 @@ export default function OsmoMenu() {
         const items = children.slice(1);
 
         if (activeSubIndex === null) {
-            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto", ease: menuEase });
-            gsap.to(items, { x: 0, duration: 0.4, ease: menuEase, overwrite: "auto" });
+            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto", ease: menuEasing });
+            gsap.to(items, { x: 0, duration: 0.4, ease: menuEasing, overwrite: "auto" });
             return;
         }
 
-        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto", ease: menuEase });
+        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto", ease: menuEasing });
 
         const targetItem = items[activeSubIndex];
         if (!targetItem) return;
@@ -156,7 +94,7 @@ export default function OsmoMenu() {
             y: targetY,
             rotation: activeSubIndex * 90,
             duration: 0.4,
-            ease: menuEase,
+            ease: menuEasing,
             overwrite: "auto"
         });
 
@@ -168,7 +106,7 @@ export default function OsmoMenu() {
             gsap.to(item, {
                 x: translateValue * (1 - distance),
                 duration: 0.4,
-                ease: menuEase,
+                ease: menuEasing,
                 overwrite: "auto"
             });
         });
@@ -182,12 +120,12 @@ export default function OsmoMenu() {
         const items = children.slice(1);
 
         if (activeNestedIndex === null) {
-            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto", ease: menuEase });
-            gsap.to(items, { x: 0, duration: 0.4, ease: menuEase, overwrite: "auto" });
+            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto", ease: menuEasing });
+            gsap.to(items, { x: 0, duration: 0.4, ease: menuEasing, overwrite: "auto" });
             return;
         }
 
-        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto", ease: menuEase });
+        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto", ease: menuEasing });
 
         const targetItem = items[activeNestedIndex];
         if (!targetItem) return;
@@ -198,7 +136,7 @@ export default function OsmoMenu() {
             y: targetY,
             rotation: activeNestedIndex * 90,
             duration: 0.4,
-            ease: menuEase,
+            ease: menuEasing,
             overwrite: "auto"
         });
 
@@ -210,7 +148,7 @@ export default function OsmoMenu() {
             gsap.to(item, {
                 x: translateValue * (1 - distance),
                 duration: 0.4,
-                ease: menuEase,
+                ease: menuEasing,
                 overwrite: "auto"
             });
         });
@@ -241,8 +179,7 @@ export default function OsmoMenu() {
     }, [activeMainIndex, activeSubIndex]);
 
     useEffect(() => {
-        // Overwrite GSAP custom ease creation to simply use the cubic-bezier directly for all transitions in this component
-        // CustomEase.create("menuEase", "0.625, 0.05, 0, 1");
+        CustomEase.create("menuEase", "0.625,0.05,0,1");
         const tl = gsap.timeline({ paused: true });
 
         gsap.set(backgroundOverlayRef.current, { opacity: 0 });
@@ -259,7 +196,8 @@ export default function OsmoMenu() {
             {
                 opacity: 1,
                 duration: 1,
-                ease: menuEase,
+                ease: "menuEase",
+                pointerEvents: "auto",
             },
             0,
         );
@@ -268,8 +206,8 @@ export default function OsmoMenu() {
             menuWrapperRef.current,
             {
                 width: "98vw",
-                duration: .7,
-                ease: menuEase,
+                duration: 1,
+                ease: "menuEase",
             },
             0.1,
         );
@@ -277,16 +215,16 @@ export default function OsmoMenu() {
         tl.to(menuContentRef.current, {
             clipPath: "inset(0% 0% 0% 0%)",
             WebkitClipPath: "inset(0% 0% 0% 0%)",
-            duration: 0.8,
-            ease: menuEase,
-        },"<+.5");
+            duration: 1,
+            ease: "menuEase",
+        },"<+.35");
 
         tl.to(
             seprationLineRef.current,
             {
                 opacity: 1,
                 duration: 0.5,
-                ease: menuEase,
+                ease: "menuEase",
             },
             "<",
         );
@@ -296,6 +234,7 @@ export default function OsmoMenu() {
         });
         tl.eventCallback("onReverseComplete", () => {
             if (menuContentRef.current) menuContentRef.current.style.pointerEvents = "none";
+            gsap.set(backgroundOverlayRef.current, { pointerEvents: "none" });
         });
 
         menuTimeline.current = tl;
@@ -313,18 +252,15 @@ export default function OsmoMenu() {
     };
 
     return (
-        <div className="h-screen w-full bg-primary relative">
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-[2vw] tracking-tight">
-                HYPERIUX NAVIGATION
-            </p>
+        <div className="hidden md:block">
             <div
                 onClick={() => { menuTimeline.current.reverse(); setIsMenuOpen(false); }}
                 ref={backgroundOverlayRef}
-                className="h-full w-full z-800 opacity-0 bg-black/50 absolute top-0 left-0 "
+                className="fixed h-screen w-screen z-[800] opacity-0 bg-black/50 top-0 left-0 pointer-events-none"
             />
             <div
                 ref={menuWrapperRef}
-                className="fixed  z-999 px-[2vw] py-[1vw] text-white bg-[#111111] bottom-[1vw] left-1/2 -translate-x-1/2 w-[55vw] h-fit rounded-md"
+                className="fixed z-[999] px-[2vw] py-[1vw] text-white bg-[#111111] bottom-[1vw] left-1/2 -translate-x-1/2 w-[55vw] h-fit rounded-md"
             >
                 {/* FLOATING CONTENT PANEL */}
                 <div
