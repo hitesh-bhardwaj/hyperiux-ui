@@ -162,7 +162,7 @@ export default function RotationSlider({ images }) {
           <div
             key={i}
             ref={(el) => (textsRef.current[i] = el)}
-            className="absolute bottom-0 left-0  text-2xl whitespace-nowrap opacity-0"
+            className="absolute bottom-0 left-0  text-2xl whitespace-nowrap opacity-0 text-neutral-900"
           >
             {img.text || `Image ${i + 1}`}
           </div>

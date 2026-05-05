@@ -228,7 +228,7 @@ const SmoothTransition = ({ images = {} }) => {
           {/* Section 3 text */}
           <h2
             ref={section3TextRef}
-            className='text-[5vw] text-center w-[90%] mx-auto pt-4 absolute top-0 left-0 right-0 z-40 pointer-events-none'
+            className='text-[5vw] text-center w-[90%] mx-auto pt-4 absolute top-0 left-0 right-0 z-40 pointer-events-none text-neutral-900'
           >
             Build insanely smooth interfaces with Hyperiux UI
           </h2>
@@ -286,7 +286,7 @@ const SmoothTransition = ({ images = {} }) => {
           </div>
 
           {/* Top text */}
-          <h2 className='text-[3vw] two-text-top text-center w-[60%] mx-auto pt-4 relative z-10'>
+          <h2 className='text-[3vw] two-text-top text-center w-[60%] mx-auto pt-4 relative z-10 text-neutral-900'>
             <span className='inline-block text-left-text opacity-0'>Built for developers</span>
             <span className='block text-right-text opacity-0 ml-2'>loved by users</span>
           </h2>
@@ -303,7 +303,7 @@ const SmoothTransition = ({ images = {} }) => {
           </div>
 
           {/* Bottom text */}
-          <h2 className='text-[3vw] two-text-bottom text-center w-[60%] mx-auto pb-4 relative z-10'>
+          <h2 className='text-[3vw] two-text-bottom text-center w-[60%] mx-auto pb-4 relative z-10 text-neutral-900'>
             <span className='inline-block'>Animations that</span>
             <span className='block'>feel native.</span>
           </h2>
