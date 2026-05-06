@@ -17,35 +17,43 @@ const imageUrls = [
 ];
 
 const SLOTS = [
-  { y: 0, size: 1.25, w: 210, h: 165 },
-  { y: -35, size: 1.08, w: 185, h: 140 },
-  { y: 38, size: 1.08, w: 185, h: 140 },
-  { y: -70, size: 0.95, w: 160, h: 122 },
-  { y: 75, size: 0.95, w: 160, h: 122 },
+  { y: 0, size: 1.19, w: 206, h: 167 },             // mid - just a bit bigger
+  { y: -30, size: 1.10, w: 214, h: 167 },           // 2nd closest - little bigger, spread more
+  { y: 30, size: 1.20, w: 214, h: 167 },
+  { y: -60, size: 1.06, w: 186, h: 144 },           // spread more
+  { y: 60, size: 1.06, w: 186, h: 144 },
 
-  { y: -105, size: 0.82, w: 138, h: 105 },
-  { y: 110, size: 0.82, w: 138, h: 105 },
-  { y: -135, size: 0.72, w: 120, h: 92 },
-  { y: 140, size: 0.72, w: 120, h: 92 },
+  { y: -94, size: 0.91, w: 157, h: 122 },           // spread more
+  { y: 94, size: 0.91, w: 157, h: 122 },
+  { y: -122, size: 0.80, w: 139, h: 109 },
+  { y: 122, size: 0.80, w: 139, h: 109 },
 
-  { y: -18, size: 0.92, w: 145, h: 112 },
-  { y: 22, size: 0.9, w: 142, h: 110 },
-  { y: -55, size: 0.86, w: 135, h: 104 },
-  { y: 58, size: 0.86, w: 135, h: 104 },
+  { y: -18, size: 1.04, w: 166, h: 129 },           // very little more than before
+  { y: 18, size: 1.02, w: 161, h: 126 },
+  { y: -52, size: 0.97, w: 153, h: 118 },
+  { y: 52, size: 0.97, w: 153, h: 118 },
 
-  { y: -88, size: 0.76, w: 120, h: 92 },
-  { y: 92, size: 0.76, w: 120, h: 92 },
-  { y: -150, size: 0.6, w: 96, h: 72 },
-  { y: 154, size: 0.6, w: 96, h: 72 },
-  { y: 12, size: 0.82, w: 125, h: 96 },
+  { y: -78, size: 0.87, w: 137, h: 108 },
+  { y: 78, size: 0.87, w: 137, h: 108 },
+  { y: -134, size: 0.70, w: 111, h: 83 },           // spread a bit more at edges
+  { y: 134, size: 0.70, w: 111, h: 83 },
+  { y: 10, size: 0.91, w: 140, h: 108 },            // very little
 ];
 
 // Faster + tighter motion.
-const SPEED = 0.00045;
+const SPEED = 0.0003;
+const MAX_SPEED = 0.0015; // Added max speed limit for generation
 const FOLLOW = 0.22;
-const SPREAD_X = 255;
+const SPREAD_X = 250;       // Slightly more spread since sizes increased
 const DEPTH_POWER = 0.95;
 const THICKNESS = 0.62;
+
+// Interaction Config
+const MOUSE_SPEED_BOOST = 0.003;
+const FORWARD_PUSH_AMOUNT = 40;
+const UPWARD_PUSH_AMOUNT = 30;
+const SCALE_OUT_MIN = 0.68;
+const SCALE_OUT_MAX = 1.48;
 
 function clamp(v, min, max) {
   return Math.max(min, Math.min(max, v));
@@ -104,12 +112,12 @@ export default function ImageTrail() {
   const lastTime = useRef(0);
 
   useEffect(() => {
-   const imgs = SLOTS.map((_, i) => {
-  const img = new Image();
-  img.crossOrigin = "anonymous";
-  img.src = imageUrls[i % imageUrls.length];
-  return img;
-});
+    const imgs = SLOTS.map((_, i) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = imageUrls[i % imageUrls.length];
+      return img;
+    });
 
     imagesRef.current = imgs;
 
@@ -144,7 +152,7 @@ export default function ImageTrail() {
       const dt = Math.min(32, now - (lastTime.current || now));
       lastTime.current = now;
 
-      phase.current += dt * SPEED;
+      // Phase increment will be calculated after mouse speed is determined
 
       const prevSX = smooth.current.x;
       const prevSY = smooth.current.y;
@@ -171,94 +179,103 @@ export default function ImageTrail() {
       }
 
       const speed01 = clamp(vmag / 18, 0, 1);
+      
+      // INCREASE GENERATING SPEED BASED ON MOUSE MOVEMENT, CLAMPED TO MAX_SPEED
+      const currentSpeed = clamp(SPEED + speed01 * MOUSE_SPEED_BOOST, SPEED, MAX_SPEED);
+      phase.current += dt * currentSpeed;
       const dir = dirRef.current;
       const denom = Math.max(1, SPREAD_X);
       const dirIntensity = 0.18 + speed01 * 0.12;
-const cards = SLOTS.map((slot, i) => {
-  const n = SLOTS.length;
+      const cards = SLOTS.map((slot, i) => {
+        const n = SLOTS.length;
 
-  // Animation progress per image.
-  const t = (phase.current + i / n) % 1;
+        // Animation progress per image.
+        const t = (phase.current + i / n) % 1;
 
-  // -1 → 0 → 1
-  // This controls the movement along the diagonal path.
-  const pathNorm = t * 2 - 1;
+        // -1 → 0 → 1
+        // This controls the movement along the diagonal path.
+        const pathNorm = t * 2 - 1;
 
-  // Diagonal movement direction.
-  // Start: bottom-right
-  // Center: middle
-  // End: top-left
-  // Bottom-left → top-right, but less steep.
-const moveX = pathNorm;
-const moveY = -pathNorm;
+        // Diagonal movement direction.
+        // Start: bottom-right
+        // Center: middle
+        // End: top-left
+        // Bottom-left → top-right, but less steep.
+        const moveX = pathNorm;
+        const moveY = -pathNorm;
 
-// Keep the circular cluster shape.
-const yOffset = clamp(slot.y, -SPREAD_X * 0.82, SPREAD_X * 0.82);
+        // Keep the circular cluster shape.
+        const yOffset = clamp(slot.y, -SPREAD_X * 0.82, SPREAD_X * 0.82);
 
-const circleWidthAtY =
-  Math.sqrt(Math.max(0, SPREAD_X * SPREAD_X - yOffset * yOffset)) * 0.74;
+        const circleWidthAtY =
+          Math.sqrt(Math.max(0, SPREAD_X * SPREAD_X - yOffset * yOffset)) * 0.74;
 
-// Lower number = flatter/slanting movement.
-// 0.38 was too steep.
-const diagonalPush = SPREAD_X * 0.15;
+        // Lower number = flatter/slanting movement.
+        // 0.38 was too steep.
+        const diagonalPush = SPREAD_X * 0.15;
 
-// Move the whole diagonal slightly upward,
-// so it starts a little above bottom-left
-// and ends a little below top-right.
-const verticalLift = -SPREAD_X * 0.06;
+        // Move the whole diagonal slightly upward,
+        // so it starts a little above bottom-left
+        // and ends a little below top-right.
+        const verticalLift = -SPREAD_X * 0.06;
 
-const x = cx + moveX * circleWidthAtY;
-const y = cy + yOffset + moveY * diagonalPush + verticalLift;
+        const x = cx + moveX * circleWidthAtY;
+        const y = cy + yOffset + moveY * diagonalPush + verticalLift;
 
-  // Scale follows the same diagonal movement:
-  // small → big at center → small
- // Scale follows the same diagonal movement:
-// small → big at center → small
-const rawCenterScale = Math.max(0, 1 - Math.abs(pathNorm));
+        // Scale follows the same diagonal movement:
+        // small → big at center → small
+        // Scale follows the same diagonal movement:
+        // small → big at center → small
+        const rawCenterScale = Math.max(0, 1 - Math.abs(pathNorm));
 
-const easedCenterScale =
-  rawCenterScale * rawCenterScale * (3 - 2 * rawCenterScale);
+        const easedCenterScale =
+          rawCenterScale * rawCenterScale * (3 - 2 * rawCenterScale);
 
-const centerScale = lerp(0.06, 0.9, easedCenterScale);
+        const centerScale = lerp(0.06, 0.9, easedCenterScale);
 
-// Scale images up in the direction of mouse movement.
-// Images ahead of the mouse direction get larger.
-// Images behind the mouse direction get smaller.
-const dx = x - cx;
-const dy = y - cy;
+        // Scale images up in the direction of mouse movement.
+        // Images ahead of the mouse direction get larger.
+        // Images behind the mouse direction get smaller.
+        const dx = x - cx;
+        const dy = y - cy;
 
-const directionalProjection = clamp(
-  (dx * dir.x + dy * dir.y) / Math.max(1, SPREAD_X),
-  -1,
-  1
-);
+        const directionalProjection = clamp(
+          (dx * dir.x + dy * dir.y) / Math.max(1, SPREAD_X),
+          -1,
+          1
+        );
 
-const forwardAmount = (directionalProjection + 1) * 0.5;
+        // Scaling out works on OPPOSITE direction.
+        // Images behind the mouse direction get larger (scale out).
+        const oppositeProjection = -directionalProjection;
+        const backwardAmount = (oppositeProjection + 1) * 0.5;
 
-const movementBoost = lerp(1, 1.18, speed01);
+        const movementBoost = lerp(1, 1.18, speed01);
+        const directionalScale = lerp(SCALE_OUT_MIN, SCALE_OUT_MAX, backwardAmount) * movementBoost;
+        const scale = centerScale * directionalScale * 1.14;
 
-const directionalScale = lerp(0.68, 1.48, forwardAmount) * movementBoost;
+        // Image translate effect on mouse move direction.
+        // Images ahead of the mouse are pushed forward.
+        const forwardPush = Math.max(0, directionalProjection) * speed01 * FORWARD_PUSH_AMOUNT;
 
-const scale = centerScale * directionalScale * 1.14;
+        // Images scaling out (behind) translate a little up
+        const upwardPush = Math.max(0, oppositeProjection) * speed01 * UPWARD_PUSH_AMOUNT;
 
-// Makes the scale feel like it grows toward the mouse movement direction
-const forwardPush = Math.max(0, directionalProjection) * speed01 * 40;
+        return {
+          i,
+          img: imgs[i % imgs.length],
 
-return {
-  i,
-  img: imgs[i % imgs.length],
+          x: x + dir.x * forwardPush,
+          y: y + dir.y * forwardPush - upwardPush,
 
-  x: x + dir.x * forwardPush,
-  y: y + dir.y * forwardPush,
+          w: slot.w * slot.size * scale,
+          h: slot.h * slot.size * scale,
 
-  w: slot.w * slot.size * scale,
-  h: slot.h * slot.size * scale,
-
-  rot: 0,
-  alpha: 1,
-  order: i,
-};
-});
+          rot: 0,
+          alpha: 1,
+          order: i,
+        };
+      });
 
       // Stable stacking: never sort by `depth` (which changes during animation).
       cards.sort((a, b) => a.i - b.i);
@@ -270,8 +287,8 @@ return {
         ctx.translate(card.x, card.y);
         ctx.globalAlpha = 1;
         ctx.shadowColor = "rgba(0,0,0,0.14)";
-       ctx.shadowBlur = 12;
-ctx.shadowOffsetY = 5;
+        ctx.shadowBlur = 12;
+        ctx.shadowOffsetY = 5;
 
         drawRoundedImage(ctx, card.img, -card.w / 2, -card.h / 2, card.w, card.h, 0);
 
@@ -315,6 +332,7 @@ ctx.shadowOffsetY = 5;
       }}
     >
       <div
+      className="w-[70%] mx-auto"
         style={{
           position: "absolute",
           inset: 0,
@@ -325,14 +343,16 @@ ctx.shadowOffsetY = 5;
           userSelect: "none",
           zIndex: 1,
           color: "#111",
-          fontSize: "clamp(28px, 5vw, 72px)",
+          fontSize: "3vw",
+
           letterSpacing: "-0.03em",
           lineHeight: 1.05,
           textAlign: "center",
           padding: "0 20px",
         }}
       >
-        Telescope
+      No algorithms.No ads.No overwhelm.
+      Justgreatcurationby (real people).
       </div>
       <canvas
         ref={canvasRef}
