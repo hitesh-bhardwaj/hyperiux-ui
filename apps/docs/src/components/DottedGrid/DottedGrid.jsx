@@ -4,495 +4,285 @@ import { useEffect, useRef } from "react";
 
 export default function DottedGrid() {
   const canvasRef = useRef(null);
-
   const mouseRef = useRef({
-    x: 0,
-    y: 0,
-    targetX: 0,
-    targetY: 0,
+    x: 0, y: 0,
+    targetX: 0, targetY: 0,
     active: false,
+    trail: [],
   });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d", { alpha: false });
 
-    let width = 0;
-    let height = 0;
-    let dpr = window.devicePixelRatio || 1;
-    let animationId;
-    let dots = [];
+    let width = 0, height = 0, dpr = window.devicePixelRatio || 1, animationId, dots = [];
 
     const spacing = 24;
-    const baseRadius = 4.8;
-    const mouseRadius = 230;
+    const baseRadius = 7.2;
+    const mouseRadius = 380;       // wider head influence
+    const trailLength = 456;        // even more history
+    const trailRadius = 230;       // wider trail reach
+    const trailFadeMs = 1200;  
+    const randomTime = 0.6;
+const collectTime = 1.1;
+const shapeHoldTime = 1.2;
+const grayDisperseTime = 0.9;    // trail lingers ~2s
+    const totalCycleTime = randomTime + collectTime + shapeHoldTime + grayDisperseTime;
+    const totalShapes = 5;
+    
 
-    const randomTime = 1.1;
-    const collectTime = 2.0;
-    const shapeHoldTime = 2.3;
-    const grayDisperseTime = 1.6;
-
-    const totalCycleTime =
-      randomTime + collectTime + shapeHoldTime + grayDisperseTime;
-
-    const totalShapes = 9;
-
-    const lerp = (start, end, amount) => start + (end - start) * amount;
-
-    const clamp01 = (value) => Math.max(0, Math.min(1, value));
-
-    const smoothstep = (edge0, edge1, value) => {
-      const t = clamp01((value - edge0) / (edge1 - edge0));
+    const lerp    = (a, b, t) => a + (b - a) * t;
+    const clamp01 = (v) => Math.max(0, Math.min(1, v));
+    const smoothstep = (e0, e1, v) => {
+      const t = clamp01((v - e0) / (e1 - e0));
       return t * t * (3 - 2 * t);
     };
 
     const createDots = () => {
       dots = [];
-
-      for (let y = spacing / 2; y < height; y += spacing) {
-        for (let x = spacing / 2; x < width; x += spacing) {
+      for (let y = spacing / 2; y < height; y += spacing)
+        for (let x = spacing / 2; x < width; x += spacing)
           dots.push({
-            x,
-            y,
+            x, y,
             phase: Math.random() * Math.PI * 2,
-            speed: 0.6 + Math.random() * 2.2,
+            speed: 0.3 + Math.random() * 1.0,
             randomOffset: Math.random() * 10,
-
             currentShapeStrength: 0,
             currentRandomStrength: 1,
             currentMouseStrength: 0,
+            currentTrailStrength: 0,
             currentGrayDisperseStrength: 0,
           });
-        }
-      }
     };
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-
-      width = rect.width;
-      height = rect.height;
-      dpr = window.devicePixelRatio || 1;
-
+      width = rect.width; height = rect.height; dpr = window.devicePixelRatio || 1;
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
-
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
       createDots();
     };
 
-    const handlePointerMove = (event) => {
+    const handlePointerMove = (e) => {
       const rect = canvas.getBoundingClientRect();
-
-      mouseRef.current.targetX = event.clientX - rect.left;
-      mouseRef.current.targetY = event.clientY - rect.top;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      mouseRef.current.targetX = x;
+      mouseRef.current.targetY = y;
       mouseRef.current.active = true;
+      mouseRef.current.trail.push({ x, y, t: performance.now() });
+      if (mouseRef.current.trail.length > trailLength)
+        mouseRef.current.trail.shift();
     };
 
-    const handlePointerLeave = () => {
-      mouseRef.current.active = false;
-    };
+    const handlePointerLeave = () => { mouseRef.current.active = false; };
 
-    const getStarStrength = (x, y, time) => {
-      const cx = width / 2;
-      const cy = height / 2;
+  const getStarStrength = (x, y, time) => {
+  const cx = width / 2, cy = height / 2;
+  const scale = Math.min(width, height) * 0.28;
 
-      const dx = x - cx;
-      const dy = y - cy;
+  const nx = (x - cx) / scale;
+  const ny = (y - cy) / scale;
 
-      const scale = Math.min(width, height) * 0.28;
+  const r = Math.sqrt(nx * nx + ny * ny);
+  const angle = Math.atan2(ny, nx);
 
-      const nx = dx / scale;
-      const ny = dy / scale;
+  const spikes = 5;
+  const star = Math.cos(spikes * angle);
 
-      const r = Math.sqrt(nx * nx + ny * ny);
-      const angle = Math.atan2(ny, nx);
+  const radius = 0.55 + 0.25 * star;
 
-      const rotation = time * 0.18;
-      const starRadius = 0.58 + 0.28 * Math.cos(5 * (angle - rotation));
+  return clamp01(1 - smoothstep(radius - 0.05, radius + 0.05, r));
+};
 
-      return clamp01(1 - smoothstep(starRadius - 0.09, starRadius + 0.09, r));
-    };
+   const getSquareStrength = (x, y) => {
+  const cx = width / 2, cy = height / 2;
+  const scale = Math.min(width, height) * 0.26;
 
-    const getSquareStrength = (x, y, time) => {
-      const cx = width / 2;
-      const cy = height / 2;
+  const rx = (x - cx) / scale;
+  const ry = (y - cy) / scale;
 
-      const dx = x - cx;
-      const dy = y - cy;
+  const d = Math.max(Math.abs(rx), Math.abs(ry));
 
-      const scale = Math.min(width, height) * 0.26;
+  // tighter edge → sharper square
+  return clamp01(1 - smoothstep(0.78, 0.82, d));
+};
 
-      const rotation = Math.sin(time * 0.4) * 0.18;
-      const cos = Math.cos(rotation);
-      const sin = Math.sin(rotation);
+   const getCircleRingStrength = (x, y) => {
+  const cx = width / 2, cy = height / 2;
+  const scale = Math.min(width, height) * 0.28;
 
-      const rx = (dx * cos - dy * sin) / scale;
-      const ry = (dx * sin + dy * cos) / scale;
+  const r = Math.sqrt(((x - cx) / scale) ** 2 + ((y - cy) / scale) ** 2);
 
-      const box = Math.max(Math.abs(rx), Math.abs(ry));
+  return clamp01(1 - smoothstep(0.13, 0.17, Math.abs(r - 0.72)));
+};
 
-      return clamp01(1 - smoothstep(0.82, 0.9, box));
-    };
+ const getPlusStrength = (x, y) => {
+  const cx = width / 2, cy = height / 2;
+  const scale = Math.min(width, height) * 0.27;
 
-    const getCircleRingStrength = (x, y) => {
-      const cx = width / 2;
-      const cy = height / 2;
+  const rx = (x - cx) / scale;
+  const ry = (y - cy) / scale;
 
-      const dx = x - cx;
-      const dy = y - cy;
+  const thickness = 0.18;
+  const length = 0.75;
 
-      const scale = Math.min(width, height) * 0.28;
+  const vertical = Math.abs(rx) < thickness && Math.abs(ry) < length;
+  const horizontal = Math.abs(ry) < thickness && Math.abs(rx) < length;
 
-      const nx = dx / scale;
-      const ny = dy / scale;
+  const d = Math.min(
+    Math.max(Math.abs(rx) - thickness, Math.abs(ry) - length),
+    Math.max(Math.abs(ry) - thickness, Math.abs(rx) - length)
+  );
 
-      const r = Math.sqrt(nx * nx + ny * ny);
-      const distanceFromRing = Math.abs(r - 0.72);
+  return vertical || horizontal
+    ? 1
+    : clamp01(1 - smoothstep(0, 0.06, d));
+};
 
-      return clamp01(1 - smoothstep(0.11, 0.19, distanceFromRing));
-    };
-
-    const getDiamondStrength = (x, y, time) => {
-      const cx = width / 2;
-      const cy = height / 2;
-
-      const dx = x - cx;
-      const dy = y - cy;
-
-      const scale = Math.min(width, height) * 0.3;
-
-      const rotation = Math.PI / 4 + Math.sin(time * 0.25) * 0.14;
-      const cos = Math.cos(rotation);
-      const sin = Math.sin(rotation);
-
-      const rx = (dx * cos - dy * sin) / scale;
-      const ry = (dx * sin + dy * cos) / scale;
-
-      const diamond = Math.abs(rx) + Math.abs(ry);
-
-      return clamp01(1 - smoothstep(0.9, 1.02, diamond));
-    };
-
-    const getHeartStrength = (x, y) => {
-      const cx = width / 2;
-      const cy = height / 2;
-
-      const scale = Math.min(width, height) * 0.025;
-
-      const nx = (x - cx) / scale;
-      const ny = -(y - cy) / scale + 3;
-
-      const value =
-        Math.pow(nx * nx + ny * ny - 1, 3) -
-        nx * nx * Math.pow(ny, 3);
-
-      return clamp01(1 - smoothstep(-1.5, 1.5, value));
-    };
-
-    const getTriangleStrength = (x, y, time) => {
-      const cx = width / 2;
-      const cy = height / 2;
-
-      const dx = x - cx;
-      const dy = y - cy;
-
-      const scale = Math.min(width, height) * 0.32;
-
-      const rotation = Math.sin(time * 0.3) * 0.12;
-      const cos = Math.cos(rotation);
-      const sin = Math.sin(rotation);
-
-      const rx = (dx * cos - dy * sin) / scale;
-      const ry = (dx * sin + dy * cos) / scale;
-
-      const a = Math.abs(rx) * 0.9 + ry * 0.52;
-      const b = -ry * 0.95;
-
-      const triangle = Math.max(a, b);
-
-      return clamp01(1 - smoothstep(0.38, 0.48, triangle));
-    };
-
-    const getHexagonStrength = (x, y, time) => {
-      const cx = width / 2;
-      const cy = height / 2;
-
-      const dx = x - cx;
-      const dy = y - cy;
-
-      const scale = Math.min(width, height) * 0.29;
-
-      const rotation = time * 0.12;
-      const cos = Math.cos(rotation);
-      const sin = Math.sin(rotation);
-
-      const rx = Math.abs((dx * cos - dy * sin) / scale);
-      const ry = Math.abs((dx * sin + dy * cos) / scale);
-
-      const hex = Math.max(rx * 0.866 + ry * 0.5, ry);
-
-      return clamp01(1 - smoothstep(0.74, 0.84, hex));
-    };
-
-    const getPlusStrength = (x, y, time) => {
-      const cx = width / 2;
-      const cy = height / 2;
-
-      const dx = x - cx;
-      const dy = y - cy;
-
-      const scale = Math.min(width, height) * 0.27;
-
-      const rotation = Math.sin(time * 0.35) * 0.2;
-      const cos = Math.cos(rotation);
-      const sin = Math.sin(rotation);
-
-      const rx = Math.abs((dx * cos - dy * sin) / scale);
-      const ry = Math.abs((dx * sin + dy * cos) / scale);
-
-      const barThickness = 0.24;
-      const barLength = 0.86;
-
-      const verticalBar = rx < barThickness && ry < barLength;
-      const horizontalBar = ry < barThickness && rx < barLength;
-
-      const edgeDistance = Math.min(
-        Math.max(rx - barThickness, ry - barLength),
-        Math.max(ry - barThickness, rx - barLength)
-      );
-
-      if (verticalBar || horizontalBar) return 1;
-
-      return clamp01(1 - smoothstep(0, 0.08, edgeDistance));
-    };
-
-    const getInfinityStrength = (x, y, time) => {
-      const cx = width / 2;
-      const cy = height / 2;
-
-      const dx = x - cx;
-      const dy = y - cy;
-
-      const scale = Math.min(width, height) * 0.18;
-
-      const nx = dx / scale;
-      const ny = dy / scale;
-
-      const wobble = Math.sin(time * 0.6) * 0.08;
-
-      const leftDistance = Math.sqrt(
-        Math.pow(nx + 1.15 + wobble, 2) + Math.pow(ny, 2)
-      );
-
-      const rightDistance = Math.sqrt(
-        Math.pow(nx - 1.15 - wobble, 2) + Math.pow(ny, 2)
-      );
-
-      const ringRadius = 0.9;
-      const thickness = 0.18;
-
-      const leftRing = Math.abs(leftDistance - ringRadius);
-      const rightRing = Math.abs(rightDistance - ringRadius);
-
-      const infinity = Math.min(leftRing, rightRing);
-
-      return clamp01(1 - smoothstep(thickness, thickness + 0.08, infinity));
-    };
+   const getTriangleStrength = (x, y, time) => { const cx = width / 2, cy = height / 2; const scale = Math.min(width, height) * 0.32; const rotation = Math.sin(time * 0.3) * 0.12; const cos = Math.cos(rotation), sin = Math.sin(rotation); const rx = ((x - cx) * cos - (y - cy) * sin) / scale; const ry = ((x - cx) * sin + (y - cy) * cos) / scale; const a = Math.abs(rx) * 0.9 + ry * 0.52; const b = -ry * 0.95; return clamp01(1 - smoothstep(0.38, 0.48, Math.max(a, b))); };
 
     const getRawShapeStrength = (shapeIndex, x, y, time) => {
-      const index = shapeIndex % totalShapes;
-
-      if (index === 0) return getStarStrength(x, y, time);
-      if (index === 1) return getSquareStrength(x, y, time);
-      if (index === 2) return getCircleRingStrength(x, y, time);
-      if (index === 3) return getDiamondStrength(x, y, time);
-      if (index === 4) return getHeartStrength(x, y, time);
-      if (index === 5) return getTriangleStrength(x, y, time);
-      if (index === 6) return getHexagonStrength(x, y, time);
-      if (index === 7) return getPlusStrength(x, y, time);
-
-      return getInfinityStrength(x, y, time);
+      const i = shapeIndex % totalShapes;
+      if (i === 0) return getStarStrength(x, y, time);
+      if (i === 1) return getSquareStrength(x, y, time);
+      if (i === 2) return getCircleRingStrength(x, y);
+      if (i === 3) return getPlusStrength(x, y, time);
+      return getTriangleStrength(x, y, time);
     };
 
     const getShapeData = (x, y, time) => {
       const cyclePosition = time % totalCycleTime;
-      const cycleIndex = Math.floor(time / totalCycleTime);
-      const shapeIndex = cycleIndex % totalShapes;
-
+      const shapeIndex = Math.floor(time / totalCycleTime) % totalShapes;
       const shapeStrength = getRawShapeStrength(shapeIndex, x, y, time);
 
-      if (cyclePosition < randomTime) {
-        return {
-          shapeStrength: 0,
-          randomStrength: 1,
-          grayDisperseStrength: 0.35,
-        };
-      }
+      if (cyclePosition < randomTime)
+        return { shapeStrength: 0, randomStrength: 1, grayDisperseStrength: 0.35 };
 
       if (cyclePosition < randomTime + collectTime) {
-        const progress = (cyclePosition - randomTime) / collectTime;
-        const eased = smoothstep(0, 1, progress);
-
-        return {
-          shapeStrength: shapeStrength * eased,
-          randomStrength: 1 - eased,
-          grayDisperseStrength: 0.35 * (1 - eased),
-        };
+        const eased = smoothstep(0, 1, (cyclePosition - randomTime) / collectTime);
+        return { shapeStrength: shapeStrength * eased, randomStrength: 1 - eased, grayDisperseStrength: 0.35 * (1 - eased) };
       }
 
-      if (cyclePosition < randomTime + collectTime + shapeHoldTime) {
-        return {
-          shapeStrength,
-          randomStrength: 0,
-          grayDisperseStrength: 0,
-        };
-      }
+      if (cyclePosition < randomTime + collectTime + shapeHoldTime)
+        return { shapeStrength, randomStrength: 0, grayDisperseStrength: 0 };
 
-      const progress =
-        (cyclePosition - randomTime - collectTime - shapeHoldTime) /
-        grayDisperseTime;
-
-      const eased = smoothstep(0, 1, progress);
-
-      return {
-        shapeStrength: shapeStrength * (1 - eased),
-        randomStrength: eased,
-        grayDisperseStrength: eased,
-      };
+      const eased = smoothstep(0, 1, (cyclePosition - randomTime - collectTime - shapeHoldTime) / grayDisperseTime);
+      return { shapeStrength: shapeStrength * (1 - eased), randomStrength: eased, grayDisperseStrength: eased };
     };
 
-    const drawDot = (x, y, radius, brightness, grayDisperseStrength) => {
-      const alpha = 0.28 + brightness * 0.72;
+    const drawDot = (x, y, radius, brightness, grayDisperseStrength, trailStrength, mouseStrength) => {
+      // mouse head: strong darkness/fade at cursor centre, soft at edges
+      const mouseFade  = mouseStrength * mouseStrength * 0.72;
+      // trail: ghostly dim with a gentle brightness lift in the middle of the wake
+      const trailFade  = trailStrength * 0.38;
+      const alpha = clamp01((0.28 + brightness * 0.72) - mouseFade - trailFade);
 
-      /*
-        Only grayscale:
-        saturation is always 0%.
-        lightness controls black, gray, and white.
-      */
-      const normalLightness = 16 + brightness * 78;
-      const disperseLightness =
-        12 + brightness * 58 + grayDisperseStrength * 22;
+      const normalL   = 16 + brightness * 78;
+      const disperseL = 12 + brightness * 58 + grayDisperseStrength * 22;
+      const lightness = lerp(normalL, disperseL, grayDisperseStrength);
 
-      const lightness = lerp(
-        normalLightness,
-        disperseLightness,
-        grayDisperseStrength
-      );
+      // mouse darkens heavily at centre, lightens softly at rim
+      const mouseLift  = mouseStrength * (1 - mouseStrength) * 18;
+      const mouseDark  = mouseStrength * mouseStrength * 38;
+      // trail ghost lift — peaks mid-trail, fades at head and tail
+      const trailLift  = trailStrength * 38 * (1 - trailStrength * 0.55);
+
+      const finalLightness = clamp01((lightness - mouseDark + mouseLift + trailLift) / 100) * 100;
+
+      // faint blue tint only on freshest trail points
+      const saturation = trailStrength * trailStrength * 16;
 
       ctx.beginPath();
-      ctx.fillStyle = `hsla(0, 0%, ${lightness}%, ${alpha})`;
+      ctx.fillStyle = `hsla(210, ${saturation}%, ${finalLightness}%, ${alpha})`;
       ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
     };
 
     const animate = (ms) => {
-      const time = ms * 0.001;
+      const time  = ms * 0.001;
       const mouse = mouseRef.current;
+      const now   = performance.now();
 
-      mouse.x = lerp(mouse.x, mouse.targetX, 0.065);
-      mouse.y = lerp(mouse.y, mouse.targetY, 0.065);
+      // very lazy drag — cursor influence lags behind noticeably
+      mouse.x = lerp(mouse.x, mouse.targetX, 0.12);
+      mouse.y = lerp(mouse.y, mouse.targetY, 0.12);
 
       ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, width, height);
 
       for (const dot of dots) {
-        const { shapeStrength, randomStrength, grayDisperseStrength } =
-          getShapeData(dot.x, dot.y, time);
+        const { shapeStrength, randomStrength, grayDisperseStrength } = getShapeData(dot.x, dot.y, time);
 
-        dot.currentShapeStrength = lerp(
-          dot.currentShapeStrength,
-          shapeStrength,
-          0.06
-        );
+      dot.currentShapeStrength        = lerp(dot.currentShapeStrength, shapeStrength,        0.12);
+dot.currentRandomStrength       = lerp(dot.currentRandomStrength, randomStrength,       0.14);
+dot.currentGrayDisperseStrength = lerp(dot.currentGrayDisperseStrength, grayDisperseStrength, 0.14);
 
-        dot.currentRandomStrength = lerp(
-          dot.currentRandomStrength,
-          randomStrength,
-          0.075
-        );
-
-        dot.currentGrayDisperseStrength = lerp(
-          dot.currentGrayDisperseStrength,
-          grayDisperseStrength,
-          0.08
-        );
-
+        // mouse head — wider, slower to settle
         let targetMouseStrength = 0;
-
         if (mouse.active) {
-          const dx = dot.x - mouse.x;
-          const dy = dot.y - mouse.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < mouseRadius) {
-            const normalizedDistance = distance / mouseRadius;
-            targetMouseStrength = 1 - smoothstep(0, 1, normalizedDistance);
+          const dx = dot.x - mouse.x, dy = dot.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < mouseRadius) {
+            const norm = dist / mouseRadius;
+            // cubic falloff — strong dark core, very soft edge
+            targetMouseStrength = (1 - norm) * (1 - norm) * (1 - norm);
           }
         }
+        dot.currentMouseStrength = lerp(dot.currentMouseStrength, targetMouseStrength, 0.12);
 
-        dot.currentMouseStrength = lerp(
-          dot.currentMouseStrength,
-          targetMouseStrength,
-          0.09
-        );
+        // trail — cubic age decay, squared proximity, very slow lerp
+        let targetTrailStrength = 0;
+        for (let i = 0; i < mouse.trail.length; i++) {
+          const pt  = mouse.trail[i];
+          const age = (now - pt.t) / trailFadeMs;
+          if (age >= 1) continue;
+          const ageFade      = (1 - age) * (1 - age) * (1 - age); // cubic — fast drop-off for very old points
+          const positionFade = (i + 1) / mouse.trail.length;
+          const fade         = ageFade * positionFade;
+          const dx   = dot.x - pt.x, dy = dot.y - pt.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < trailRadius) {
+            const proximity     = 1 - smoothstep(0, 1, dist / trailRadius);
+            const softProximity = proximity * proximity * proximity; // cubic — tight luminous core, wide soft halo
+            targetTrailStrength = Math.max(targetTrailStrength, softProximity * fade);
+          }
+        }
+        // smoke-slow lerp — trail ghosts linger and melt
+        dot.currentTrailStrength = lerp(dot.currentTrailStrength, targetTrailStrength, 0.08);
 
-        const randomBlink =
-          Math.sin(
-            time * (1.8 + dot.speed * 1.6) +
-              dot.phase +
-              dot.randomOffset +
-              dot.x * 0.017 +
-              dot.y * 0.013
-          ) ** 2;
+      const randomBlink = Math.sin(
+  time * (1.2 + dot.speed * 1.2) + dot.phase + dot.randomOffset + dot.x * 0.02 + dot.y * 0.016
+) ** 2;
 
-        const softPulse =
-          Math.sin(time * 1.8 + dot.phase + dot.x * 0.01) ** 2;
+const softPulse = Math.sin(time * 1.4 + dot.phase + dot.x * 0.015) ** 2;
 
-        const stableBrightness = clamp01(
-          0.16 + dot.currentShapeStrength * 0.84 + softPulse * 0.04
-        );
+        const stableBrightness = clamp01(0.16 + dot.currentShapeStrength * 0.84 + softPulse * 0.02);
+        const randomBrightness = clamp01(0.16 + randomBlink * 0.18);
+        const brightness       = lerp(stableBrightness, randomBrightness, dot.currentRandomStrength);
 
-        const randomBrightness = clamp01(0.16 + randomBlink * 0.34);
+        const grayDisperseBlink = clamp01(dot.currentGrayDisperseStrength * (0.45 + randomBlink * 0.55));
 
-        const brightness = lerp(
-          stableBrightness,
-          randomBrightness,
-          dot.currentRandomStrength
-        );
-
-        const grayDisperseBlink = clamp01(
-          dot.currentGrayDisperseStrength * (0.45 + randomBlink * 0.55)
-        );
-
-        const mouseShrink = 1 - dot.currentMouseStrength * 0.55;
+        // head shrinks dots heavily at centre — cubic makes it feel punchy
+        const mouseShrink = 1 - dot.currentMouseStrength * 0.75;
+        // trail shrinks dots — more than before, tapers along the wake
+        const trailShrink = 1 - dot.currentTrailStrength * 0.65;
 
         const stableRadius = baseRadius + dot.currentShapeStrength * 1.25;
         const randomRadius = baseRadius + randomBlink * 0.35;
+        const radius = lerp(stableRadius, randomRadius, dot.currentRandomStrength) * mouseShrink * trailShrink;
 
-        const radius =
-          lerp(stableRadius, randomRadius, dot.currentRandomStrength) *
-          mouseShrink;
-
-        drawDot(
-          dot.x,
-          dot.y,
-          radius,
-          brightness,
-          grayDisperseBlink
-        );
+        drawDot(dot.x, dot.y, radius, brightness, grayDisperseBlink, dot.currentTrailStrength, dot.currentMouseStrength);
       }
 
       animationId = requestAnimationFrame(animate);
     };
 
     resize();
-
     window.addEventListener("resize", resize);
     canvas.addEventListener("pointermove", handlePointerMove);
     canvas.addEventListener("pointerleave", handlePointerLeave);
-
     animationId = requestAnimationFrame(animate);
 
     return () => {
@@ -509,8 +299,7 @@ export default function DottedGrid() {
         ref={canvasRef}
         className="block h-full w-full cursor-pointer touch-none bg-black"
       />
-
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.04] via-transparent to-black/40" />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-white/4 via-transparent to-black/40" />
       <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_140px_rgba(0,0,0,0.95)]" />
     </section>
   );
