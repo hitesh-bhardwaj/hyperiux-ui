@@ -4,6 +4,9 @@
   "title": "Overflow Text Reveal",
   "description": "Text lines slide up from hidden overflow with smooth stagger animation on scroll",
   "category": "text",
+  "categories": [
+    "text"
+  ],
   "dependencies": [
     "gsap"
   ],

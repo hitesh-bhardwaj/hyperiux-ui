@@ -4,6 +4,9 @@
   "title": "Parallax Footer",
   "description": "Fixed footer that reveals with a parallax scrolling effect",
   "category": "scroll",
+  "categories": [
+    "scroll"
+  ],
   "dependencies": [],
   "registryDependencies": [],
   "previewUrl": "/parallax-footer",

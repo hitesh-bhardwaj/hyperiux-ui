@@ -9,7 +9,7 @@ export const metadata = {
 
 function VaultFallback() {
   return (
-    <div className="min-h-screen bg-neutral-50 ml-[260px]">
+    <div className="min-h-screen bg-neutral-50 ml-65">
       <div className="bg-white border-b border-neutral-200">
         <div className="max-w-5xl mx-auto px-8 py-16 text-center">
           <p className="text-neutral-500 mb-3">Welcome to</p>
@@ -36,7 +36,7 @@ export default function EffectsPage() {
   return (
     <Suspense fallback={<VaultFallback />}>
       <VaultContent
-        effects={registry.items}
+        effects={[...registry.items].sort((a, b) => (b.addedAt ?? 0) - (a.addedAt ?? 0))}
         effectCounts={effectCounts}
       />
     </Suspense>

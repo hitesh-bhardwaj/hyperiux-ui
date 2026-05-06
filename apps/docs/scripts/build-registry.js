@@ -17,8 +17,12 @@ const CATEGORY_ORDER = [
   "transitions",
   "text",
   "buttons",
+  "carousels",
   "components",
   "navigation",
+  "loaders",
+  "webgl",
+  "others",
 ];
 
 async function buildRegistry() {
@@ -93,13 +97,20 @@ async function buildRegistry() {
         };
       });
 
+      // Resolve categories: support both legacy `category` string and new `categories` array
+      const primaryCategory = registryJson.category || category;
+      const categories_list = registryJson.categories
+        ? registryJson.categories
+        : [primaryCategory];
+
       // Build the full registry item
       const registryItem = {
         name: registryJson.name,
         type: registryJson.type || "registry:component",
         title: registryJson.title,
         description: registryJson.description,
-        category: registryJson.category || category,
+        category: primaryCategory,
+        categories: categories_list,
         dependencies: registryJson.dependencies || [],
         registryDependencies: registryJson.registryDependencies || [],
         previewUrl: registryJson.previewUrl || null,
@@ -114,17 +125,20 @@ async function buildRegistry() {
       fs.writeFileSync(outputFile, JSON.stringify(registryItem, null, 2));
       console.log(`  Created ${registryJson.name}.json`);
 
-      // Add to index
+      // Add to index — record mtime so the vault can sort by recently added
+      const addedAt = fs.statSync(registryJsonPath).mtimeMs;
       index.items.push({
         name: registryJson.name,
         title: registryJson.title,
         description: registryJson.description,
-        category: registryJson.category || category,
+        category: primaryCategory,
+        categories: categories_list,
         dependencies: registryJson.dependencies || [],
         previewUrl: registryJson.previewUrl || null,
         coverImage:
           registryJson.coverImage || `/assets/listing/${registryJson.name}.png`,
         videoUrl: registryJson.videoUrl || registryJson.name,
+        addedAt,
       });
     }
   }

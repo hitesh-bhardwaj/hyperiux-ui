@@ -4,6 +4,9 @@
   "title": "Scroll Distortion",
   "description": "Scroll-synced WebGL image transition with displacement distortion and fullscreen typography",
   "category": "scroll",
+  "categories": [
+    "scroll"
+  ],
   "dependencies": [
     "gsap",
     "lenis",

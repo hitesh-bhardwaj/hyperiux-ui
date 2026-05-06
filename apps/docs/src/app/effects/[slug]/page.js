@@ -33,15 +33,22 @@ export default async function EffectPage({ params }) {
   const config = getEffectConfig(slug);
   const code = getEffectCode(slug);
 
-  // Get related effects (same category, excluding current)
-  const categories = getEffectsByCategory();
-  const relatedEffects = (categories[effect.category] || [])
-    .filter((e) => e.name !== slug)
+  // Get related effects (any shared category, excluding current)
+  const categoriesMap = getEffectsByCategory();
+  const effectCats = effect.categories?.length ? effect.categories : [effect.category];
+  const seen = new Set();
+  const relatedEffects = effectCats
+    .flatMap((cat) => categoriesMap[cat] || [])
+    .filter((e) => {
+      if (e.name === slug || seen.has(e.name)) return false;
+      seen.add(e.name);
+      return true;
+    })
     .slice(0, 3);
 
   // Get effect counts for sidebar
   const effectCounts = {};
-  for (const [category, effects] of Object.entries(categories)) {
+  for (const [category, effects] of Object.entries(categoriesMap)) {
     effectCounts[category] = effects.length;
   }
 

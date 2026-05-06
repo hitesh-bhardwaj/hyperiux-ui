@@ -4,6 +4,9 @@
   "title": "Square Translate",
   "description": "Scroll-driven list where a rotating square marker tracks progress and nudges nearby rows",
   "category": "scroll",
+  "categories": [
+    "scroll"
+  ],
   "dependencies": [
     "gsap"
   ],

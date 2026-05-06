@@ -108,6 +108,9 @@ export default function WebGLInfiniteSlider({ items }) {
     // Unbounded offset via delta tracking (handles Lenis infinite wrap)
     let offset = 0;
     let prevScroll = null;
+    let isSnapping = false;
+    let snapTimeout = null;
+    let snapObj = { offset: 0 };
 
     // ---------------------------
     // COMBINED RAF + RENDER LOOP
@@ -125,9 +128,45 @@ export default function WebGLInfiniteSlider({ items }) {
         // Correct for wrap-around
         if (delta > limit / 2) delta -= limit;
         if (delta < -limit / 2) delta += limit;
-        offset += delta;
+        
+        if (!isSnapping) {
+          offset += delta;
+        }
       }
       prevScroll = currentScroll;
+
+      if (!isSnapping && Math.abs(delta) < 0.5) {
+        if (!snapTimeout) {
+          snapTimeout = setTimeout(() => {
+            const currentScrollOffset = offset * speedFactor;
+            const targetScrollOffset = Math.round(currentScrollOffset / spacing) * spacing;
+            const targetOffset = targetScrollOffset / speedFactor;
+
+            if (Math.abs(offset - targetOffset) > 1) {
+              isSnapping = true;
+              lenis.stop();
+              snapObj.offset = offset;
+              gsap.to(snapObj, {
+                offset: targetOffset,
+                duration: 0.5,
+                ease: "power2.inOut",
+                onUpdate: () => {
+                  offset = snapObj.offset;
+                },
+                onComplete: () => {
+                  isSnapping = false;
+                  lenis.start();
+                }
+              });
+            }
+          }, 400);
+        }
+      } else if (Math.abs(delta) >= 0.5) {
+        if (snapTimeout) {
+          clearTimeout(snapTimeout);
+          snapTimeout = null;
+        }
+      }
 
       const scrollOffset = offset * speedFactor;
 
@@ -213,6 +252,8 @@ export default function WebGLInfiniteSlider({ items }) {
 
     return () => {
       cancelAnimationFrame(rafId);
+      if (snapTimeout) clearTimeout(snapTimeout);
+      gsap.killTweensOf(snapObj);
       renderer.dispose();
       container.removeChild(renderer.domElement);
       lenis.destroy();
@@ -243,7 +284,7 @@ export default function WebGLInfiniteSlider({ items }) {
             return (
               <div
                 key={i}
-                className="absolute w-7 h-9 -ml-[14px] -mt-[18px]"
+                className="absolute w-7 h-9 -ml-3.5 -mt-4.5"
                 style={{
                   transform: `rotate(${angle}deg) translateY(var(--radius, -35vh)) rotate(calc(-${angle}deg - var(--rotation, 0deg)))`
                 }}

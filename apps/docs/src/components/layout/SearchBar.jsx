@@ -62,11 +62,15 @@ export function GlobalSearch({ effects = [] }) {
     }
   }, [isOpen]);
 
-  const filteredEffects = effects.filter((effect) =>
-    effect.name.toLowerCase().includes(query.toLowerCase()) ||
-    effect.title.toLowerCase().includes(query.toLowerCase()) ||
-    effect.category?.toLowerCase().includes(query.toLowerCase())
-  );
+  const filteredEffects = effects.filter((effect) => {
+    const q = query.toLowerCase();
+    const cats = effect.categories?.length ? effect.categories : [effect.category];
+    return (
+      effect.name.toLowerCase().includes(q) ||
+      effect.title.toLowerCase().includes(q) ||
+      cats.some((c) => c?.toLowerCase().includes(q))
+    );
+  });
 
   const handleSelect = (effect) => {
     router.push(`/effects/${effect.name}`);
@@ -104,10 +108,10 @@ export function GlobalSearch({ effects = [] }) {
           </div>
 
           {/* Results */}
-          <div className="max-h-[300px] overflow-y-auto">
+          <div className="max-h-75 overflow-y-auto">
             {filteredEffects.length === 0 ? (
               <div className="px-4 py-8 text-center text-neutral-500 dark:text-neutral-400">
-                No effects found for "{query}"
+                No effects found for &quot;{query}&quot;
               </div>
             ) : (
               <div className="py-2">
@@ -122,7 +126,9 @@ export function GlobalSearch({ effects = [] }) {
                     </div>
                     <div>
                       <div className="font-medium text-neutral-900 dark:text-white">{effect.title}</div>
-                      <div className="text-sm text-neutral-500 dark:text-neutral-400 capitalize">{effect.category}</div>
+                      <div className="text-sm text-neutral-500 dark:text-neutral-400 capitalize">
+                        {(effect.categories?.length ? effect.categories : [effect.category]).join(", ")}
+                      </div>
                     </div>
                   </button>
                 ))}

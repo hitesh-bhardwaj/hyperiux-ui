@@ -4,6 +4,9 @@
   "title": "Colorful Cursor Aura",
   "description": "Layered radial color aura that follows the cursor across oversized headline text",
   "category": "cursor",
+  "categories": [
+    "cursor"
+  ],
   "dependencies": [
     "gsap"
   ],

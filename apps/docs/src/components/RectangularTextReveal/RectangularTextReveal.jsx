@@ -61,6 +61,7 @@ export default function TextBlockReveal({
   triggerStart = "top 85%",
   once = true,
   direction = "left",
+  delay=0,
 }) {
   const elementRef = useRef(null);
 
@@ -213,7 +214,9 @@ export default function TextBlockReveal({
       trigger: elementRef.current,
       start: triggerStart,
       once,
-      onEnter: () => tl.play(),
+      onEnter: () => {
+    gsap.delayedCall(delay, () => tl.play());
+  },
       ...(once
         ? {}
         : {
@@ -270,6 +273,7 @@ export default function TextBlockReveal({
     triggerStart,
     once,
     direction,
+    delay,
   ]);
 
   return (

@@ -4,6 +4,9 @@
   "title": "Infinite Perspective Slider",
   "description": "Looping perspective gallery with wheel and drag input plus split-text hover reveals",
   "category": "scroll",
+  "categories": [
+    "scroll"
+  ],
   "dependencies": [
     "gsap"
   ],

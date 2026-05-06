@@ -4,6 +4,9 @@
   "title": "Phantom Image Trail",
   "description": "Cursor-driven image trail that spawns and fades stacked visuals as you move",
   "category": "cursor",
+  "categories": [
+    "cursor"
+  ],
   "dependencies": [
     "gsap"
   ],
