@@ -61,13 +61,13 @@ export function EffectCard({ effect, priority = false }) {
 
   return (
     <div
-      className="group relative bg-neutral-100 dark:bg-[#171717] p-4 rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/50"
+      className="group relative bg-neutral-100 dark:bg-[#171717] p-3 rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/50"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Preview Image/Video */}
       <Link href={`/effects/${effect.name}`} className="block">
-        <div className="aspect-video bg-neutral-100 dark:bg-dark-surface rounded-md overflow-hidden relative">
+        <div className="aspect-video bg-neutral-100 dark:bg-dark-surface rounded-[10px] overflow-hidden relative">
           {/* Static Image */}
           <Image
             src={effect.coverImage || "/assets/img/image01.webp"}
