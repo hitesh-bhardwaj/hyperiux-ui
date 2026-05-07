@@ -23,17 +23,6 @@
   font-size: 1.125rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  .blog-article {
-    --blog-text-color: #f3f4f6;
-    --blog-text-secondary: #d1d5db;
-    --blog-text-muted: #9ca3af;
-    --blog-border-color: #374151;
-    --blog-bg-subtle: #111827;
-    --blog-accent-color: #60a5fa;
-  }
-}
-
 /* Article Header */
 .blog-header {
   margin-bottom: 3rem;

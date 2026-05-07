@@ -1,31 +1,27 @@
 'use client'
 
-import React from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import React from'react'
+import Link from'next/link'
+import { usePathname } from'next/navigation'
 
 export default function PixelHeader() {
-  const pathname = usePathname()
+ const pathname = usePathname()
 
-  return (
-    <header className='fixed top-0 left-0 w-full z-50 p-8 flex items-center justify-between'>
-      <Link href='/page-transitions/pixels' className='text-sm uppercase font-bold'>
-        Pixels
-      </Link>
-      <nav className='flex gap-4'>
-        <Link 
-          href='/page-transitions/pixels' 
-          className={`text-sm ${pathname === '/page-transitions/pixels' ? 'opacity-100' : 'opacity-50'}`}
-        >
-          Page 1
-        </Link>
-        <Link 
-          href='/page-transitions/pixels/page2' 
-          className={`text-sm ${pathname === '/page-transitions/pixels/page2' ? 'opacity-100' : 'opacity-50'}`}
-        >
-          Page 2
-        </Link>
-      </nav>
-    </header>
-  )
+ return (
+ <header className='fixed top-0 left-0 w-full z-50 p-8 flex items-center justify-between'>
+ <Link href='/page-transitions/pixels' className='text-sm uppercase font-bold'>
+ Pixels
+ </Link>
+ <nav className='flex gap-4'>
+ <Link  href='/page-transitions/pixels'  className={`text-sm ${pathname ==='/page-transitions/pixels' ?'opacity-100' :'opacity-50'}`}
+ >
+ Page 1
+ </Link>
+ <Link  href='/page-transitions/pixels/page2'  className={`text-sm ${pathname ==='/page-transitions/pixels/page2' ?'opacity-100' :'opacity-50'}`}
+ >
+ Page 2
+ </Link>
+ </nav>
+ </header>
+ )
 }

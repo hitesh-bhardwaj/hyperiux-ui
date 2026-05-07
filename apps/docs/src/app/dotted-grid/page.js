@@ -1,10 +1,10 @@
-import DottedGrid from '@/components/DottedGrid/DottedGrid'
-import React from 'react'
+import DottedGrid from'@/components/DottedGrid/DottedGrid'
+import React from'react'
 
 const page = () => {
-  return (
-    <DottedGrid/>
-  )
+ return (
+ <DottedGrid/>
+ )
 }
 
 export default page

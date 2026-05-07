@@ -1,14 +1,13 @@
 "use client"
-import GridTextMask from '@/components/GridLift/GridLift'
-import React from 'react'
+import GridTextMask from'@/components/GridLift/GridLift'
+import React from'react'
 
 
 const page = () => {
-  return (
-    <>
-      <GridTextMask />
-    </>
-   
+ return (
+ <>
+ <GridTextMask />
+ </>
   )
 }
 

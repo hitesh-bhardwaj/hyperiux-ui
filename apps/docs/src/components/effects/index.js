@@ -1,2 +1,2 @@
-export { BlurText } from "./BlurText";
-export { TextReveal, TextRevealByLine, RevealLine } from "./text-reveal";
+export { BlurText } from"./BlurText";
+export { TextReveal, TextRevealByLine, RevealLine } from"./text-reveal";

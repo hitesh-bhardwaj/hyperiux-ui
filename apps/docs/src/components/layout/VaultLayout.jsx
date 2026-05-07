@@ -1,44 +1,70 @@
 "use client";
 
-import { Suspense } from "react";
-import { Sidebar } from "./Sidebar";
-import { GlobalSearch } from "./SearchBar";
+import { Suspense, useState } from "react";
+import { Sidebar } from"./Sidebar";
+import { GlobalSearch } from"./SearchBar";
 
 function SidebarFallback({ totalEffects }) {
-  return (
-    <aside className="fixed left-0 top-0 bottom-0 w-65 bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40">
-      <div className="p-5 border-b border-neutral-200 dark:border-neutral-800">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
-            <span className="text-white dark:text-black font-bold text-sm">H</span>
-          </div>
-          <span className="font-semibold text-lg text-neutral-900 dark:text-white">Hyperiux</span>
-        </div>
-      </div>
-      <nav className="flex-1 overflow-y-auto p-4">
-        <div className="mb-6">
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg mb-2 bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white">
-            <span className="text-lg">◎</span>
-            <span className="font-medium">The Vault</span>
-            <span className="ml-auto text-sm text-neutral-400">{totalEffects}</span>
-          </div>
-        </div>
-      </nav>
-    </aside>
-  );
+ return (
+ <aside
+ className="fixed left-0 top-15 bottom-0 z-40 p-3 bg-transparent text-foreground"
+ style={{ width: "5.5rem" }}
+ >
+ <div className="relative flex flex-col h-full w-full border border-transparent rounded-lg overflow-visible">
+  <button
+    type="button"
+    aria-label="Open sidebar"
+ className="absolute left-2 top-1/2 -translate-y-1/2 h-14 w-14 rounded-2xl bg-black/35 border border-border/60 flex items-center justify-center backdrop-blur-md"
+ style={{ zIndex: 60 }}
+  >
+ <div className="flex gap-1.5">
+ <span className="h-6 w-0.75 rounded-full bg-white/90" />
+ <span className="h-6 w-0.75 rounded-full bg-white/90" />
+ </div>
+ </button>
+
+ <div className="h-full w-full flex items-center justify-center">
+ <div className="h-14 w-14" />
+ </div>
+ </div>
+ </aside>
+ );
 }
 
-export function VaultLayout({ children, effectCounts = {}, effects = [] }) {
-  const totalEffects = effects.length;
-  return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
-      <Suspense fallback={<SidebarFallback totalEffects={totalEffects} />}>
-        <Sidebar effectCounts={effectCounts} totalEffects={totalEffects} />
-      </Suspense>
-      <main className="ml-65">
-        {children}
-      </main>
-      <GlobalSearch effects={effects} />
-    </div>
-  );
+export function VaultLayout({
+ children,
+ effectCounts = {},
+ effects = [],
+ bgImageSrc = "/assets/hero-bg.png",
+}) {
+ const totalEffects = effects.length;
+ const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+ return (
+ <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
+ <div
+ className="pointer-events-none fixed inset-0 z-10 bg-cover bg-center"
+ style={{
+ backgroundImage: bgImageSrc ? `url("${bgImageSrc}")` : undefined,
+ opacity: bgImageSrc ? 0.85 : 1
+ }}
+ />
+ <div className="pointer-events-none fixed inset-0 -z-10 bg-black/30" />
+ <Suspense fallback={<SidebarFallback totalEffects={totalEffects} />}>
+ <Sidebar
+ effectCounts={effectCounts}
+ totalEffects={totalEffects}
+ isExpanded={isSidebarOpen}
+ onToggle={() => setIsSidebarOpen((v) => !v)}
+ onClose={() => setIsSidebarOpen(false)}
+ />
+ </Suspense>
+ <main
+ className="relative z-10 transition-[margin-left] duration-300 ease-out"
+ style={{ marginLeft: isSidebarOpen ? "16rem" : "" }}
+ >
+ {children}
+ </main>
+ <GlobalSearch effects={effects} />
+ </div>
+ );
 }

@@ -1,12 +1,12 @@
-import InfiniteGridGallery from '@/components/InfiniteGridGallery/InfiniteGridGallery'
-import React from 'react'
+import InfiniteGridGallery from'@/components/InfiniteGridGallery/InfiniteGridGallery'
+import React from'react'
 
 const page = () => {
-  return (
-   <>
-   <InfiniteGridGallery/>
-   </>
-  )
+ return (
+ <>
+ <InfiniteGridGallery/>
+ </>
+ )
 }
 
 export default page

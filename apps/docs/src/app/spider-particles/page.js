@@ -1,12 +1,12 @@
-import React from 'react'
-import SpiderParticles from '@/components/Particles/SpiderParticles'
+import React from'react'
+import SpiderParticles from'@/components/Particles/SpiderParticles'
 
 const page = () => {
-  return (
-    <div>
-      <SpiderParticles />
-    </div>
-  )
+ return (
+ <div>
+ <SpiderParticles />
+ </div>
+ )
 }
 
 export default page
