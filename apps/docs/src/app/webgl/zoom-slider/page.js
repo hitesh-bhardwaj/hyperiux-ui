@@ -1,6 +1,6 @@
-import React from 'react'
-import ZoomSlider from '../../components/Slider/ZoomSlider';
+import ZoomSlider from '@/components/Slider/ZoomSlider';
 import LenisSmoothScroll from '@/components/SmoothScroll/LenisScroll';
+import React from 'react'
 
 const page = () => {
   return (
