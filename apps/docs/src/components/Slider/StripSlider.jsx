@@ -654,7 +654,8 @@ export default function StripSlider({ items }) {
  1,
  true,
  0,
- Math.PI * 2 * 0.99 // creates a gap );
+ Math.PI * 2 * 0.99 // creates a gap 
+  );
  const mat = new THREE.ShaderMaterial({
  vertexShader: ribbonVert,
  fragmentShader: ribbonFrag,
