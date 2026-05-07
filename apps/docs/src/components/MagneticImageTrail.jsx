@@ -104,6 +104,7 @@ export default function ImageTrail() {
   const rafRef = useRef(0);
 
   const pointer = useRef({ x: 0, y: 0 });
+  const lerpedPointer = useRef({ x: 0, y: 0 }); // lerped pointer position
   const smooth = useRef({ x: 0, y: 0 });
   const dirRef = useRef({ x: 1, y: 0 });
   const lastMoveAt = useRef(0);
@@ -138,6 +139,7 @@ export default function ImageTrail() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       pointer.current = { x: w / 2, y: h / 2 };
+      lerpedPointer.current = { x: w / 2, y: h / 2 };
       smooth.current = { x: w / 2, y: h / 2 };
     }
 
@@ -152,12 +154,21 @@ export default function ImageTrail() {
       const dt = Math.min(32, now - (lastTime.current || now));
       lastTime.current = now;
 
+      // --- lerp pointer on every frame ---
+      // The lerped pointer smoothly follows the actual pointer.
+      // A lerp amount of 0.18 gives a nice responsive but eased motion.
+      const LERP_AMOUNT = 0.18;
+      lerpedPointer.current.x = lerp(lerpedPointer.current.x, pointer.current.x, LERP_AMOUNT);
+      lerpedPointer.current.y = lerp(lerpedPointer.current.y, pointer.current.y, LERP_AMOUNT);
+
       // Phase increment will be calculated after mouse speed is determined
 
       const prevSX = smooth.current.x;
       const prevSY = smooth.current.y;
-      smooth.current.x += (pointer.current.x - smooth.current.x) * FOLLOW;
-      smooth.current.y += (pointer.current.y - smooth.current.y) * FOLLOW;
+
+      // use lerpedPointer instead of pointer directly for the trailing smooth position
+      smooth.current.x += (lerpedPointer.current.x - smooth.current.x) * FOLLOW;
+      smooth.current.y += (lerpedPointer.current.y - smooth.current.y) * FOLLOW;
 
       const cx = smooth.current.x;
       const cy = smooth.current.y;
@@ -186,6 +197,7 @@ export default function ImageTrail() {
       const dir = dirRef.current;
       const denom = Math.max(1, SPREAD_X);
       const dirIntensity = 0.18 + speed01 * 0.12;
+
       const cards = SLOTS.map((slot, i) => {
         const n = SLOTS.length;
 
@@ -224,13 +236,9 @@ export default function ImageTrail() {
 
         // Scale follows the same diagonal movement:
         // small → big at center → small
-        // Scale follows the same diagonal movement:
-        // small → big at center → small
         const rawCenterScale = Math.max(0, 1 - Math.abs(pathNorm));
-
         const easedCenterScale =
           rawCenterScale * rawCenterScale * (3 - 2 * rawCenterScale);
-
         const centerScale = lerp(0.06, 0.9, easedCenterScale);
 
         // Scale images up in the direction of mouse movement.
@@ -309,12 +317,11 @@ export default function ImageTrail() {
   const updatePointer = useCallback((e) => {
     const rect = wrapRef.current?.getBoundingClientRect();
     if (!rect) return;
-
+    // On mouse move, we set pointer to the actual event location (no lerp here).
     pointer.current = {
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
     };
-
     inside.current = true;
   }, []);
 
