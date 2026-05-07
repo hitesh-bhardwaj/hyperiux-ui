@@ -63,7 +63,7 @@ function Scene() {
       >
         HYPERIUX
       </Text>
-      <color attach="background" args={['#262626']} />
+      <color attach="background" args={['#141518']} />
       <ambientLight intensity={0.4} />
       <spotLight
         position={[10, 10, 10]}
@@ -82,7 +82,7 @@ function Scene() {
           <Model>
             <MeshTransmissionMaterial
               clearcoat={1}
-              thickness={0.1}
+              thickness={10}
               anisotropicBlur={0.1}
               chromaticAberration={0.1}
               samples={8}
@@ -93,8 +93,8 @@ function Scene() {
       </Physics>
 
       <EffectComposer disableNormalPass multisampling={8}>
-       
-        <Bloom  />
+       <N8AO />
+        {/* <Bloom  /> */}
       </EffectComposer>
 
       <Environment resolution={256}>
@@ -255,7 +255,9 @@ function Pointer({ vec = new THREE.Vector3() }) {
 function Model({ children, color = 'white', roughness = 0 }) {
   const ref = useRef()
   const { nodes } = useGLTF('/models/hyperiux-logo.glb')
+  const { nodes : nodes2 , materials : materials2 } = useGLTF('/models/c-transformed.glb')
   const geometry = nodes.FINAL?.geometry
+  console.log(materials2)
 
   useFrame((state, delta) => {
     if (ref.current?.material?.color) {
@@ -273,11 +275,16 @@ function Model({ children, color = 'white', roughness = 0 }) {
       scale={[MODEL_SCALE, MODEL_SCALE, MODEL_SCALE * 2.3]}
       geometry={geometry}
     >
-      <meshStandardMaterial
-        metalness={0.2}
+      <meshPhysicalMaterial
+        metalness={.4}
+        roughness={0.2}
+        clearcoat={1}
+        clearcoatRoughness={0.2}
+        material={materials2.base}
+        reflectivity={1}
         color={color}
-        roughness={roughness}
       />
+
       {children}
     </mesh>
   )
