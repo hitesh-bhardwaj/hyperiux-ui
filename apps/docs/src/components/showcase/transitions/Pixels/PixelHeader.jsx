@@ -9,7 +9,7 @@ export default function PixelHeader() {
 
  return (
  <header className='fixed top-0 left-0 w-full z-50 p-8 flex items-center justify-between'>
- <Link href='/page-transitions/pixels' className='text-sm uppercase font-bold'>
+ <Link href='/page-transitions/pixels' className='text-sm uppercase font-bold text-black'>
  Pixels
  </Link>
  <nav className='flex gap-4'>

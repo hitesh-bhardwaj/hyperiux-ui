@@ -8,7 +8,7 @@ const IDLE_TIMEOUT = 120;
 const FADE_DURATION = 500;
 const SPAWN_ANIMATION = 180;
 const TURN_CELLS = 2;
-const MOUSE_LERP = 0.18;
+const MOUSE_LERP = 0.09;
 
 const ALPHABET ="HYPERIUX";
 

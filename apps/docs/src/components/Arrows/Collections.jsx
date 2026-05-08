@@ -236,7 +236,7 @@ const Collections = () => {
 
         {/* BLACK THEME  SVG WHITE THEME*/}
 
-        <section className="h-[200vh] section-2 arrow-animation-container  max-w-screen  ">
+        <section className="h-[200vh] section-2 arrow-animation-container  w-full ">
           <div className="h-screen flex items-center justify-center overflow-hidden w-full sticky top-0">
             <div className="h-[60%]  absolute inset-1/2  -translate-x-1/2 -translate-y-1/2 w-[60%]">
               <svg
@@ -254,7 +254,7 @@ const Collections = () => {
               </svg>
             </div>
 
-            <p className="text-[1.5vw] !text-white w-[45%] leading-[1.5] opacity-0 z-[10] text-center font-medium arrow-animation-text">
+            <p className="text-[1.5vw] text-white w-[45%] leading-normal opacity-0 z-10 text-center font-medium arrow-animation-text">
               The arrow effect provides immediate feedback to user interactions,
               perfect for high-performance websites.
             </p>

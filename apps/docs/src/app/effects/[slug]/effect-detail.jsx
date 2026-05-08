@@ -111,7 +111,7 @@ export default function MyComponent() {
  <p className="text-[#d2d2d2] w-[80%]">{effect.description}</p>
  </div>
  {/* Preview */}
- <div className="h-[50vh] overflow-hidden relative">
+ <div className="h-[65vh] overflow-hidden relative">
  {effect.videoUrl ? (
  <CldVideoPlayer
  key={effect.videoUrl}

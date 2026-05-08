@@ -9,7 +9,7 @@ export default function BlockHeader() {
 
  return (
  <header className='fixed top-0 left-0 w-full z-50 p-8 flex items-center justify-between'>
- <Link href='/page-transitions/block' className='text-sm uppercase font-bold'>
+ <Link href='/page-transitions/block' className='text-sm uppercase font-bold text-black'>
  Horizontal Block
  </Link>
  <nav className='flex gap-4'>

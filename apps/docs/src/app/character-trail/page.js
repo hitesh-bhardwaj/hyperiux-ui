@@ -1,8 +1,13 @@
 import React from'react'
 import CharacterTrail from'@/components/CursorTrail/CharTrail'
+import LenisSmoothScroll from '@/components/SmoothScroll/LenisScroll'
 
 const page = () => {
  return (
+
+    <>
+    <LenisSmoothScroll />
+   
  <CharacterTrail>
  <main className="relative min-h-screen w-full overflow-hidden bg-[#f4f4f1] text-black">
 
@@ -28,6 +33,7 @@ const page = () => {
  </section>
  </main>
  </CharacterTrail>
+  </>
  )
 }
 

@@ -132,12 +132,22 @@ h4 {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #ff5f00;
+  background: linear-gradient(
+    180deg,
+    #ff5f00 0%,
+    #ff7b2c 40%,
+    #1a1a1a 100%
+  );
   border-radius: 999px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: #ff9253;
+  background: linear-gradient(
+    180deg,
+    #ff9253 0%,
+    #ff6a00 40%,
+    #000000 100%
+  );
 }
 
 /* Selection color */
