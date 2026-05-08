@@ -88,7 +88,7 @@ export function VaultContent({ effects, effectCounts }) {
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  placeholder="Search effects..."
- className="w-full pl-14 pr-5 py-3 rounded-full bg-white/20 backdrop-blur-md border border-border text-foreground placeholder:text-muted focus:outline-none  focus:border-transparent transition-all font-sans"
+ className="w-full pl-14 pr-5 py-3 rounded-full bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground placeholder:text-muted focus:outline-none  focus:border-transparent transition-all font-sans"
  />
  </div>
  </div>
@@ -97,7 +97,7 @@ export function VaultContent({ effects, effectCounts }) {
  <a
  key={cat}
  href={`/effects?category=${cat}`}
- className="px-6 py-2 text-md rounded-full bg-white/20 backdrop-blur-md border border-border text-foreground hover:bg-white/20 transition-colors font-sans"
+ className="px-6 py-2 text-md rounded-full bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground hover:bg-[#A9A9A9]/30 transition-colors font-sans"
  >
  {cat ==="webgl" ?"WebGL" : cat.charAt(0).toUpperCase() + cat.slice(1)}
  </a>
@@ -115,12 +115,12 @@ export function VaultContent({ effects, effectCounts }) {
  Showing {filteredEffects.length} of {totalEffects} effects
  </span>
  {categoryFilter !=="all" && (
- <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md border border-border text-foreground text-sm capitalize font-medium" style={{ borderRadius:"56px" }}>
+ <span className="px-4 py-1.5 bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground text-sm capitalize font-medium" style={{ borderRadius:"56px" }}>
  {categoryFilter}
  </span>
  )}
  {searchQuery && (
- <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md border border-border text-foreground text-sm font-medium" style={{ borderRadius:"56px" }}>
+ <span className="px-4 py-1.5 bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground text-sm font-medium" style={{ borderRadius:"56px" }}>
  &quot;{searchQuery}&quot;
  </span>
  )}
