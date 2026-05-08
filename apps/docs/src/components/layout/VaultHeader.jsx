@@ -49,7 +49,7 @@ export function VaultHeader({ searchQuery, onSearchChange, totalEffects, effectN
  value={searchQuery}
  onChange={(e) => onSearchChange(e.target.value)}
  placeholder="Search effects..."
- className="w-64 pl-10 pr-3 py-2.5 border border-border rounded-xl bg-white/20   text-sm text-foreground placeholder:text-muted focus:outline-none  transition-all backdrop-blur-xs"
+ className="w-64 pl-10 pr-3 py-2.5 border border-border rounded-xl bg-[#A9A9A9]/30   text-sm text-foreground placeholder:text-muted focus:outline-none  transition-all backdrop-blur-xs"
  />
  
  </div>

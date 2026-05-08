@@ -62,26 +62,29 @@
 .images :global(.item-image img) {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   object-fit: cover;
   will-change: transform;
 }
 
 .images :global(.caption) {
   position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
+  width: 100%;
+  height: auto;
+  left:0;
+  right:0;
+  bottom: 0;
   display: block;
-  padding: 6px 8px;
-  font-size: 12px;
+  padding: 10px 10px;
+  font-size: 15px;
   line-height: 1.2;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.04em;
   opacity: 0;
   white-space: normal;
   user-select: none;
-  color: rgba(0, 0, 0, 0.9);
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(8px);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.38);
+  backdrop-filter: blur(5px);
   border: 1px solid rgba(0, 0, 0, 0.08);
   transform: translateY(12px);
   transition: opacity 350ms cubic-bezier(0.785, 0.135, 0.15, 0.86),
@@ -138,7 +141,7 @@
   border-radius: 0;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.06);
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.18);
+  /* box-shadow: 0 30px 90px rgba(0, 0, 0, 0.18); */
 }
 
 .expandBackdrop:not(.expandClosing):not(.expandOpening) .expandMedia {
@@ -229,8 +232,31 @@
   align-items: center;
   gap: 12px;
   padding: 0 14px 14px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 1);
   cursor: default;
+}
+
+.expandMeta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.expandCaption {
+  max-width: min(860px, calc(100vw - 40px));
+  text-align: center;
+  margin-top: -5%;
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  color: rgba(0, 0, 0, 0.92);
+  padding: 6px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
 }
 
 .expandNav {
@@ -271,6 +297,8 @@
   overflow: hidden;
   user-select: none;
   cursor: grab;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  padding-top: 12px;
 }
 
 .expandThumbsWrapDragging {
@@ -302,8 +330,8 @@
 
 .expandThumb {
   flex: 0 0 auto;
-  width: 84px;
-  height: 56px;
+  width: 90px;
+  height: 70px;
   border-radius: 0;
   border: 2px solid transparent;
   background: rgba(0, 0, 0, 0.04);

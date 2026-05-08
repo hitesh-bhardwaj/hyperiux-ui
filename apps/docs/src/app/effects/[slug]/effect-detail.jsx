@@ -5,6 +5,7 @@ import Link from"next/link";
 import { VaultLayout } from"@/components/layout/VaultLayout";
 import { VaultHeader } from"@/components/layout/VaultHeader";
 import { EffectCard } from"@/components/ui/EffectCardNew";
+import { CodeBlock } from"@/components/ui/CodeBlock";
 import { CldVideoPlayer } from"next-cloudinary";
 import"next-cloudinary/dist/cld-video-player.css";
 
@@ -91,7 +92,7 @@ export default function MyComponent() {
 
  return (
  <VaultLayout effectCounts={effectCounts} bgImageSrc="">
- <div className="min-h-screen text-foreground">
+ <div className="min-h-screen text-foreground px-15">
  {/* Sticky Header with Breadcrumb */}
  <Suspense fallback={<div className="h-12" />}>
  <VaultHeader effectName={effect.title} showSearch={false} />
@@ -104,10 +105,10 @@ export default function MyComponent() {
  <div className="lg:col-span-2 space-y-8">
  {/* Title Section */}
  <div>
- <h1 className="text-3xl text-foreground mb-2">
+ <h1 className="text-5xl text-foreground mb-4">
  {effect.title}
  </h1>
- <p className="text-muted">{effect.description}</p>
+ <p className="text-[#d2d2d2] w-[80%]">{effect.description}</p>
  </div>
  {/* Preview */}
  <div className="h-[50vh] overflow-hidden relative">
@@ -145,26 +146,26 @@ export default function MyComponent() {
  </div>
 
  {/* Documentation */}
- <div className="space-y-6">
- <h2 className="text-xl font-semibold text-foreground">Documentation</h2>
+ <div className="space-y-10">
+ <h2 className="text-4xl font-semibold text-foreground tracking-tighter">Documentation</h2>
 
- {/* Installation */}
- <div className="space-y-3">
- <h3 className="font-medium text-muted">Installation</h3>
- <CodeBlockWithCopy code={installCode} language="bash" />
- </div>
+	 {/* Installation */}
+	 <div className="space-y-3">
+	 <h3 className="font-medium text-muted text-2xl tracking-tighter">Installation</h3>
+	 <CodeBlock code={installCode} language="bash" />
+	 </div>
 
- {/* Usage */}
- <div className="space-y-3">
- <h3 className="font-medium text-muted">Usage</h3>
- <CodeBlockWithCopy code={usageCode} language="jsx" />
- </div>
+	 {/* Usage */}
+	 <div className="space-y-3">
+	 <h3 className="font-medium text-muted text-2xl tracking-tighter">Usage</h3>
+	 <CodeBlock code={usageCode} language="jsx" />
+	 </div>
 
- {/* Component Code */}
- <div className="space-y-3">
- <h3 className="font-medium text-muted">Component Code</h3>
- <CodeBlockWithCopy code={code} language="jsx" filename={`${slug}.jsx`} />
- </div>
+	 {/* Component Code */}
+	 <div className="space-y-3">
+	 <h3 className="font-medium text-muted text-2xl tracking-tighter">Component Code</h3>
+	 <CodeBlock code={code} language="jsx" filename={`${slug}.jsx`} />
+	 </div>
 
  {/* Props Table */}
  {config?.props?.length > 0 && (
@@ -201,7 +202,7 @@ export default function MyComponent() {
 
  {/* Right: Action Buttons + Resource Details (Sticky) */}
  <div className="lg:col-span-1 self-start">
- <div className="sticky top-24 space-y-6 h-fit">
+	 <div className="sticky top-28 space-y-6 h-fit">
  {/* Action buttons */}
  <div className="flex items-center gap-3">
  <Link
@@ -220,7 +221,7 @@ export default function MyComponent() {
  onClick={toggleWishlist}
  className={`p-2.5 backdrop-blur-sm rounded-full transition-colors cursor-pointer ${
  isWishlisted
- ?"bg-primary text-white"
+ ?"bg-primary text-white border border-transparent"
  :"bg-black/20 border border-border text-foreground hover:bg-primary hover:text-white"
  }`}
  aria-label="Add to wishlist"
@@ -290,7 +291,7 @@ export default function MyComponent() {
  {/* Related Resources */}
  {relatedEffects.length > 0 && (
  <div className="mt-16">
- <h2 className="text-xl font-semibold text-foreground mb-6">Related effects</h2>
+ <h2 className="text-4xl font-semibold text-foreground mb-6 tracking-tighter">Related Effects</h2>
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
  {relatedEffects.map((relatedEffect) => (
   <EffectCard key={relatedEffect.name} effect={relatedEffect} />
@@ -300,51 +301,6 @@ export default function MyComponent() {
  )}
  </div>
  </div>
- </VaultLayout>
- );
-}
-
-function CodeBlockWithCopy({ code, language ="jsx", filename }) {
- const [copied, setCopied] = useState(false);
-
- const handleCopy = async () => {
- await navigator.clipboard.writeText(code);
- setCopied(true);
- setTimeout(() => setCopied(false), 2000);
- };
-
- return (
- <div className="bg-secondary-surface/60 backdrop-blur-md rounded-md border border-border overflow-hidden">
- {filename && (
- <div className="flex items-center justify-between px-4 py-2 bg-black/20 border-b border-border">
- <span className="text-sm text-muted">{filename}</span>
- <button
- onClick={handleCopy}
- className="flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors"
- >
- <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
- </svg>
- {copied ?"Copied!" :"Copy"}
- </button>
- </div>
- )}
- <div className="relative">
- {!filename && (
- <button
- onClick={handleCopy}
- className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 bg-black/40 hover:bg-black/55 border border-border rounded text-sm text-muted transition-colors"
- >
- <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
- </svg>
- {copied ?"Copied!" :"Copy"}
- </button>
- )}
- <pre className="p-4 overflow-x-auto text-sm bg-black/40 text-foreground">
- <code>{code}</code>
- </pre>
- </div>
- </div>
- );
-}
+	</VaultLayout>
+	);
+	}

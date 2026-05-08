@@ -1,9 +1,21 @@
 "use client";
 
-import { useState } from"react";
+import { useMemo, useState } from "react";
+import hljs from "highlight.js";
 
 export function CodeBlock({ code, language ="jsx", filename }) {
  const [copied, setCopied] = useState(false);
+ const highlighted = useMemo(() => {
+  try {
+   if (!code) return "";
+   if (language && hljs.getLanguage(language)) {
+    return hljs.highlight(code, { language, ignoreIllegals: true }).value;
+   }
+   return hljs.highlightAuto(code).value;
+  } catch {
+   return "";
+  }
+ }, [code, language]);
 
  const handleCopy = async () => {
  await navigator.clipboard.writeText(code);
@@ -12,13 +24,13 @@ export function CodeBlock({ code, language ="jsx", filename }) {
  };
 
  return (
- <div className="relative rounded-lg border border-neutral-800 bg-neutral-950 overflow-hidden">
+ <div className="relative rounded-md border border-border bg-black/60 backdrop-blur-md overflow-hidden">
  {filename && (
- <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-800 bg-neutral-900">
- <span className="text-sm text-neutral-400">{filename}</span>
+ <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-black/20">
+ <span className="text-sm text-muted">{filename}</span>
  <button
  onClick={handleCopy}
- className="text-xs px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition-colors"
+ className="text-xs px-3 py-1.5 rounded-sm bg-black/40 border border-border text-muted hover:text-foreground transition-colors"
  >
  {copied ?"Copied!" :"Copy"}
  </button>
@@ -28,15 +40,20 @@ export function CodeBlock({ code, language ="jsx", filename }) {
  {!filename && (
  <button
  onClick={handleCopy}
- className="absolute top-3 right-3 text-xs px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition-colors z-10"
+ className="absolute top-3 right-3 text-xs px-3 py-1.5 rounded-sm bg-black/40 border border-border text-muted hover:text-foreground transition-colors z-10"
  >
  {copied ?"Copied!" :"Copy"}
  </button>
  )}
- <pre className="p-4 overflow-x-auto text-sm">
- <code className={`language-${language} text-neutral-300`}>
- {code}
- </code>
+ <pre className=" overflow-x-auto text-sm bg-transparent!">
+ {highlighted ? (
+ <code
+ className={`hljs language-${language}`}
+ dangerouslySetInnerHTML={{ __html: highlighted }}
+ />
+ ) : (
+ <code className={`hljs language-${language}`}>{code}</code>
+ )}
  </pre>
  </div>
  </div>

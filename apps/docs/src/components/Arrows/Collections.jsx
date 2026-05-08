@@ -167,7 +167,7 @@ const Collections = () => {
     <>
       <div
         ref={containerRef}
-        className={`h-fit  w-full text-${textColor}`}
+        className={`h-fit  w-full text-${textColor} `}
         style={{ backgroundColor: theme, color: textColor }}
       >
         <section className="w-screen  relative flex-col gap-[2vw] h-screen flex items-center justify-center px-[5vw] ">
@@ -188,7 +188,7 @@ const Collections = () => {
           
         </section>
         {/* WHITE THEME */}
-        <div className="w-full h-fit  section-1" >
+        <div className="w-full  h-fit  section-1" >
           <section
             data-black-logo
             id="arrow-white"
@@ -236,7 +236,7 @@ const Collections = () => {
 
         {/* BLACK THEME  SVG WHITE THEME*/}
 
-        <section className="h-[200vh] section-2 arrow-animation-container  w-full  ">
+        <section className="h-[200vh] section-2 arrow-animation-container  max-w-screen  ">
           <div className="h-screen flex items-center justify-center overflow-hidden w-full sticky top-0">
             <div className="h-[60%]  absolute inset-1/2  -translate-x-1/2 -translate-y-1/2 w-[60%]">
               <svg

@@ -34,7 +34,7 @@ export default function InfiniteGridGallery() {
  const openCloseDurationMs = 750;
  const isAnimating = isOpening || isClosing || Boolean(slide);
 
- const overlayLayout = useMemo(() => ({ thumbsH: 120 }), []);
+ const overlayLayout = useMemo(() => ({ thumbsH: 156 }), []);
 
  const unsplashPool = useMemo(
  () => [
@@ -522,6 +522,9 @@ export default function InfiniteGridGallery() {
  aria-label="All images"
  onMouseDown={(e) => e.stopPropagation()}
  >
+ <div className={styles.expandMeta} aria-hidden="true">
+ <h2 className={styles.expandCaption}>{display.caption}</h2>
+ </div>
  <div
  className={`${styles.expandThumbsWrap} ${
  isThumbDragging ? styles.expandThumbsWrapDragging :""
