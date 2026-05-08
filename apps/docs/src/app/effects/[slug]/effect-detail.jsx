@@ -201,7 +201,7 @@ export default function MyComponent() {
  </div>
 
  {/* Right: Action Buttons + Resource Details (Sticky) */}
- <div className="lg:col-span-1 self-start">
+ <div className="lg:col-span-1 self-stretch">
 	 <div className="sticky top-28 space-y-6 h-fit">
  {/* Action buttons */}
  <div className="flex items-center gap-3">

@@ -8,7 +8,7 @@ export default function ChessGridTransition({ children, enableContentShift = fal
   const wrapperRef = useRef(null)
   const gridRef = useRef(null)
 
-  const [mounted, setMounted] = useState(false)
+    const [mounted, setMounted] = useState(false)
 
   const cols = 8
   const rows = 4
@@ -72,7 +72,8 @@ export default function ChessGridTransition({ children, enableContentShift = fal
       gsap.set(cell, { xPercent: -(colIndex + 2) * 100 })
     })
 
-    setMounted(true)
+     setMounted(true)
+
   }, [])
 
   return (
@@ -137,6 +138,7 @@ export default function ChessGridTransition({ children, enableContentShift = fal
         }`}
       >
         {Array.from({ length: cols * rows }).map((_, i) => {
+
           return (
             <span
               key={i}
@@ -146,7 +148,7 @@ export default function ChessGridTransition({ children, enableContentShift = fal
         })}
       </div>
 
-      <div className='h-full w-full relative overflow-hidden'>
+       <div className='h-full w-full relative overflow-'>
         <div ref={wrapperRef} className='will-change-transform h-full w-full'>
           {children}
         </div>
