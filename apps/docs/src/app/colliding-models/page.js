@@ -1,5 +1,5 @@
 import React from 'react'
-import MagnetLogo from '@/components/LogoMagnet/MagneticEffect'
+import MagnetLogo from '@/components/CollidingModels/MagneticEffect'
 
 const page = () => {
   return (
