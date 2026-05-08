@@ -509,6 +509,22 @@
       "addedAt": 1776836655006.7603
     },
     {
+      "name": "interactive-arrows",
+      "title": "Interactive Arrows",
+      "description": "Canvas 2D collection of six cursor-reactive arrow and line effects: a hover-push arrow grid, an opacity-fade variant, a smooth-easing sparse grid, a particle-lines dot field, a persistent lines field, and a playful full-screen grid with center cutout. Scroll-driven background color transitions via GSAP ScrollTrigger.",
+      "category": "cursor",
+      "categories": [
+        "cursor"
+      ],
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/interactive-arrows",
+      "coverImage": "/assets/listing/interactive-arrows.png",
+      "videoUrl": "interactive-arrows",
+      "addedAt": 1778219467297.0447
+    },
+    {
       "name": "liquid-glass-cursor",
       "title": "Liquid Glass Cursor",
       "description": "Fluid glass-like custom cursor with SVG displacement refraction, hover morph states, and GSAP-smoothed tracking.",
@@ -775,6 +791,22 @@
       "coverImage": "/assets/listing/circle-text-reveal.png",
       "videoUrl": "circle-text-reveal",
       "addedAt": 1776836655018.018
+    },
+    {
+      "name": "glitchy-text",
+      "title": "Glitchy Text",
+      "description": "GSAP SplitText effect that stagger-animates four overlapping char layers — two white and two yellow — out and in at slightly different delays, creating a chromatic glitch swap. Plays on mount and replays on button click.",
+      "category": "text",
+      "categories": [
+        "text"
+      ],
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/glitchy-text",
+      "coverImage": "/assets/listing/glitchy-text.png",
+      "videoUrl": "glitchy-text",
+      "addedAt": 1778219126063.4827
     },
     {
       "name": "mask-text-reveal",
@@ -1423,6 +1455,56 @@
       "addedAt": 1777630755245.6868
     },
     {
+      "name": "curved-plane",
+      "title": "Curved Plane",
+      "description": "Three.js WebGL horizontal image carousel with a custom GLSL shader that curves the plane edges on drag and scroll. Images fade toward the edges and deform proportionally to interaction velocity. Supports drag, touch, scroll, and inertia momentum.",
+      "category": "webgl",
+      "categories": [
+        "webgl"
+      ],
+      "dependencies": [
+        "three",
+        "gsap"
+      ],
+      "previewUrl": "/curved-plane",
+      "coverImage": "/assets/listing/curved-plane.png",
+      "videoUrl": "curved-plane",
+      "addedAt": 1778218863728.2952
+    },
+    {
+      "name": "curved-plane-v2",
+      "title": "Curved Plane V2",
+      "description": "Three.js WebGL vertical image gallery with three columns. The center column scrolls in the opposite direction to the outer two, creating a parallax effect. A custom GLSL shader curves each card vertically on drag and scroll. Collapses to two columns on tablet.",
+      "category": "webgl",
+      "categories": [
+        "webgl"
+      ],
+      "dependencies": [
+        "three",
+        "gsap"
+      ],
+      "previewUrl": "/curved-plane/v2",
+      "coverImage": "/assets/listing/curved-plane-v2.png",
+      "videoUrl": "curved-plane-v2",
+      "addedAt": 1778218866271.8125
+    },
+    {
+      "name": "draggable-canvas",
+      "title": "Draggable Canvas",
+      "description": "Six independently draggable Canvas 2D windows that each reveal a different cropped region of a shared video, creating a parallax masking illusion. GSAP Draggable with InertiaPlugin gives each window smooth throw physics. Includes a minimal coordinate-display cursor.",
+      "category": "webgl",
+      "categories": [
+        "webgl"
+      ],
+      "dependencies": [
+        "gsap"
+      ],
+      "previewUrl": "/webgl/draggable-canvas",
+      "coverImage": "/assets/listing/draggable-canvas.png",
+      "videoUrl": "draggable-canvas",
+      "addedAt": 1778218670688.0005
+    },
+    {
       "name": "fractal-glass",
       "title": "Fractal Glass",
       "description": "WebGL glass-strip refraction effect with fractal distortion, edge blending, and pointer-reactive parallax.",
@@ -1507,6 +1589,25 @@
       "coverImage": "/assets/listing/milkyway.png",
       "videoUrl": "milkyway",
       "addedAt": 1777639027957.738
+    },
+    {
+      "name": "mouse-pixelation",
+      "title": "Mouse Pixelation",
+      "description": "Three R3F WebGL mouse-reactive pixelation effects behind a version-switcher header. V1: GLSL pixel-circle shader with animated orbiting circles and GSAP scroll pin. V2: image texture with velocity-driven block displacement. V3: extruded pixel trail grid paired with a deforming bloom-lit cube that auto-cycles neon colors.",
+      "category": "webgl",
+      "categories": [
+        "webgl"
+      ],
+      "dependencies": [
+        "three",
+        "@react-three/fiber",
+        "@react-three/postprocessing",
+        "gsap"
+      ],
+      "previewUrl": "/mouse-pixelation-effects",
+      "coverImage": "/assets/listing/mouse-pixelation.png",
+      "videoUrl": "mouse-pixelation",
+      "addedAt": 1778219892294.1362
     },
     {
       "name": "strip-slider",
