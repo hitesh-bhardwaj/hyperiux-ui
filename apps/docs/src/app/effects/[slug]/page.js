@@ -2,6 +2,7 @@ import { notFound } from"next/navigation";
 import { getEffectBySlug, getAllEffectSlugs, getEffectCode, getEffectsByCategory } from"@/lib/registry";
 import { getEffectConfig } from"@/lib/effect-configs";
 import { EffectDetailContent } from"./effect-detail";
+import LenisSmoothScroll from "@/components/SmoothScroll/LenisScroll";
 
 export async function generateStaticParams() {
  const slugs = getAllEffectSlugs();
@@ -53,6 +54,8 @@ export default async function EffectPage({ params }) {
  }
 
  return (
+    <>
+   <LenisSmoothScroll />
  <EffectDetailContent
  slug={slug}
  effect={effect}
@@ -61,5 +64,6 @@ export default async function EffectPage({ params }) {
  relatedEffects={relatedEffects}
  effectCounts={effectCounts}
  />
+  </>
  );
 }

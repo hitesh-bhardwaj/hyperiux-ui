@@ -3,12 +3,13 @@
 import { TransitionRouter } from 'next-transition-router'
 import React, { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import Image from 'next/image'
 
 export default function ChessGridTransition({ children, enableContentShift = false }) {
   const wrapperRef = useRef(null)
   const gridRef = useRef(null)
 
-    const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   const cols = 8
   const rows = 4
@@ -72,7 +73,7 @@ export default function ChessGridTransition({ children, enableContentShift = fal
       gsap.set(cell, { xPercent: -(colIndex + 2) * 100 })
     })
 
-     setMounted(true)
+    setMounted(true)
 
   }, [])
 
@@ -133,9 +134,8 @@ export default function ChessGridTransition({ children, enableContentShift = fal
     >
       <div
         ref={gridRef}
-        className={`h-screen w-screen fixed top-0 left-0 z-999 pointer-events-none flex flex-wrap overflow-hidden ${
-          mounted ? 'opacity-100' : 'opacity-0'
-        }`}
+        className={`h-screen w-screen fixed top-0 left-0 z-999 pointer-events-none flex flex-wrap overflow-hidden ${mounted ? 'opacity-100' : 'opacity-0'
+          }`}
       >
         {Array.from({ length: cols * rows }).map((_, i) => {
 
@@ -148,11 +148,24 @@ export default function ChessGridTransition({ children, enableContentShift = fal
         })}
       </div>
 
-       <div className='h-full w-full relative overflow-'>
+      <div className='h-full w-full relative z-[2] '>
         <div ref={wrapperRef} className='will-change-transform h-full w-full'>
           {children}
         </div>
+
       </div>
+      <div className="w-screen h-screen fixed inset-0">
+        <Image
+          src={"/assets/hero-bg.png"}
+          alt="image"
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+       <div className="pointer-events-none fixed inset-0  bg-black/30" />
+   
     </TransitionRouter>
   )
 }

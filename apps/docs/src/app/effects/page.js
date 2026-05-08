@@ -1,6 +1,8 @@
 import { Suspense } from"react";
 import { getEffectsByCategory, getRegistryIndex } from"@/lib/registry";
 import { VaultContent } from"./vault-content";
+import LenisSmoothScroll from "@/components/SmoothScroll/LenisScroll";
+import Image from "next/image";
 
 export const metadata = {
  title:"The Vault | Hyperiux UI",
@@ -26,10 +28,12 @@ export default function EffectsPage() {
 
  return (
  <Suspense fallback={<VaultFallback />}>
+    <LenisSmoothScroll />
  <VaultContent
  effects={[...registry.items].sort((a, b) => (b.addedAt ?? 0) - (a.addedAt ?? 0))}
  effectCounts={effectCounts}
  />
+ 
  </Suspense>
  );
 }

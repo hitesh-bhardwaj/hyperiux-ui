@@ -92,7 +92,7 @@ export default function MyComponent() {
 
  return (
  <VaultLayout effectCounts={effectCounts} bgImageSrc="">
- <div className="min-h-screen text-foreground px-15">
+ <div className="min-h-screen bg-black text-foreground px-15">
  {/* Sticky Header with Breadcrumb */}
  <Suspense fallback={<div className="h-12" />}>
  <VaultHeader effectName={effect.title} showSearch={false} />

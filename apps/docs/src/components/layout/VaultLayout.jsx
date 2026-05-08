@@ -1,70 +1,70 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { Sidebar } from"./Sidebar";
-import { GlobalSearch } from"./SearchBar";
+import { Sidebar } from "./Sidebar";
+import { GlobalSearch } from "./SearchBar";
 
 function SidebarFallback({ totalEffects }) {
- return (
- <aside
- className="fixed left-0 top-20 bottom-0 z-40 bg-transparent text-foreground"
- style={{ width: "16rem", ["--sidebar-width"]: "16rem", ["--sidebar-peek"]: "4.25rem" }}
- >
- <div className="relative flex h-full w-[var(--sidebar-width)] flex-col rounded-lg overflow-visible translate-x-[calc(-1*(var(--sidebar-width)-var(--sidebar-peek)))]">
-  <button
-    type="button"
-    aria-label="Open sidebar"
- className="absolute right-0 top-1/2 -translate-y-1/2 h-14 w-[var(--sidebar-peek)] rounded-r-2xl bg-black/35 border border-border/60 flex items-center justify-end backdrop-blur-md"
- style={{ zIndex: 60 }}
-  >
- <div className="ml-auto mr-4 flex gap-1.5">
- <span className="h-6 w-0.75 rounded-full bg-white/90" />
- <span className="h-6 w-0.75 rounded-full bg-white/90" />
- </div>
- </button>
+  return (
+    <aside
+      className="fixed left-0 top-20 bottom-0 z-40 bg-transparent text-foreground"
+      style={{ width: "16rem", ["--sidebar-width"]: "16rem", ["--sidebar-peek"]: "4.25rem" }}
+    >
+      <div className="relative flex h-full w-[var(--sidebar-width)] flex-col rounded-lg overflow-visible translate-x-[calc(-1*(var(--sidebar-width)-var(--sidebar-peek)))]">
+        <button
+          type="button"
+          aria-label="Open sidebar"
+          className="absolute right-0 top-1/2 -translate-y-1/2 h-14 w-[var(--sidebar-peek)] rounded-r-2xl bg-black/35 border border-border/60 flex items-center justify-end backdrop-blur-md"
+          style={{ zIndex: 60 }}
+        >
+          <div className="ml-auto mr-4 flex gap-1.5">
+            <span className="h-6 w-0.75 rounded-full bg-white/90" />
+            <span className="h-6 w-0.75 rounded-full bg-white/90" />
+          </div>
+        </button>
 
- <div className="h-full w-full flex items-center justify-center">
- <div className="h-14 w-14" />
- </div>
- </div>
- </aside>
- );
+        <div className="h-full w-full flex items-center justify-center">
+          <div className="h-14 w-14" />
+        </div>
+      </div>
+    </aside>
+  );
 }
 
 export function VaultLayout({
- children,
- effectCounts = {},
- effects = [],
- bgImageSrc = "/assets/hero-bg.png",
+  children,
+  effectCounts = {},
+  effects = [],
+  bgImageSrc = "/assets/hero-bg.png",
 }) {
- const totalEffects = effects.length;
- const [isSidebarOpen, setIsSidebarOpen] = useState(false);
- return (
- <div className="min-h-screen bg-background text-foreground relative">
- <div
- className="pointer-events-none fixed inset-0 z-10 bg-cover bg-center"
- style={{
- backgroundImage: bgImageSrc ? `url("${bgImageSrc}")` : undefined,
- opacity: bgImageSrc ? 0.85 : 1
- }}
- />
- <div className="pointer-events-none fixed inset-0 -z-10 bg-black/30" />
- <Suspense fallback={<SidebarFallback totalEffects={totalEffects} />}>
- <Sidebar
- effectCounts={effectCounts}
- totalEffects={totalEffects}
- isExpanded={isSidebarOpen}
- onToggle={() => setIsSidebarOpen((v) => !v)}
- onClose={() => setIsSidebarOpen(false)}
- />
- </Suspense>
- <main
- className="relative z-10 transition-[margin-left] duration-300 ease-out"
- style={{ marginLeft: isSidebarOpen ? "16rem" : "" }}
- >
- {children}
- </main>
- <GlobalSearch effects={effects} />
- </div>
- );
+  const totalEffects = effects.length;
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen text-foreground relative">
+
+      
+
+      {/* <div className="pointer-events-none fixed inset-0 -z-10 bg-black/30" /> */}
+
+      <Suspense fallback={<SidebarFallback totalEffects={totalEffects} />}>
+        <Sidebar
+          effectCounts={effectCounts}
+          totalEffects={totalEffects}
+          isExpanded={isSidebarOpen}
+          onToggle={() => setIsSidebarOpen((v) => !v)}
+          onClose={() => setIsSidebarOpen(false)}
+        />
+      </Suspense>
+
+      <main
+        className="relative z-10 transition-[margin-left] duration-300 ease-out"
+        style={{ marginLeft: isSidebarOpen ? "16rem" : "" }}
+      >
+        {children}
+      </main>
+
+      <GlobalSearch effects={effects} />
+    </div>
+  );
 }
