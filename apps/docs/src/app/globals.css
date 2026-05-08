@@ -1,30 +1,16 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
   /* Coinbase-inspired color palette */
-  --background: #ffffff;
-  --foreground: #0a0b0d;
-  --primary: #ff5f00;
-  --primary-hover: #ff9253;
-  --secondary-surface: #eef0f3;
-  --dark-surface: #0a0b0d;
-  --dark-card: #282b31;
-  --border: rgba(91, 97, 110, 0.2);
-  --muted: #5b616e;
-}
-
-.dark {
-  --background: #0a0b0d;
+  --background: #000000;
   --foreground: #ffffff;
   --primary: #ff5f00;
   --primary-hover: #ff9253;
-  --secondary-surface: #282b31;
-  --dark-surface: #0a0b0d;
-  --dark-card: #1a1c20;
-  --border: rgba(91, 97, 110, 0.3);
-  --muted: #9ca3af;
+  --secondary-surface: #101010;
+  --dark-surface: #000000;
+  --dark-card: #141414;
+  --border: rgba(255, 255, 255, 0.14);
+  --muted: #d2d2d2;
 }
 
 @theme inline {
@@ -59,16 +45,18 @@
   scrollbar-color: #d4d4d4 transparent;
 }
 
-.dark * {
-  scrollbar-color: #404040 transparent;
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   line-height: 1.5;
   font-size: 16px;
+}
+
+html,
+body {
+  background: #000000;
+  color: #ffffff;
 }
 
 /* Typography hierarchy inspired by Coinbase */
@@ -125,17 +113,6 @@ h4 {
   color: #ffffff;
 }
 
-.btn-pill-dark {
-  background: var(--dark-card);
-  color: #ffffff;
-  border: 1px solid var(--dark-card);
-}
-
-.btn-pill-dark:hover {
-  background: var(--primary-hover);
-  border-color: var(--primary-hover);
-}
-
 .btn-pill-outline {
   background: transparent;
   color: var(--foreground);
@@ -149,39 +126,27 @@ h4 {
 }
 
 /* Custom scrollbar for webkit browsers */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #d4d4d4;
-  border-radius: 4px;
+*::-webkit-scrollbar-thumb {
+  background: #ff5f00;
+  border-radius: 999px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #a3a3a3;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: #404040;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #525252;
+*::-webkit-scrollbar-thumb:hover {
+  background: #ff9253;
 }
 
 /* Selection color */
 ::selection {
   background: rgba(0, 0, 0, 0.1);
-}
-
-.dark ::selection {
-  background: rgba(255, 255, 255, 0.1);
 }
 
 @media (max-width: 542px) {

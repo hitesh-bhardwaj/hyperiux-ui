@@ -1,10 +1,10 @@
-import ImageTrail from '@/components/MagneticImageTrail'
-import React from 'react'
+import ImageTrail from'@/components/MagneticImageTrail'
+import React from'react'
 
 const page = () => {
-  return (
-    <ImageTrail/>
-  )
+ return (
+ <ImageTrail/>
+ )
 }
 
 export default page
