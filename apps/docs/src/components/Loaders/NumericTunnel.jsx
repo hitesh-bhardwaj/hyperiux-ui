@@ -244,7 +244,7 @@ function WholeSceneEffect({ children, active, tunnelPhase }) {
  )
 }
 
-function NumericTunnelCanvas({ loaderValue }) {
+function NumericTunnelCanvas({ loaderValue, onComplete }) {
  const [effectActive, setEffectActive] = useState(false)
  // Remove useState for canvasOpacity, use a ref instead
  const canvasRef = useRef(null)
@@ -253,6 +253,7 @@ function NumericTunnelCanvas({ loaderValue }) {
 
  useEffect(() => {
  let anim
+ let fadeTimeout
  if (loaderValue >= 100 && !didScheduleRef.current) {
  didScheduleRef.current = true
  setEffectActive(true)
@@ -264,13 +265,17 @@ function NumericTunnelCanvas({ loaderValue }) {
  if (t < duration) {
  anim = requestAnimationFrame(step)
  } else {
- setTimeout(() => {
+ fadeTimeout = setTimeout(() => {
+ if (onComplete) {
+ onComplete()
+ return
+ }
  // Animate opacity to 0 using GSAP; remove setCanvasOpacity, use ref
  if (canvasRef.current) {
  gsap.to(canvasRef.current, {
  opacity: 0,
  duration: TUNNEL_CONFIG.canvasFadeDuration / 1000,
- ease:"power3.inOut"
+ ease:"power3.inOut",
  })
  }
  }, TUNNEL_CONFIG.tunnelFadeOutDelay)
@@ -278,8 +283,11 @@ function NumericTunnelCanvas({ loaderValue }) {
  }
  requestAnimationFrame(step)
  }
- return () => cancelAnimationFrame(anim)
- }, [loaderValue])
+ return () => {
+ cancelAnimationFrame(anim)
+ clearTimeout(fadeTimeout)
+ }
+ }, [loaderValue, onComplete])
 
 
 
@@ -303,7 +311,7 @@ function NumericTunnelCanvas({ loaderValue }) {
  )
 }
 
-export default function NumericTunnel() {
+export default function NumericTunnel({ onComplete }) {
  const [loaderValue, setLoaderValue] = useState(0)
 
  useEffect(() => {
@@ -323,7 +331,7 @@ export default function NumericTunnel() {
  return (
  <div className="h-screen w-full bg-white">
  <h2 className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-black text-[10vw] font-bold'>UI</h2>
- <NumericTunnelCanvas loaderValue={loaderValue} />
+ <NumericTunnelCanvas loaderValue={loaderValue} onComplete={onComplete} />
  </div>
  )
 }

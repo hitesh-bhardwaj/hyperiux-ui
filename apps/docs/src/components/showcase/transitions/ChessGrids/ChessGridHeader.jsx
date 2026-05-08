@@ -9,15 +9,15 @@ export default function ChessGridHeader() {
 
  return (
  <header className='fixed top-0 left-0 w-full z-50 p-8 flex items-center justify-between'>
- <Link href='/page-transitions/chess-grids' className='text-sm uppercase font-bold'>
+ <Link href='/page-transitions/chess-grids' className='text-sm uppercase font-bold text-black'>
  Chess Grids
  </Link>
  <nav className='flex gap-4'>
- <Link  href='/page-transitions/chess-grids'  className={`text-sm ${pathname ==='/page-transitions/chess-grids' ?'opacity-100' :'opacity-50'}`}
+ <Link  href='/page-transitions/chess-grids'  className={`text-sm text-black ${pathname ==='/page-transitions/chess-grids' ?'opacity-100' :'opacity-50'}`}
  >
  Page 1
  </Link>
- <Link  href='/page-transitions/chess-grids/page2'  className={`text-sm ${pathname ==='/page-transitions/chess-grids/page2' ?'opacity-100' :'opacity-50'}`}
+ <Link  href='/page-transitions/chess-grids/page2'  className={`text-sm text-black ${pathname ==='/page-transitions/chess-grids/page2' ?'opacity-100' :'opacity-50'}`}
  >
  Page 2
  </Link>

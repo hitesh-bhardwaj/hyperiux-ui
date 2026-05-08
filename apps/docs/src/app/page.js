@@ -1,14 +1,15 @@
-import { redirect } from"next/navigation";
+
 import Link from"next/link";
 import { getRegistryIndex } from"@/lib/registry";
 import { HeroSection } from"./hero-section";
+import HomeLoader from"./home-loader";
 
 export default function Home() {
- redirect("/effects");
  const registry = getRegistryIndex();
  const effectCount = registry.items.length;
 
  return (
+ <HomeLoader>
  <div className="min-h-screen">
  {/* Hero - White background */}
  <HeroSection effectCount={effectCount} />
@@ -190,5 +191,6 @@ export default function Home() {
  </div>
  </footer>
  </div>
+ </HomeLoader>
  );
 }
