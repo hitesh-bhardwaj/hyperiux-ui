@@ -1,5 +1,5 @@
-import LineRevealLoader from '@/components/LinesLoading'
+import LineRevealLoader from'@/components/LinesLoading'
 
 export default function page() {
-  return <LineRevealLoader />
+ return <LineRevealLoader />
 }
