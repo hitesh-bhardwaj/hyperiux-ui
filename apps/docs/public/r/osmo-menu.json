@@ -14,7 +14,7 @@
   "registryDependencies": [],
   "previewUrl": "/osmo-menu",
   "coverImage": "/assets/listing/osmo-menu.png",
-  "videoUrl": "osmo-menu",
+  "videoUrl": "osmo-menu.mp4",
   "files": [
     {
       "path": "HoverFillLink.module.css",

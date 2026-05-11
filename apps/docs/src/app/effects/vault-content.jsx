@@ -6,6 +6,7 @@ import { VaultLayout } from "@/components/layout/VaultLayout";
 import { VaultHeader } from "@/components/layout/VaultHeader";
 import { EffectCard } from "@/components/ui/EffectCardNew";
 import Image from "next/image";
+import Link from "next/link";
 
 export function VaultContent({ effects, effectCounts }) {
     const searchParams = useSearchParams();
@@ -85,20 +86,42 @@ export function VaultContent({ effects, effectCounts }) {
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Search effects..."
-                                    className="w-full pl-14 pr-5 py-3 rounded-full bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground placeholder:text-muted focus:outline-none  focus:border-transparent transition-all font-sans"
+                                    className="w-full pl-14 pr-12 py-3 rounded-full bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground placeholder:text-muted focus:outline-none  focus:border-transparent transition-all font-sans"
                                 />
+                                {searchQuery && (
+                                    <button
+                                        onClick={() => setSearchQuery("")}
+                                        className="absolute right-5 top-1/2 -translate-y-1/2 text-muted hover:text-white transition-colors"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                )}
                             </div>
                         </div>
                         <div className="flex items-center gap-3 flex-wrap">
-                            {quickCategories.map((cat) => (
-                                <a
+                            {quickCategories.map((cat) => {
+                                const isSelected = categoryFilter === cat;
+                                return (
+                                <Link
                                     key={cat}
-                                    href={`/effects?category=${cat}`}
-                                    className="px-6 py-2 text-md rounded-full bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground hover:bg-[#A9A9A9]/30 transition-colors font-sans"
+                                    href={isSelected ? "/effects" : `/effects?category=${cat}`}
+                                    className={`px-6 py-2 text-md rounded-full backdrop-blur-md border transition-colors font-sans flex items-center gap-2 ${
+                                        isSelected 
+                                            ? 'bg-white text-black border-transparent' 
+                                            : 'bg-[#A9A9A9]/30 border-border text-foreground hover:bg-[#A9A9A9]/50'
+                                    }`}
                                 >
-                                    {cat === "webgl" ? "WebGL" : cat.charAt(0).toUpperCase() + cat.slice(1)}
-                                </a>
-                            ))}
+                                    <span>{cat === "webgl" ? "WebGL" : cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
+                                    {isSelected && (
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    )}
+                                </Link>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -110,13 +133,23 @@ export function VaultContent({ effects, effectCounts }) {
                                 Showing {filteredEffects.length} of {totalEffects} effects
                             </span>
                             {categoryFilter !== "all" && (
-                                <span className="px-4 py-1.5 bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground text-sm capitalize font-medium" style={{ borderRadius: "56px" }}>
-                                    {categoryFilter}
+                                <span className="flex items-center gap-2 px-4 py-1.5 bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground text-sm capitalize font-medium" style={{ borderRadius: "56px" }}>
+                                    <span>{categoryFilter}</span>
+                                    <Link href="/effects" className="hover:text-white transition-colors">
+                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </Link>
                                 </span>
                             )}
                             {searchQuery && (
-                                <span className="px-4 py-1.5 bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground text-sm font-medium" style={{ borderRadius: "56px" }}>
-                                    &quot;{searchQuery}&quot;
+                                <span className="flex items-center gap-2 px-4 py-1.5 bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground text-sm font-medium" style={{ borderRadius: "56px" }}>
+                                    <span>&quot;{searchQuery}&quot;</span>
+                                    <button onClick={() => setSearchQuery("")} className="hover:text-white transition-colors">
+                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
                                 </span>
                             )}
                         </div>

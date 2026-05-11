@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/interactive-arrows",
   "coverImage": "/assets/listing/interactive-arrows.png",
-  "videoUrl": "interactive-arrows",
+  "videoUrl": "interactive-arrows.mp4",
   "files": [
     {
       "path": "arrows-limit.jsx",

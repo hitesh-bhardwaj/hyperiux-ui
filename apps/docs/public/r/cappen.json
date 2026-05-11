@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/loaders/cappen",
   "coverImage": "/assets/listing/cappen.png",
-  "videoUrl": "cappen",
+  "videoUrl": "cappen.mp4",
   "files": [
     {
       "path": "cappen.jsx",

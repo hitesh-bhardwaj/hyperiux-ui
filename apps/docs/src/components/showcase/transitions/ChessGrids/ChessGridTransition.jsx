@@ -148,12 +148,11 @@ export default function ChessGridTransition({ children, enableContentShift = fal
         })}
       </div>
 
-      <div className='h-full w-full relative z-[2] '>
-        <div ref={wrapperRef} className='will-change-transform h-full w-full'>
-          {children}
-        </div>
-
-      </div>
+     <div className='h-full w-full relative z-2'>
+  <div ref={wrapperRef} className='h-full w-full'>
+    {children}
+  </div>
+</div>
       <div className="w-screen h-screen fixed inset-0">
         <Image
           src={"/assets/hero-bg.png"}

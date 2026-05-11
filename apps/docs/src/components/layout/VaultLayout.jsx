@@ -10,11 +10,11 @@ function SidebarFallback({ totalEffects }) {
       className="fixed left-0 top-20 bottom-0 z-40 bg-transparent text-foreground"
       style={{ width: "16rem", ["--sidebar-width"]: "16rem", ["--sidebar-peek"]: "4.25rem" }}
     >
-      <div className="relative flex h-full w-[var(--sidebar-width)] flex-col rounded-lg overflow-visible translate-x-[calc(-1*(var(--sidebar-width)-var(--sidebar-peek)))]">
+      <div className="relative flex h-full w-(--sidebar-width) flex-col rounded-lg overflow-visible translate-x-[calc(-1*(var(--sidebar-width)-var(--sidebar-peek)))]">
         <button
           type="button"
           aria-label="Open sidebar"
-          className="absolute right-0 top-1/2 -translate-y-1/2 h-14 w-[var(--sidebar-peek)] rounded-r-2xl bg-black/35 border border-border/60 flex items-center justify-end backdrop-blur-md"
+          className="absolute right-0 top-1/2 -translate-y-1/2 h-14 w-(--sidebar-peek)rounded-r-2xl bg-black/35 border border-border/60 flex items-center justify-end backdrop-blur-md"
           style={{ zIndex: 60 }}
         >
           <div className="ml-auto mr-4 flex gap-1.5">
@@ -42,11 +42,6 @@ export function VaultLayout({
 
   return (
     <div className="min-h-screen text-foreground relative">
-
-      
-
-      {/* <div className="pointer-events-none fixed inset-0 -z-10 bg-black/30" /> */}
-
       <Suspense fallback={<SidebarFallback totalEffects={totalEffects} />}>
         <Sidebar
           effectCounts={effectCounts}
@@ -55,6 +50,13 @@ export function VaultLayout({
           onToggle={() => setIsSidebarOpen((v) => !v)}
           onClose={() => setIsSidebarOpen(false)}
         />
+        {isSidebarOpen && (
+          <button
+            aria-label="Close sidebar overlay"
+            className="fixed inset-0 z-30 cursor-default bg-transparent"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
       </Suspense>
 
       <main

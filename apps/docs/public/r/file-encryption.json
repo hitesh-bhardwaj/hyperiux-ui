@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/file-encryption",
   "coverImage": "/assets/listing/file-encryption.png",
-  "videoUrl": "file-encryption",
+  "videoUrl": "file-encryption.mp4",
   "files": [
     {
       "path": "file-encryption.jsx",

@@ -11,7 +11,7 @@
   "registryDependencies": [],
   "previewUrl": "/pixelated-image-effect",
   "coverImage": "/assets/listing/pixelated-image-effect.png",
-  "videoUrl": "pixelated-image-effect",
+  "videoUrl": "pixelated-image-effect.mp4",
   "files": [
     {
       "path": "pixelated-image-effect.jsx",

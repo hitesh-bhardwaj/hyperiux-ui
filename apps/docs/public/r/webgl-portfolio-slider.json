@@ -16,7 +16,7 @@
   "registryDependencies": [],
   "previewUrl": "/webgl-portfolio-slider",
   "coverImage": "/assets/listing/webgl-portfolio-slider.png",
-  "videoUrl": "webgl-portfolio-slider",
+  "videoUrl": "webgl-portfolio-slider.mp4",
   "files": [
     {
       "path": "webgl-portfolio-slider.jsx",

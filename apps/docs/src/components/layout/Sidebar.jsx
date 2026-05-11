@@ -43,26 +43,27 @@ export function Sidebar({
 
     return (
         <aside
-            className="fixed left-0 top-20 bottom-0 z-40 bg-transparent text-foreground"
+            className="fixed left-0 top-20 bottom-0 z-40 bg-transparent text-foreground transition-[width] duration-300 ease-out overflow-visible"
             style={{
-                width: "16rem",
+                width: isExpanded ? "16rem" : "0rem",
                 ["--sidebar-width"]: "16rem",
                 ["--sidebar-peek"]: "0rem",
             }}
         >
             <div
-                className={`relative flex h-full w-[var(--sidebar-width)] flex-col rounded-lg overflow-visible transition-transform duration-300 ease-out ${isExpanded ? "translate-x-0" : "translate-x-[calc(-1*(var(--sidebar-width)-var(--sidebar-peek)))]"
-                    }`}
+                className={`relative flex h-full w-[16rem] flex-col rounded-lg overflow-visible transition-transform duration-300 ease-out ${
+                    isExpanded ? "translate-x-0" : "-translate-x-64"
+                }`}
             >
                 {/* Handle (always visible) */}
-	                <button
-	                    type="button"
-	                    aria-label={isExpanded ? "Close sidebar" : "Open sidebar"}
-	                    onClick={toggle}
-	                    className={`absolute left-65 top-20 -translate-y-1/2 z-50 w-7 cursor-pointer transition-opacity duration-300 ease-out ${
-	                      isExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
-	                    }`}
-	                >
+                <button
+                    type="button"
+                    aria-label={isExpanded ? "Close sidebar" : "Open sidebar"}
+                    onClick={toggle}
+                    className={`absolute left-65 top-20 -translate-y-1/2 z-50 w-7 cursor-pointer transition-opacity duration-300 ease-out ${
+                        isExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
+                    }`}
+                >
                     <svg width="36" height="83" viewBox="0 0 36 83" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-auto w-full">
                         <g clipPath="url(#clip0_2618_2592)">
                             <path d="M-48.6052 -10.4997C-41.1799 -4.42394 -6.77069 0.0540218 15.9343 2.40913C25.7864 3.43106 30.7125 3.94203 33.5662 7.10697C36.4198 10.2719 36.4198 15.1354 36.4198 24.8622V57.6428C36.4198 67.3716 36.4198 72.2359 33.5652 75.4011C30.7107 78.5663 25.784 79.0761 15.9306 80.0956C-6.81862 82.4495 -41.3094 86.9293 -48.6052 93.009C-59.696 102.251 -59.9001 -19.7418 -48.6052 -10.4997Z" fill="#A9A9A9" fillOpacity="0.3" />
@@ -80,44 +81,44 @@ export function Sidebar({
                             </clipPath>
                         </defs>
                     </svg>
-
                 </button>
 
-	                <div
-	                    aria-hidden={!isExpanded}
-	                    className={`relative flex h-full w-full flex-col rounded-lg ${isExpanded ? "" : "pointer-events-none"
-	                        }`}
-	                >
-	                    <div
-	                        className="h-fit w-full border border-border p-4 rounded-lg bg-black/20 backdrop-blur-md"
-	                        onClick={(e) => {
-	                            if (!isExpanded) return;
-	                            if (e.target === e.currentTarget) close();
-	                        }}
-	                    >
-	                        <>
-	                            {/* Navigation */}
-	                            <nav className="flex-1 overflow-y-auto z-99">
+                <div
+                    aria-hidden={!isExpanded}
+                    className={`relative flex h-full w-full flex-col rounded-lg ${isExpanded ? "" : "pointer-events-none"}`}
+                >
+                    <div
+                        className="h-fit w-full border border-border p-4 rounded-lg bg-black/20 backdrop-blur-md"
+                        onClick={(e) => {
+                            if (!isExpanded) return;
+                            if (e.target === e.currentTarget) close();
+                        }}
+                    >
+                        <>
+                            {/* Navigation */}
+                            <nav className="flex-1 overflow-y-auto z-99">
                                 {/* The Vault section */}
                                 <div className="mb-6">
                                     <Link
                                         href="/effects"
-                                        className={`flex items-center gap-3 px-3 py-2.5 rounded-md mb-2 bg-[#A9A9A9]/30 transition-colors ${pathname === "/effects" && currentCategory === "all"
+                                        className={`flex items-center gap-3 px-3 py-2.5 rounded-md mb-2 bg-[#A9A9A9]/30 transition-colors ${
+                                            pathname === "/effects" && currentCategory === "all"
                                                 ? " text-foreground"
                                                 : "text-muted"
-                                            }`}
+                                        }`}
                                         title="The Vault"
                                         onClick={close}
                                     >
                                         <span
-                                            className={`h-2 w-2 rounded-full bg-primary ${pathname === "/effects" && currentCategory === "all"
+                                            className={`h-2 w-2 rounded-full bg-primary ${
+                                                pathname === "/effects" && currentCategory === "all"
                                                     ? "animate-pulse opacity-100"
                                                     : "opacity-0"
-                                                }`}
+                                            }`}
                                         />
                                         <div className="flex items-center gap-3 flex-1 min-w-0 transition-opacity duration-300">
                                             <span className="font-medium">The Vault</span>
-                                            <span className="ml-auto text-sm text-muted flex-shrink-0">
+                                            <span className="ml-auto text-sm text-muted shrink-0">
                                                 {totalEffects}
                                             </span>
                                         </div>
@@ -138,16 +139,18 @@ export function Sidebar({
                                                 <Link
                                                     key={category.id}
                                                     href={`/effects?category=${category.id}`}
-                                                    className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${isActive
+                                                    className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
+                                                        isActive
                                                             ? " text-foreground"
                                                             : "text-muted hover:bg-black/30"
-                                                        }`}
+                                                    }`}
                                                     title={category.name}
                                                     onClick={close}
                                                 >
                                                     <span
-                                                        className={`h-2 w-2 rounded-full bg-primary ${isActive ? "animate-pulse opacity-100" : "opacity-0"
-                                                            }`}
+                                                        className={`h-2 w-2 rounded-full bg-primary ${
+                                                            isActive ? "animate-pulse opacity-100" : "opacity-0"
+                                                        }`}
                                                     />
                                                     <div className="flex items-center flex-1 min-w-0 gap-3 transition-opacity duration-300">
                                                         <span className="text-sm truncate">{category.name}</span>
