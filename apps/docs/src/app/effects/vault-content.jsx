@@ -52,6 +52,7 @@ export function VaultContent({ effects, effectCounts }) {
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
                     totalEffects={totalEffects}
+                    effects={effects}
                 />
 
                 <div className="">

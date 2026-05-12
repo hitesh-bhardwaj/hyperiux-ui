@@ -8,6 +8,7 @@ import Image from 'next/image'
 export default function ChessGridTransition({ children, enableContentShift = false }) {
   const wrapperRef = useRef(null)
   const gridRef = useRef(null)
+  const bgRef = useRef(null)
 
   const [mounted, setMounted] = useState(false)
 
@@ -85,21 +86,19 @@ export default function ChessGridTransition({ children, enableContentShift = fal
 
         const tl = gsap.timeline({ onComplete: next })
 
-        // Wrapper transition starts at the same time as grid animation
-        if (enableContentShift) {
-          tl.fromTo(
-            wrapperRef.current,
-            { xPercent: 0, filter: 'blur(0px)', opacity: 1 },
-            {
-              xPercent: -15,
-              filter: 'blur(8px)',
-              opacity: 0,
-              duration: 0.7,
-              ease: 'linear',
-            },
-            0
-          )
-        }
+        // Always fade out content on exit
+        tl.fromTo(
+          [wrapperRef.current, bgRef.current],
+          {opacity: 1, y: 0},
+          // { opacity: 1, ...(enableContentShift && { xPercent: 0 }) },
+          {
+            opacity: 0,
+            duration: 0.8,
+            y: -50,
+            // ...(enableContentShift && { xPercent: -15, duration: 0.7 }),
+          },
+          0
+        )
 
         buildAnimation(tl, cells, 1)
 
@@ -110,22 +109,20 @@ export default function ChessGridTransition({ children, enableContentShift = fal
 
         const tl = gsap.timeline({ onComplete: next })
 
-        // Wrapper transition starts at the same time as grid animation
-        if (enableContentShift) {
-          tl.fromTo(
-            wrapperRef.current,
-            { xPercent: 15, filter: 'blur(12px)', opacity: 0 },
-            {
-              xPercent: 0,
-              filter: 'blur(0px)',
-              opacity: 1,
-              duration: 0.7,
-              delay: 0.3,
-              ease: 'linear',
-            },
-            0
-          )
-        }
+        // Always fade in content on enter
+        tl.fromTo(
+          [wrapperRef.current, bgRef.current],
+          {opacity: 0, y: 50},
+          // { opacity: 0, ...(enableContentShift && { x: 100 }) },
+          {
+            opacity: 1,
+            duration: 0.8,
+            delay: 1,
+            y: 0,
+            // ...(enableContentShift && { xPercent: 0, duration: 0.5 }),
+          },
+          0
+        )
 
         buildAnimation(tl, cells, -1)
 
@@ -153,7 +150,8 @@ export default function ChessGridTransition({ children, enableContentShift = fal
     {children}
   </div>
 </div>
-      <div className="w-screen h-screen fixed inset-0">
+
+      <div ref={bgRef} className="w-screen h-screen fixed inset-0">
         <Image
           src={"/assets/hero-bg.png"}
           alt="image"

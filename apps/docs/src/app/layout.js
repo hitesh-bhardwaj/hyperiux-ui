@@ -38,10 +38,10 @@ export default function RootLayout({ children }) {
         className="min-h-screen bg-background text-foreground font-sans"
         style={{ background: "#000000", color: "#ffffff" }}
       >
-         <ChessGridTransition >
+         {/* <ChessGridTransition > */}
      
         {children}
-        </ChessGridTransition>
+        {/* </ChessGridTransition> */}
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { Sidebar } from "./Sidebar";
-import { GlobalSearch } from "./SearchBar";
+
 
 function SidebarFallback({ totalEffects }) {
   return (
@@ -65,8 +65,6 @@ export function VaultLayout({
       >
         {children}
       </main>
-
-      <GlobalSearch effects={effects} />
     </div>
   );
 }
