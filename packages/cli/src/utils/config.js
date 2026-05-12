@@ -4,7 +4,7 @@ import path from "path";
 const CONFIG_FILE = "hyperiux.json";
 
 const DEFAULT_CONFIG = {
-  $schema: "https://hyperiux.dev/schema.json",
+  $schema: "https://hyperiux-ui.vercel.app/schema.json",
   tailwind: {
     config: "tailwind.config.js",
     css: "src/app/globals.css",
