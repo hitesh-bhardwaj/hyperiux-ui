@@ -41,12 +41,16 @@ const fragmentShader = () => `
     influence *= 1.0 + sin(uTime * 1.5) * 0.15 + cos(uTime * 2.3) * 0.05;
     influence *= smoothstep(0.0, 1.0, uIsMoving);
 
-    // Improved direction blending
-    vec2 dir = uVelocity;
-    float blend = smoothstep(-0.05, 0.15, abs(uVelocity.x) - abs(uVelocity.y));
-    dir = mix(
-      vec2(0.0, sign(uVelocity.y)),
-      vec2(sign(uVelocity.x), 0.0),
+    // FIX: Replace sign() with smooth tanh-like approximation for Y axis
+    // sign() snaps instantly causing jerky Y movement; smoothSign fades through zero
+    vec2 vel = uVelocity;
+    float smoothSignX = vel.x / (abs(vel.x) + 0.08);
+    float smoothSignY = vel.y / (abs(vel.y) + 0.08);
+
+    float blend = smoothstep(-0.05, 0.15, abs(vel.x) - abs(vel.y));
+    vec2 dir = mix(
+      vec2(0.0, smoothSignY),
+      vec2(smoothSignX, 0.0),
       blend
     );
 
@@ -74,28 +78,24 @@ function PlaneWithShader({ texture }) {
   const isMovingRef = useRef(1.0);
   const moveTimeoutRef = useRef(null);
 
-  // Use refs instead of state for better performance
   const mouseRef = useRef(new THREE.Vector2(0.5, 0.5));
   const velocityRef = useRef(new THREE.Vector2(0.0, 0.0));
   const lastMouseRef = useRef(new THREE.Vector2(0.5, 0.5));
   const targetMouseRef = useRef(new THREE.Vector2(0.5, 0.5));
   const targetVelocityRef = useRef(new THREE.Vector2(0.0, 0.0));
   
-  // Add a smoothed velocity for display (this fixes the sudden transitions)
+  // Same two-stage smoothing for both X and Y — no separate Y buffer
   const smoothedVelocityRef = useRef(new THREE.Vector2(0.0, 0.0));
 
-  // Memoize shader material creation
-
-  // Memoize shader material creation
   const shaderMaterial = useMemo(
     () =>
       new THREE.ShaderMaterial({
         uniforms: {
           uMouse: { value: new THREE.Vector2(0.5, 0.5) },
           uVelocity: { value: new THREE.Vector2(0.0, 0.5) },
-          uBlockSize: { value: 1.0 / 35.0 }, // Slightly smaller blocks
-          uRadius: { value: 0.3 }, // Increased influence radius
-          uIntensity: { value: 1.8 }, // Enhanced displacement
+          uBlockSize: { value: 1.0 / 35.0 },
+          uRadius: { value: 0.3 },
+          uIntensity: { value: 1.8 },
           uTime: { value: 2 },
           uIsMoving: { value: 1.0 },
           uTexture: { value: texture },
@@ -117,7 +117,6 @@ function PlaneWithShader({ texture }) {
       const vel = newMouse.clone().sub(lastMouseRef.current);
 
       targetMouseRef.current.copy(newMouse);
-      // Further reduced multiplier for ultra-smooth transitions in all directions
       targetVelocityRef.current.copy(vel.multiplyScalar(35.0));
 
       lastMouseRef.current.copy(newMouse);
@@ -143,25 +142,22 @@ function PlaneWithShader({ texture }) {
   }, [size]);
 
   useFrame((state, delta) => {
-    // Update time uniform
     shaderMaterial.uniforms.uTime.value = clock.current.getElapsedTime();
 
-    // Enhanced smooth mouse movement
+    // Smooth mouse position
     const currentMouse = shaderMaterial.uniforms.uMouse.value;
     currentMouse.lerp(targetMouseRef.current, 0.15);
 
-    // KEY FIX: Two-stage interpolation with even more smoothing
-    // Stage 1: Smooth the target velocity itself (extra damping layer)
+    // Identical two-stage smoothing for both X and Y
     smoothedVelocityRef.current.lerp(targetVelocityRef.current, 0.06);
-    
-    // Stage 2: Update shader uniform from smoothed velocity
+
     const currentVelocity = shaderMaterial.uniforms.uVelocity.value;
     currentVelocity.lerp(smoothedVelocityRef.current, 0.15);
 
-    // Very gradual velocity decay to maintain smoothness longer
+    // Gradual velocity decay
     targetVelocityRef.current.multiplyScalar(0.96);
 
-    // Smooth transition for movement state
+    // Smooth movement state transition
     shaderMaterial.uniforms.uIsMoving.value = THREE.MathUtils.lerp(
       shaderMaterial.uniforms.uIsMoving.value,
       isMovingRef.current,
@@ -195,7 +191,7 @@ function Scene({ img }) {
   return <PlaneWithShader texture={texture} />;
 }
 
-export default function Zanjo({ img = "/assets/pixelation/zanjo.jpg" }) {
+export default function Zanjo({ img = "/assets/img/image06.png" }) {
   return (
     <>
       

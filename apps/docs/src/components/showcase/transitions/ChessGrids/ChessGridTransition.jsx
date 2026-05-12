@@ -15,6 +15,9 @@ export default function ChessGridTransition({ children, enableContentShift = fal
   const cols = 8
   const rows = 4
 
+  // Slight overlap to avoid visible gaps on some screens
+  const overlap = 2
+
   // Helper to get cells for a specific row (0-indexed)
   const getRowCells = (cells, rowIndex) => {
     const rowCells = []
@@ -75,7 +78,6 @@ export default function ChessGridTransition({ children, enableContentShift = fal
     })
 
     setMounted(true)
-
   }, [])
 
   return (
@@ -89,13 +91,11 @@ export default function ChessGridTransition({ children, enableContentShift = fal
         // Always fade out content on exit
         tl.fromTo(
           [wrapperRef.current, bgRef.current],
-          {opacity: 1, y: 0},
-          // { opacity: 1, ...(enableContentShift && { xPercent: 0 }) },
+          { opacity: 1, y: 0 },
           {
             opacity: 0,
             duration: 0.8,
             y: -50,
-            // ...(enableContentShift && { xPercent: -15, duration: 0.7 }),
           },
           0
         )
@@ -112,15 +112,13 @@ export default function ChessGridTransition({ children, enableContentShift = fal
         // Always fade in content on enter
         tl.fromTo(
           [wrapperRef.current, bgRef.current],
-          {opacity: 0, y: 50},
-          // { opacity: 0, ...(enableContentShift && { x: 100 }) },
+          { opacity: 0, y: 50 },
           {
             opacity: 1,
             duration: 0.8,
             delay: 1,
             y: 0,
-            clearProps: "all",
-            // ...(enableContentShift && { xPercent: 0, duration: 0.5 }),
+            clearProps: 'all',
           },
           0
         )
@@ -132,38 +130,46 @@ export default function ChessGridTransition({ children, enableContentShift = fal
     >
       <div
         ref={gridRef}
-        className={`h-screen w-screen fixed top-0 left-0 z-999 pointer-events-none flex flex-wrap overflow-hidden ${mounted ? 'opacity-100' : 'opacity-0'
-          }`}
+        className={`h-screen w-screen fixed top-0 left-0 z-999 pointer-events-none flex flex-wrap overflow-hidden ${
+          mounted ? 'opacity-100' : 'opacity-0'
+        }`}
       >
         {Array.from({ length: cols * rows }).map((_, i) => {
+          const colIndex = i % cols
+          const rowIndex = Math.floor(i / cols)
 
           return (
             <span
               key={i}
-              className='bg-[#ff5f00] w-[calc(100vw/8)] h-[calc(100vh/4)] shrink-0'
+              className='bg-[#ff5f00] absolute shrink-0'
+              style={{
+                width: `calc((100vw / ${cols}) + ${overlap}px)`,
+                height: `calc((100vh / ${rows}) + ${overlap}px)`,
+                left: `calc(${colIndex} * (100vw / ${cols}) - ${overlap / 2}px)`,
+                top: `calc(${rowIndex} * (100vh / ${rows}) - ${overlap / 2}px)`,
+              }}
             ></span>
           )
         })}
       </div>
 
       <div className='h-full w-full relative z-2'>
-  <div ref={wrapperRef} className='h-full w-full'>
-    {children}
-  </div>
-</div>
+        <div ref={wrapperRef} className='h-full w-full'>
+          {children}
+        </div>
+      </div>
 
-      <div ref={bgRef} className="w-screen h-screen fixed inset-0">
+      <div ref={bgRef} className='w-screen h-screen fixed inset-0'>
         <Image
-          src={"/assets/hero-bg.png"}
-          alt="image"
+          src={'/assets/hero-bg.png'}
+          alt='image'
           width={1920}
           height={1080}
-          className="w-full h-full object-cover"
+          className='w-full h-full object-cover'
         />
       </div>
 
-       <div className="pointer-events-none fixed inset-0  bg-black/30" />
-   
+      <div className='pointer-events-none fixed inset-0 bg-black/30' />
     </TransitionRouter>
   )
 }

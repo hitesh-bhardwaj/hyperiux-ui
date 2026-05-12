@@ -13,11 +13,11 @@ export default function PixelHeader() {
  Pixels
  </Link>
  <nav className='flex gap-4'>
- <Link  href='/page-transitions/pixels'  className={`text-sm ${pathname ==='/page-transitions/pixels' ?'opacity-100' :'opacity-50'}`}
+ <Link  href='/page-transitions/pixels'  className={`text-sm text-black ${pathname ==='/page-transitions/pixels' ?'opacity-100' :'opacity-50'}`}
  >
  Page 1
  </Link>
- <Link  href='/page-transitions/pixels/page2'  className={`text-sm ${pathname ==='/page-transitions/pixels/page2' ?'opacity-100' :'opacity-50'}`}
+ <Link  href='/page-transitions/pixels/page2'  className={`text-sm text-black ${pathname ==='/page-transitions/pixels/page2' ?'opacity-100' :'opacity-50'}`}
  >
  Page 2
  </Link>

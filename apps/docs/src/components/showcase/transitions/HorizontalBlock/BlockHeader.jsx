@@ -15,13 +15,13 @@ export default function BlockHeader() {
  <nav className='flex gap-4'>
  <Link
  href='/page-transitions/block'
- className={`text-sm ${pathname ==='/page-transitions/block' ?'opacity-100' :'opacity-50'}`}
+ className={`text-sm text-black ${pathname ==='/page-transitions/block' ?'opacity-100' :'opacity-50'}`}
  >
  Page 1
  </Link>
  <Link
  href='/page-transitions/block/page2'
- className={`text-sm ${pathname ==='/page-transitions/block/page2' ?'opacity-100' :'opacity-50'}`}
+ className={`text-sm text-black ${pathname ==='/page-transitions/block/page2' ?'opacity-100' :'opacity-50'}`}
  >
  Page 2
  </Link>
