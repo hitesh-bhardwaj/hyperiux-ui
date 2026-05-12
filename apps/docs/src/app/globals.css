@@ -2,6 +2,14 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@font-face {
+  font-family: "Aeonik";
+  src: url("/assets/fonts/Aeonik-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Coinbase-inspired color palette */
   --background: #ffffff;
@@ -37,6 +45,7 @@
   --color-dark-card: var(--dark-card);
   --color-border: var(--border);
   --color-muted: var(--muted);
+  --font-aeonik: "Aeonik", var(--font-sans), system-ui, sans-serif;
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);

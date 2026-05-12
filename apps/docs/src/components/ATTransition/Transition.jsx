@@ -140,52 +140,8 @@ export default function FrostedTransition({
             },
             // markers: true,
         })
-      
-        // Transition 2: Scene 1 → Scene 2 (20% to 25%)
-        const transition2 = ScrollTrigger.create({
-            trigger: wrapperRef.current,
-            start: '20% top',
-            end: '28% top',
-            scrub: true,
-            onUpdate: (self) => {
-                setCurrentSceneIndex(1 + self.progress)
-            },
-            // markers: true,
-        })
 
-        // const transition3 = ScrollTrigger.create({
-        //     trigger: wrapperRef.current,
-        //     start: '50% top',
-        //     end: '55% top',
-        //     scrub: true,
-        //     onUpdate: (self) => {
-        //         setCurrentSceneIndex(2 + self.progress)
-        //     },
-        //     markers: false,
-        // })
-
-        // const transition4 = ScrollTrigger.create({
-        //     trigger: wrapperRef.current,
-        //     start: '70% top',
-        //     end: '75% top',
-        //     scrub: true,
-        //     onUpdate: (self) => {
-        //         setCurrentSceneIndex(3 + self.progress)
-        //     },
-        //     markers: false,
-        // })
-
-        // const transition5 = ScrollTrigger.create({
-        //     trigger: wrapperRef.current,
-        //     start: '85% top',
-        //     end: '90% top',
-        //     scrub: true,
-        //     onUpdate: (self) => {
-        //         setCurrentSceneIndex(4 + self.progress)
-        //     },
-        //     markers: false,
-        // })
-
+ 
     }, [])
 
     return (
