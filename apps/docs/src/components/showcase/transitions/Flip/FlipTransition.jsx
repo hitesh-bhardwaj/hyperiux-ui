@@ -97,7 +97,7 @@ export default function FlipTransition({
         // Fade new content in
         tl.fromTo(wrapperRef.current,
           { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', clearProps: "all" },
           0.45
         )
 
@@ -156,7 +156,7 @@ export default function FlipTransition({
       </div>
 
       {/* Page content */}
-      <div ref={wrapperRef} className="relative w-full h-screen overflow-hidden" style={{ zIndex: 2 }}>
+      <div ref={wrapperRef} className="relative w-full min-h-screen" style={{ zIndex: 2 }}>
         {children}
       </div>
     </TransitionRouter>

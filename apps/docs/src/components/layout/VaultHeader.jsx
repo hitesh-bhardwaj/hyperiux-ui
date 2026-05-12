@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { GlobalSearch } from "./SearchBar"; 
-import { useState } from "react";
+import { GlobalSearch } from "./SearchBar";
+import { useEffect, useState } from "react";
 
 const categoryNames = {
   text: "Text Animations",
@@ -20,36 +20,81 @@ const categoryNames = {
   others: "Others",
 };
 
-export function VaultHeader({ searchQuery, onSearchChange, totalEffects, effectName, showSearch = true, effects = [] }) {
+export function VaultHeader({
+  searchQuery,
+  onSearchChange,
+  totalEffects,
+  effectName,
+  showSearch = true,
+  effects = [],
+}) {
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category");
+
   const [openTrigger, setOpenTrigger] = useState(0);
+
+  // Header hide/show logic
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isHoveringHeader, setIsHoveringHeader] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (isHoveringHeader) {
+        setIsHidden(false);
+        setLastScrollY(currentScrollY);
+        return;
+      }
+
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY, isHoveringHeader]);
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 px-10 h-18 py-4 bg-black/10 backdrop-blur-md">
+      <header
+        onMouseEnter={() => setIsHoveringHeader(true)}
+        onMouseLeave={() => setIsHoveringHeader(false)}
+        className={`fixed top-0 left-0 right-0 z-50 px-10 h-18 py-4 bg-black/10 backdrop-blur-md transition-transform duration-500 ${
+          isHidden ? "-translate-y-full" : "translate-y-0"
+        }`}
+      >
         <div className="flex items-center h-full justify-between">
-
           <Link href="/" className="flex items-center gap-3">
-            <Image src="/hyperiux.svg" alt="Hyperiux" width={30} height={30} />
+            <Image
+              src="/hyperiux.svg"
+              alt="Hyperiux"
+              width={30}
+              height={30}
+            />
+
             <div className="flex items-center gap-2 text-white">
-              <Image src="/hyperiux-wordmark.svg" alt="Hyperiux" width={156} height={45} />
+              <Image
+                src="/hyperiux-wordmark.svg"
+                alt="Hyperiux"
+                width={156}
+                height={45}
+              />
             </div>
           </Link>
 
           {/* Right side - Search */}
           <div className="flex items-center gap-3">
-            {currentCategory && (
-              <div className="flex items-center gap-2 px-3 py-2 border border-border rounded-xl bg-[#A9A9A9]/30 backdrop-blur-xs text-sm text-foreground">
-                <span>{categoryNames[currentCategory] || currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1)}</span>
-                <Link href="/effects" className="hover:text-white transition-colors">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </Link>
-              </div>
-            )}
-
+          
             {/* Search Bar — opens GlobalSearch modal on click */}
             {showSearch && (
               <button

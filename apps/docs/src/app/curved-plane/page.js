@@ -1,4 +1,5 @@
 import CurvedImageSwiper from "@/components/CurvedPlane/CurvedSwiperHorizontal";
+import LenisSmoothScroll from "@/components/SmoothScroll/LenisScroll";
 import React from "react";
 
 export default function v1() {
@@ -8,7 +9,7 @@ export default function v1() {
   ];
   return (
     <>
-    
+        <LenisSmoothScroll />
         <CurvedImageSwiper />
     </>
   );

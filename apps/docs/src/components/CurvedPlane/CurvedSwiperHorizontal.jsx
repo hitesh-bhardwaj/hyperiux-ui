@@ -228,12 +228,15 @@ const CurvedImageSwiper = () => {
 
         mesh.position.x = xPos;
 
-        // Fade edges smoothly
-        const distFromCenter = Math.abs(xPos) / (viewWidth / 2);
-        mesh.material.uniforms.uAlpha.value = Math.max(
-          0.2,
-          1 - distFromCenter * 1.0
-        );
+        // Smooth transition from 1.0 (center) to 0.8 (extreme edges)
+        const distFromCenter = Math.min(1.0, Math.abs(xPos) / (viewWidth / 2));
+        
+        // Using a smooth S-curve (smoothstep logic) for the transition
+        const t = distFromCenter;
+        const smoothFactor = t * t * (3 - 2 * t);
+        const opacity = 1.0 - smoothFactor * 0.25;
+
+        mesh.material.uniforms.uAlpha.value = opacity;
 
         // Apply deformation based on drag velocity and scroll intensity
         const deform = deformationRef.current;
@@ -350,8 +353,8 @@ const CurvedImageSwiper = () => {
       // Update scroll intensity (accumulate for sustained scrolling)
       scrollIntensityRef.current = Math.min(1.0, scrollIntensityRef.current + scrollIntensity);
       
-      // Accumulate scroll velocity
-      const scrollDelta = rawScrollDelta * 0.0008;
+      // Accumulate scroll velocity (reduced speed)
+      const scrollDelta = rawScrollDelta * 0.0004;
       scrollVelocityRef.current += scrollDelta;
       
       // Clamp scroll velocity

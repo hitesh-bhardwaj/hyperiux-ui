@@ -29,17 +29,15 @@ uniform vec2 uMeshSize;
 varying vec2 vUv;
 
 vec2 coverUv(vec2 uv, vec2 textureSize, vec2 meshSize) {
-    float rs = meshSize.x / meshSize.y;        // mesh aspect ratio
-    float rt = textureSize.x / textureSize.y;  // texture aspect ratio
+    float rs = meshSize.x / meshSize.y;
+    float rt = textureSize.x / textureSize.y;
     
     vec2 newUv = uv;
     
     if (rs > rt) {
-        // Mesh is wider → scale texture by height
         float scale = rs / rt;
         newUv.x = uv.x * scale - (scale - 1.0) * 0.5;
     } else {
-        // Mesh is taller → scale texture by width
         float scale = rt / rs;
         newUv.y = uv.y * scale - (scale - 1.0) * 0.5;
     }
@@ -50,7 +48,6 @@ vec2 coverUv(vec2 uv, vec2 textureSize, vec2 meshSize) {
 void main() {
    vec2 coveredUv = coverUv(vUv, uTextureSize, uMeshSize);
    
-   // Scale the image by 1.2x (zoom in effect)
    vec2 center = vec2(0.5, 0.5);
    float scaleAmount = 2.0;
    coveredUv = center + (coveredUv - center) / scaleAmount;
@@ -60,7 +57,6 @@ void main() {
 }
 `;
 
-// Separate image arrays for each column
 const column1Images = [
   "/assets/img/image01.webp",
   "/assets/img/image02.webp",
@@ -85,11 +81,9 @@ const column3Images = [
   "/assets/img/image05.png",
 ];
 
-// Combined arrays for easier access
 const columnImages = [column1Images, column2Images, column3Images];
 const allImages = [...column1Images, ...column2Images, ...column3Images];
 
-// Swiper settings
 const VISIBLE_ROWS = 6;
 const NUM_COLUMNS = 3;
 const FIXED_IMAGE_WIDTH = 280;
@@ -97,14 +91,13 @@ const FIXED_IMAGE_HEIGHT = 380;
 const SPACING_X = FIXED_IMAGE_WIDTH + 150;
 const SPACING_Y = FIXED_IMAGE_HEIGHT + 80;
 
-// Deformation + Scroll Settings
 const DEFORMATION_INTENSITY = 8;
 const DEFORMATION_SENSITIVITY = 0.02;
 const DEFORMATION_SMOOTHNESS = 0.12;
 const DRAG_SENSITIVITY = 2.2;
-const MOMENTUM_FRICTION = 0.94;
-const SCROLL_SMOOTHNESS = 0.08;
-const MAX_SCROLL_VELOCITY = 0.1;
+const MOMENTUM_FRICTION = 0.90;        // reduced from 0.94
+const SCROLL_SMOOTHNESS = 0.05;        // reduced from 0.08
+const MAX_SCROLL_VELOCITY = 0.05;      // reduced from 0.1
 const MAX_DEFORMATION = .1;
 
 function lerp(a, b, t) {
@@ -130,7 +123,6 @@ const CurvedSwiperVertical = ({ routes }) => {
 
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
-  // Load textures
   useEffect(() => {
     const loader = new THREE.TextureLoader();
     loader.setCrossOrigin("anonymous");
@@ -177,7 +169,6 @@ const CurvedSwiperVertical = ({ routes }) => {
     cameraRef.current = camera;
     rendererRef.current = renderer;
 
-    // Geometry and mesh generation
     const geometry = new THREE.PlaneGeometry(1, 1, 50, 50);
     const meshes = [];
     const totalMeshes = (VISIBLE_ROWS + 2) * NUM_COLUMNS;
@@ -204,10 +195,8 @@ const CurvedSwiperVertical = ({ routes }) => {
 
     meshesRef.current = meshes;
 
-    // Detect if tablet (between 768px and 1024px)
     const isTablet = () => viewWidth >= 768 && viewWidth <= 1024;
 
-    // Update mesh positions and uniforms
     const updateMeshes = () => {
       const offset = offsetRef.current;
       const deform = deformationRef.current;
@@ -217,7 +206,6 @@ const CurvedSwiperVertical = ({ routes }) => {
         const col = i % NUM_COLUMNS;
         const row = Math.floor(i / NUM_COLUMNS);
 
-        // Hide middle column on tablet
         if (tablet && col === 1) {
           mesh.visible = false;
           return;
@@ -225,57 +213,45 @@ const CurvedSwiperVertical = ({ routes }) => {
           mesh.visible = true;
         }
 
-        // Get the appropriate image array for this column
         const currentColumnImages = columnImages[col];
         
-        // Compute continuous image index based on scroll position
         const scrollPosition = offset + row;
         const imgIndex = Math.floor(scrollPosition) % currentColumnImages.length;
         const normalizedIndex = imgIndex < 0 ? imgIndex + currentColumnImages.length : imgIndex;
 
-        // Find the texture index in the combined array
         const globalTextureIndex = column1Images.length * col + normalizedIndex;
         const texture = texturesRef.current[globalTextureIndex];
         
         if (texture) {
           mesh.material.uniforms.uTexture.value = texture;
-          // Update texture size uniform
           mesh.material.uniforms.uTextureSize.value.set(
             texture.image.naturalWidth || texture.image.width,
             texture.image.naturalHeight || texture.image.height
           );
         }
 
-        // X position by column
         let xPos;
         if (tablet) {
-          // On tablet: show only col 0 (left) and col 2 (right)
-          // Center them by offsetting them closer together
           if (col === 0) {
-            xPos = -SPACING_X / 2; // Left column
+            xPos = -SPACING_X / 2;
           } else if (col === 2) {
-            xPos = SPACING_X / 2; // Right column
+            xPos = SPACING_X / 2;
           }
         } else {
-          // Desktop/mobile: original positioning
           xPos = (col - 1) * SPACING_X;
         }
         
-        // Y offset scroll direction
         const baseY = (row - VISIBLE_ROWS / 2) * SPACING_Y;
         const yOffset = (offset - Math.floor(offset)) * SPACING_Y;
         
-        // Middle column (col 1) scrolls opposite to sides (col 0 and 2)
         const direction = col === 1 ? -1 : 1;
         const yPos = (baseY - yOffset) * direction;
 
         mesh.position.set(xPos, yPos, 0);
 
-        // Alpha fading based on distance from center
-        const dist = Math.abs(yPos) / (viewHeight / 2);
-        mesh.material.uniforms.uAlpha.value = Math.max(0.3, 1 - dist * 0.8);
+        // Always full opacity — no fading
+        mesh.material.uniforms.uAlpha.value = 1.0;
 
-        // Deformation: Apply opposite curve direction for middle column
         const deformDirection = direction;
         mesh.material.uniforms.uOffset.value.set(
           0,
@@ -284,9 +260,7 @@ const CurvedSwiperVertical = ({ routes }) => {
       });
     };
 
-    // Animation loop
     const animate = () => {
-      // Apply momentum when not dragging
       if (!dragging.current && Math.abs(velocityRef.current) > 0.001) {
         targetOffsetRef.current += velocityRef.current;
         velocityRef.current *= MOMENTUM_FRICTION;
@@ -295,12 +269,10 @@ const CurvedSwiperVertical = ({ routes }) => {
       const now = Date.now();
       const isRecentlyScrolled = now - lastScrollTime.current < 100;
 
-      // Return deformation to 0 when not actively scrolling/dragging
       if (!dragging.current && !isRecentlyScrolled) {
         targetDeformationRef.current = 0;
       }
 
-      // Smooth interpolation
       offsetRef.current = lerp(
         offsetRef.current,
         targetOffsetRef.current,
@@ -318,7 +290,6 @@ const CurvedSwiperVertical = ({ routes }) => {
     };
     animate();
 
-    // Resize handling
     const onResize = () => {
       const viewHeight = window.innerHeight;
       const viewWidth = window.innerWidth;
@@ -328,7 +299,6 @@ const CurvedSwiperVertical = ({ routes }) => {
     };
     window.addEventListener("resize", onResize);
 
-    // Input Handling
     const getPointerY = (e) => (e.touches ? e.touches[0].clientY : e.clientY);
 
     const onPointerDown = (e) => {
@@ -375,11 +345,11 @@ const CurvedSwiperVertical = ({ routes }) => {
 
     const onWheel = (e) => {
       const delta = e.deltaY / 100;
-      targetOffsetRef.current += delta * 0.25;
-      
+      targetOffsetRef.current += delta * 0.12;   // reduced from 0.25
+
       velocityRef.current = Math.max(
         -MAX_SCROLL_VELOCITY,
-        Math.min(MAX_SCROLL_VELOCITY, delta * 0.4)
+        Math.min(MAX_SCROLL_VELOCITY, delta * 0.15)  // reduced from 0.4
       );
 
       const deformIntensity = Math.max(
@@ -420,51 +390,58 @@ const CurvedSwiperVertical = ({ routes }) => {
     };
   }, [imagesLoaded]);
 
-  
   const mouseRef = useRef({ x: 0, y: 0 });
   const followerRef = useRef(null);
   const lastMouseMoveTime = useRef(Date.now());
-
   const isFollowerVisible = useRef(false);
 
-useEffect(() => {
-  const getSwiperBounds = () => {
-    const viewWidth = window.innerWidth;
-    const isTablet = viewWidth >= 768 && viewWidth <= 1024;
-    const centerX = viewWidth / 2;
+  useEffect(() => {
+    const getSwiperBounds = () => {
+      const viewWidth = window.innerWidth;
+      const isTablet = viewWidth >= 768 && viewWidth <= 1024;
+      const centerX = viewWidth / 2;
 
-    // Total width covered by all visible columns
-    const numCols = isTablet ? 2 : 3;
-    const totalWidth = numCols * FIXED_IMAGE_WIDTH + (numCols - 1) * 150;
+      const numCols = isTablet ? 2 : 3;
+      const totalWidth = numCols * FIXED_IMAGE_WIDTH + (numCols - 1) * 150;
 
-    return {
-      left: centerX - totalWidth / 2,
-      right: centerX + totalWidth / 2,
+      return {
+        left: centerX - totalWidth / 2,
+        right: centerX + totalWidth / 2,
+      };
     };
-  };
 
-  const handleMouseMove = (e) => {
-    const { left, right } = getSwiperBounds();
-    const isOverSwiper = e.clientX >= left && e.clientX <= right;
+    const handleMouseMove = (e) => {
+      const { left, right } = getSwiperBounds();
+      const isOverSwiper = e.clientX >= left && e.clientX <= right;
 
-    // Always update position
-    gsap.to(followerRef.current, {
-      x: e.clientX - 50,
-      y: e.clientY - 50,
-      duration: 0.35,
-      ease: "power2.out",
-      overwrite: "auto",
-    });
-
-    if (isOverSwiper && !isFollowerVisible.current) {
-      isFollowerVisible.current = true;
       gsap.to(followerRef.current, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.3,
+        x: e.clientX - 50,
+        y: e.clientY - 50,
+        duration: 0.35,
         ease: "power2.out",
+        overwrite: "auto",
       });
-    } else if (!isOverSwiper && isFollowerVisible.current) {
+
+      if (isOverSwiper && !isFollowerVisible.current) {
+        isFollowerVisible.current = true;
+        gsap.to(followerRef.current, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      } else if (!isOverSwiper && isFollowerVisible.current) {
+        isFollowerVisible.current = false;
+        gsap.to(followerRef.current, {
+          opacity: 0,
+          scale: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      }
+    };
+
+    const handleMouseLeave = () => {
       isFollowerVisible.current = false;
       gsap.to(followerRef.current, {
         opacity: 0,
@@ -472,27 +449,16 @@ useEffect(() => {
         duration: 0.3,
         ease: "power2.out",
       });
-    }
-  };
+    };
 
-  const handleMouseLeave = () => {
-    isFollowerVisible.current = false;
-    gsap.to(followerRef.current, {
-      opacity: 0,
-      scale: 0,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-  };
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
 
-  window.addEventListener("mousemove", handleMouseMove);
-  window.addEventListener("mouseleave", handleMouseLeave);
-
-  return () => {
-    window.removeEventListener("mousemove", handleMouseMove);
-    window.removeEventListener("mouseleave", handleMouseLeave);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
 
   return (
     <main

@@ -1,4 +1,5 @@
 import CurvedSwiperVertical from "@/components/CurvedPlane/CurvedSwiperVertical";
+import LenisSmoothScroll from "@/components/SmoothScroll/LenisScroll";
 import React from "react";
 
 export default function v2() {
@@ -9,6 +10,7 @@ export default function v2() {
 
   return (
     <>
+      <LenisSmoothScroll />
         <CurvedSwiperVertical routes={routes} />
     </>
   );

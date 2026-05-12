@@ -119,6 +119,7 @@ export default function ChessGridTransition({ children, enableContentShift = fal
             duration: 0.8,
             delay: 1,
             y: 0,
+            clearProps: "all",
             // ...(enableContentShift && { xPercent: 0, duration: 0.5 }),
           },
           0
@@ -145,7 +146,7 @@ export default function ChessGridTransition({ children, enableContentShift = fal
         })}
       </div>
 
-     <div className='h-full w-full relative z-2'>
+      <div className='h-full w-full relative z-2'>
   <div ref={wrapperRef} className='h-full w-full'>
     {children}
   </div>

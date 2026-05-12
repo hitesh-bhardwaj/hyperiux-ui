@@ -1,7 +1,6 @@
 import { Space_Grotesk, Inter, Geist_Mono } from"next/font/google";
 import"./globals.css";
 
-import ChessGridTransition from "@/components/showcase/transitions/ChessGrids/ChessGridTransition";
 
 // Display font - for hero headlines (similar to CoinbaseDisplay)
 const spaceGrotesk = Space_Grotesk({
@@ -38,10 +37,8 @@ export default function RootLayout({ children }) {
         className="min-h-screen bg-background text-foreground font-sans"
         style={{ background: "#000000", color: "#ffffff" }}
       >
-         {/* <ChessGridTransition > */}
      
         {children}
-        {/* </ChessGridTransition> */}
       </body>
     </html>
   );

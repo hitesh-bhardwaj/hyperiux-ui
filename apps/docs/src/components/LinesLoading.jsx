@@ -31,108 +31,111 @@ function prefersReducedMotion() {
  return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
 }
 
-function DemoContent({ theme ="dark", showText = true, navRefs, rowRefs } = {}) {
- const isDark = theme ==="dark";
+function DemoContent({ theme = "dark", showText = true, navRefs, rowRefs } = {}) {
+  const isDark = theme === "dark";
 
- const navItems = useMemo(
- () => [
- { left:"FIX STUDIO" },
- { center:"INDEX (22)" },
- { center:"(CONTACT)" },
- { center:"(SERVICES)" },
- { center:"(SELECTED CLIENTS)" },
- { center:"(PRESS)" },
- { right:"■" },
- ],
- []
- );
+  const navItems = useMemo(
+    () => [
+      { left: <span className="font-bold tracking-tighter">FIX STUDIO</span> },
+      { left: "INDEX (22)" },
+      { left: "(CONTACT)" },
+      { left: "(SERVICES)" },
+      { left: "(SELECTED CLIENTS)" },
+      { left: "(PRESS)" },
+      { right: "■" },
+    ],
+    []
+  );
 
- const rows = useMemo(
- () => [
- ["A collective of creative thinkers making things","+1212 457 3035","Art Direction","Netflix","Design Everywhere"],
- ["smarter, newer, and more memorable.","","Brand Positioning","NZero","Sturdy"],
- ["","Based in","Brand & Identity Design","NBC Sports",""],
- ["We believe that function is the substance of","Brooklyn, NY","Creative Direction","Equinox","Blaze Type"],
- ["aesthetic experience. This principle guides clearer","","Design Direction","Tovala","Type design for Agencies"],
- ["user interfaces, stronger branding devices and","For Job, Press and","Packaging","Arcadia",""],
- ["more cohesive design systems. Whether designing","General inquiries:","Motion","SiriusXM","Prismic.io"],
- ["multi-platform experiences or building enterprise","","Prototyping","TelevisaUnivision","How Arcadia is Telling a"],
- ["applications, we make things to solve problems.","hello@fix.studio","Product Strategy","LunarCrush","Consistent Brand Story"],
- ["","","Testing & Research","Union",""],
- ["","","UX/UI Design","Dona Chai",""],
- ["","","Web Development","Renew",""],
- ["","Instagram","","",""],
- ["","Linkedin","","",""],
- ...Array.from({ length: Math.max(0, (LINE_COUNT - 1) - 14) }, () => ["","","","",""]),
- ],
- []
- );
+  const rows = useMemo(
+    () => [
+      ["A collective of creative thinkers making things", "+1212 457 3035", "Art Direction", "Netflix", "Design Everywhere"],
+      ["smarter, newer, and more memorable.", "", "Brand Positioning", "NZero", "Sturdy"],
+      ["", "Based in", "Brand & Identity Design", "NBC Sports", ""],
+      ["We believe that function is the substance of", "Brooklyn, NY", "Creative Direction", "Equinox", "Blaze Type"],
+      ["aesthetic experience. This principle guides clearer", "", "Design Direction", "Tovala", "Type design for Agencies"],
+      ["user interfaces, stronger branding devices and", "For Job, Press and", "Packaging", "Arcadia", ""],
+      ["more cohesive design systems. Whether designing", "General inquiries:", "Motion", "SiriusXM", "Prismic.io"],
+      ["multi-platform experiences or building enterprise", "", "Prototyping", "TelevisaUnivision", "How Arcadia is Telling a"],
+      ["applications, we make things to solve problems.", "hello@fix.studio", "Product Strategy", "LunarCrush", "Consistent Brand Story"],
+      ["", "", "Testing & Research", "Union", ""],
+      ["", "", "UX/UI Design", "Dona Chai", ""],
+      ["", "", "Web Development", "Renew", ""],
+      ["", "Instagram", "", "", ""],
+      ["", "Linkedin", "", "", ""],
+      ...Array.from({ length: Math.max(0, (LINE_COUNT - 1) - 14) }, () => ["", "", "", "", ""]),
+    ],
+    []
+  );
 
- const rowCount = LINE_COUNT - 1;
+  const rowCount = LINE_COUNT - 1;
 
- return (
- <div
- className={[
-"absolute inset-0 font-sans tracking-[-0.01em]",
- isDark ?"bg-[#0b0b0b] text-white/90" :"bg-white text-neutral-900",
- ].join("")}
- >
- {!showText ? null : (
- <>
- <div
- className={[
-"grid items-center px-5.5 text-[12px] uppercase select-none",
-"grid-cols-[1.25fr_1fr_1fr_1fr_1.25fr_.9fr_28px]",
- isDark ?"text-white/55" :"text-black/55",
- ].join("")}
- style={{ height: NAV_H }}
- >
- {navItems.map((item, idx) => (
- <div
- key={idx}
- ref={(el) => {
- if (!el || !navRefs) return;
- navRefs.current[idx] = el;
- }}
- className={[
- item.left ?"justify-self-start" : item.right ?"justify-self-end" :"justify-self-center",
-"will-change-[filter,transform,opacity]",
- item.left ? (isDark ?"text-white/90" :"text-neutral-900") : isDark ?"text-white/55" :"text-black/55",
- ].join("")}
- >
- {item.left || item.center || item.right}
- </div>
- ))}
- </div>
+  const GRID_CLASS = "grid-cols-[1.25fr_1fr_1fr_1fr_1.25fr_.9fr_28px]";
 
- <div>
- {rows.slice(0, rowCount).map((cells, idx) => (
- <div
- key={idx}
- ref={(el) => {
- if (!el || !rowRefs) return;
- rowRefs.current[idx] = el;
- }}
- className={[
-"grid items-center gap-4.5 px-5.5 text-[13px] leading-[1.2]",
-"grid-cols-[2.1fr_1.05fr_1.05fr_1.05fr_1.25fr]",
-"will-change-[filter,transform,opacity]",
- idx < 9 ? (isDark ?"text-white/90" :"text-neutral-900") : isDark ?"text-white/55" :"text-black/55",
- ].join("")}
- style={{ height: ROW_H }}
- >
- <div className={isDark ?"text-white/90" :"text-neutral-900"}>{cells[0]}</div>
- <div className={isDark ?"text-white/90" :"text-neutral-900"}>{cells[1]}</div>
- <div>{cells[2]}</div>
- <div>{cells[3]}</div>
- <div className="justify-self-start">{cells[4]}</div>
- </div>
- ))}
- </div>
- </>
- )}
- </div>
- );
+  return (
+    <div
+      className={[
+        "absolute inset-0 font-sans tracking-[-0.01em]",
+        isDark ? "bg-[#0b0b0b] text-white/90" : "bg-white text-neutral-900",
+      ].join(" ")}
+    >
+      {!showText ? null : (
+        <>
+          <div
+            className={[
+              "grid items-center px-5.5 text-[12px] uppercase select-none",
+              GRID_CLASS,
+              isDark ? "text-white/55" : "text-black/55",
+            ].join(" ")}
+            style={{ height: NAV_H }}
+          >
+            {navItems.map((item, idx) => (
+              <div
+                key={idx}
+                ref={(el) => {
+                  if (!el || !navRefs) return;
+                  navRefs.current[idx] = el;
+                }}
+                className={[
+                  item.left ? "justify-self-start" : item.right ? "justify-self-end" : "justify-self-center",
+                  "will-change-[filter,transform,opacity]",
+                  item.left ? (isDark ? "text-white/90" : "text-neutral-900") : isDark ? "text-white/55" : "text-black/55",
+                ].join(" ")}
+              >
+                {item.left || item.center || item.right}
+              </div>
+            ))}
+          </div>
+
+          <div>
+            {rows.slice(0, rowCount).map((cells, idx) => (
+              <div
+                key={idx}
+                ref={(el) => {
+                  if (!el || !rowRefs) return;
+                  rowRefs.current[idx] = el;
+                }}
+                className={[
+                  "grid items-center gap-4.5 px-5.5 text-[13px] leading-[1.2]",
+                  GRID_CLASS,
+                  "will-change-[filter,transform,opacity]",
+                  idx < 9 ? (isDark ? "text-white/90" : "text-neutral-900") : isDark ? "text-white/55" : "text-black/55",
+                ].join(" ")}
+                style={{ height: ROW_H }}
+              >
+                <div className={["col-span-2", isDark ? "text-white/90" : "text-neutral-900"].join(" ")}>{cells[0]}</div>
+                <div className={isDark ? "text-white/90" : "text-neutral-900"}>{cells[1]}</div>
+                <div>{cells[2]}</div>
+                <div>{cells[3]}</div>
+                <div className="justify-self-start">{cells[4]}</div>
+                <div></div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
 export default function LineRevealLoader({ onComplete } = {}) {

@@ -15,7 +15,7 @@ export function VaultContent({ effects, effectCounts }) {
     const quickCategories = useMemo(() => {
         const entries = Object.entries(effectCounts || {}).filter(([k]) => k && k !== "all");
         entries.sort((a, b) => (b[1] || 0) - (a[1] || 0));
-        return entries.slice(0, 5).map(([id]) => id);
+        return entries.slice(0, 7).map(([id]) => id);
     }, [effectCounts]);
 
     // Filter effects based on search and category

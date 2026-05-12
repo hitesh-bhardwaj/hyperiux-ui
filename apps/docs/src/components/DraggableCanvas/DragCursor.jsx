@@ -10,7 +10,7 @@ export default function DragCursor({ isHoveringDraggable = false }) {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
-    const handleMouseMove = (e) => {
+    const handlePointerMove = (e) => {
       const x = e.clientX;
       const y = e.clientY;
       
@@ -24,17 +24,17 @@ export default function DragCursor({ isHoveringDraggable = false }) {
       });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("pointermove", handlePointerMove);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("pointermove", handlePointerMove);
     };
   }, []);
 
   return (
     <div 
       ref={cursorRef}
-      className="fixed w-4 h-4 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2"
+      className="fixed w-4 h-4 pointer-events-none z-9999 -translate-x-1/2 -translate-y-1/2"
       style={{ left: 0, top: 0 }}
     >
       <div className="absolute top-4 left-[120%] text-white text-[.5vw] font-head whitespace-nowrap">
