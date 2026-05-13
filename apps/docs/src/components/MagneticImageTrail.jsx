@@ -2,18 +2,17 @@
 import { useCallback, useEffect, useRef } from"react";
 
 const imageUrls = [
-"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300&h=400&fit=crop",
-"https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=350&fit=crop",
-"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=280&h=320&fit=crop",
-"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=320&h=280&fit=crop",
-"https://images.unsplash.com/photo-1464207687429-7505649dae38?w=300&h=400&fit=crop",
-"https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=280&h=300&fit=crop",
-"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&h=350&fit=crop",
-"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=260&h=300&fit=crop",
-"https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=280&h=360&fit=crop",
-"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&h=280&fit=crop",
-"https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=320&h=300&fit=crop",
-"https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=280&h=340&fit=crop",
+    "/assets/img/distortion.jpg",
+  "/assets/img/image01.webp",
+  "/assets/img/image02.webp",
+  "/assets/img/image03.webp",
+  "/assets/img/image04.png",
+  "/assets/img/image05.png",
+  "/assets/img/image06.png",
+  "/assets/img/image07.png",
+  "/assets/img/image08.jpg",
+  "/assets/img/image09.jpg",
+  "/assets/img/image10.jpg",
 ];
 
 const SLOTS = [

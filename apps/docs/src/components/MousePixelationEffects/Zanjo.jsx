@@ -3,7 +3,6 @@ import { useRef, useEffect, useState, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
-
 // Vertex Shader
 const vertexShader = () => `
   varying vec2 vUv;
@@ -195,7 +194,6 @@ export default function Zanjo({ img = "/assets/img/image06.png" }) {
   return (
     <>
       
-       
           <div className="h-screen w-full relative">
            
             <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>

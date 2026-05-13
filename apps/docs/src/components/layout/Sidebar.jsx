@@ -25,10 +25,11 @@ export function Sidebar({
     isExpanded: controlledExpanded,
     onToggle,
     onClose,
+    activeCategory,
 }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const currentCategory = searchParams.get("category") || "all";
+    const currentCategory = activeCategory || searchParams.get("category") || "all";
     const [uncontrolledExpanded, setUncontrolledExpanded] = useState(false);
     const isExpanded =
         typeof controlledExpanded === "boolean" ? controlledExpanded : uncontrolledExpanded;
@@ -149,7 +150,7 @@ export function Sidebar({
                                                 >
                                                     <span
                                                         className={`h-2 w-2 rounded-full bg-primary ${
-                                                            isActive ? "animate-pulse opacity-100" : "opacity-0"
+                                                            isActive ? "animate opacity-100" : "opacity-0"
                                                         }`}
                                                     />
                                                     <div className="flex items-center flex-1 min-w-0 gap-3 transition-opacity duration-300">

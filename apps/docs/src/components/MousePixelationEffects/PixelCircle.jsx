@@ -215,19 +215,21 @@ export default function Pixelation() {
           </Canvas>
         </div>
 
-        <section className="w-full h-screen mobile:h-[90vh] tablet:h-[90vh] relative z-[10] flex flex-col justify-center px-[5vw] gap-[4vw] pointer-events-none mobile:gap-[7vw] tablet:gap-[7vw]">
-          <h1 className="text-white font-medium text-[9vw] mt-[4vw] leading-[1.2] flex flex-col mobile:text-[15vw] tablet:text-[12vw] ">
-            <span className=" text-left">
-              Redefining <span className="font-light">Value.</span>
-            </span>
-            <span className="text-right font-light">
-              Rewiring <span className="font-medium">the Future.</span>
-            </span>
-          </h1>
-          <p className="text-white text-[1.5vw] w-[30%] text-justify mobile:text-[5vw] mobile:w-[90%] tablet:text-[3vw] tablet:w-[60%]">
-            The decentralized economy starts here where speed, security, and
-            sovereignty collide. Where speed, security, and sovereignty collide.
-          </p>
+        <section className="w-full h-screen mobile:h-[90vh] tablet:h-[90vh] relative z-10 flex flex-col justify-center px-[5vw] gap-[12vw] pointer-events-none mobile:gap-[7vw] tablet:gap-[7vw]">
+        <h1 className="text-white font-medium text-[8vw] mt-[4vw] leading-[1.2] flex flex-col mobile:text-[15vw] tablet:text-[12vw] ">
+  <span className="text-left">
+    Building <span className="font-light">Interfaces.</span>
+  </span>
+
+  <span className="text-right font-light">
+    Shipping <span className="font-medium">Experiences.</span>
+  </span>
+</h1>
+
+<p className="text-white text-[1.5vw] w-[30%] text-justify mobile:text-[5vw] mobile:w-[90%] tablet:text-[3vw] tablet:w-[60%]">
+  Hyperiux is a modern UI animation library crafted for developers who want
+  stunning interactions, smooth transitions, and production-ready components .
+</p>
         </section>       
       </div>
 

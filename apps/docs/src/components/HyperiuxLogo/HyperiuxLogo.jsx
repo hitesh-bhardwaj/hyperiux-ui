@@ -173,7 +173,7 @@ const HyperiuxLogo = () => {
 
   return (
     <div
-      className="w-full h-screen touch-none relative"
+      className="w-full h-screen touch-none relative overflow-hidden"
       style={{ backgroundColor }}
       onPointerDown={startHold}
     >

@@ -4,6 +4,7 @@ import * as THREE from"three";
 import { Canvas, useFrame, useThree } from"@react-three/fiber";
 import { Image, Preload } from"@react-three/drei";
 import { Suspense, useEffect, useMemo, useRef } from"react";
+import Link from "next/link";
 
 const TUNNEL_DEPTH = 90;
 const TUNNEL_WIDTH = 18;
@@ -339,65 +340,76 @@ function Scene({ images }) {
 }
 
 function Header() {
- return (
- <header className="pointer-events-auto absolute left-0 top-0 z-20 flex w-full items-center justify-between px-8 py-7 md:px-14">
- <div className="flex items-center gap-2 text-xl font-bold text-black">
- <span className="text-2xl leading-none">⌘</span>
- <span>Hyperiux</span>
- </div>
+  return (
+    <header className="pointer-events-auto absolute left-0 top-0 z-20 flex w-full items-center justify-between px-8 py-7 md:px-14">
+      <div className="flex items-center gap-2 text-xl font-bold text-black">
+        {/* <span className="text-2xl leading-none">✦</span> */}
+        <span>Hyperiux UI</span>
+      </div>
 
- <nav className="hidden items-center gap-10 text-base font-semibold text-slate-600 md:flex">
- <a href="#use-cases" className="transition hover:text-black">
- Use Cases
- </a>
- <a href="#discover" className="transition hover:text-black">
- Discover
- </a>
- <a href="#about" className="transition hover:text-black">
- About
- </a>
- </nav>
+      <nav className="hidden items-center gap-10 text-base font-semibold text-slate-600 md:flex">
+        <a href="#components" className="transition hover:text-black">
+          Components
+        </a>
+        <a href="#backgrounds" className="transition hover:text-black">
+          Backgrounds
+        </a>
+        <a href="#animations" className="transition hover:text-black">
+          Animations
+        </a>
+      </nav>
 
- <button
- type="button"
- className="rounded-full bg-black px-7 py-4 text-base font-bold text-white"
- >
- Get started now →
- </button>
- </header>
- );
+      <Link href="/effects">
+
+      <button
+        type="button"
+        className="rounded-full bg-black px-7 py-4 text-base font-bold text-white"
+        >
+        Browse Library →
+      </button>
+          </Link>
+    </header>
+  );
 }
+
 
 function HeroContent() {
- return (
- <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
- <div className="mt-16 max-w-[30vw] text-center">
- <h1 className="text-[10vw] font-medium leading-[0.7]! tracking-[-0.08em] text-black">
- Clone yourself.
- </h1>
+  return (
+    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
+      <div className="mt-16 max-w-[40vw] text-center">
+ <h1 className="text-[10vw] font-medium leading-[1.1]! text-center! tracking-[-0.08em] text-black">
+  Hyperiux Library.
+</h1>
 
- <p className="mx-auto mt-15 max-w-[60vw] text-[1.5vw] font-medium leading-tight text-neutral-600">
- Build the digital version of you to scale your expertise and
- availability,
- <span className="text-[#ff5f00]"> infinitely</span>
- </p>
+        <p className="mx-auto mt-15 max-w-[60vw] text-[1.3vw] font-medium leading-tight text-neutral-600">
+          A curated collection of modern UI components, smooth animations,
+          creative backgrounds and premium interactions for
+          <span className="text-[#ff5f00]"> Next.js developers.</span>
+        </p>
 
- <div className="pointer-events-auto mt-10 flex items-center justify-center gap-8">
- <button
- type="button"
- className="rounded-full bg-black px-10 py-3 text-lg font-bold text-white"
- >
- Try now
- </button>
+        <div className="pointer-events-auto mt-10 flex items-center justify-center gap-8">
+          <Link href="/effects">
 
- <button type="button" className="text-lg font-bold text-black">
- See examples →
- </button>
- </div>
- </div>
- </div>
- );
+          <button
+            type="button"
+            className="rounded-full cursor-pointer bg-black px-10 py-3 text-lg text-white"
+          >
+            Explore Components
+          </button>
+          </Link>
+
+          <Link href="/effects">
+
+          <button type="button" className="text-lg cursor-pointer text-black border rounded-full py-3 px-10">
+            View Showcase →
+          </button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 }
+
 
 function FooterMark() {
  return (

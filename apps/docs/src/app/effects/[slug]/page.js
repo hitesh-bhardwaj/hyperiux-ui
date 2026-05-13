@@ -52,6 +52,7 @@ export default async function EffectPage({ params }) {
  for (const [category, effects] of Object.entries(categoriesMap)) {
  effectCounts[category] = effects.length;
  }
+ const totalEffects = getAllEffectSlugs().length;
 
  return (
     <>
@@ -63,6 +64,7 @@ export default async function EffectPage({ params }) {
  code={code}
  relatedEffects={relatedEffects}
  effectCounts={effectCounts}
+ totalEffects={totalEffects}
  />
   </>
  );

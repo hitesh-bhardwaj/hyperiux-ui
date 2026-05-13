@@ -256,19 +256,19 @@ export default function ZoomSlider({ images = [] }) {
  >
  <p
  data-number
- className="text-[10px] font-bold tracking-[0.18em] uppercase text-white/50 mb-[5px] leading-none overflow-hidden"
+ className="text-[10px] font-bold tracking-[0.18em] uppercase text-white/50 mb-5px leading-none overflow-hidden"
  >
  {item.number}
  </p>
  <p
  data-title
- className="text-[13px] font-extrabold tracking-[0.08em] uppercase text-white mb-[5px] leading-[1.15] overflow-hidden"
+ className="text-[13px] font-extrabold tracking-[0.08em] uppercase text-white mb-5px leading-[1.15] overflow-hidden"
  >
  {item.title}
  </p>
  <p
  data-desc
- className="text-[10px] font-normal text-white/60 tracking-[0.04em] leading-[1.5] overflow-hidden"
+ className="text-[10px] font-normal text-white/60 tracking-[0.04em] leading-normal overflow-hidden"
  >
  {item.desc}
  </p>

@@ -15,6 +15,7 @@ export function EffectDetailContent({
   code,
   relatedEffects,
   effectCounts,
+  totalEffects,
 }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
@@ -65,7 +66,12 @@ export default function MyComponent() {
   const showVideo = videoPreviewUrl && !videoError && videoReady;
 
   return (
-    <VaultLayout effectCounts={effectCounts} bgImageSrc="">
+    <VaultLayout
+      effectCounts={effectCounts}
+      totalEffects={totalEffects}
+      bgImageSrc=""
+      activeCategory={effect.categories?.[0] || effect.category}
+    >
       <div className="min-h-screen bg-black text-foreground px-15">
         {/* Sticky Header with Breadcrumb */}
         <Suspense fallback={<div className="h-12" />}>

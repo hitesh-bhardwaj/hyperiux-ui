@@ -35,9 +35,11 @@ export function VaultLayout({
   children,
   effectCounts = {},
   effects = [],
+  totalEffects: propTotalEffects,
   bgImageSrc = "/assets/hero-bg.png",
+  activeCategory,
 }) {
-  const totalEffects = effects.length;
+  const totalEffects = propTotalEffects !== undefined ? propTotalEffects : effects.length;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -49,6 +51,7 @@ export function VaultLayout({
           isExpanded={isSidebarOpen}
           onToggle={() => setIsSidebarOpen((v) => !v)}
           onClose={() => setIsSidebarOpen(false)}
+          activeCategory={activeCategory}
         />
         {isSidebarOpen && (
           <button

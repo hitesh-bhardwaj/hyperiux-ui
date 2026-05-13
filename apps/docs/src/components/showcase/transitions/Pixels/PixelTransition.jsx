@@ -41,9 +41,9 @@ function drawGrid(canvas, progress, isEnter, cols = COLS, rows = ROWS, fromTopLe
  if (fillAmount <= 0.001) continue
 
  const x1 = Math.floor(c * cellW)
- const x2 = Math.floor((c + 1) * cellW)
+ const x2 = Math.floor((c + 1) * cellW) + 1
  const y1 = Math.floor(r * cellH)
- const y2 = Math.floor((r + 1) * cellH)
+ const y2 = Math.floor((r + 1) * cellH) + 1
  const cellDrawH = y2 - y1
  const fillH = Math.ceil(cellDrawH * fillAmount)
 

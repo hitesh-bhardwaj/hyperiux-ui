@@ -99,19 +99,19 @@ const Page = () => {
     <>
 
           <div className="h-screen w-screen flex flex-col justify-center items-center bg-[#111111]">
-            <div className="h-[8.2vw] text-white overflow-hidden relative w-full pl-[2vw]">
+            <div className="h-[8.2vw] text-white overflow-hidden relative w-full pl-[0.5vw]">
               <div className="relative h-[6vw] w-full overflow-hidden">
-                <p className="text-[6.5vw] leading-[1] z-[4] text-nowrap tracking-tighter italic uppercase absolute top-0 left-[2vw]">
-                  <span className="v2-text1 block">Engineering meets artistry</span>
+                <p className="text-[6.5vw] leading-none z-4 text-nowrap tracking-tighter italic uppercase absolute top-0 left-[2vw]">
+                  <span className="v2-text1 block">Motion crafted differently</span>
                 </p>
-                <p className="text-[6.5vw] leading-[1] text-yellow-500 z-[2] text-nowrap tracking-tighter italic uppercase absolute top-0 left-[2vw]">
-                  <span className="v2-text3 block">Engineering meets artistry</span>
+                <p className="text-[6.5vw] leading-none text-yellow-500 z-2 text-nowrap tracking-tighter italic uppercase absolute top-0 left-[2vw]">
+                  <span className="v2-text3 block">Motion crafted differently</span>
                 </p>
-                <p className="text-[6.5vw] leading-[1] text-nowrap tracking-tighter italic uppercase absolute top-0 left-[2vw] z-[8]">
-                  <span className="v2-text2 block">Engineering meets artistry</span>
+                <p className="text-[6.5vw] leading-none text-nowrap tracking-tighter italic uppercase absolute top-0 left-[2vw] z-8">
+                  <span className="v2-text2 block">Motion crafted differently</span>
                 </p>
-                <p className="text-[6.5vw] leading-[1] text-nowrap z-[6] tracking-tighter italic uppercase absolute top-0 left-[2vw] text-yellow-500">
-                  <span className="v2-text4 block">Engineering meets artistry</span>
+                <p className="text-[6.5vw] leading-none text-nowrap z-6 tracking-tighter italic uppercase absolute top-0 left-[2vw] text-yellow-500">
+                  <span className="v2-text4 block">Motion crafted differently</span>
                 </p>
               </div>
             </div>
