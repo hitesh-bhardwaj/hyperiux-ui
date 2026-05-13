@@ -11,23 +11,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pnpm dev              # Start all dev servers
 pnpm build            # Build all packages
 pnpm lint             # Lint all packages
-pnpm build:registry   # Rebuild registry JSON files (run after adding/editing any registry effect)
+pnpm build:registry   # Rebuild registry JSON files — run after adding/editing any registry effect
 
-# Docs app (from apps/docs)
+# Bypass Turborepo cache (use when new registry folders aren't being picked up)
+node apps/docs/scripts/build-registry.js
+
+# Docs app only (from apps/docs)
 pnpm dev              # Start docs dev server at localhost:3000
 
-# CLI testing (from root)
+# CLI — run from repo root
 node packages/cli/src/index.js --help
 node packages/cli/src/index.js list
 node packages/cli/src/index.js init -y
 node packages/cli/src/index.js add blur-text --dry-run
+
+# CLI — test against live registry (run from outside the monorepo)
+# DEV_REGISTRY_PATH auto-detects the local public/r/ when inside the repo,
+# so external testing is needed to verify the production Vercel URL is hit.
 ```
 
 ## Architecture
 
 pnpm monorepo with Turborepo:
 - **`apps/docs`** — Next.js documentation site (React 19, Tailwind CSS 4, JS only, no TypeScript)
-- **`packages/cli`** — `npx hyperiux` CLI tool
+- **`packages/cli`** — `npx hyperiux` CLI tool (published to npm as `hyperiux`)
 - **`registry/effects`** — Source components, organized by category folder
 
 ### Registry System
@@ -36,11 +43,18 @@ The registry is the core distribution mechanism (shadcn-style). Source lives in 
 - `apps/docs/public/r/<name>.json` — full effect with embedded file contents
 - `apps/docs/public/r/index.json` — flat index of all effects
 
-The CLI fetches from `https://hyperiux.dev/r` in production but auto-detects `apps/docs/public/r/` when run from the monorepo root.
+The CLI resolves the registry in priority order:
+1. `DEV_REGISTRY_PATH` (`apps/docs/public/r/`) — used automatically when running from the monorepo root
+2. `HYPERIUX_REGISTRY_URL` env var override
+3. Production: `https://hyperiux-ui.vercel.app/r`
+
+The docs site is deployed at `https://hyperiux-ui.vercel.app`. When moved to `ui.hyperiux.com`, update `REGISTRY_URL` in `packages/cli/src/utils/registry.js` and `$schema` in `packages/cli/src/utils/config.js`.
 
 **Every registry effect folder must have:**
 - `<name>.jsx` — component with `"use client"` and a **named export** (not default). Multi-file entries use relative imports between files in the same folder.
 - `registry.json` — metadata
+
+All files in a multi-file effect land flat in `src/components/hyperiux/` when installed, so relative imports like `./masked-container` resolve correctly.
 
 **registry.json schema:**
 ```json
@@ -66,8 +80,15 @@ The CLI fetches from `https://hyperiux.dev/r` in production but auto-detects `ap
 1. `mkdir -p registry/effects/<category>/<effect-name>/`
 2. Create `<effect-name>.jsx` with named export `export function EffectName`
 3. Create `registry.json`
-4. Run `pnpm build:registry`
-5. Optionally add a props config entry in `apps/docs/src/lib/effect-configs.js` so the detail page renders an interactive props panel
+4. Run `pnpm build:registry` (or `node apps/docs/scripts/build-registry.js` to bypass cache)
+5. Create a demo page at the `previewUrl` route in `apps/docs/src/app/`
+6. Optionally add a props config entry in `apps/docs/src/lib/effect-configs.js` so the detail page renders an interactive props panel
+
+### Multi-Version Demo Pages
+
+When a single effect has multiple variants (e.g. `mouse-pixelation-effects` with v2 and v3 sub-routes), add a shared `layout.js` to the parent route folder with a `VersionNav` client component. The nav uses `usePathname()` to highlight the active version and `<Link>` for navigation. See `apps/docs/src/app/mouse-pixelation-effects/layout.js` as the reference pattern.
+
+The registry effect itself should export just the primary variant — the version switcher belongs only in the demo pages.
 
 ### Docs App Architecture
 
@@ -80,6 +101,7 @@ The CLI fetches from `https://hyperiux.dev/r` in production but auto-detects `ap
 **Key lib files:**
 - `apps/docs/src/lib/registry.js` — `getEffectBySlug`, `getRegistryIndex`, `getAllEffectSlugs`, `getEffectsByCategory` — all read from `public/r/` at build time (SSG)
 - `apps/docs/src/lib/effect-configs.js` — per-effect prop definitions (`props`, `defaults`, `note`) rendered as an interactive panel on the detail page
+- `apps/docs/public/schema.json` — JSON Schema for `hyperiux.json`; served statically at `/schema.json`
 
 **Performance conventions:**
 - `EffectCardNew` lazy-loads video: `videoSrc` state starts `null`, set on first hover only
@@ -101,6 +123,14 @@ The CLI fetches from `https://hyperiux.dev/r` in production but auto-detects `ap
 - Reset `hasInit.current = false` in cleanup for React Strict Mode double-invoke safety
 - Multi-file WebGL effects (e.g. `601-hero`, `milkyway`): all helper files go in the same registry folder with relative imports (`./room-model`)
 - `OffscreenCanvas` for Canvas 2D double-buffering (e.g. `gooey-counter`)
+
+### CLI Package
+
+- Entry point: `packages/cli/src/index.js` — reads version dynamically from `package.json` via `createRequire`
+- Commands: `init` · `add` · `list`
+- `add` flow: fetch registry JSON → check existing files → install missing npm deps → write files
+- Package manager is auto-detected from lock files (pnpm/yarn/bun/npm)
+- To publish: `cd packages/cli && npm publish` (requires `hyperiux-ui.vercel.app` to be live as the registry host)
 
 ### Sentry
 

@@ -1,16 +1,20 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
+import { createRequire } from "module";
 import { init } from "./commands/init.js";
 import { add } from "./commands/add.js";
 import { list } from "./commands/list.js";
+
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json");
 
 const program = new Command();
 
 program
   .name("hyperiux")
   .description("CLI for adding Hyperiux UI effects to your project")
-  .version("0.1.0");
+  .version(version);
 
 program
   .command("init")

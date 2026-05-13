@@ -24,7 +24,6 @@ function HoverFillLink({ href, children, className = "", isActive, ...props }) {
     );
 }
 
-
 const navigationData = [
     {
         name: "About", href: "#",
@@ -90,18 +89,21 @@ export default function OsmoMenu() {
     const mainSquareRef = useRef(null);
     const mainItemRefs = useRef([]);
 
+    // Quick constant for our menu's custom cubic-bezier easing
+    const menuEase = "cubic-bezier(0.625, 0.05, 0, 1)";
+
     useEffect(() => {
         const square = mainSquareRef.current;
         const items = mainItemRefs.current.filter(Boolean);
         if (!square || !items.length) return;
 
         if (activeMainIndex === null) {
-            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto" });
-            gsap.to(items, { x: 0, duration: 0.4, ease: "power2.out", overwrite: "auto" });
+            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto", ease: menuEase });
+            gsap.to(items, { x: 0, duration: 0.4, ease: menuEase, overwrite: "auto" });
             return;
         }
 
-        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto" });
+        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto", ease: menuEase });
 
         const targetItem = items[activeMainIndex];
         if (!targetItem) return;
@@ -112,7 +114,7 @@ export default function OsmoMenu() {
             y: targetY,
             rotation: activeMainIndex * 90,
             duration: 0.4,
-            ease: "power2.out",
+            ease: menuEase,
             overwrite: "auto"
         });
 
@@ -124,7 +126,7 @@ export default function OsmoMenu() {
             gsap.to(item, {
                 x: translateValue * (1 - distance),
                 duration: 0.4,
-                ease: "power2.out",
+                ease: menuEase,
                 overwrite: "auto"
             });
         });
@@ -138,12 +140,12 @@ export default function OsmoMenu() {
         const items = children.slice(1);
 
         if (activeSubIndex === null) {
-            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto" });
-            gsap.to(items, { x: 0, duration: 0.4, ease: "power2.out", overwrite: "auto" });
+            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto", ease: menuEase });
+            gsap.to(items, { x: 0, duration: 0.4, ease: menuEase, overwrite: "auto" });
             return;
         }
 
-        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto" });
+        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto", ease: menuEase });
 
         const targetItem = items[activeSubIndex];
         if (!targetItem) return;
@@ -154,7 +156,7 @@ export default function OsmoMenu() {
             y: targetY,
             rotation: activeSubIndex * 90,
             duration: 0.4,
-            ease: "power2.out",
+            ease: menuEase,
             overwrite: "auto"
         });
 
@@ -166,7 +168,7 @@ export default function OsmoMenu() {
             gsap.to(item, {
                 x: translateValue * (1 - distance),
                 duration: 0.4,
-                ease: "power2.out",
+                ease: menuEase,
                 overwrite: "auto"
             });
         });
@@ -180,12 +182,12 @@ export default function OsmoMenu() {
         const items = children.slice(1);
 
         if (activeNestedIndex === null) {
-            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto" });
-            gsap.to(items, { x: 0, duration: 0.4, ease: "power2.out", overwrite: "auto" });
+            gsap.to(square, { scale: 0, opacity: 0, duration: 0.3, overwrite: "auto", ease: menuEase });
+            gsap.to(items, { x: 0, duration: 0.4, ease: menuEase, overwrite: "auto" });
             return;
         }
 
-        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto" });
+        gsap.to(square, { scale: 1, opacity: 1, duration: 0.3, overwrite: "auto", ease: menuEase });
 
         const targetItem = items[activeNestedIndex];
         if (!targetItem) return;
@@ -196,7 +198,7 @@ export default function OsmoMenu() {
             y: targetY,
             rotation: activeNestedIndex * 90,
             duration: 0.4,
-            ease: "power2.out",
+            ease: menuEase,
             overwrite: "auto"
         });
 
@@ -208,7 +210,7 @@ export default function OsmoMenu() {
             gsap.to(item, {
                 x: translateValue * (1 - distance),
                 duration: 0.4,
-                ease: "power2.out",
+                ease: menuEase,
                 overwrite: "auto"
             });
         });
@@ -239,7 +241,8 @@ export default function OsmoMenu() {
     }, [activeMainIndex, activeSubIndex]);
 
     useEffect(() => {
-        CustomEase.create("menuEase", "0.625, 0.05, 0, 1");
+        // Overwrite GSAP custom ease creation to simply use the cubic-bezier directly for all transitions in this component
+        // CustomEase.create("menuEase", "0.625, 0.05, 0, 1");
         const tl = gsap.timeline({ paused: true });
 
         gsap.set(backgroundOverlayRef.current, { opacity: 0 });
@@ -256,7 +259,7 @@ export default function OsmoMenu() {
             {
                 opacity: 1,
                 duration: 1,
-                ease: "menuEase",
+                ease: menuEase,
             },
             0,
         );
@@ -266,7 +269,7 @@ export default function OsmoMenu() {
             {
                 width: "98vw",
                 duration: .7,
-                ease: "power4.out",
+                ease: menuEase,
             },
             0.1,
         );
@@ -275,7 +278,7 @@ export default function OsmoMenu() {
             clipPath: "inset(0% 0% 0% 0%)",
             WebkitClipPath: "inset(0% 0% 0% 0%)",
             duration: 0.8,
-            ease: "power2.inOut",
+            ease: menuEase,
         },"<+.5");
 
         tl.to(
@@ -283,6 +286,7 @@ export default function OsmoMenu() {
             {
                 opacity: 1,
                 duration: 0.5,
+                ease: menuEase,
             },
             "<",
         );

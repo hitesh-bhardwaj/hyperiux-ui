@@ -12,22 +12,20 @@ import { ChevronDown, ChevronUp, ChevronRight } from"lucide-react";
 import Image from"next/image";
 
 export default function GlassPillDesktopNav() {
- const navWrapRef = useRef(null);
- const navLinksRef = useRef([]);
- const ctaRef = useRef(null);
- const dropdownRef = useRef(null);
- const dropdownItemsRef = useRef([]);
- const dropdownTextData = useRef([]);
- const linkData = useRef([]);
-
- const activeDropdownIndexRef = useRef(null);
- const isPointerInsideDropdownRef = useRef(false);
- const hideCallRef = useRef(null);
- const switchTweenRef = useRef(null);
- const itemTweenRef = useRef(null);
-
- const [activeIndex, setActiveIndex] = useState(null);
- const [renderedDropdownIndex, setRenderedDropdownIndex] = useState(null);
+  const navWrapRef = useRef(null);
+  const navLinksRef = useRef([]);
+  const ctaRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const dropdownItemsRef = useRef([]);
+  const dropdownTextData = useRef([]);
+  const linkData = useRef([]);
+  const activeDropdownIndexRef = useRef(null);
+  const isPointerInsideDropdownRef = useRef(false);
+  const hideCallRef = useRef(null);
+  const switchTweenRef = useRef(null);
+  const itemTweenRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [renderedDropdownIndex, setRenderedDropdownIndex] = useState(null);
 
  const menuItems = [
  {
