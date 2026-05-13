@@ -137,10 +137,10 @@ export default function TextMarquee({ items = [] }) {
 
  return (
  <div className="flex h-screen">
- {/* Left half —"Tomorrow" right-aligned so it meets the seam */}
+
  <div className="w-[45%] flex max-sm:w-[30%] items-center justify-end pr-2">
  <p className="max-sm:text-xl text-4xl font-extralight leading-none whitespace-nowrap">
- Tomorrow
+ Hyperiux
  </p>
  </div>
 

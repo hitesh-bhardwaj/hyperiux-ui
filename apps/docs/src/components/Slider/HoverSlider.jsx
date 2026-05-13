@@ -430,8 +430,7 @@ const opacity = Math.max(0, baseOpacity - dist * 0.22) * anim.alpha;
  className="pointer-events-none absolute right-[10vw] top-[22vh] z-20 max-w-[320px] text-center text-[12px] leading-relaxed"
  style={{ color:"rgba(30,28,24,0.6)" }}
  >
- A curated collection of work — from collaborations and experiments to
- personal projects, capturing finished pieces and ideas in motion.
+A curated collection of futuristic UI experiments, motion systems, and interactive components - crafted to push modern web experiences beyond the ordinary.
  </p>
  </section>
  );

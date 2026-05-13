@@ -187,8 +187,8 @@ export default function StackToSpreadIntro() {
  }, [])
 
  const imgSources = [
-"/img/dino.png","/img/man.png","/img/3.png","/img/5.png",
-"/img/dino.png","/img/man.png","/img/3.png"
+"/assets/img/image01.webp","/assets/img/image07.png","/assets/img/image04.png","/assets/img/image05.png",
+"/assets/img/image10.jpg","/assets/img/distortion.jpg","/img/mobile.png"
  ]
 
  return (

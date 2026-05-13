@@ -12,6 +12,8 @@ import VideoUI from'@/components/601/VideoUI'
 import EdgeBlurEffect from'@/components/Valley/EdgeBlurEffect'
 import { Play, PlayIcon, Square } from'lucide-react'
 import { AnimatePresence, motion } from'framer-motion'
+import Lenis from 'lenis'
+import LenisSmoothScroll from '@/components/SmoothScroll/LenisScroll'
 
 // 🌟 CONFIGURATION - tweak these for env intensity levels 🌟
 const ENV_INTENSITY_CONFIG = {
@@ -145,6 +147,11 @@ export default function Page() {
  const [isZoomed, setIsZoomed] = useState(false)
  const videoRef = useRef(null)
  return (
+
+    <>
+
+   <LenisSmoothScroll />
+    
  <section className="w-full h-screen bg-black relative">
  <AnimatePresence>
  {!isZoomed && (
@@ -234,5 +241,6 @@ export default function Page() {
  setIsZoomed={setIsZoomed}
  />
  </section>
+ </>
  )
 }

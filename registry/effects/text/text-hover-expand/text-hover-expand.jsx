@@ -37,6 +37,7 @@ export function TextHoverExpand({
   const descriptionRefs = useRef([]);
   const animFrameRef = useRef(null);
   const animStartRef = useRef(null);
+  const animateUpdateRef = useRef(null);
   const ANIM_DURATION = 300;
 
   const [activeIndex, setActiveIndex] = useState(null);
@@ -65,28 +66,27 @@ export function TextHoverExpand({
     return () => ctx.revert();
   }, []);
 
-  const checkMobile = useCallback(() => {
-    const mobile = window.innerWidth < 768;
-    setIsMobile(mobile);
-    return mobile;
-  }, []);
+  const getMobile = useCallback(() => window.innerWidth < 768, []);
 
   useEffect(() => {
-    const mobile = checkMobile();
-    if (mobile) setActiveIndex(0);
+    const frame = requestAnimationFrame(() => {
+      const mobile = getMobile();
+      setIsMobile(mobile);
+      setActiveIndex(mobile ? 0 : null);
+    });
 
     const onResize = () => {
-      const m = checkMobile();
-      if (m) {
-        setActiveIndex(0);
-      } else {
-        setActiveIndex(null);
-      }
+      const mobile = getMobile();
+      setIsMobile(mobile);
+      setActiveIndex(mobile ? 0 : null);
     };
 
     window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [checkMobile]);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [getMobile]);
 
   const animateUpdate = useCallback((index) => {
     const content = contentRef.current;
@@ -135,11 +135,17 @@ export function TextHoverExpand({
 
     const elapsed = Date.now() - animStartRef.current;
     if (elapsed < ANIM_DURATION) {
-      animFrameRef.current = requestAnimationFrame(() => animateUpdate(index));
+      animFrameRef.current = requestAnimationFrame(() => {
+        animateUpdateRef.current?.(index);
+      });
     } else {
       animFrameRef.current = null;
     }
   }, []);
+
+  useEffect(() => {
+    animateUpdateRef.current = animateUpdate;
+  }, [animateUpdate]);
 
   useEffect(() => {
     if (!isMobile || activeIndex === null) return;
@@ -231,18 +237,18 @@ export function TextHoverExpand({
                 onMouseLeave={handleMouseLeave}
               >
                 <button
-                  className="relative isolate w-full overflow-hidden cursor-default max-sm:cursor-auto focus:outline-none"
+                  className="relative isolate flex w-full justify-center overflow-hidden cursor-default max-sm:cursor-auto focus:outline-none"
                   onClick={() => handleClick(i)}
                   aria-expanded={isActive}
                   aria-controls={`text-hover-content-${i}`}
                 >
                   <span
                     ref={(el) => (labelRefs.current[i] = el)}
-                    className="relative inline-grid"
+                    className="grid max-w-full text-center"
                   >
                     <h3
                       className={[
-                        "font-mono text-6xl max-sm:text-3xl leading-none uppercase tracking-widest",
+                        "col-start-1 row-start-1 font-mono text-6xl max-sm:text-3xl leading-none uppercase tracking-widest",
                         "text-neutral-400",
                         "transition-transform duration-500",
                         isActive ? "-translate-y-full" : "translate-y-0",
@@ -253,8 +259,7 @@ export function TextHoverExpand({
                     <span
                       aria-hidden="true"
                       className={[
-                        "font-mono text-6xl max-sm:text-3xl leading-none uppercase tracking-widest",
-                        "absolute inset-0",
+                        "col-start-1 row-start-1 font-mono text-6xl max-sm:text-3xl leading-none uppercase tracking-widest",
                         "transition-transform duration-500",
                         isActive ? "translate-y-0" : "translate-y-full",
                       ].join(" ")}

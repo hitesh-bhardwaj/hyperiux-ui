@@ -216,7 +216,7 @@ export default function ListHover({ items }) {
  <col className="w-1/7 bggreen-500" />
  <col className="w-1/3" />
  <col className="w-1/9 bgamber-400" />
- <col className="w-20" />
+ <col className="w-130!" />
  <col />
  </colgroup>
 
@@ -239,7 +239,7 @@ export default function ListHover({ items }) {
  <td className="py-3 px-3 text-xs text-white/40 whitespace-nowrap">
  ({String.fromCharCode(97 + i)}.)
  </td>
- <td className="py-3 px-6 text-xs text-right whitespace-nowrap">
+ <td className="py-3 px-4 text-xs text-left whitespace-nowrap">
  {item.services}
  </td>
  </tr>

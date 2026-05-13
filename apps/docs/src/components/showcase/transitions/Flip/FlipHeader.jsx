@@ -11,7 +11,7 @@ export default function FlipHeader() {
  <div className="flex items-center gap-1 px-2 py-2">
  <Link
  href="/page-transitions/flip"
- className={`text-xs font-medium tracking-tight px-4 py-2 rounded-md hover:text-[#DE4013] ${
+ className={`text-sm font-medium tracking-tight px-4 py-2 rounded-md hover:text-[#DE4013] ${
  pathname ==="/page-transitions/flip"
  ?"text-[#DE4013]"
  :"text-black"
@@ -21,7 +21,7 @@ export default function FlipHeader() {
  </Link>
  <Link
  href="/page-transitions/flip/page2"
- className={`text-xs font-medium tracking-tight px-4 py-2 rounded-md hover:text-[#DE4013] ${
+ className={`text-sm font-medium tracking-tight px-4 py-2 rounded-md hover:text-[#DE4013] ${
  pathname ==="/page-transitions/flip/page2"
  ?"text-[#DE4013]"
  :"text-black"

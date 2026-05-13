@@ -8,13 +8,13 @@ export default function page() {
  <h2 className='absolute top-[5vw] text-right right-[5vw] text-black text-[7vw] leading-none font-bold'>WITH <br/><span className='text-red-500'> TSL </span></h2>
 
  <div className='h-[30vw] w-[30vw] relative'>
- <FishEyeImage src="/img/mob.webp" />
+ <FishEyeImage src="/img/mobile.png" />
  </div>
  <div className='h-[45vw] w-[30vw] relative'>
- <FishEyeImage src="/img/man.webp" />
+ <FishEyeImage src="/assets/img/image05.png" />
  </div>
  <div className='size-[25vw] mt-auto relative'>
- <FishEyeImage src="/img/dino.png" />
+ <FishEyeImage src="/img/dino2.png" />
  </div>
  </div>
  )

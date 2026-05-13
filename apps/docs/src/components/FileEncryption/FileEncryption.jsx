@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from"react";
 import gsap from"gsap";
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+
 const CARD_W = 380;
 const CARD_H = 240;
 const CARD_GAP = 200;
@@ -53,7 +53,7 @@ function hexToRgb(hex) {
  return [parseInt(h.slice(0,2),16)/255, parseInt(h.slice(2,4),16)/255, parseInt(h.slice(4,6),16)/255];
 }
 
-// ─── WebGL Beam ───────────────────────────────────────────────────────────────
+//  WebGL Beam
 // Vertex shader
 const BEAM_VERT = `
 attribute vec2 a_pos;
@@ -163,7 +163,8 @@ float yFade = smoothstep(0.10, 0.46, uv.y) * smoothstep(0.10, 0.46, 1.0 - uv.y);
 
  col = mix(idleCol, cardCol, cardMix);
 
- gl_FragColor = vec4(col, 1.0);
+ float alpha = clamp(max(max(col.r, col.g), col.b), 0.0, 1.0);
+ gl_FragColor = vec4(col, alpha);
 }
 `;
 
@@ -204,6 +205,7 @@ function useWebGLBeam(canvasRef, primaryColor) {
 
  const prog = buildProgram(gl, BEAM_VERT, BEAM_FRAG);
  gl.useProgram(prog);
+ gl.clearColor(0.0, 0.0, 0.0, 0.0);
 
  // full-screen quad
  const buf = gl.createBuffer();
@@ -388,13 +390,13 @@ const fade =
  }, [beamStateRef, canvasRef, particles]);
 }
 
-// ─── Card sub-components ──────────────────────────────────────────────────────
+
 function Chip() {
  return (
  <div className="relative h-9 w-12 rounded-md bg-[#f0ead6] shadow-inner overflow-hidden">
  <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-px p-1">
  {Array.from({ length: 9 }).map((_, i) => (
- <div key={i} className="rounded-[2px] bg-[#c8b97a] opacity-80" />
+ <div key={i} className="rounded-sm bg-[#c8b97a] opacity-80" />
  ))}
  </div>
  <div className="absolute inset-x-0 top-1/2 h-px bg-[#a08840]/60 -translate-y-1/2" />
@@ -432,7 +434,7 @@ function PlainFace({ card }) {
  boxShadow:"0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15)",
  }}
  >
- <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/10" />
+ <div className="absolute inset-0 bg-linear-to-br from-white/10 via-transparent to-black/10" />
  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12),transparent_40%)]" />
  <div className="relative flex justify-between items-start">
  <div className="flex items-center gap-3">
@@ -483,12 +485,12 @@ function AsciiFace({ card, beamLit }) {
  return (
  <div
  className="absolute inset-0 rounded-lg overflow-hidden"
- style={{ background:"#06060f" }}
+ style={{ background:"transparent" }}
  >
  <div
  className="absolute inset-0"
  style={{
- background: `radial-gradient(ellipse at 60% 50%, ${card.glowColor}30 0%, transparent 65%)`,
+ background: `radial-gradient(ellipse at 60% 50%, ${card.glowColor}20 0%, transparent 65%)`,
  }}
  />
  <div
@@ -516,7 +518,7 @@ function AsciiFace({ card, beamLit }) {
  );
 }
 
-// ─── CardShell — NO canvas, no particle drawing ───────────────────────────────
+// ─── CardShell 
 function CardShell({ card, settersRef }) {
  const [beamLit, setBeamLit] = useState(false);
  const beamLitRef = useRef(false);
@@ -555,7 +557,7 @@ function CardShell({ card, settersRef }) {
  );
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
+
 export default function FileEncryption({ cards = [] }) {
  const rootRef = useRef(null);
  const trackRef = useRef(null);

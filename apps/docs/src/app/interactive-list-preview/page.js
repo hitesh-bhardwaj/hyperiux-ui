@@ -21,64 +21,64 @@ const page = () => {
 export default page;
 
 const projects = [
- {
- client:"DOCKERS",
- platform:"SHOPIFY",
- services:"Integration, Marketing, SEO, CRO, MOR",
- img:"/assets/nature/nature06.png",
- },
- {
- client:"CHAMPION",
- platform:"SHOPIFY PLUS",
- services:"UX/UI, Dev, Integration, SEO, Marketing",
- img:"/assets/nature/nature07.png",
- },
- {
- client:"BENETTON",
- platform:"SHOPIFY PLUS",
- services:"UX/UI, Dev, Integration, SEO",
- img:"/assets/nature/nature08.png",
- },
- {
- client:"SOTF",
- platform:"CUSTOM",
- services:"UX/UI, Brand Direction",
- img:"/assets/nature/nature09.png",
- },
- {
- client:"MASON'S",
- platform:"SHOPIFY PLUS",
- services:"UX/UI, Dev, Integration, SEO",
- img:"/assets/nature/nature10.png",
- },
- {
- client:"ROBERTO COLLINA",
- platform:"SHOPIFY PLUS",
- services:"UX/UI, Dev B2C, Marketing, Integration, SEO",
- img:"/assets/nature/nature11.png",
- },
- {
- client:"POLLINI",
- platform:"LARAVEL",
- services:"UX/UI, Dev, Integration, SEO, Marketing",
- img:"/assets/nature/nature12.png",
- },
- {
- client:"ENGINE",
- platform:"SHOPIFY HEADLESS",
- services:"Dev, Marketing, Integration",
- img:"/assets/nature/nature13.png",
- },
- {
- client:"ROMBO GROUP",
- platform:"SHOPIFY",
- services:"UX/UI, Dev (B2C/B2B), Marketing, Integration, SEO",
- img:"/assets/nature/nature14.png",
- },
- {
- client:"8PM",
- platform:"SHOPIFY PLUS",
- services:"UX/UI, Dev, Marketing, Integration, SEO",
- img:"/assets/img/image02.webp",
- },
+  {
+    client:"AURORA UI",
+    platform:"NEXT.JS",
+    services:"Motion Design, GSAP, Page Transitions, UI Systems",
+    img:"/assets/gradient/image1.png",
+  },
+  {
+    client:"NEON FLOW",
+    platform:"REACT",
+    services:"Interactive UI, Scroll Animations, Effects Library",
+    img:"/assets/gradient/image2.png",
+  },
+  {
+    client:"GLASSMORPH",
+    platform:"NEXT.JS",
+    services:"Glass UI, Components, Motion Architecture",
+    img:"/assets/gradient/image3.png",
+  },
+  {
+    client:"VOID SYSTEM",
+    platform:"CUSTOM WEBGL",
+    services:"Shaders, Creative Development, Visual Effects",
+    img:"/assets/gradient/image4.png",
+  },
+  {
+    client:"HYPER SCROLL",
+    platform:"FRAMER MOTION",
+    services:"Scroll Storytelling, Motion Systems, Interactions",
+    img:"/assets/gradient/image5.png",
+  },
+  {
+    client:"KINETIC LAB",
+    platform:"THREE.JS",
+    services:"3D Interfaces, Motion UI, WebGL Experiences",
+    img:"/assets/gradient/image6.png",
+  },
+  {
+    client:"PIXEL GRID",
+    platform:"TAILWIND CSS",
+     services:"Design Systems, UI Engineering, Responsive Layouts",
+    img:"/assets/gradient/image7.png",
+  },
+  {
+    client:"MOTION CORE",
+    platform:"HEADLESS CMS",
+    services:"Reusable Components, Motion Engine, Performance",
+    img:"/assets/gradient/image8.png",
+  },
+  {
+    client:"INTERFACE X",
+    platform:"NEXT.JS",
+       services:"Immersive UI, Creative Coding, Transitions, Effects",
+    img:"/assets/gradient/image9.png",
+  },
+  {
+    client:"HYPERIUX",
+    platform:"UI LIBRARY",
+   services:"Animations, Interactive Components, Futuristic Experiences",
+    img:"/assets/gradient/image10.png",
+  },
 ];

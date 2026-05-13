@@ -6,8 +6,8 @@ export default function page() {
  <>
  <section className='h-screen w-full bg-zinc-200 flex items-center justify-center'>
  <div>
- <p className='text-[6vw] text-center font-medium text-foreground tracking-tight leading-[.9] mb-10'>BRUSH STROKES PAGE 2</p>
- <Link href='/page-transitions/brush-strokes' className='text-sm uppercase rounded-full px-6 py-3 bg-white w-fit block mx-auto hover:bg-[#82A0FF] hover:text-white duration-300'>
+ <p className='text-[6vw] text-center font-medium text-neutral-700 tracking-tight leading-[.9] mb-10'>BRUSH STROKES PAGE 2</p>
+ <Link href='/page-transitions/brush-strokes' className='text-sm uppercase hover:text-white hover:bg-neutral-700 rounded-full px-6 py-3  w-fit block mx-auto bg-[#82A0FF] text-white duration-300'>
  Go to Page 1
  </Link>
  </div>

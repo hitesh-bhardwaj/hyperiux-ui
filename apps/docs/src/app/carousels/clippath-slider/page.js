@@ -12,53 +12,53 @@ const page = () => {
 export default page
 
 const slides = [
- {
- name:"Seasonal Alchemy",
- tags: ["Food","Wellness","Culture"],
- description:
-"Exploring the intersection of seasonal ingredients and ancient healing traditions — cooking as a form of medicine and joy.",
- image:"/assets/img/image01.webp",
- },
- {
- name:"Cultural Systems",
- tags: ["Culture","Art","Design"],
- description:
-"A multidisciplinary approach shaping visuals at the intersection of culture, technology, art, and design.",
- image:"/assets/img/image02.webp",
- },
- {
- name:"Visual Language",
- tags: ["Culture","Art"],
- description:
-"Bridging street sensibility with refined aesthetics, curating what defines contemporary visual culture.",
- image:"/assets/nature/nature04.png",
- },
- {
- name:"Future Tension",
- tags: ["Culture","Art","Design"],
- description:
-"Finding balance between analog roots and digital futures through evolving creative expression.",
- image:"/assets/img/image03.webp",
- },
- {
- name:"System Design",
- tags: ["Culture","Art","Design"],
- description:
-"Designing adaptive systems that evolve across mediums, audiences, and time.",
- image:"/assets/nature/nature13.png",
- },
- {
- name:"Slow Frames",
- tags: ["Travel","Photography","Story"],
- description:
-"Capturing quiet narratives through intentional movement and observational storytelling.",
- image:"/assets/nature/nature10.png",
- },
- {
- name:"Light Studies",
- tags: ["Nature","Light","Moment"],
- description:
-"Observing fleeting light and transient moments across natural landscapes.",
- image:"/assets/img/image06.png",
- },
+  {
+    name: "Motion Systems",
+    tags: ["Animation", "UI", "GSAP"],
+    description:
+      "Crafting immersive motion-driven interfaces with smooth transitions, interactive timelines, and modern animation systems.",
+    image: "/assets/img/image01.webp",
+  },
+  {
+    name: "Creative Components",
+    tags: ["Components", "React", "Design"],
+    description:
+      "A curated collection of expressive UI components designed for futuristic web experiences and rapid development.",
+    image: "/assets/img/image02.webp",
+  },
+  {
+    name: "Visual Interactions",
+    tags: ["Effects", "UX"],
+    description:
+      "Building visually rich interactions with hover effects, layered depth, dynamic layouts, and fluid user feedback.",
+    image: "/assets/nature/nature04.png",
+  },
+  {
+    name: "Future Interfaces",
+    tags: ["UI", "Web", "Motion"],
+    description:
+      "Exploring next-generation interface patterns that blend cinematic motion with minimal and functional design.",
+    image: "/assets/img/image03.webp",
+  },
+  {
+    name: "Design Engine",
+    tags: ["Systems", "Design", "Code"],
+    description:
+      "Creating scalable design systems and reusable interface architectures optimized for modern frontend workflows.",
+    image: "/assets/nature/nature13.png",
+  },
+  {
+    name: "Scroll Experiences",
+    tags: ["Scroll", "Animation", "Story"],
+    description:
+      "Designing immersive scroll-based storytelling experiences powered by fluid motion and seamless transitions.",
+    image: "/assets/nature/nature10.png",
+  },
+  {
+    name: "Interactive Layers",
+    tags: ["3D", "Effects", "Visuals"],
+    description:
+      "Combining lighting, gradients, and layered compositions to create premium interactive web experiences.",
+    image: "/assets/img/image06.png",
+  },
 ];

@@ -321,15 +321,18 @@ export default function CardSlider({ cards }) {
  }, []);
 
  return (
- <section className="flex flex-col items-center px-6 pt-20 pb-12 select-none">
- <p className="text-sm font-medium text-blue-500 mb-2">Early access</p>
+ <section className="flex flex-col items-center px-6 pt-20 pb-12 select-none bg-white">
+<p className="text-sm font-medium text-blue-500 mb-2">
+  Hyperiux-UI Library
+</p>
 
- <h3 className="text-5xl font-medium text-center leading-none tracking-tight text-gray-900">
- Get your license.
- </h3>
- <p className="text-5xl font-medium text-center text-gray-400 leading-none tracking-tight mb-10">
- Pre-sale pricing ends soon.
- </p>
+<h3 className="text-5xl font-medium text-center mb-2 leading-none tracking-tight text-gray-900">
+  Build futuristic interfaces.
+</h3>
+
+<p className="text-5xl text-center text-gray-400 leading-none tracking-tight mb-10">
+  Crafted for modern web experiences.
+</p>
 
  <div className="max-sm:grid max-sm:grid-cols-2 max-sm:place-items-center max-sm:gap-4 flex items-center justify-center">
  <button
@@ -337,7 +340,7 @@ export default function CardSlider({ cards }) {
  navigate(-1);
  setAutoplayResetKey((value) => value + 1);
  }}
- className="max-sm:hidden w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors shrink-0 relative z-30"
+ className="max-sm:hidden w-9 h-9 rounded-full border cursor-pointer border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors shrink-0 relative z-30"
  aria-label="Previous card"
  >
  <ChevronLeft size={16} strokeWidth={2} />
@@ -371,7 +374,7 @@ export default function CardSlider({ cards }) {
  navigate(1);
  setAutoplayResetKey((value) => value + 1);
  }}
- className="max-sm:hidden w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors shrink-0 relative z-30"
+ className="max-sm:hidden w-9 h-9 cursor-pointer rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors shrink-0 relative z-30"
  aria-label="Next card"
  >
  <ChevronRight size={16} strokeWidth={2} />

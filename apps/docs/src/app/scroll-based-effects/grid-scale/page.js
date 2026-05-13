@@ -7,22 +7,22 @@ import LenisSmoothScroll from'@/components/SmoothScroll/LenisScroll'
 gsap.registerPlugin(ScrollTrigger)
 
 const floatingWords = [
- { text:'INVITE', color:'bg-sky-300', start: { top:'6%', left:'10%', xPercent: -50, yPercent: -50 } },
- { text:'JOIN', color:'bg-pink-300', start: { top:'6%', left:'52%', xPercent: -50, yPercent: -50 } },
- { text:'CONNECT', color:'bg-purple-300', start: { top:'12%', left:'78%', xPercent: -50, yPercent: -50 } },
- { text:'DOWNLOADS', color:'bg-pink-200', start: { top:'18%', left:'20%', xPercent: -50, yPercent: -50 } },
- { text:'DISCOVER', color:'bg-purple-200', start: { top:'26%', left:'88%', xPercent: -50, yPercent: -50 } },
- { text:'DESIGN', color:'bg-purple-200', start: { top:'42%', left:'10%', xPercent: -50, yPercent: -50 } },
- { text:'EXPLORE', color:'bg-orange-200', start: { top:'40%', left:'82%', xPercent: -50, yPercent: -50 } },
- { text:'SHARE', color:'bg-orange-300', start: { top:'65%', left:'72%', xPercent: -50, yPercent: -50 } },
- { text:'PURCHASE', color:'bg-sky-200', start: { top:'70%', left:'16%', xPercent: -50, yPercent: -50 } },
- { text:'CREATE', color:'bg-sky-200', start: { top:'85%', left:'44%', xPercent: -50, yPercent: -50 } },
- { text:'BUILD', color:'bg-pink-200', start: { top:'74%', left:'85%', xPercent: -50, yPercent: -50 } },
- { text:'LAUNCH', color:'bg-orange-200', start: { top:'88%', left:'12%', xPercent: -50, yPercent: -50 } },
- { text:'INNOVATE', color:'bg-sky-300', start: { top:'88%', left:'32%', xPercent: -50, yPercent: -50 } },
- { text:'TRANSFORM', color:'bg-purple-300', start: { top:'90%', left:'54%', xPercent: -50, yPercent: -50 } },
- { text:'EMPOWER', color:'bg-orange-300', start: { top:'88%', left:'76%', xPercent: -50, yPercent: -50 } },
- { text:'ACHIEVE', color:'bg-sky-200', start: { top:'92%', left:'90%', xPercent: -50, yPercent: -50 } },
+  { text:'MOTION', color:'bg-sky-300', start: { top:'6%', left:'10%', xPercent: -50, yPercent: -50 } },
+  { text:'UI', color:'bg-pink-300', start: { top:'6%', left:'52%', xPercent: -50, yPercent: -50 } },
+  { text:'ANIMATE', color:'bg-purple-300', start: { top:'12%', left:'78%', xPercent: -50, yPercent: -50 } },
+  { text:'COMPONENTS', color:'bg-pink-200', start: { top:'18%', left:'20%', xPercent: -50, yPercent: -50 } },
+  { text:'EFFECTS', color:'bg-purple-200', start: { top:'26%', left:'88%', xPercent: -50, yPercent: -50 } },
+  { text:'DESIGN', color:'bg-purple-200', start: { top:'42%', left:'10%', xPercent: -50, yPercent: -50 } },
+  { text:'INTERACTIVE', color:'bg-orange-200', start: { top:'40%', left:'82%', xPercent: -50, yPercent: -50 } },
+  { text:'SCROLL', color:'bg-orange-300', start: { top:'65%', left:'72%', xPercent: -50, yPercent: -50 } },
+  { text:'WEBGL', color:'bg-sky-200', start: { top:'70%', left:'16%', xPercent: -50, yPercent: -50 } },
+  { text:'CREATE', color:'bg-sky-200', start: { top:'85%', left:'44%', xPercent: -50, yPercent: -50 } },
+  { text:'BUILD', color:'bg-pink-200', start: { top:'74%', left:'85%', xPercent: -50, yPercent: -50 } },
+  { text:'TRANSITIONS', color:'bg-orange-200', start: { top:'88%', left:'12%', xPercent: -50, yPercent: -50 } },
+  { text:'SHADERS', color:'bg-sky-300', start: { top:'88%', left:'32%', xPercent: -50, yPercent: -50 } },
+  { text:'FUTURISTIC', color:'bg-purple-300', start: { top:'90%', left:'54%', xPercent: -50, yPercent: -50 } },
+  { text:'EXPERIENCES', color:'bg-orange-300', start: { top:'88%', left:'76%', xPercent: -50, yPercent: -50 } },
+  { text:'HYPERIUX', color:'bg-sky-200', start: { top:'92%', left:'90%', xPercent: -50, yPercent: -50 } },
 ]
 
 export default function Page() {
@@ -133,8 +133,13 @@ export default function Page() {
  clipPath:'inset(20% 35% 20% 35% round 0%)',
  }}
  >
- <p ref={centeredTextRef} className='text-[#242424] opacity-0 w-[60vw] text-center leading-[1.1] text-[3.5vw]'>Making the experience right <br /> in the face - clear,direct no fluff.</p>
- <p ref={ideaTextRef} className='text-[#242424] w-[60vw absolute top-[35%] left-[48%] -translate-x-1/2 -translate-y-1/2 leading-[1.1] text-[2.5vw]'>Have an Idea? <br /> We'll make it real.</p>
+ <p ref={centeredTextRef} className='text-[#242424] opacity-0 w-[60vw] text-center leading-[1.1] text-[3.5vw]'>
+    
+   Building futuristic interfaces
+  <br />
+  with motion, interaction, and depth.
+    </p>
+ <p ref={ideaTextRef} className='text-[#242424] w-[60vw absolute top-[35%] left-[48%] -translate-x-1/2 -translate-y-1/2 leading-[1.1] text-[2.2vw]'>Need immersive UI?<br /> Hyperiux makes it <br /> move.</p>
  </div>
 
  {/* Corner Boxes */}

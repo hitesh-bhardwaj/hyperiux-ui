@@ -36,7 +36,7 @@ function DemoContent({ theme = "dark", showText = true, navRefs, rowRefs } = {})
 
   const navItems = useMemo(
     () => [
-      { left: <span className="font-bold tracking-tighter">FIX STUDIO</span> },
+      { left: <span className="font-bold tracking-tighter">HYPERIUX UI</span> },
       { left: "INDEX (22)" },
       { left: "(CONTACT)" },
       { left: "(SERVICES)" },
@@ -47,26 +47,26 @@ function DemoContent({ theme = "dark", showText = true, navRefs, rowRefs } = {})
     []
   );
 
-  const rows = useMemo(
-    () => [
-      ["A collective of creative thinkers making things", "+1212 457 3035", "Art Direction", "Netflix", "Design Everywhere"],
-      ["smarter, newer, and more memorable.", "", "Brand Positioning", "NZero", "Sturdy"],
-      ["", "Based in", "Brand & Identity Design", "NBC Sports", ""],
-      ["We believe that function is the substance of", "Brooklyn, NY", "Creative Direction", "Equinox", "Blaze Type"],
-      ["aesthetic experience. This principle guides clearer", "", "Design Direction", "Tovala", "Type design for Agencies"],
-      ["user interfaces, stronger branding devices and", "For Job, Press and", "Packaging", "Arcadia", ""],
-      ["more cohesive design systems. Whether designing", "General inquiries:", "Motion", "SiriusXM", "Prismic.io"],
-      ["multi-platform experiences or building enterprise", "", "Prototyping", "TelevisaUnivision", "How Arcadia is Telling a"],
-      ["applications, we make things to solve problems.", "hello@fix.studio", "Product Strategy", "LunarCrush", "Consistent Brand Story"],
-      ["", "", "Testing & Research", "Union", ""],
-      ["", "", "UX/UI Design", "Dona Chai", ""],
-      ["", "", "Web Development", "Renew", ""],
-      ["", "Instagram", "", "", ""],
-      ["", "Linkedin", "", "", ""],
-      ...Array.from({ length: Math.max(0, (LINE_COUNT - 1) - 14) }, () => ["", "", "", "", ""]),
-    ],
-    []
-  );
+ const rows = useMemo(
+  () => [
+    ["A futuristic UI library crafting immersive web", "+91 98765 43210", "Motion Systems", "GSAP", "Interactive Interfaces"],
+    ["experiences with animation, interaction, and depth.", "", "UI Components", "Framer Motion", "Scroll Experiences"],
+    ["", "Based in", "Creative Development", "React", ""],
+    ["Built for developers and designers shaping the", "Delhi, India", "Design Systems", "Next.js", "Modern Motion UI"],
+    ["next generation of interactive digital products.", "", "WebGL Effects", "Three.js", "Animation First"],
+    ["From cinematic transitions to immersive layouts,", "For collaborations", "Page Transitions", "Lenis", ""],
+    ["Hyperiux focuses on expressive interfaces that", "and inquiries:", "Interactive Effects", "Tailwind CSS", "Fluid Interactions"],
+    ["blend performance with visually engaging motion.", "", "Creative Coding", "TypeScript", "Reusable Systems"],
+    ["Designed to help creators build faster and", "hello@hyperiux.com", "Component Architecture", "Aceternity UI", "Future-ready UI Library"],
+    ["ship visually stunning user experiences.", "", "Scroll Animations", "Motion One", ""],
+    ["", "", "Micro Interactions", "Spline", ""],
+    ["", "", "Frontend Engineering", "WebGL", ""],
+    ["", "Twitter", "", "", ""],
+    ["", "GitHub", "", "", ""],
+    ...Array.from({ length: Math.max(0, (LINE_COUNT - 1) - 14) }, () => ["", "", "", "", ""]),
+  ],
+  []
+);
 
   const rowCount = LINE_COUNT - 1;
 
