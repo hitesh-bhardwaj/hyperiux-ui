@@ -34,13 +34,13 @@ export default function page() {
  </div>
  <h2>
  <span className="text-[5vw] font-medium text-black">What's included</span>
- <span className="text-[#FB450F] font-mono uppercase ml-[2vw] text-[1.2vw]">// Services</span>
+ {/* <span className="text-[#FB450F] font-mono uppercase ml-[2vw] text-[1.2vw]">// Services</span> */}
  </h2>
  <div className="h-fit w-full py-[10vh] flex items-center gap-[6vw]">
  <div className="h-[35vw] w-[40vw] bg-red-500">
  <Image
  alt="Square Translate"
- src="https://cdn.sanity.io/images/degpnzrx/production/b370e4f512a2d26bb53dd93bc1d84b473ffcb988-2400x1600.heif?w=2400&h=1600&q=90&fit=crop&auto=format"
+ src="/assets/img/image11.png"
  width={1000}
  height={1000}
  className="w-full h-full object-cover"

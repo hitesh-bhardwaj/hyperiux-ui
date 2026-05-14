@@ -49,7 +49,7 @@ export const defaultContent = [
  {
  id: 4,
  image:"/assets/nature/nature04.png",
- title:"Performance-Focused Layouts",
+ title:"Performance Focused Layouts",
  description:
 "Optimized for real-world usage, this section highlights efficient rendering and smooth responsiveness. It balances visual richness with performance, ensuring fast load times and a seamless user experience across devices.",
  bgColor:"#B35656",

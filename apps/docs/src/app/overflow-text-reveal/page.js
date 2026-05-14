@@ -7,10 +7,10 @@ const page = () => {
  return (
  <ReactLenis root>
 
- {/* ─── HERO — direction: bottom (default) ─────────────────────────── */}
+
  <section className="relative min-h-screen flex flex-col justify-end overflow-hidden bg-[#0a0a0a]">
  <Image
- src="/assets/nature/nature01.png"
+    src='/assets/nature/nature15.png'
  alt="Nature"
  fill
  className="object-cover opacity-60"
@@ -18,7 +18,7 @@ const page = () => {
  />
  <div className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
 
- <div className="relative z-10 px-10 py-20 max-w-6xl mx-auto w-full">
+ <div className="relative z-10 px-2 max-w-6xl mx-auto w-full">
  <p className="text-xs tracking-[0.35rem] text-white/40 uppercase py-2 max-sm:text-[11px]">
  direction — bottom (default)
  </p>
