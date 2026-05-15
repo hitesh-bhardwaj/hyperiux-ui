@@ -120,6 +120,11 @@ uv = clamp(uv, 0.0, 1.0);
 function mkShader(gl, type, src) {
  const s = gl.createShader(type);
  gl.shaderSource(s, src); gl.compileShader(s);
+ if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+  const error = gl.getShaderInfoLog(s);
+  gl.deleteShader(s);
+  throw new Error(error || "BinaryEffectV2 shader failed to compile");
+ }
  return s;
 }
 function mkProg(gl) {
@@ -127,6 +132,11 @@ function mkProg(gl) {
  gl.attachShader(p, mkShader(gl, gl.VERTEX_SHADER, VS));
  gl.attachShader(p, mkShader(gl, gl.FRAGMENT_SHADER, FS));
  gl.linkProgram(p);
+ if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+  const error = gl.getProgramInfoLog(p);
+  gl.deleteProgram(p);
+  throw new Error(error || "BinaryEffectV2 program failed to link");
+ }
  return p;
 }
 function mkTex(gl, unit) {
@@ -224,6 +234,7 @@ export default function BinaryEffectV2() {
 
  useEffect(() => {
  const canvas = ref.current;
+ if (!canvas) return;
  const gl = canvas.getContext("webgl2", { alpha: false, antialias: false });
  if (!gl) return;
 
@@ -231,11 +242,21 @@ export default function BinaryEffectV2() {
  const video = document.createElement("video");
  // video.src ="/assets/videos/eye-loop.mp4";
  video.src ="/assets/videos/enigma-video.mp4";
- video.loop = true; video.muted = true; video.playsInline = true;
- video.play();
+ video.loop = true; video.muted = true; video.autoplay = true; video.playsInline = true;
+ video.play().catch(() => {});
 
  // program + uniforms
- const prog = mkProg(gl);
+ let prog;
+ try {
+  prog = mkProg(gl);
+ } catch (error) {
+  console.error(error);
+  return () => {
+   video.pause();
+   video.removeAttribute("src");
+   video.load();
+  };
+ }
  gl.useProgram(prog);
  const loc = (n) => gl.getUniformLocation(prog, n);
 
@@ -387,6 +408,8 @@ export default function BinaryEffectV2() {
  window.removeEventListener("mousemove", onMove);
  cancelAnimationFrame(rafId);
  video.pause();
+ video.removeAttribute("src");
+ video.load();
  gl.deleteProgram(prog);
  };
  }, []);
@@ -394,7 +417,7 @@ export default function BinaryEffectV2() {
  return (
  <canvas
  ref={ref}
- className="fixed inset-0 w-full h-full bg-black z-[-1]"
+ className="absolute inset-0 block h-full w-full bg-black"
  />
  );
 }

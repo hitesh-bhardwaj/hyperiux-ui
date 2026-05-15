@@ -1,12 +1,9 @@
-import React from'react'
-import NoiseDiether from'@/components/BinaryEffect/BinaryEffect'
+import BinaryEffect from "@/components/BinaryEffect/BinaryEffect";
 
-const page = () => {
- return (
- <div>
- <NoiseDiether />
- </div>
- )
+export default function Page() {
+  return (
+    <main className="relative min-h-screen w-screen overflow-hidden bg-black">
+      <BinaryEffect />
+    </main>
+  );
 }
-
-export default page
