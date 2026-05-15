@@ -11,9 +11,9 @@ export default function CardWrapper({ children }) {
  if (!card) return;
 
  const handleMouseMove = (e) => {
- const rect = card.getBoundingClientRect();
+ const rect = card.getBoundingClientRect();    
 
- const x = e.clientX - rect.left;
+ const x = e.clientX - rect.left; 
  const y = e.clientY - rect.top;
 
  const centerX = rect.width / 2;
