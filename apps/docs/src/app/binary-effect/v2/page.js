@@ -1,12 +1,9 @@
-import React from'react'
-import BinaryEffectV2 from'@/components/BinaryEffect/BinaryEffectV2'
+import BinaryEffectV2 from "@/components/BinaryEffect/BinaryEffectV2";
 
-const page = () => {
- return (
- <>
- <BinaryEffectV2 />
- </>
- )
+export default function Page() {
+  return (
+    <main className="relative min-h-screen w-screen overflow-hidden bg-black">
+      <BinaryEffectV2 />
+    </main>
+  );
 }
-
-export default page
