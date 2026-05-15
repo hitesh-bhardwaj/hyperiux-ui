@@ -14,7 +14,7 @@
   "registryDependencies": [],
   "previewUrl": "/curved-plane",
   "coverImage": "/assets/listing/curved-plane.png",
-  "videoUrl": "curved-plane.mp4",
+  "videoUrl": "curved-plane",
   "files": [
     {
       "path": "curved-plane.jsx",

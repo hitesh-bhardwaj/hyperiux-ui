@@ -14,7 +14,7 @@
   "registryDependencies": [],
   "previewUrl": "/hover-slider",
   "coverImage": "/assets/listing/hover-slider.png",
-  "videoUrl": "hover-slider.mp4",
+  "videoUrl": "hover-slider",
   "files": [
     {
       "path": "hover-slider.jsx",

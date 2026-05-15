@@ -15,7 +15,7 @@
   "registryDependencies": [],
   "previewUrl": "/cursors/fish-eye",
   "coverImage": "/assets/listing/fish-eye.png",
-  "videoUrl": "fish-eye.mp4",
+  "videoUrl": "fish-eye",
   "files": [
     {
       "path": "fish-eye.jsx",

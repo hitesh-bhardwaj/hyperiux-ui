@@ -214,7 +214,7 @@ export default function FiddelAsciiCursor({  src,  type ='video',  className ='h
  }
  }, [gridImages, type])
 
- const defaultVideoSrc ="https://media.fiddle.digital/uploads/fdda_reel_c2464398bf.mp4"
+ const defaultVideoSrc ="/assets/videos/draggable-video.mp4"
 
  return (
  <div  ref={containerRef}

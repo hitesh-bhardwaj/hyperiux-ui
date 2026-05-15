@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/inertia-img",
   "coverImage": "/assets/listing/inertia-img.png",
-  "videoUrl": "inertia-img.mp4",
+  "videoUrl": "inertia-img",
   "files": [
     {
       "path": "inertia-img.jsx",

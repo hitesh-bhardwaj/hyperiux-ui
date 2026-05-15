@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/webgl/grid-lift",
   "coverImage": "/assets/listing/grid-lift.png",
-  "videoUrl": "grid-lift.mp4",
+  "videoUrl": "grid-lift",
   "files": [
     {
       "path": "grid-lift.jsx",

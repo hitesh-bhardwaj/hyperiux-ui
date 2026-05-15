@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from"react";
+import React, { useEffect, useRef } from"react";
 import { gsap, Expo } from"gsap";
 import"./base.css";
 import { useMouse } from"../hooks/useMouse";
@@ -23,7 +23,6 @@ const ImagesAnimation = ({
  const imagesRef = useRef([]);
  const rafRef = useRef(null);
  const idleTimerRef = useRef(null);
- const [loadedImages, setLoadedImages] = useState(0);
 
  const { mouse, smoothMouse } = useMouse({
  smooth: true,
@@ -170,51 +169,44 @@ const ImagesAnimation = ({
  };
 
  useEffect(() => {
- if (loadedImages === totalImages) {
- rafRef.current = requestAnimationFrame(render);
+  rafRef.current = requestAnimationFrame(render);
 
- if (idleSpawn) {
- scheduleIdleSpawn();
- }
- }
+  if (idleSpawn) {
+   scheduleIdleSpawn();
+  }
 
- return () => {
- if (rafRef.current) cancelAnimationFrame(rafRef.current);
- if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
- };
- }, [loadedImages, totalImages, idleSpawn, idleDelay]);
-
- const handleImageLoad = () => {
- setLoadedImages((prev) => prev + 1);
- };
+  return () => {
+   if (rafRef.current) cancelAnimationFrame(rafRef.current);
+   if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+  };
+ }, [idleSpawn, idleDelay]);
 
  return (
- <div
- className="content"
- ref={contentRef}
- style={{
- position:"relative",
- width:"100%",
- height:"100vh",
- overflow:"hidden",
- }}
- >
- {Array.from({ length: totalImages }).map((_, i) => {
- const baseImageIndex = (i % baseImageCount) + 1;
+  <div
+   className="content"
+   ref={contentRef}
+   style={{
+    position:"relative",
+    width:"100%",
+    height:"100vh",
+    overflow:"hidden",
+   }}
+  >
+   {Array.from({ length: totalImages }).map((_, i) => {
+    const baseImageIndex = (i % baseImageCount) + 1;
 
- return (
- <img
- key={i}
- className="content__img"
- src={`/img/${baseImageIndex}.png`}
- alt={`Trail ${baseImageIndex}`}
- ref={(el) => {
- if (el) imagesRef.current[i] = el;
- }}
- onLoad={handleImageLoad}
- />
- );
- })}
+    return (
+     <img
+      key={i}
+      className="content__img"
+      src={`/img/${baseImageIndex}.png`}
+      alt={`Trail ${baseImageIndex}`}
+      ref={(el) => {
+       if (el) imagesRef.current[i] = el;
+      }}
+     />
+    );
+   })}
  </div>
  );
 };

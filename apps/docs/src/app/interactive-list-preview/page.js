@@ -8,7 +8,7 @@ const page = () => {
  <LenisSmoothScroll />
  <div className='flex items-center flex-col gap-20 justify-center h-screen bg-neutral-900'>
 
- <h2 className='font-mono text-white text-3xl'>
+ <h2 className='font-mono max-md:ml-[4vw] text-white text-3xl'>
  Elevating interaction through motion
  </h2>
 

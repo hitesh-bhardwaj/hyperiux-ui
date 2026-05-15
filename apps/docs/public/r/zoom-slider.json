@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/webgl/zoom-slider",
   "coverImage": "/assets/listing/zoom-slider.png",
-  "videoUrl": "zoom-slider.mp4",
+  "videoUrl": "zoom-slider",
   "files": [
     {
       "path": "zoom-slider.jsx",

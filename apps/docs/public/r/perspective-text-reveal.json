@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/perspective-text-reveal",
   "coverImage": "/assets/listing/perspective-text-reveal.png",
-  "videoUrl": "perspective-text-reveal.mp4",
+  "videoUrl": "perspective-text-reveal",
   "files": [
     {
       "path": "perspective-text-reveal.jsx",

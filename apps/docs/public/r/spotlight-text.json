@@ -11,7 +11,7 @@
   "registryDependencies": [],
   "previewUrl": "/spotlight-text",
   "coverImage": "/assets/listing/spotlight-text.png",
-  "videoUrl": "spotlight-text.mp4",
+  "videoUrl": "spotlight-text",
   "files": [
     {
       "path": "spotlight-text.jsx",
