@@ -30,7 +30,7 @@ export function CodeBlock({ code, language ="jsx", filename }) {
  <span className="text-sm text-muted">{filename}</span>
  <button
  onClick={handleCopy}
- className="text-xs px-3 py-1.5 rounded-sm bg-black/40 border border-border/60 text-muted hover:text-foreground transition-colors"
+ className="text-xs px-3 cursor-pointer py-1.5 rounded-sm bg-black/40 border border-border/60 text-muted hover:text-foreground transition-colors"
  >
  {copied ?"Copied!" :"Copy"}
  </button>
@@ -40,7 +40,7 @@ export function CodeBlock({ code, language ="jsx", filename }) {
  {!filename && (
  <button
  onClick={handleCopy}
- className="absolute top-3 right-3 text-xs px-3 py-1.5 rounded-sm bg-black/40 border border-border/60 text-muted hover:text-foreground transition-colors z-10"
+ className="absolute top-3 cursor-pointer right-3 text-xs px-3 py-1.5 rounded-sm bg-black/40 border border-border/60 text-muted hover:text-foreground transition-colors z-10"
  >
  {copied ?"Copied!" :"Copy"}
  </button>
