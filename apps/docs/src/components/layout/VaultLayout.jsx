@@ -1,6 +1,7 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useLenis } from "lenis/react";
 import { Sidebar } from "./Sidebar";
 
 
@@ -41,6 +42,27 @@ export function VaultLayout({
 }) {
   const totalEffects = propTotalEffects !== undefined ? propTotalEffects : effects.length;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const lenis = useLenis();
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+
+    const syncLenis = () => {
+      if (isSidebarOpen && mediaQuery.matches) {
+        lenis?.stop();
+      } else {
+        lenis?.start();
+      }
+    };
+
+    syncLenis();
+    mediaQuery.addEventListener("change", syncLenis);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncLenis);
+      lenis?.start();
+    };
+  }, [isSidebarOpen, lenis]);
 
   return (
     <div className="min-h-screen text-foreground relative">
@@ -56,15 +78,16 @@ export function VaultLayout({
         {isSidebarOpen && (
           <button
             aria-label="Close sidebar overlay"
-            className="fixed inset-0 z-30 cursor-default bg-transparent"
+            className="fixed inset-0 z-30 cursor-default bg-black/45 md:bg-transparent"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}
       </Suspense>
 
       <main
-        className="relative z-10 transition-[margin-left] duration-300 ease-out"
-        style={{ marginLeft: isSidebarOpen ? "16rem" : "" }}
+        className={`relative z-10 transition-[margin-left] duration-300 ease-out ${
+          isSidebarOpen ? "md:ml-64" : ""
+        }`}
       >
         {children}
       </main>

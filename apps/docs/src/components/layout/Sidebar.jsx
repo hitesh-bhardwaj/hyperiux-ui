@@ -44,16 +44,17 @@ export function Sidebar({
 
     return (
         <aside
-            className="fixed left-0 top-20 bottom-0 z-40 bg-transparent text-foreground transition-[width] duration-300 ease-out overflow-visible"
+            className={`fixed  top-20 bottom-0 z-40 bg-transparent text-foreground transition-[width] duration-300 ease-out overflow-visible left-0 ${
+                isExpanded ? "w-4/5 md:w-64" : "w-0"
+            }`}
             style={{
-                width: isExpanded ? "16rem" : "0rem",
                 ["--sidebar-width"]: "16rem",
                 ["--sidebar-peek"]: "0rem",
             }}
         >
             <div
-                className={`relative flex h-full w-[16rem] flex-col rounded-lg overflow-visible transition-transform duration-300 ease-out ${
-                    isExpanded ? "translate-x-0" : "-translate-x-64"
+                className={`relative flex h-full max-sm:h-fit max-sm:w-[80vw] max-sm:bg-black flex-col rounded-lg overflow-visible transition-transform duration-300 ease-out w-[16rem] ${
+                    isExpanded ? "translate-x-0 max-sm:ml-6" : "max-sm:-translate-x-[calc(100%+0.75rem)] -translate-x-full"
                 }`}
             >
                 {/* Handle (always visible) */}
@@ -61,7 +62,7 @@ export function Sidebar({
                     type="button"
                     aria-label={isExpanded ? "Close sidebar" : "Open sidebar"}
                     onClick={toggle}
-                    className={`absolute left-65 top-20 -translate-y-1/2 z-50 w-7 cursor-pointer transition-opacity duration-300 ease-out ${
+                    className={`absolute max-sm:left-[calc(100%+1rem)] top-20 -translate-y-1/2 z-50 w-7 cursor-pointer transition-opacity duration-300 ease-out left-65 ${
                         isExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
                     }`}
                 >

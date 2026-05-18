@@ -99,12 +99,12 @@ export function VaultHeader({
             {showSearch && (
               <button
                 onClick={() => setOpenTrigger((n) => n + 1)}
-                className="flex items-center gap-2 w-64 pl-4 pr-3 py-3 border border-border/60 rounded-xl bg-[#555555]/33 text-sm text-muted focus:outline-none transition-all backdrop-blur-xs hover:border-primary  cursor-pointer"
+                className="flex items-center gap-2 w-64 max-sm:w-12 max-sm:h-12 max-sm:flex max-sm:items-center max-sm:justify-center max-sm:rounded-full pl-4 max-sm:pl-3 pr-3 py-3 border border-border/60 rounded-xl bg-[#555555]/33 text-sm text-muted focus:outline-none transition-all backdrop-blur-xs hover:border-primary  cursor-pointer"
               >
                 <svg className="w-5 h-5 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <span className="flex-1 text-left text-[1.1vw] text-white/60">Search effects...</span>
+                <span className="flex-1 text-left max-sm:hidden text-[1.1vw] text-white/60">Search effects...</span>
                 {/* <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-xs text-white/50">⌘K</kbd> */}
               </button>
             )}

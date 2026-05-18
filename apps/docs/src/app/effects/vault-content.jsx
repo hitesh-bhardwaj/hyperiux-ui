@@ -62,28 +62,28 @@ export function VaultContent({ effects, effectCounts }) {
         />
 
         <div className="">
-          <div className=" mx-auto px-8 pt-28 pb-12 text-center">
+          <div className=" mx-auto px-8 max-sm:px-7 pt-28 pb-12  text-center">
             <p className=" mb-4 text-lg font-sans">Hello</p>
             <h1
-              className="font-display text-6xl md:text-7xl font-normal text-foreground mb-4"
+              className="font-display max-sm:text-4xl text-7xl font-normal text-foreground mb-4"
               style={{ lineHeight: "1.0" }}
             >
               Welcome to <br /> the vault
             </h1>
 
-            <div className="flex items-center justify-center gap-4 text-lg font-sans">
-              <span>{totalEffects} effects</span>
-              <span>•</span>
-              <span>Free & open source</span>
-              <span>•</span>
-              <span>Copy & paste</span>
-            </div>
+           <div className="flex items-center justify-center gap-4 text-lg font-sans max-sm:flex-wrap max-sm:gap-2 max-sm:text-base">
+  <span>{totalEffects} effects</span>
+  <span>•</span>
+  <span>Free & open source</span>
+  <span>•</span>
+  <span>Copy & paste</span>
+</div>
           </div>
         </div>
 
-        <div className=" px-10 pb-10">
-          <div className="flex items-center gap-6 flex-wrap">
-            <div className="w-[50%] ">
+        <div className=" px-10 max-sm:px-6 pb-10">
+          <div className="flex items-center max-sm:justify-center gap-6 flex-wrap">
+            <div className="w-[50%] max-sm:w-[90%] max-sm:mx-auto">
               <div className="relative">
                 <div className="absolute left-5 top-1/2 -translate-y-1/2 text-white z-10">
                   <svg
@@ -105,7 +105,7 @@ export function VaultContent({ effects, effectCounts }) {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search effects..."
-                  className="w-full max-w-[50vw] pl-14 pr-10 py-2.5 rounded-full bg-[#555555]/33 backdrop-blur-md border border-border/50 text-foreground placeholder:text-muted focus:outline-none  focus:border-transparent transition-all font-sans"
+                  className="w-full max-w-[50vw] max-sm:max-w-[80vw] max-sm:w-[80vw] pl-14 pr-10 py-2.5 rounded-full bg-[#555555]/33 backdrop-blur-md border border-border/50 text-foreground placeholder:text-muted focus:outline-none  focus:border-transparent transition-all font-sans"
                 />
                 {searchQuery && (
                   <button
@@ -129,14 +129,14 @@ export function VaultContent({ effects, effectCounts }) {
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-2.5 flex-wrap">
+            <div className="flex items-center max-sm:justify-center gap-2.5 flex-wrap">
               {quickCategories.map((cat) => {
                 const isSelected = categoryFilter === cat;
                 return (
                   <Link
                     key={cat}
                     href={isSelected ? "/effects" : `/effects?category=${cat}`}
-                    className={`px-7 py-2.5 text-md rounded-full backdrop-blur-md border transition-all duration-500 ease-in-out hover:border-primary hover:text-primary font-sans flex items-center gap-2 ${
+                    className={`px-7 py-2.5 max-sm:px-6 text-md rounded-full backdrop-blur-md border transition-all duration-500 ease-in-out hover:border-primary hover:text-primary font-sans flex items-center max-sm:gap-4 gap-2 ${
                       isSelected
                         ? "bg-white text-black border-transparent"
                         : "bg-[#555555]/33 border-border/50 text-foreground "
@@ -169,7 +169,7 @@ export function VaultContent({ effects, effectCounts }) {
           </div>
         </div>
 
-        <div className=" px-10 pb-12">
+        <div className=" px-10 max-sm:px-6 pb-12">
           {(categoryFilter !== "all" || searchQuery) && (
             <div className="flex items-center gap-3 mb-8">
               <span className="text-sm text-muted font-sans">
@@ -245,7 +245,7 @@ export function VaultContent({ effects, effectCounts }) {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              <div className="grid max-sm:grid-cols-1 max-md:grid-cols-2 grid-cols-3 gap-5 max-sm:gap-8">
                 {filteredEffects.map((effect, i) => (
                   <EffectCard
                     key={effect.name}
@@ -255,7 +255,7 @@ export function VaultContent({ effects, effectCounts }) {
                 ))}
               </div>
 
-              <div className="mt-20">
+              <div className="mt-20 max-sm:mt-15">
            {/* <footer className="relative overflow-hidden rounded-3xl border border-border/60 bg-[#555555]/33 px-6 pt-10 pb-5 backdrop-blur-md md:px-12">
 
   <div className="relative z-10">
@@ -350,9 +350,9 @@ export function VaultContent({ effects, effectCounts }) {
     </div>
   </div>
 </footer> */}
- <footer className="relative overflow-hidden rounded-3xl border border-border/60 bg-[#555555]/33 backdrop-blur-md px-6 pt-10 pb-5 md:px-12">
+ <footer className="relative overflow-hidden rounded-3xl border border-border/60 bg-[#555555]/33 backdrop-blur-md max-sm:px-6 pt-10 pb-5 px-12">
                   {/* Content */}
-                  <div className="relative z-10 flex flex-col items-center text-center">
+                  <div className="relative z-10 flex flex-col items-center text-center max-sm:gap-2">
                     {/* Logo */}
                     <div className="mb-3 flex items-center gap-3">
                       <div className="flex h-12 w-12 items-center justify-center rounded-xl  text-xl font-bold text-black">
@@ -370,7 +370,7 @@ export function VaultContent({ effects, effectCounts }) {
                     </div>
 
                     {/* Subtitle */}
-                    <p className="max-w-[20vw] text-lg leading-[1.4] ">
+                    <p className="max-w-[20vw] max-sm:max-w-[80vw] text-lg leading-[1.4] ">
                       Crafting futuristic UI experiences for modern teams.
                     </p>
 
@@ -407,21 +407,21 @@ export function VaultContent({ effects, effectCounts }) {
     <div key={i} className="flex items-center gap-4">
       <Link
         href="#"
-        className="cursor-pointer text-base transition hover:text-primary"
+        className="cursor-pointer text-base max-sm:text-lg transition hover:text-primary"
       >
         {item}
       </Link>
 
-      {i !== 6 && <span className="text-primary">•</span>}
+      {i !== 6 && <span className="text-primary max-sm:text-xl">•</span>}
     </div>
   ))}
 </div>
 
                     {/* Bottom */}
-                    <div className="mt-5 flex w-full flex-col items-center justify-between gap-4 border-t border-white/5 pt-6 text-sm text-zinc-500 md:flex-row">
+                    <div className="mt-5 max-sm:pb-2 flex w-full flex-col items-center justify-between gap-4 border-t border-white/5 pt-6 text-sm text-zinc-500 md:flex-row max-sm:text-base max-sm:gap-4">
                       <p>© 2026 Hyperiux UI. All rights reserved.</p>
 
-                      <div className="flex items-center gap-5">
+                      <div className="flex items-center max-sm:text-sm gap-5">
                         <span className="cursor-pointer transition hover:text-white">
                           Terms of Use
                         </span>
