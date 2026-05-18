@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { VaultLayout } from "@/components/layout/VaultLayout";
 import { VaultHeader } from "@/components/layout/VaultHeader";
 import { EffectCard } from "@/components/ui/EffectCardNew";
+import CharStaggerLinkBtn from "@/components/Buttons/LinkButtons/CharStaggerLinkBtn/CharStaggerLinkBtn";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -245,15 +246,10 @@ export function VaultContent({ effects, effectCounts }) {
             </div>
           ) : (
             <>
-              <div className="grid max-sm:grid-cols-1 max-md:grid-cols-2 grid-cols-3 gap-5 max-sm:gap-8">
-                {filteredEffects.map((effect, i) => (
-                  <EffectCard
-                    key={effect.name}
-                    effect={effect}
-                    priority={i < 4}
-                  />
-                ))}
-              </div>
+              <EffectsGrid
+                key={`${categoryFilter}-${searchQuery}`}
+                filteredEffects={filteredEffects}
+              />
 
               <div className="mt-20 max-sm:mt-15">
            {/* <footer className="relative overflow-hidden rounded-3xl border border-border/60 bg-[#555555]/33 px-6 pt-10 pb-5 backdrop-blur-md md:px-12">
@@ -447,6 +443,40 @@ export function VaultContent({ effects, effectCounts }) {
         </div>
       </div>
     </VaultLayout>
+  );
+}
+
+function EffectsGrid({ filteredEffects }) {
+  const [showAllMobileCards, setShowAllMobileCards] = useState(false);
+
+  return (
+    <>
+      <div className="grid max-sm:grid-cols-1 max-md:grid-cols-2 grid-cols-3 gap-5 max-sm:gap-8">
+        {filteredEffects.map((effect, i) => (
+          <div
+            key={effect.name}
+            className={!showAllMobileCards && i >= 10 ? "max-sm:hidden" : ""}
+          >
+            <EffectCard effect={effect} priority={i < 4} />
+          </div>
+        ))}
+      </div>
+
+      {filteredEffects.length > 10 && !showAllMobileCards && (
+        <div className="hidden max-sm:flex justify-center mt-10">
+          <CharStaggerLinkBtn
+            href="#"
+            text="View more"
+            showLine
+            onClick={(e) => {
+              e.preventDefault();
+              setShowAllMobileCards(true);
+            }}
+            className="text-lg font-sans text-foreground"
+          />
+        </div>
+      )}
+    </>
   );
 }
 
