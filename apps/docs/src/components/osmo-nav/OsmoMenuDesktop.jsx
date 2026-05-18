@@ -256,11 +256,11 @@ export function OsmoMenuDesktop() {
             <div
                 onClick={() => { menuTimeline.current.reverse(); setIsMenuOpen(false); }}
                 ref={backgroundOverlayRef}
-                className="fixed h-screen w-screen z-[800] opacity-0 bg-black/50 top-0 left-0 pointer-events-none"
+                className="fixed h-screen w-screen z-800 opacity-0 bg-black/50 top-0 left-0 pointer-events-none"
             />
             <div
                 ref={menuWrapperRef}
-                className="fixed z-[999] px-[2vw] py-[1vw] text-white bg-[#111111] bottom-[1vw] left-1/2 -translate-x-1/2 w-[55vw] h-fit rounded-md"
+                className="fixed z-999 px-[2vw] py-[1vw] text-white bg-[#111111] bottom-[1vw] left-1/2 -translate-x-1/2 w-[55vw] h-fit rounded-md"
             >
                 {/* FLOATING CONTENT PANEL */}
                 <div
@@ -401,7 +401,7 @@ export function OsmoMenuDesktop() {
                 >
                     <span
                         ref={seprationLineRef}
-                        className={`w-full h-[2px] absolute top-[-.5vw] left-1/2 -translate-x-1/2  bg-[#1A1A1A] transition-all duration-300 opacity-0`}
+                        className={`w-full h-0.5 absolute top-[-.5vw] left-1/2 -translate-x-1/2  bg-[#1A1A1A] transition-all duration-300 opacity-0`}
                         style={{ display: "block" }}
                     />
                     <div className="w-[8vw] h-auto relative">
