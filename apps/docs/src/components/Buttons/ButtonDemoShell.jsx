@@ -6,7 +6,7 @@ export function ButtonDemoShell({
  children,
 }) {
  return (
- <section className="relative z-999 min-h-screen overflow-hidden px-6 py-20 text-white">
+ <section className="relative z-999 h-screen overflow-hidden px-6 py-20 text-white">
  <div className="relative z-1 mx-auto flex min-h-[calc(100vh-10rem)] w-full max-w-6xl flex-col items-center justify-center gap-16">
  <div className="space-y-4 text-center">
  <p className="text-xs uppercase tracking-[0.4em] text-white/60">
