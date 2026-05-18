@@ -158,7 +158,7 @@ export function FullscreenPreview({ slug, effect, config }) {
 
  {/* Props panel */}
  {showProps && config?.props?.length > 0 && (
- <div className="w-80 bg-dark-card border-l border-border/20 p-8 overflow-y-auto">
+ <div className="w-80 bg-dark-card border-l border-border/60/20 p-8 overflow-y-auto">
  <h3 className="font-display text-2xl font-normal text-white mb-8" style={{ lineHeight:'1.1' }}>Properties</h3>
  <div className="space-y-6">
  {config.props.map((prop) => (
@@ -208,7 +208,7 @@ function PropControlDark({ prop, value, onChange }) {
  step={step || 1}
  value={value}
  onChange={(e) => onChange(parseFloat(e.target.value))}
- className="w-full px-4 py-2.5 bg-dark-surface border border-border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-sans"
+ className="w-full px-4 py-2.5 bg-dark-surface border border-border/60 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-sans"
  />
  )}
 
@@ -218,13 +218,13 @@ function PropControlDark({ prop, value, onChange }) {
  type="color"
  value={value}
  onChange={(e) => onChange(e.target.value)}
- className="w-12 h-12 rounded-xl border border-border cursor-pointer bg-transparent"
+ className="w-12 h-12 rounded-xl border border-border/60 cursor-pointer bg-transparent"
  />
  <input
  type="text"
  value={value}
  onChange={(e) => onChange(e.target.value)}
- className="flex-1 px-4 py-2.5 bg-dark-surface border border-border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-mono"
+ className="flex-1 px-4 py-2.5 bg-dark-surface border border-border/60 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-mono"
  />
  </div>
  )}

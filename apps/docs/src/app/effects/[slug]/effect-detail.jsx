@@ -149,9 +149,9 @@ export default function MyComponent() {
                 {config?.props?.length > 0 && (
                   <div className="space-y-3">
                     <h3 className="font-medium text-muted">Props</h3>
-                    <div className="bg-secondary-surface/60 backdrop-blur-md rounded-xl border border-border overflow-hidden">
+                    <div className="bg-secondary-surface/60 backdrop-blur-md rounded-xl border border-border/60 overflow-hidden">
                       <table className="w-full text-sm">
-                        <thead className="bg-black/20 border-b border-border">
+                        <thead className="bg-black/20 border-b border-border/60">
                           <tr>
                             <th className="text-left px-4 py-3 font-medium text-muted">Prop</th>
                             <th className="text-left px-4 py-3 font-medium text-muted">Type</th>
@@ -186,7 +186,7 @@ export default function MyComponent() {
                   <Link
                     href={effect.previewUrl || `/effects/${slug}/preview`}
                     target="_blank"
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-border backdrop-blur-md text-foreground bg-primary hover:bg-primary/80 hover:text-white rounded-md hover:border-transparent transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-border/60 backdrop-blur-md text-foreground bg-primary hover:bg-primary/80 hover:text-white rounded-md hover:border-transparent transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -200,7 +200,7 @@ export default function MyComponent() {
                     className={`p-2.5 backdrop-blur-sm rounded-full transition-colors cursor-pointer ${
                       isWishlisted
                         ? "bg-primary text-white border border-transparent"
-                        : "bg-black/20 border border-border text-foreground hover:bg-primary hover:text-white"
+                        : "bg-black/20 border border-border/60 text-foreground hover:bg-primary hover:text-white"
                     }`}
                     aria-label="Add to wishlist"
                   >
@@ -221,7 +221,7 @@ export default function MyComponent() {
                 </div>
 
                 {/* Resource details card */}
-                <div className="bg-secondary-surface/60 backdrop-blur-md rounded-md border border-border p-5 space-y-4">
+                <div className="bg-secondary-surface/60 backdrop-blur-md rounded-md border border-border/60 p-5 space-y-4">
                   <h3 className="font-medium text-foreground">Resource details</h3>
 
                   <div className="space-y-3 text-sm">
@@ -244,17 +244,17 @@ export default function MyComponent() {
                   </div>
 
                   {/* Tags */}
-                  <div className="pt-3 border-t border-border">
+                  <div className="pt-3 border-t border-border/60">
                     <div className="flex flex-wrap gap-2">
                       {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
-                        <span key={cat} className="px-2.5 py-1 bg-white border border-border rounded-full text-xs text-[#3C3C3C] capitalize">
+                        <span key={cat} className="px-2.5 py-1 bg-white border border-border/60 rounded-full text-xs text-[#3C3C3C] capitalize">
                           {cat}
                         </span>
                       ))}
                       {effect.dependencies?.map((dep) => (
                         <span
                           key={dep}
-                          className="px-2.5 py-1 bg-white border border-border rounded-full text-xs text-[#3C3C3C]"
+                          className="px-2.5 py-1 bg-white border border-border/60 rounded-full text-xs text-[#3C3C3C]"
                         >
                           {dep}
                         </span>

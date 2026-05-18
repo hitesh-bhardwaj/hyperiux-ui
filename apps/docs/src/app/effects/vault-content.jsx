@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { VaultLayout } from "@/components/layout/VaultLayout";
 import { VaultHeader } from "@/components/layout/VaultHeader";
 import { EffectCard } from "@/components/ui/EffectCardNew";
-import Image from "next/image";
 import Link from "next/link";
 
 export function VaultContent({ effects, effectCounts }) {
@@ -15,7 +14,7 @@ export function VaultContent({ effects, effectCounts }) {
     const quickCategories = useMemo(() => {
         const entries = Object.entries(effectCounts || {}).filter(([k]) => k && k !== "all");
         entries.sort((a, b) => (b[1] || 0) - (a[1] || 0));
-        return entries.slice(0, 7).map(([id]) => id);
+        return entries.slice(0, 5).map(([id]) => id);
     }, [effectCounts]);
 
     // Filter effects based on search and category
@@ -57,12 +56,12 @@ export function VaultContent({ effects, effectCounts }) {
 
                 <div className="">
                     <div className=" mx-auto px-8 pt-28 pb-12 text-center">
-                        <p className="text-muted mb-4 text-base font-sans">Hello</p>
+                        <p className=" mb-4 text-lg font-sans">Hello</p>
                         <h1 className="font-display text-6xl md:text-7xl font-normal text-foreground mb-4" style={{ lineHeight: '1.0' }}>
                             Welcome to <br /> the vault
                         </h1>
 
-                        <div className="flex items-center justify-center gap-4 text-md text-muted font-sans">
+                        <div className="flex items-center justify-center gap-4 text-lg font-sans">
                             <span>{totalEffects} effects</span>
                             <span>•</span>
                             <span>Free & open source</span>
@@ -75,7 +74,7 @@ export function VaultContent({ effects, effectCounts }) {
                 <div className=" px-10 pb-10">
                     <div className="flex items-center gap-6 flex-wrap">
 
-                        <div className="flex-1 ">
+                        <div className="w-[50%] ">
                             <div className="relative">
                                 <div className="absolute left-5 top-1/2 -translate-y-1/2 text-white z-10">
                                     <svg className="w-5 h-5 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,7 +86,7 @@ export function VaultContent({ effects, effectCounts }) {
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Search effects..."
-                                    className="w-full pl-14 pr-12 py-3 rounded-full bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground placeholder:text-muted focus:outline-none  focus:border-transparent transition-all font-sans"
+                                    className="w-full max-w-[50vw] pl-14 pr-10 py-2.5 rounded-full bg-[#555555]/33 backdrop-blur-md border border-border/50 text-foreground placeholder:text-muted focus:outline-none  focus:border-transparent transition-all font-sans"
                                 />
                                 {searchQuery && (
                                     <button
@@ -101,17 +100,17 @@ export function VaultContent({ effects, effectCounts }) {
                                 )}
                             </div>
                         </div>
-                        <div className="flex items-center gap-3 flex-wrap">
+                        <div className="flex items-center gap-2.5 flex-wrap">
                             {quickCategories.map((cat) => {
                                 const isSelected = categoryFilter === cat;
                                 return (
                                 <Link
                                     key={cat}
                                     href={isSelected ? "/effects" : `/effects?category=${cat}`}
-                                    className={`px-6 py-2 text-md rounded-full backdrop-blur-md border transition-colors font-sans flex items-center gap-2 ${
+                                    className={`px-7 py-2.5 text-md rounded-full backdrop-blur-md border transition-all duration-500 ease-in-out hover:border-primary hover:text-primary font-sans flex items-center gap-2 ${
                                         isSelected 
                                             ? 'bg-white text-black border-transparent' 
-                                            : 'bg-[#A9A9A9]/30 border-border text-foreground hover:bg-[#A9A9A9]/50'
+                                            : 'bg-[#555555]/33 border-border/50 text-foreground '
                                     }`}
                                 >
                                     <span>{cat === "webgl" ? "WebGL" : cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
@@ -134,7 +133,7 @@ export function VaultContent({ effects, effectCounts }) {
                                 Showing {filteredEffects.length} of {totalEffects} effects
                             </span>
                             {categoryFilter !== "all" && (
-                                <span className="flex items-center gap-2 px-4 py-1.5 bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground text-sm capitalize font-medium" style={{ borderRadius: "56px" }}>
+                                <span className="flex items-center gap-2 px-4 py-1.5 bg-[#555555]/33 backdrop-blur-md border border-border/50 text-foreground text-sm capitalize font-medium" style={{ borderRadius: "56px" }}>
                                     <span>{categoryFilter}</span>
                                     <Link href="/effects" className="hover:text-white transition-colors">
                                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,7 +143,7 @@ export function VaultContent({ effects, effectCounts }) {
                                 </span>
                             )}
                             {searchQuery && (
-                                <span className="flex items-center gap-2 px-4 py-1.5 bg-[#A9A9A9]/30 backdrop-blur-md border border-border text-foreground text-sm font-medium" style={{ borderRadius: "56px" }}>
+                                <span className="flex items-center gap-2 px-4 py-1.5 bg-[#555555]/33 backdrop-blur-md border border-border/50 text-foreground text-sm font-medium" style={{ borderRadius: "56px" }}>
                                     <span>&quot;{searchQuery}&quot;</span>
                                     <button onClick={() => setSearchQuery("")} className="hover:text-white transition-colors">
                                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

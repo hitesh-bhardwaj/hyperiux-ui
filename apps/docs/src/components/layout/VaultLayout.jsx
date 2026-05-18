@@ -14,7 +14,7 @@ function SidebarFallback({ totalEffects }) {
         <button
           type="button"
           aria-label="Open sidebar"
-          className="absolute right-0 top-1/2 -translate-y-1/2 h-14 w-(--sidebar-peek)rounded-r-2xl bg-black/35 border border-border/60 flex items-center justify-end backdrop-blur-md"
+          className="absolute right-0 top-1/2 -translate-y-1/2 h-14 w-(--sidebar-peek)rounded-r-2xl bg-black/35 border border-border/60/60 flex items-center justify-end backdrop-blur-md"
           style={{ zIndex: 60 }}
         >
           <div className="ml-auto mr-4 flex gap-1.5">

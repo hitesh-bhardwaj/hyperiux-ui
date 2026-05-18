@@ -159,9 +159,9 @@ export default function ChessGridTransition({ children, enableContentShift = fal
         </div>
       </div>
 
-      <div ref={bgRef} className='w-screen h-screen fixed inset-0'>
+      <div ref={bgRef} className='w-screen h-screen fixed inset-0 '>
         <Image
-          src={'/assets/hero-bg.png'}
+          src={'/assets/heroo-bg.png'}
           alt='image'
           width={1920}
           height={1080}
@@ -169,7 +169,7 @@ export default function ChessGridTransition({ children, enableContentShift = fal
         />
       </div>
 
-      <div className='pointer-events-none fixed inset-0 bg-black/30' />
+      {/* <div className='pointer-events-none fixed inset-0 bg-black/30' /> */}
     </TransitionRouter>
   )
 }

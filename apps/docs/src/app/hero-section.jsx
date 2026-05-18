@@ -11,7 +11,7 @@ export function HeroSection({ effectCount }) {
 
  <div className="relative z-10 text-center px-4 max-w-5xl mx-auto py-20">
  {/* Badge */}
- <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-secondary-surface border border-border text-sm mb-10 font-medium">
+ <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-secondary-surface border border-border/50 text-sm mb-10 font-medium">
  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
  <span className="text-foreground">{effectCount} effects available</span>
  </div>
@@ -57,7 +57,7 @@ export function HeroSection({ effectCount }) {
  </svg>
  </Link>
 
- <div className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-secondary-surface border border-border font-mono text-sm" style={{ borderRadius:'56px' }}>
+ <div className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-secondary-surface border border-border/50 font-mono text-sm" style={{ borderRadius:'56px' }}>
  <span className="text-primary">$</span>
  <span className="text-foreground">npx hyperiux init</span>
  </div>

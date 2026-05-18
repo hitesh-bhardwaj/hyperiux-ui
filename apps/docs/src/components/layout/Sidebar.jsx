@@ -89,7 +89,7 @@ export function Sidebar({
                     className={`relative flex h-full w-full flex-col rounded-lg ${isExpanded ? "" : "pointer-events-none"}`}
                 >
                     <div
-                        className="h-fit w-full border border-border p-4 rounded-lg bg-black/20 backdrop-blur-md"
+                        className="h-fit w-full border border-border/60 p-4 rounded-lg bg-black/20 backdrop-blur-md"
                         onClick={(e) => {
                             if (!isExpanded) return;
                             if (e.target === e.currentTarget) close();
@@ -102,7 +102,7 @@ export function Sidebar({
                                 <div className="mb-6">
                                     <Link
                                         href="/effects"
-                                        className={`flex items-center gap-3 px-3 py-2.5 rounded-md mb-2 bg-[#A9A9A9]/30 transition-colors ${
+                                        className={`flex items-center gap-3 px-3 py-2.5 rounded-md mb-2 bg-[#555555]/33 transition-colors ${
                                             pathname === "/effects" && currentCategory === "all"
                                                 ? " text-foreground"
                                                 : "text-muted"
@@ -131,7 +131,7 @@ export function Sidebar({
                                     <p className="px-3 text-sm font-medium text-muted uppercase tracking-wider my-4 transition-opacity duration-300">
                                         Categories
                                     </p>
-                                    <div className="bg-[#A9A9A9]/30 backdrop-blur-md rounded-md p-4 px-2 space-y-3">
+                                    <div className="bg-[#555555]/33 backdrop-blur-md rounded-md p-4 px-2 space-y-3">
                                         {categories.slice(1).map((category) => {
                                             const count = effectCounts[category.id] || 0;
                                             const isActive = currentCategory === category.id;
