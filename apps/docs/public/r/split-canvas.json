@@ -14,7 +14,7 @@
   "registryDependencies": [],
   "previewUrl": "/dgrees-pixel-scroll",
   "coverImage": "/assets/listing/split-canvas.png",
-  "videoUrl": "split-canvas.mp4",
+  "videoUrl": "split-canvas",
   "files": [
     {
       "path": "split-canvas.jsx",

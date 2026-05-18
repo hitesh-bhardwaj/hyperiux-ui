@@ -11,7 +11,7 @@ const marqueeImages = [
  title:"image 1",
  width: 420,
  height: 520,
- imageClassName:"w-[24vw] h-[30vw] rounded-2xl object-cover",
+ imageClassName:"w-[24vw] h-[30vw] rounded-2xl max-md:w-[40vw] max-md:h-[60vw]    object-cover",
  },
  {
  id: 2,
@@ -20,7 +20,7 @@ const marqueeImages = [
  title:"image 2",
  width: 420,
  height: 520,
- imageClassName:"w-[24vw] h-[30vw] rounded-2xl object-cover",
+ imageClassName:"w-[24vw] h-[30vw] rounded-2xl max-md:w-[40vw] max-md:h-[60vw]    object-cover",
  },
  {
  id: 3,
@@ -29,7 +29,7 @@ const marqueeImages = [
  title:"image 3",
  width: 420,
  height: 520,
- imageClassName:"w-[24vw] h-[30vw] rounded-2xl object-cover",
+ imageClassName:"w-[24vw] h-[30vw] rounded-2xl max-md:w-[40vw] max-md:h-[60vw]    object-cover",
  },
  {
  id: 4,
@@ -38,7 +38,7 @@ const marqueeImages = [
  title:"image 4",
  width: 420,
  height: 520,
- imageClassName:"w-[24vw] h-[30vw] rounded-2xl object-cover",
+ imageClassName:"w-[24vw] h-[30vw] rounded-2xl max-md:w-[40vw] max-md:h-[60vw]    object-cover",
  },
 ];
 const page = () => {
@@ -48,7 +48,7 @@ const page = () => {
  <DraggableMarquee
  items={marqueeImages}
  speed={7.2}
- gapClassName="gap-[2vw]"
+ gapClassName="gap-[2vw] max-md:gap-[4vw]"
  className="py-10"
  itemClassName="select-none"
  />

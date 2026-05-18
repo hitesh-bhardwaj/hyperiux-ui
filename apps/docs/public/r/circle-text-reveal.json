@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/circle-reveal",
   "coverImage": "/assets/listing/circle-text-reveal.png",
-  "videoUrl": "circle-text-reveal.mp4",
+  "videoUrl": "circle-text-reveal",
   "files": [
     {
       "path": "circle-text-reveal.jsx",

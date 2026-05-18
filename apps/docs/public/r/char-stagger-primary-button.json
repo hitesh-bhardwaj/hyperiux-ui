@@ -11,7 +11,7 @@
   "registryDependencies": [],
   "previewUrl": "/buttons/char-stagger-primary-button",
   "coverImage": "/assets/listing/char-stagger-primary-button.png",
-  "videoUrl": "char-stagger-primary-button.mp4",
+  "videoUrl": "char-stagger-primary-button",
   "files": [
     {
       "path": "char-stagger-primary-button.jsx",

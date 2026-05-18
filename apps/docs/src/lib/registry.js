@@ -45,5 +45,11 @@ export function getEffectCode(slug) {
  if (!effect || !effect.files || effect.files.length === 0) {
  return null;
  }
- return effect.files[0].content;
+ const primary =
+ effect.files.find((f) => f.path === `${slug}.jsx`) ||
+ effect.files.find((f) => f.path === `${slug}.js`) ||
+ effect.files.find((f) => f.path.endsWith(".jsx")) ||
+ effect.files.find((f) => f.path.endsWith(".js")) ||
+ effect.files[0];
+ return primary.content;
 }

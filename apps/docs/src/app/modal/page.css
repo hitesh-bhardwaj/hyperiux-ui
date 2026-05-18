@@ -10,7 +10,7 @@
 .video-demo-page__hero-inner {
   display: flex;
   width: 100%;
-  height: auto;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;

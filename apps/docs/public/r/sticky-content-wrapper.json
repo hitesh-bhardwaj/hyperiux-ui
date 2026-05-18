@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/sticky-content-wrapper",
   "coverImage": "/assets/listing/sticky-content-wrapper.png",
-  "videoUrl": "sticky-content-wrapper.mp4",
+  "videoUrl": "sticky-content-wrapper",
   "files": [
     {
       "path": "sticky-content-wrapper.jsx",

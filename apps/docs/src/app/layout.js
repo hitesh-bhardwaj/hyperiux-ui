@@ -1,5 +1,6 @@
-import { Space_Grotesk, Inter, Geist_Mono } from"next/font/google";
-import"./globals.css";
+import { Space_Grotesk, Inter, Geist_Mono } from "next/font/google";
+import "highlight.js/styles/github-dark.css";
+import "./globals.css";
 
 
 // Display font - for hero headlines (similar to CoinbaseDisplay)

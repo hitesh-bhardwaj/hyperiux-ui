@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/parallax-image-animation",
   "coverImage": "/assets/listing/parallax-image.png",
-  "videoUrl": "parallax-image.mp4",
+  "videoUrl": "parallax-image",
   "files": [
     {
       "path": "parallax-image.jsx",
