@@ -43,7 +43,7 @@ export default function Menu3() {
  <Link
  key={link.label}
  href={link.href}
- className="block text-sm font-medium text-neutral-900 transition-opacity duration-200 hover:opacity-60"
+ className="block text-sm font-medium  transition-opacity duration-200 hover:opacity-60"
  >
  {link.label}
  </Link>

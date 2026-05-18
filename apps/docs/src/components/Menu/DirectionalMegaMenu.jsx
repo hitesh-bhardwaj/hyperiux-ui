@@ -38,6 +38,9 @@ export default function DirectionalMegaMenu({
  heightEase: animation.heightEase ??"power2.out",
  openOpacityDuration: animation.openOpacityDuration ?? 0.18,
  closeOpacityDuration: animation.closeOpacityDuration ?? 0.16,
+ contentFadeDelay: animation.contentFadeDelay ?? 0.06,
+ contentFadeDuration:
+ animation.contentFadeDuration ?? animation.openOpacityDuration ?? 0.18,
  };
  }, [animation]);
 
@@ -225,42 +228,51 @@ export default function DirectionalMegaMenu({
 
  if (!currentPaneRef.current) return;
 
- gsap.killTweensOf([panelRef.current, viewportRef.current]);
+ gsap.killTweensOf([
+ menuPannelRef.current,
+ panelRef.current,
+ viewportRef.current,
+ ]);
 
  const contentHeight = getPaneHeight(currentPaneRef.current);
 
  if (!hasOpenedOnceRef.current) {
  gsap.set(menuPannelRef.current, {
- height: 0,
- opacity: 0,
- });
+  height: 0,
+  opacity: 1,
+  });
 
- const tl = gsap.timeline({
- onComplete: () => {
- hasOpenedOnceRef.current = true;
- gsap.set(viewportRef.current, { height: contentHeight });
- },
- });
+  gsap.set(viewportRef.current, {
+  height: contentHeight,
+  opacity: 0,
+  });
 
- tl.to(
- viewportRef.current,
- {
- duration: config.heightDuration,
- ease: config.heightEase,
- },
- 0,
- ).to(
- menuPannelRef.current,
- {
- height:"auto",
- opacity: 1,
- duration: config.openOpacityDuration,
- ease:"power2.out",
- },
- 0,
- );
+  const tl = gsap.timeline({
+  onComplete: () => {
+  hasOpenedOnceRef.current = true;
+  gsap.set(viewportRef.current, { height: contentHeight, opacity: 1 });
+  },
+  });
 
- return;
+  tl.to(
+  menuPannelRef.current,
+  {
+  height:"auto",
+  duration: config.heightDuration,
+  ease: config.heightEase,
+  },
+  0,
+  ).to(
+  viewportRef.current,
+  {
+  opacity: 1,
+  duration: config.contentFadeDuration,
+  ease:"power2.out",
+  },
+  config.contentFadeDelay,
+  );
+
+  return;
  }
 
  gsap.set(viewportRef.current, {
@@ -271,7 +283,8 @@ export default function DirectionalMegaMenu({
  currentIndex,
  config.heightDuration,
  config.heightEase,
- config.openOpacityDuration,
+ config.contentFadeDelay,
+ config.contentFadeDuration,
  ]);
 
  useIsomorphicLayoutEffect(() => {
@@ -381,22 +394,27 @@ export default function DirectionalMegaMenu({
  }, [nextIndex, config, items]);
 
  useEffect(() => {
+ const panel = panelRef.current;
+ const viewport = viewportRef.current;
+ const currentPane = currentPaneRef.current;
+ const nextPane = nextPaneRef.current;
+
  return () => {
  clearCloseTimer();
- gsap.killTweensOf(panelRef.current);
- gsap.killTweensOf(viewportRef.current);
- gsap.killTweensOf([currentPaneRef.current, nextPaneRef.current]);
+ gsap.killTweensOf(panel);
+ gsap.killTweensOf(viewport);
+ gsap.killTweensOf([currentPane, nextPane]);
  };
  }, []);
 
  return (
  <div
  ref={wrapperRef}
- className={`relative w-full h-fit ${className}`}
+ className={`fixed top-0 left-0 w-full z-50  py-8.5 ${className}`}
  onMouseEnter={clearCloseTimer}
  onMouseLeave={handleWrapperMouseLeave}
  >
- <div className={`flex justify-center gap-8 ${navClassName}`}>
+ <div className={`flex justify-center items-center gap-8 ${navClassName}`}>
  {items.map((item, index) => {
  const isActive = highlightedIndex === index;
 
@@ -423,11 +441,11 @@ export default function DirectionalMegaMenu({
  <div style={{ paddingTop: `${panelGap}px` }}>
  <div
  ref={menuPannelRef}
- className={`menu-container absolute left-0 top-full w-full overflow-hidden ${menuTop}`}
+ className={`menu-container  w-full overflow-hidden ${menuTop}`}
  >
  <div
  ref={panelRef}
- className={`w-full overflow-hidden rounded-[0.5vw] border border-nuetral-200 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)] ${panelClassName} ${contentWrapperClassName}`}
+ className={`w-full overflow-hidden rounded-[0.5vw] border border-nuetral-200 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)] transform-gpu ${panelClassName} ${contentWrapperClassName}`}
  >
  <div
  ref={viewportRef}
@@ -460,4 +478,3 @@ export default function DirectionalMegaMenu({
  </div>
  );
 }
-

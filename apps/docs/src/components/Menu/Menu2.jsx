@@ -29,7 +29,7 @@ export default function Menu2() {
  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
  Solutions
  </p>
- <h3 className="mb-6 text-2xl font-semibold text-neutral-950">
+ <h3 className="mb-6 text-2xl font-semibold">
  Built for different teams
  </h3>
 
@@ -40,8 +40,8 @@ export default function Menu2() {
  href={block.href}
  className="rounded-2xl border border-neutral-200 p-6 transition-all duration-200 hover:-translate-y-1 hover:bg-neutral-50"
  >
- <h4 className="text-lg font-semibold text-neutral-950">{block.title}</h4>
- <p className="mt-3 text-sm leading-6 text-neutral-600">{block.description}</p>
+ <h4 className="text-lg font-semibold ">{block.title}</h4>
+ <p className="mt-3 text-sm leading-6 text-neutral-400">{block.description}</p>
  </Link>
  ))}
  </div>

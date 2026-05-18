@@ -19,7 +19,7 @@ export default function Menu1() {
  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
  Product Navigation
  </p>
- <h3 className="mb-6 text-2xl font-semibold text-neutral-950">
+ <h3 className="mb-6 text-2xl font-semibold t">
  Explore the product suite
  </h3>
 
@@ -30,7 +30,7 @@ export default function Menu1() {
  href={item.href}
  className="block rounded-xl border border-neutral-200 p-4 transition-colors duration-200 hover:bg-neutral-50"
  >
- <div className="text-sm font-medium text-neutral-950">{item.label}</div>
+ <div className="text-sm font-medium t">{item.label}</div>
  <div className="mt-1 text-sm text-neutral-500">
  Learn more about {item.label.toLowerCase()}.
  </div>
