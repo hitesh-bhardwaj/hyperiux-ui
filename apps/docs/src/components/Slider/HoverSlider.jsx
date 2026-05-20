@@ -399,11 +399,11 @@ const opacity = Math.max(0, baseOpacity - dist * 0.22) * anim.alpha;
  <section
  ref={mountRef}
  onPointerLeave={onLeave}
- className="relative isolate min-h-screen overflow-visible max-sm:px-2 bg-[#f0ede6] px-4 text-[#1e1c18] md:overflow-hidden md:px-10  py-9"
+ className="relative isolate min-h-screen overflow-visible max-sm:px-0 bg-[#f0ede6] px-4 text-[#1e1c18] md:overflow-hidden md:px-10  py-9"
  style={{ cursor:"crosshair" }}
  >
  <header
- className="relative z-20 flex items-start justify-between text-[11px]"
+ className="relative z-20 flex items-start max-sm:px-2 justify-between text-[11px]"
  style={{ color:"rgba(30,28,24,0.6)" }}
  >
  <div>1470px × 797px</div>
@@ -418,7 +418,7 @@ const opacity = Math.max(0, baseOpacity - dist * 0.22) * anim.alpha;
  </div>
  </header>
 
- <div className="relative z-20 mt-12 w-full overflow-x-auto pb-8 md:mt-[9vh] md:max-w-205 md:overflow-x-visible md:pb-0">
+ <div className="relative max-sm:px-2 z-20 mt-12 w-full overflow-x-auto pb-8 md:mt-[9vh] md:max-w-205 md:overflow-x-visible md:pb-0">
  <div
  className="grid min-w-155 gap-5 pb-4 text-[10px] uppercase tracking-widest md:min-w-0"
  style={{
@@ -441,7 +441,7 @@ const opacity = Math.max(0, baseOpacity - dist * 0.22) * anim.alpha;
  onPointerEnter={() => onEnter(index)}
  onPointerDown={() => activateRow(index)}
  onClick={() => activateRow(index)}
- className="min-w-[620px] md:min-w-0"
+ className="min-w-155 md:min-w-0"
  style={{
  display:"grid",
  gridTemplateColumns:"72px minmax(140px,1fr) minmax(180px,1.1fr) 64px",
