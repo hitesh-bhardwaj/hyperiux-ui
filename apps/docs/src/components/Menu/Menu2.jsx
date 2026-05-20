@@ -33,7 +33,7 @@ export default function Menu2() {
  Built for different teams
  </h3>
 
- <div className="grid grid-cols-3 gap-6">
+ <div className="grid grid-cols-3 max-sm:grid-cols-2 gap-6">
  {blocks.map((block) => (
  <Link
  key={block.title}
