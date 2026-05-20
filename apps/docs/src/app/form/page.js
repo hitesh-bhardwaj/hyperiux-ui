@@ -20,7 +20,7 @@ const FIELDS = [
  type:"checkbox",
  name:"terms",
  required: true,
- label: <>I agree to the <a href="/terms" className="underline">Terms</a>.</>,
+ label: <>I agree to the <a href="#" className="underline">Terms</a>.</>,
  },
 ];
 

@@ -16,7 +16,7 @@
   "registryDependencies": [],
   "previewUrl": "/loaders/numeric-tunnel",
   "coverImage": "/assets/listing/numeric-tunnel.png",
-  "videoUrl": "numeric-tunnel.mp4",
+  "videoUrl": "numeric-tunnel",
   "files": [
     {
       "path": "numeric-tunnel.jsx",

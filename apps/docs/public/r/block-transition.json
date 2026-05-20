@@ -14,7 +14,7 @@
   "registryDependencies": [],
   "previewUrl": "/page-transitions/block",
   "coverImage": "/assets/listing/block-transition.png",
-  "videoUrl": "block-transition.mp4",
+  "videoUrl": "block-transition",
   "files": [
     {
       "path": "block-transition.jsx",

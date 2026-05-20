@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/navigation/glass-pill-header",
   "coverImage": "/assets/listing/glass-pill-header.png",
-  "videoUrl": "glass-pill-header.mp4",
+  "videoUrl": "glass-pill-header",
   "files": [
     {
       "path": "glass-pill-header.jsx",

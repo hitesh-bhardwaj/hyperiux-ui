@@ -44,16 +44,17 @@ export function Sidebar({
 
     return (
         <aside
-            className="fixed left-0 top-20 bottom-0 z-40 bg-transparent text-foreground transition-[width] duration-300 ease-out overflow-visible"
+            className={`fixed  top-20 bottom-0 z-40 bg-transparent text-foreground transition-[width] duration-300 ease-out overflow-visible left-0 ${
+                isExpanded ? "w-4/5 md:w-64" : "w-0"
+            }`}
             style={{
-                width: isExpanded ? "16rem" : "0rem",
                 ["--sidebar-width"]: "16rem",
                 ["--sidebar-peek"]: "0rem",
             }}
         >
             <div
-                className={`relative flex h-full w-[16rem] flex-col rounded-lg overflow-visible transition-transform duration-300 ease-out ${
-                    isExpanded ? "translate-x-0" : "-translate-x-64"
+                className={`relative flex h-full max-sm:h-fit max-sm:pb-4 max-sm:w-[80vw] max-sm:bg-black flex-col rounded-lg overflow-visible transition-transform duration-300 ease-out w-[16rem] ${
+                    isExpanded ? "translate-x-0 max-sm:ml-6" : "max-sm:-translate-x-[calc(100%+0.75rem)] -translate-x-full"
                 }`}
             >
                 {/* Handle (always visible) */}
@@ -61,7 +62,7 @@ export function Sidebar({
                     type="button"
                     aria-label={isExpanded ? "Close sidebar" : "Open sidebar"}
                     onClick={toggle}
-                    className={`absolute left-65 top-20 -translate-y-1/2 z-50 w-7 cursor-pointer transition-opacity duration-300 ease-out ${
+                    className={`absolute max-sm:left-[calc(100%+1rem)] top-20 -translate-y-1/2 z-50 w-7 cursor-pointer transition-opacity duration-300 ease-out left-65 ${
                         isExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
                     }`}
                 >
@@ -86,10 +87,10 @@ export function Sidebar({
 
                 <div
                     aria-hidden={!isExpanded}
-                    className={`relative flex h-full w-full flex-col rounded-lg ${isExpanded ? "" : "pointer-events-none"}`}
+                    className={`relative flex h-full min-h-0 w-full flex-col rounded-lg ${isExpanded ? "" : "pointer-events-none"}`}
                 >
                     <div
-                        className="h-fit w-full border border-border p-4 rounded-lg bg-black/20 backdrop-blur-md"
+                        className="flex flex-col min-h-0 max-h-full max-sm:max-h-[85vh] w-full border border-border/60 rounded-lg bg-black/20 backdrop-blur-md overflow-y-auto overscroll-contain"
                         onClick={(e) => {
                             if (!isExpanded) return;
                             if (e.target === e.currentTarget) close();
@@ -97,12 +98,12 @@ export function Sidebar({
                     >
                         <>
                             {/* Navigation */}
-                            <nav className="flex-1 overflow-y-auto z-99">
+                            <nav data-lenis-prevent className="flex-1 z-99 min-h-0 max-sm:b-4 p-4">
                                 {/* The Vault section */}
                                 <div className="mb-6">
                                     <Link
                                         href="/effects"
-                                        className={`flex items-center gap-3 px-3 py-2.5 rounded-md mb-2 bg-[#A9A9A9]/30 transition-colors ${
+                                        className={`flex items-center gap-3 px-3 py-2.5 rounded-md mb-2 bg-[#555555]/33 transition-colors ${
                                             pathname === "/effects" && currentCategory === "all"
                                                 ? " text-foreground"
                                                 : "text-muted"
@@ -131,7 +132,7 @@ export function Sidebar({
                                     <p className="px-3 text-sm font-medium text-muted uppercase tracking-wider my-4 transition-opacity duration-300">
                                         Categories
                                     </p>
-                                    <div className="bg-[#A9A9A9]/30 backdrop-blur-md rounded-md p-4 px-2 space-y-3">
+                                    <div className="bg-[#555555]/33 backdrop-blur-md rounded-md p-4 px-2 space-y-3">
                                         {categories.slice(1).map((category) => {
                                             const count = effectCounts[category.id] || 0;
                                             const isActive = currentCategory === category.id;

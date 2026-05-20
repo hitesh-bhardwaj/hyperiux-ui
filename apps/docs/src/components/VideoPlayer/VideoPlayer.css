@@ -143,6 +143,7 @@
   min-height: 4px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
 }
 
 .video-player__progress-fill {
@@ -152,6 +153,7 @@
   min-height: 4px;
   border-radius: 999px;
   background: #fff;
+  pointer-events: none;
 }
 
 .video-player__progress-thumb {
@@ -164,6 +166,7 @@
   border-radius: 999px;
   background: #fff;
   transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 /* Large tablets / small laptops */
@@ -268,8 +271,8 @@
 @media screen and (max-width: 540px) {
   
   .video-player__close {
-    top: 4vw;
-    right: 4vw;
+    top: 16px;
+    right: 16px;
     width: 11vw;
     height: 11vw;
   }

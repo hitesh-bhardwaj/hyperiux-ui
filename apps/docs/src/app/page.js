@@ -18,7 +18,7 @@ export default function Home() {
  <section className="bg-dark-surface text-white py-24">
  <div className="max-w-5xl mx-auto px-4">
  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
- <div className="p-8 rounded-2xl border border-border/20 bg-dark-card">
+ <div className="p-8 rounded-2xl border border-border/60/20 bg-dark-card">
  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-6">
  <svg
  className="w-6 h-6 text-primary"
@@ -41,7 +41,7 @@ export default function Home() {
  </p>
  </div>
 
- <div className="p-8 rounded-2xl border border-border/20 bg-dark-card">
+ <div className="p-8 rounded-2xl border border-border/60/20 bg-dark-card">
  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-6">
  <svg
  className="w-6 h-6 text-primary"
@@ -64,7 +64,7 @@ export default function Home() {
  </p>
  </div>
 
- <div className="p-8 rounded-2xl border border-border/20 bg-dark-card">
+ <div className="p-8 rounded-2xl border border-border/60/20 bg-dark-card">
  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-6">
  <svg
  className="w-6 h-6 text-primary"
@@ -103,7 +103,7 @@ export default function Home() {
  </div>
  <div className="flex-1">
  <h3 className="font-sans font-semibold text-lg mb-3 text-foreground">Initialize Hyperiux</h3>
- <div className="p-4 rounded-2xl bg-secondary-surface border border-border font-mono text-sm">
+ <div className="p-4 rounded-2xl bg-secondary-surface border border-border/60 font-mono text-sm">
  <span className="text-primary font-semibold">$</span> <span className="text-foreground">npx hyperiux init</span>
  </div>
  </div>
@@ -115,7 +115,7 @@ export default function Home() {
  </div>
  <div className="flex-1">
  <h3 className="font-sans font-semibold text-lg mb-3 text-foreground">Add an effect</h3>
- <div className="p-4 rounded-2xl bg-secondary-surface border border-border font-mono text-sm">
+ <div className="p-4 rounded-2xl bg-secondary-surface border border-border/60 font-mono text-sm">
  <span className="text-primary font-semibold">$</span> <span className="text-foreground">npx hyperiux add blur-text</span>
  </div>
  </div>
@@ -127,7 +127,7 @@ export default function Home() {
  </div>
  <div className="flex-1">
  <h3 className="font-sans font-semibold text-lg mb-3 text-foreground">Use it in your component</h3>
- <div className="p-4 rounded-2xl bg-secondary-surface border border-border font-mono text-sm overflow-x-auto">
+ <div className="p-4 rounded-2xl bg-secondary-surface border border-border/60 font-mono text-sm overflow-x-auto">
  <pre className="text-foreground">{`import { BlurText } from"@/components/effects/blur-text";
 
 <BlurText>Hello World</BlurText>`}</pre>
@@ -170,7 +170,7 @@ export default function Home() {
  </section>
 
  {/* Footer - Dark section */}
- <footer className="bg-dark-surface border-t border-border/20 py-8">
+ <footer className="bg-dark-surface border-t border-border/60/20 py-8">
  <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
  <div className="text-sm text-white/60 font-sans">
  Built with Next.js and Tailwind CSS

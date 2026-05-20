@@ -78,13 +78,13 @@ export function EffectCard({ effect, priority = false }) {
       initial={{ opacity: 0, y: 32 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative bg-[#A9A9A9]/30 p-3 pb-[0.01vw] rounded-md border border-border overflow-hidden hover:shadow-2xl hover:border-primary/50 backdrop-blur-md"
+      className="group relative bg-[#555555]/33 p-5 pb-[0.01vw] rounded-[1.5vw] max-sm:rounded-[5vw] border-border/50 overflow-hidden hover:shadow-2xl border hover:border-primary/50 backdrop-blur-md"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Clickable Preview Area */}
       <Link href={`/effects/${effect.name}`} className="block">
-        <div className="aspect-video bg-black/20 rounded-sm overflow-hidden relative">
+        <div className="aspect-video bg-black/20 rounded-[1vw] max-sm:rounded-[4vw] overflow-hidden relative">
           {/* Static Image */}
           <Image
             src={effect.coverImage || "/assets/img/image01.webp"}
@@ -125,7 +125,7 @@ export function EffectCard({ effect, priority = false }) {
               "_blank"
             );
           }}
-          className="p-2.5 bg-black/20 border border-border backdrop-blur-sm text-foreground rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer"
+          className="p-2.5 bg-black/20 border border-border/50 backdrop-blur-sm text-foreground rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer"
           aria-label="Preview"
         >
           <svg
@@ -154,7 +154,7 @@ export function EffectCard({ effect, priority = false }) {
           className={`p-2.5 backdrop-blur-sm rounded-full transition-colors cursor-pointer ${
             isWishlisted
               ? "bg-primary text-white"
-              : "bg-black/20 border border-border text-foreground hover:bg-primary hover:text-white"
+              : "bg-black/20 border border-border/50 text-foreground hover:bg-primary hover:text-white"
           }`}
           aria-label="Add to wishlist"
         >
@@ -165,9 +165,9 @@ export function EffectCard({ effect, priority = false }) {
       </div>
 
       {/* Info */}
-      <div className="flex items-center justify-between py-4">
+      <div className="flex items-center justify-between py-4 max-sm:py-6 ">
         <Link href={`/effects/${effect.name}`} className="block">
-          <h3 className="font-sans font-semibold text-base text-foreground group-hover:text-primary transition-colors">
+          <h3 className="font-sans font-semibold max-sm:text-xl text-base text-foreground group-hover:text-primary transition-colors">
             {effect.title}
           </h3>
         </Link>
@@ -176,7 +176,7 @@ export function EffectCard({ effect, priority = false }) {
           {(effect.categories?.length ? effect.categories : [effect.category]).map((cat) => (
             <span
               key={cat}
-              className="px-3 py-1 bg-white border border-border backdrop-blur-sm text-xs font-semibold text-[#3C3C3C] capitalize font-sans"
+              className="px-2.5 py-0.5 max-sm:py-1 max-sm:px-3 max-sm:text-lg bg-white border border-border/50 backdrop-blur-sm text-sm font-medium font-sans text-[#3C3C3C] capitalize "
               style={{ borderRadius: "56px" }}
             >
               {cat}

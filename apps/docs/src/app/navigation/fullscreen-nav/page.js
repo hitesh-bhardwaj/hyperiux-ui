@@ -52,10 +52,9 @@ const NAV_CONTENT = {
 "/assets/img/image02.webp",
  ],
  socials: [
- { type:"ig", href:"#" },
- { type:"fb", href:"#" },
- { type:"x", href:"#" },
- { type:"li", href:"#" },
- { type:"dr", href:"#" },
+ { type:"instagram", href:"#" },
+ { type:"facebook", href:"#" },
+ { type:"twitter", href:"#" },
+ { type:"linkedIn", href:"#" },
  ],
 };

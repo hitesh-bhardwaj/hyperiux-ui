@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/loaders/lines-loading",
   "coverImage": "/assets/listing/lines-loader.png",
-  "videoUrl": "lines-loader.mp4",
+  "videoUrl": "lines-loader",
   "files": [
     {
       "path": "center-lines-loader.jsx",

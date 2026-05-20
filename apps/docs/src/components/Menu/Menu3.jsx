@@ -31,7 +31,7 @@ export default function Menu3() {
  ];
 
  return (
- <div className="grid grid-cols-3 gap-10">
+ <div className="grid grid-cols-3 max-sm:grid-cols-2 gap-10">
  {groups.map((group) => (
  <div key={group.heading}>
  <h4 className="mb-4 text-sm font-semibold uppercase tracking-[0.08em] text-neutral-500">
@@ -43,7 +43,7 @@ export default function Menu3() {
  <Link
  key={link.label}
  href={link.href}
- className="block text-sm font-medium text-neutral-900 transition-opacity duration-200 hover:opacity-60"
+ className="block text-sm font-medium  transition-opacity duration-200 hover:opacity-60"
  >
  {link.label}
  </Link>

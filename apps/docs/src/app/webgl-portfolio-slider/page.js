@@ -5,87 +5,87 @@ const page = () => {
 const items = [
   {
     url: "/assets/dark/image01.png",
-    description: "IMAGE 01",
+    description: "PORTFOLIO 01",
   },
   {
     url: "/assets/dark/image02.png",
-    description: "IMAGE 02",
+    description: "PORTFOLIO 02",
   },
   {
     url: "/assets/dark/image03.png",
-    description: "IMAGE 03",
+    description: "PORTFOLIO 03",
   },
   {
     url: "/assets/dark/image04.png",
-    description: "IMAGE 04",
+    description: "PORTFOLIO 04",
   },
   {
     url: "/assets/dark/image05.png",
-    description: "IMAGE 05",
+    description: "PORTFOLIO 05",
   },
   {
     url: "/assets/dark/image06.png",
-    description: "IMAGE 06",
+    description: "PORTFOLIO 06",
   },
   {
     url: "/assets/dark/image07.png",
-    description: "IMAGE 07",
+    description: "PORTFOLIO 07",
   },
   {
     url: "/assets/dark/image08.png",
-    description: "IMAGE 08",
+    description: "PORTFOLIO 08",
   },
   {
     url: "/assets/dark/image19.png",
-    description: "IMAGE 09",
+    description: "PORTFOLIO 09",
   },
   {
     url: "/assets/dark/image10.png",
-    description: "IMAGE 10",
+    description: "PORTFOLIO 10",
   },
   {
     url: "/assets/dark/image11.png",
-    description: "IMAGE 11",
+    description: "PORTFOLIO 11",
   },
   {
     url: "/assets/dark/image12.png",
-    description: "IMAGE 12",
+    description: "PORTFOLIO 12",
   },
   {
     url: "/assets/dark/image13.png",
-    description: "IMAGE 13",
+    description: "PORTFOLIO 13",
   },
   {
     url: "/assets/dark/image14.png",
-    description: "IMAGE 14",
+    description: "PORTFOLIO 14",
   },
   {
     url: "/assets/dark/image15.png",
-    description: "IMAGE 15",
+    description: "PORTFOLIO 15",
   },
   {
     url: "/assets/dark/image16.png",
-    description: "IMAGE 16",
+    description: "PORTFOLIO 16",
   },
   {
     url: "/assets/dark/image17.png",
-    description: "IMAGE 17",
+    description: "PORTFOLIO 17",
   },
   {
     url: "/assets/dark/image18.png",
-    description: "IMAGE 18",
+    description: "PORTFOLIO 18",
   },
   {
     url: "/assets/dark/image09.png",
-    description: "IMAGE 19",
+    description: "PORTFOLIO 19",
   },
   {
     url: "/assets/dark/image20.png",
-    description: "IMAGE 20",
+    description: "PORTFOLIO 20",
   },
   {
     url: "/assets/dark/image21.png",
-    description: "IMAGE 21",
+    description: "PORTFOLIO 21",
   },
 ];
 

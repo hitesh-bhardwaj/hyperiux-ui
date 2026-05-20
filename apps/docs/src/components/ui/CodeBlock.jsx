@@ -24,13 +24,13 @@ export function CodeBlock({ code, language ="jsx", filename }) {
  };
 
  return (
- <div className="relative rounded-md border border-border bg-black/60 backdrop-blur-md overflow-hidden">
+ <div className="relative rounded-md border border-border/60 bg-black/60 backdrop-blur-md overflow-hidden">
  {filename && (
- <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-black/20">
+ <div className="flex items-center justify-between px-4 py-2 border-b border-border/60 bg-black/20">
  <span className="text-sm text-muted">{filename}</span>
  <button
  onClick={handleCopy}
- className="text-xs px-3 py-1.5 rounded-sm bg-black/40 border border-border text-muted hover:text-foreground transition-colors"
+ className="text-xs px-3 cursor-pointer py-1.5 rounded-sm bg-black/40 border border-border/60 text-muted hover:text-foreground transition-colors"
  >
  {copied ?"Copied!" :"Copy"}
  </button>
@@ -40,7 +40,7 @@ export function CodeBlock({ code, language ="jsx", filename }) {
  {!filename && (
  <button
  onClick={handleCopy}
- className="absolute top-3 right-3 text-xs px-3 py-1.5 rounded-sm bg-black/40 border border-border text-muted hover:text-foreground transition-colors z-10"
+ className="absolute top-3 cursor-pointer right-3 text-xs px-3 py-1.5 rounded-sm bg-black/40 border border-border/60 text-muted hover:text-foreground transition-colors z-10"
  >
  {copied ?"Copied!" :"Copy"}
  </button>

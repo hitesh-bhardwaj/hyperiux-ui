@@ -14,7 +14,7 @@
   "registryDependencies": [],
   "previewUrl": "/circular-slider",
   "coverImage": "/assets/listing/rotating-carousel.png",
-  "videoUrl": "rotating-carousel.mp4",
+  "videoUrl": "rotating-carousel",
   "files": [
     {
       "path": "rotating-carousel.jsx",

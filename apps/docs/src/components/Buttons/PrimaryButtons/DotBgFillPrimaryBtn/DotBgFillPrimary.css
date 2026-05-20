@@ -99,4 +99,8 @@
     width: 2.5vw;
     height: 2.5vw;
   }
+
+  .dot-scale-fill-char-btn__text-wrap {
+    transform: translateY(0.5vw);
+  }
 }

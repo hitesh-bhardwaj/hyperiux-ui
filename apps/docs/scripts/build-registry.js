@@ -97,6 +97,20 @@ async function buildRegistry() {
         };
       });
 
+      // Entry component first: effect detail "Component Code" and CLI import hint use files[0].
+      const entryBase = registryJson.name;
+      fileContents.sort((a, b) => {
+        const tier = (entry) => {
+          if (entry.path === `${entryBase}.jsx` || entry.path === `${entryBase}.js`) return 0;
+          if (entry.path.endsWith(".css")) return 2;
+          if (entry.path.endsWith(".jsx") || entry.path.endsWith(".js")) return 1;
+          return 1;
+        };
+        const d = tier(a) - tier(b);
+        if (d !== 0) return d;
+        return a.path.localeCompare(b.path);
+      });
+
       // Resolve categories: support both legacy `category` string and new `categories` array
       const primaryCategory = registryJson.category || category;
       const categories_list = registryJson.categories

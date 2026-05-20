@@ -13,7 +13,7 @@
   "registryDependencies": [],
   "previewUrl": "/text-convergence",
   "coverImage": "/assets/listing/text-convergence.png",
-  "videoUrl": "text-convergence.mp4",
+  "videoUrl": "text-convergence",
   "files": [
     {
       "path": "text-convergence.jsx",

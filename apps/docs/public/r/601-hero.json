@@ -18,7 +18,7 @@
   "registryDependencies": [],
   "previewUrl": "/601-hero",
   "coverImage": "/assets/listing/601-hero.png",
-  "videoUrl": "601-hero.mp4",
+  "videoUrl": "601-hero",
   "files": [
     {
       "path": "601-hero.jsx",

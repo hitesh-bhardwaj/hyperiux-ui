@@ -122,18 +122,18 @@ const Card = ({ title, description, bgColor, textColor, cardRef }) => {
  className="fadeUp mx-auto flex h-[32vw] max-sm:h-[65vh] w-[80%] max-sm:w-full items-center justify-between gap-[4vw] rounded-[45px] px-[4vw] py-[3vw] tablet:h-[65vh] tablet:flex-col tablet:justify-center tablet:gap-[4vw] tablet:rounded-[4vw] tablet:py-[5vw] max-sm:py-[15vw] max-sm:px-[8vw] max-sm:min-h-[50vw] max-sm:flex-col max-sm:rounded-[9vw] ="
  style={{ backgroundColor: bgColor }}
  >
- <div className="w-[50%] tablet:w-full max-sm:w-full">
+ <div className="w-[48%] tablet:w-full max-sm:w-full">
  <h2
- className="para-animation w-full text-[5.5vw] font-medium leading-[1.1] tablet:text-[5vw] max-sm:text-[10vw]"
+ className="para-animation w-full text-[5.1vw] font-medium leading-[1.1] tablet:text-[5vw] max-sm:text-[10vw]"
  style={{ color: textColor }}
  >
  {title}
  </h2>
  </div>
 
- <div className="flex w-[50%] flex-col items-left justify-center gap-[2vw] font-light tablet:w-full max-sm:w-full max-sm:gap-[7vw]">
+ <div className="flex w-[48%] flex-col items-left justify-center gap-[2vw] font-light tablet:w-full max-sm:w-full max-sm:gap-[7vw]">
  <p
- className="w-full text-justify text-[1.3vw] leading-[1.5] tablet:text-[2.2vw] max-sm:w-full max-sm:text-center max-sm:text-[4.5vw]"
+ className="w-full text-justify text-[1.3vw] leading-normal tablet:text-[2.2vw] max-sm:w-full max-sm:text-center max-sm:text-[4.5vw]"
  style={{ color: textColor }}
  >
  {description}

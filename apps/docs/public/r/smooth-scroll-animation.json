@@ -14,7 +14,7 @@
   "registryDependencies": [],
   "previewUrl": "/smooth-scroll-animation",
   "coverImage": "/assets/listing/smooth-scroll-animation.png",
-  "videoUrl": "smooth-scroll-animation.mp4",
+  "videoUrl": "smooth-scroll-animation",
   "files": [
     {
       "path": "smooth-scroll-animation.jsx",

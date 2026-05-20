@@ -1,192 +1,212 @@
 "use client";
 
-import React, { useLayoutEffect, useMemo, useRef } from"react";
-import gsap from"gsap";
-import ScrollTrigger from"gsap/dist/ScrollTrigger";
-import"./CylindricalScrollCards.css";
+import React, { useLayoutEffect, useMemo, useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import "./CylindricalScrollCards.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const defaultItems = [
- { id: 1, title:"Card 01", image:"/img/1.png", backText:"Back 01" },
- { id: 2, title:"Card 02", image:"/img/2.png", backText:"Back 02" },
- { id: 3, title:"Card 03", image:"/img/3.png", backText:"Back 03" },
- { id: 4, title:"Card 04", image:"/img/4.png", backText:"Back 04" },
- { id: 5, title:"Card 05", image:"/img/5.png", backText:"Back 05" },
- { id: 6, title:"Card 06", image:"/img/6.png", backText:"Back 06" },
+    { id: 1, title: "Card 01", image: "/img/1.png", backText: "Back 01" },
+    { id: 2, title: "Card 02", image: "/img/2.png", backText: "Back 02" },
+    { id: 3, title: "Card 03", image: "/img/3.png", backText: "Back 03" },
+    { id: 4, title: "Card 04", image: "/img/4.png", backText: "Back 04" },
+    { id: 5, title: "Card 05", image: "/img/5.png", backText: "Back 05" },
+    { id: 6, title: "Card 06", image: "/img/6.png", backText: "Back 06" },
 ];
 
 function clamp(value, min, max) {
- return Math.min(Math.max(value, min), max);
+    return Math.min(Math.max(value, min), max);
 }
 
 export default function CylindricalScrollCards({
- items = defaultItems,
- cardWidth = 220,
- cardHeight = 300,
- verticalSpacing = 110,
- snakeAmplitude = 300,
- snakeTightness = 0.95,
- depthAmplitude = 180,
- scrollDistance = 340,
- perspective = 1800,
- scaleMin = 0.74,
- yRotateStrength = 1,
- zRotateStrength = 1,
- maxYRotation = 75,
- maxZRotation = 18,
- className ="",
+    items = defaultItems,
+    cardWidth = 220,
+    cardHeight = 300,
+    verticalSpacing = 110,
+    snakeAmplitude = 300,
+    snakeTightness = 0.95,
+    depthAmplitude = 180,
+    scrollDistance = 340,
+    perspective = 1800,
+    scaleMin = 0.74,
+    yRotateStrength = 1,
+    zRotateStrength = 1,
+    maxYRotation = 75,
+    maxZRotation = 18,
+    className = "",
 }) {
- const sectionRef = useRef(null);
- const cardRefs = useRef([]);
+    const sectionRef = useRef(null);
+    const cardRefs = useRef([]);
 
- cardRefs.current = [];
+    cardRefs.current = [];
 
- const repeatedItems = useMemo(() => {
- return [...items, ...items, ...items];
- }, [items]);
+    const repeatedItems = useMemo(() => {
+        return [...items, ...items, ...items];
+    }, [items]);
 
- const addToRefs = (el) => {
- if (el && !cardRefs.current.includes(el)) {
- cardRefs.current.push(el);
- }
- };
+    const addToRefs = (el) => {
+        if (el && !cardRefs.current.includes(el)) {
+            cardRefs.current.push(el);
+        }
+    };
 
- useLayoutEffect(() => {
- if (!sectionRef.current || !cardRefs.current.length) return;
+    useLayoutEffect(() => {
+        if (!sectionRef.current || !cardRefs.current.length) return;
 
- const ctx = gsap.context(() => {
- const cards = cardRefs.current;
- const baseCount = items.length;
- const totalTravel = baseCount * verticalSpacing;
+        const ctx = gsap.context(() => {
+            const cards = cardRefs.current;
+            const baseCount = items.length;
+            const totalTravel = baseCount * verticalSpacing;
 
- const render = (travel) => {
- cards.forEach((card, i) => {
- const localIndex = i - baseCount;
- const flowY = localIndex * verticalSpacing - travel;
+            const render = (travel) => {
+                const isMobile = window.innerWidth < 640;
 
- const phase = (flowY / verticalSpacing) * snakeTightness;
+                const currentSnakeAmplitude = isMobile
+                    ? snakeAmplitude * 0.85
+                    : snakeAmplitude;
 
- const x = Math.sin(phase) * snakeAmplitude;
- const z = Math.cos(phase) * depthAmplitude;
- const y = flowY;
+                const currentDepthAmplitude = isMobile
+                    ? depthAmplitude * 0.55
+                    : depthAmplitude;
 
- const scale = clamp(
- gsap.utils.mapRange(-depthAmplitude, depthAmplitude, scaleMin, 1, z),
- scaleMin,
- 1
- );
+                cards.forEach((card, i) => {
+                    const localIndex = i - baseCount;
+                    const flowY = localIndex * verticalSpacing - travel;
 
- const dx_dPhase = Math.cos(phase) * snakeAmplitude;
- const dz_dPhase = -Math.sin(phase) * depthAmplitude;
+                    const phase = (flowY / verticalSpacing) * snakeTightness;
 
- const rotationY = clamp(
- (-dx_dPhase / Math.max(snakeAmplitude, 1)) * maxYRotation * yRotateStrength,
- -maxYRotation,
- maxYRotation
- );
+                    const x = Math.sin(phase) * currentSnakeAmplitude;
+                    const z = Math.cos(phase) * currentDepthAmplitude;
+                    const y = flowY;
 
- const rotationZ = clamp(
- (dx_dPhase / Math.max(snakeAmplitude, 1)) * maxZRotation * zRotateStrength,
- -maxZRotation,
- maxZRotation
- );
+                    const scale = clamp(
+                        gsap.utils.mapRange(
+                            -currentDepthAmplitude,
+                            currentDepthAmplitude,
+                            scaleMin,
+                            1,
+                            z
+                        ),
+                        scaleMin,
+                        1
+                    );
 
- const rotationX = clamp(
- (dz_dPhase / Math.max(depthAmplitude, 1)) * 8,
- -8,
- 8
- );
+                    const dx_dPhase = Math.cos(phase) * currentSnakeAmplitude;
+                    const dz_dPhase = -Math.sin(phase) * currentDepthAmplitude;
 
- gsap.set(card, {
- x,
- y,
- z,
- scale,
- opacity: 1,
- rotationY,
- transformPerspective: perspective,
- transformOrigin:"center center",
- zIndex: Math.round(1000 + z),
- });
- });
- };
+                    const rotationY = clamp(
+                        (-dx_dPhase / Math.max(currentSnakeAmplitude, 1)) *
+                            maxYRotation *
+                            yRotateStrength,
+                        -maxYRotation,
+                        maxYRotation
+                    );
 
- render(0);
+                    const rotationZ = clamp(
+                        (dx_dPhase / Math.max(currentSnakeAmplitude, 1)) *
+                            maxZRotation *
+                            zRotateStrength,
+                        -maxZRotation,
+                        maxZRotation
+                    );
 
- const st = ScrollTrigger.create({
- trigger: sectionRef.current,
- start:"top top",
- end: `+=${scrollDistance}%`,
- pin: true,
- scrub: 1,
- anticipatePin: 1,
- onUpdate: (self) => {
- render(self.progress * totalTravel);
- },
- });
+                    const rotationX = clamp(
+                        (dz_dPhase / Math.max(currentDepthAmplitude, 1)) * 8,
+                        -8,
+                        8
+                    );
 
- return () => {
- st.kill();
- };
- }, sectionRef);
+                    gsap.set(card, {
+                        x,
+                        y,
+                        z,
+                        scale,
+                        opacity: 1,
+                        rotationY,
+                        transformPerspective: perspective,
+                        transformOrigin: "center center",
+                        zIndex: Math.round(1000 + z),
+                    });
+                });
+            };
 
- return () => ctx.revert();
- }, [
- items,
- repeatedItems,
- verticalSpacing,
- snakeAmplitude,
- snakeTightness,
- depthAmplitude,
- scrollDistance,
- perspective,
- scaleMin,
- yRotateStrength,
- zRotateStrength,
- maxYRotation,
- maxZRotation,
- ]);
+            render(0);
 
- return (
- <section
- ref={sectionRef}
- className={`cylindrical-scroll-section ${className}`}
- style={{
-"--card-width": `${cardWidth}px`,
-"--card-height": `${cardHeight}px`,
-"--scene-perspective": `${perspective}px`,
- }}
- >
- <div className="cylindrical-scroll-stage">
- <div className="cylindrical-scroll-scene">
- {repeatedItems.map((item, index) => (
- <div
- key={`${item.id}-${index}`}
- ref={addToRefs}
- className="cylindrical-scroll-card"
- >
- <div className="cylindrical-scroll-card-inner">
- <div className="cylindrical-scroll-card-face cylindrical-scroll-card-front">
- <img
- src={item.image}
- alt={item.title || `Card ${index + 1}`}
- className="cylindrical-scroll-card-image"
- />
- </div>
+            const st = ScrollTrigger.create({
+                trigger: sectionRef.current,
+                start: "top top",
+                end: `+=${scrollDistance}%`,
+                pin: true,
+                scrub: 1,
+                anticipatePin: 1,
+                onUpdate: (self) => {
+                    render(self.progress * totalTravel);
+                },
+            });
 
- <div className="cylindrical-scroll-card-face cylindrical-scroll-card-back">
- <img
- src={item.image}
- alt={`${item.title || `Card ${index + 1}`} back`}
- className="cylindrical-scroll-card-image"
- />
- </div>
- </div>
- </div>
- ))}
-</div>
- </div>
- </section>
- );
+            return () => {
+                st.kill();
+            };
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, [
+        items,
+        repeatedItems,
+        verticalSpacing,
+        snakeAmplitude,
+        snakeTightness,
+        depthAmplitude,
+        scrollDistance,
+        perspective,
+        scaleMin,
+        yRotateStrength,
+        zRotateStrength,
+        maxYRotation,
+        maxZRotation,
+    ]);
+
+    return (
+        <section
+            ref={sectionRef}
+            className={`cylindrical-scroll-section ${className}`}
+            style={{
+                "--card-width": `${cardWidth}px`,
+                "--card-height": `${cardHeight}px`,
+                "--scene-perspective": `${perspective}px`,
+            }}
+        >
+            <div className="cylindrical-scroll-stage">
+                <div className="cylindrical-scroll-scene">
+                    {repeatedItems.map((item, index) => (
+                        <div
+                            key={`${item.id}-${index}`}
+                            ref={addToRefs}
+                            className="cylindrical-scroll-card"
+                        >
+                            <div className="cylindrical-scroll-card-inner">
+                                <div className="cylindrical-scroll-card-face cylindrical-scroll-card-front">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title || `Card ${index + 1}`}
+                                        className="cylindrical-scroll-card-image"
+                                    />
+                                </div>
+
+                                <div className="cylindrical-scroll-card-face cylindrical-scroll-card-back">
+                                    <img
+                                        src={item.image}
+                                        alt={`${item.title || `Card ${index + 1}`} back`}
+                                        className="cylindrical-scroll-card-image"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
 }

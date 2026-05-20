@@ -11,7 +11,7 @@
   "registryDependencies": [],
   "previewUrl": "/character-trail",
   "coverImage": "/assets/listing/character-trail.png",
-  "videoUrl": "character-trail.mp4",
+  "videoUrl": "character-trail",
   "files": [
     {
       "path": "character-trail.jsx",

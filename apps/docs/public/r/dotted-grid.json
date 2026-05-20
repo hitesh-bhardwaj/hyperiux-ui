@@ -11,7 +11,7 @@
   "registryDependencies": [],
   "previewUrl": "/dotted-grid",
   "coverImage": "/assets/listing/dotted-grid.png",
-  "videoUrl": "dotted-grid.mp4",
+  "videoUrl": "dotted-grid",
   "files": [
     {
       "path": "dotted-grid.jsx",

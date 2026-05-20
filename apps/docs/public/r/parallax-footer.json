@@ -11,7 +11,7 @@
   "registryDependencies": [],
   "previewUrl": "/parallax-footer",
   "coverImage": "/assets/listing/parallax-footer.png",
-  "videoUrl": "parallax-footer.mp4",
+  "videoUrl": "parallax-footer",
   "files": [
     {
       "path": "parallax-footer.jsx",

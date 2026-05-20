@@ -11,7 +11,7 @@
   "registryDependencies": [],
   "previewUrl": "/magnetic-image-trail",
   "coverImage": "/assets/listing/magnetic-image-trail.png",
-  "videoUrl": "magnetic-image-trail.mp4",
+  "videoUrl": "magnetic-image-trail",
   "files": [
     {
       "path": "magnetic-image-trail.jsx",

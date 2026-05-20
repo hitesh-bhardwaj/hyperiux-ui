@@ -36,7 +36,7 @@ const CharStaggerPrimaryBtn = ({
  span.textContent = char;
  span.style.transitionDelay = `${index * staggerStep}s`;
 
- if (char ==="") {
+ if (char ===" ") {
  span.style.whiteSpace ="pre";
  }
 

@@ -163,7 +163,7 @@ function createFluid() {
   };
 }
 
-export function DitherCanvas({ videoSrc = "/assets/videos/eye-loop.mp4", className = "" }) {
+export function DitherCanvas({ videoSrc = "/assets/videos/enigma-video.mp4", className = "" }) {
   const ref = useRef(null);
 
   useEffect(() => {
