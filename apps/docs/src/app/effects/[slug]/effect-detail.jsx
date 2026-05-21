@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, Suspense, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { VaultLayout } from "@/components/layout/VaultLayout";
@@ -17,35 +17,19 @@ export function EffectDetailContent({
   effectCounts,
   totalEffects,
 }) {
+  const [isWishlisted, setIsWishlisted] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const videoRef = useRef(null);
 
-  const isWishlisted = useSyncExternalStore(
-    (onStoreChange) => {
-      const handler = () => onStoreChange();
-      window.addEventListener("storage", handler);
-      window.addEventListener("hyperiux-wishlist-change", handler);
-      return () => {
-        window.removeEventListener("storage", handler);
-        window.removeEventListener("hyperiux-wishlist-change", handler);
-      };
-    },
-    () => {
-      const raw = localStorage.getItem("hyperiux-wishlist") || "[]";
-      try {
-        const list = JSON.parse(raw);
-        return Array.isArray(list) && list.includes(slug);
-      } catch {
-        return false;
-      }
-    },
-    () => false,
-  );
-
   const videoPreviewUrl = effect.videoUrl
     ? `${process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT}/${effect.videoUrl}`
     : null;
+
+  useEffect(() => {
+    const wishlist = JSON.parse(localStorage.getItem("hyperiux-wishlist") || "[]");
+    setIsWishlisted(wishlist.includes(slug));
+  }, [slug]);
 
   const toggleWishlist = () => {
     const wishlist = JSON.parse(localStorage.getItem("hyperiux-wishlist") || "[]");
@@ -58,7 +42,7 @@ export function EffectDetailContent({
     }
 
     localStorage.setItem("hyperiux-wishlist", JSON.stringify(newWishlist));
-    window.dispatchEvent(new Event("hyperiux-wishlist-change"));
+    setIsWishlisted(!isWishlisted);
   };
 
   // Generate usage code
@@ -97,8 +81,8 @@ export default function MyComponent() {
         {/* Main content */}
         <div className=" mx-auto px-8 pt-28 pb-8 max-sm:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            {/* Left: Title + Preview */}
-            <div className="lg:col-span-2 space-y-8 order-1">
+            {/* Left: Title + Preview + Documentation */}
+            <div className="lg:col-span-2 space-y-8">
               {/* Title Section */}
               <div>
                 <h1 className="text-5xl max-sm:text-center text-foreground mb-4">
@@ -138,10 +122,64 @@ export default function MyComponent() {
                   />
                 )}
               </div>
+
+              {/* Documentation */}
+              <div className="space-y-10">
+                <h2 className="text-4xl font-semibold text-foreground tracking-tighter">Documentation</h2>
+
+                {/* Installation */}
+                <div className="space-y-3">
+                  <h3 className="font-medium text-muted text-2xl tracking-tighter">Installation</h3>
+                  <CodeBlock code={installCode} language="bash" />
+                </div>
+
+                {/* Usage */}
+                <div className="space-y-3">
+                  <h3 className="font-medium text-muted text-2xl tracking-tighter">Usage</h3>
+                  <CodeBlock code={usageCode} language="jsx" />
+                </div>
+
+                {/* Component Code */}
+                <div className="space-y-3">
+                  <h3 className="font-medium text-muted text-2xl tracking-tighter">Component Code</h3>
+                  <CodeBlock code={code} language="jsx" filename={`${slug}.jsx`} />
+                </div>
+
+                {/* Props Table */}
+                {config?.props?.length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="font-medium text-muted">Props</h3>
+                    <div className="bg-secondary-surface/60 backdrop-blur-md rounded-xl border border-border/60 overflow-hidden">
+                      <table className="w-full text-sm">
+                        <thead className="bg-black/20 border-b border-border/60">
+                          <tr>
+                            <th className="text-left px-4 py-3 font-medium text-muted">Prop</th>
+                            <th className="text-left px-4 py-3 font-medium text-muted">Type</th>
+                            <th className="text-left px-4 py-3 font-medium text-muted">Default</th>
+                            <th className="text-left px-4 py-3 font-medium text-muted">Description</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-border">
+                          {config.props.map((prop) => (
+                            <tr key={prop.name}>
+                              <td className="px-4 py-3 font-mono text-foreground">{prop.name}</td>
+                              <td className="px-4 py-3 text-muted">{prop.type}</td>
+                              <td className="px-4 py-3 font-mono text-muted">
+                                {config.defaults?.[prop.name]?.toString() || "-"}
+                              </td>
+                              <td className="px-4 py-3 text-muted">{prop.description || "-"}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Right: Action Buttons + Resource Details (Sticky) */}
-            <div className="lg:col-span-1 self-stretch order-2 lg:order-none">
+            <div className="lg:col-span-1 self-stretch">
               <div className="sticky top-28 space-y-6 h-fit">
                 {/* Action buttons */}
                 <div className="flex items-center gap-3">
@@ -225,62 +263,6 @@ export default function MyComponent() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Documentation */}
-            <div className="lg:col-span-2 space-y-10 order-3">
-              <h2 className="text-4xl font-semibold text-foreground tracking-tighter">Documentation</h2>
-
-              {/* Installation */}
-              <div className="space-y-3">
-                <h3 className="font-medium text-muted text-2xl tracking-tighter">Installation</h3>
-                <CodeBlock code={installCode} language="bash" />
-              </div>
-
-              {/* Usage */}
-              <div className="space-y-3">
-                <h3 className="font-medium text-muted text-2xl tracking-tighter">Usage</h3>
-                <CodeBlock code={usageCode} language="jsx" />
-              </div>
-
-              {/* Component Code */}
-              <div className="space-y-3">
-                <h3 className="font-medium text-muted text-2xl tracking-tighter">Component Code</h3>
-                <CodeBlock code={code} language="jsx" filename={`${slug}.jsx`} />
-              </div>
-
-              {/* Props Table */}
-              {config?.props?.length > 0 && (
-                <div className="space-y-3">
-                  <h3 className="font-medium text-muted">Props</h3>
-                  <div className="bg-secondary-surface/60 backdrop-blur-md rounded-xl border border-border/60 overflow-hidden">
-                    <table className="w-full text-sm">
-                      <thead className="bg-black/20 border-b border-border/60">
-                        <tr>
-                          <th className="text-left px-4 py-3 font-medium text-muted">Prop</th>
-                          <th className="text-left px-4 py-3 font-medium text-muted">Type</th>
-                          <th className="text-left px-4 py-3 font-medium text-muted">Default</th>
-                          <th className="text-left px-4 py-3 font-medium text-muted">
-                            Description
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-border">
-                        {config.props.map((prop) => (
-                          <tr key={prop.name}>
-                            <td className="px-4 py-3 font-mono text-foreground">{prop.name}</td>
-                            <td className="px-4 py-3 text-muted">{prop.type}</td>
-                            <td className="px-4 py-3 font-mono text-muted">
-                              {config.defaults?.[prop.name]?.toString() || "-"}
-                            </td>
-                            <td className="px-4 py-3 text-muted">{prop.description || "-"}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 

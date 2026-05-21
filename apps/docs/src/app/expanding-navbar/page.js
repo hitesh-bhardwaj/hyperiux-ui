@@ -1,6 +1,6 @@
 import React from "react";
-import { OsmoMenuDesktop } from "../../components/osmo-nav/OsmoMenuDesktop";
-import { OsmoMenuMobile } from "../../components/osmo-nav/OsmoMenuMobile";
+import { ExpandingNavbarDesktop } from "../../components/osmo-nav/ExpandingNavbarDesktop";
+import { ExpandingNavbarMobile } from "../../components/osmo-nav/ExpandingNavbarMobile";
 
 export default function Page() {
     return (
@@ -9,8 +9,8 @@ export default function Page() {
                 HYPERIUX NAVIGATION
             </p>
             
-            <OsmoMenuDesktop />
-            <OsmoMenuMobile />
+            <ExpandingNavbarDesktop />
+            <ExpandingNavbarMobile />
         </div>
     );
 }

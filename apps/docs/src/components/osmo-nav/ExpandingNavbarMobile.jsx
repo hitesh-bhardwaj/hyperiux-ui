@@ -30,7 +30,7 @@ function ExpandToggle({ expanded, size = 22, boxClassName = "size-8 text-white/5
     );
 }
 
-export function OsmoMenuMobile() {
+export function ExpandingNavbarMobile() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [expandedMain, setExpandedMain] = useState(null);
     const [expandedSub, setExpandedSub] = useState(null);

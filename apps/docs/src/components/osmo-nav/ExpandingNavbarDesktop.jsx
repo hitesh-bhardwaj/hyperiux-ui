@@ -8,7 +8,7 @@ import { navigationData } from "./data";
 
 gsap.registerPlugin(CustomEase);
 
-export function OsmoMenuDesktop() {
+export function ExpandingNavbarDesktop() {
     const backgroundOverlayRef = useRef(null);
     const menuWrapperRef = useRef(null);
     const headerRef = useRef(null);

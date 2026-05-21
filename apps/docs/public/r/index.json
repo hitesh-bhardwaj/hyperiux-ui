@@ -264,8 +264,8 @@
       "addedAt": 1776937386243.4756
     },
     {
-      "name": "smooth-scroll-animation",
-      "title": "Smooth Scroll Animation",
+      "name": "inertia-scroll-effect",
+      "title": "Inertia Scroll Effect",
       "description": "Three-phase scroll-driven sequence: parallax hero, image flies in with text, 5×5 grid materialises and shrinks hero to a cell, then grid scrolls off while the last image expands into a centred overlay. Powered by GSAP ScrollTrigger with Lenis infinite scroll.",
       "category": "scroll",
       "categories": [
@@ -275,9 +275,9 @@
         "gsap",
         "lenis"
       ],
-      "previewUrl": "/smooth-scroll-animation",
-      "coverImage": "/assets/listing/smooth-scroll-animation.png",
-      "videoUrl": "smooth-scroll-animation",
+      "previewUrl": "/inertia-scroll-effect",
+      "coverImage": "/assets/listing/inertia-scroll-effect.png",
+      "videoUrl": "inertia-scroll-effect",
       "addedAt": 1777877418532.769
     },
     {
@@ -461,17 +461,17 @@
       "addedAt": 1776937386238.2236
     },
     {
-      "name": "fiddle-ascii-cursor",
-      "title": "Fiddle Ascii Cursor",
+      "name": "pixel-bloom",
+      "title": "Pixel Bloom Cursor",
       "description": "Cursor-reactive media grid that swaps nearby cells into a textured ASCII collage",
       "category": "cursor",
       "categories": [
         "cursor"
       ],
       "dependencies": [],
-      "previewUrl": "/cursors/feddle-ascii-cursor",
-      "coverImage": "/assets/listing/fiddle-ascii-cursor.png",
-      "videoUrl": "fiddle-ascii-cursor",
+      "previewUrl": "/cursors/pixel-bloom",
+      "coverImage": "/assets/listing/pixel-bloom.png",
+      "videoUrl": "pixel-bloom",
       "addedAt": 1776937386238.3813
     },
     {
@@ -1221,8 +1221,8 @@
       "addedAt": 1777877418529.0657
     },
     {
-      "name": "hover-slider",
-      "title": "Hover Slider",
+      "name": "interactive-hover-slider",
+      "title": "Interactive Hover Slider",
       "description": "WebGL-powered list where hovering a row reveals a vertically-scrolling image stack with circular-arc curvature, velocity-based elastic snap, and GSAP-driven fade/curve transitions.",
       "category": "components",
       "categories": [
@@ -1232,9 +1232,9 @@
         "three",
         "gsap"
       ],
-      "previewUrl": "/hover-slider",
-      "coverImage": "/assets/listing/hover-slider.png",
-      "videoUrl": "hover-slider",
+      "previewUrl": "/interactive-hover-slider",
+      "coverImage": "/assets/listing/interactive-hover-slider.png",
+      "videoUrl": "interactive-hover-slider",
       "addedAt": 1777877418529.6467
     },
     {
@@ -1334,8 +1334,8 @@
       "addedAt": 1777541715964.7678
     },
     {
-      "name": "full-screen-navigation",
-      "title": "Full Screen Navigation",
+      "name": "immersive-full-screen-navigation",
+      "title": "Immersive Full screen Navigation",
       "description": "Clip-path powered full-screen navigation overlay with animated hamburger transitions",
       "category": "navigation",
       "categories": [
@@ -1344,9 +1344,9 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/navigation/fullscreen-nav",
-      "coverImage": "/assets/listing/full-screen-navigation.png",
-      "videoUrl": "full-screen-navigation",
+      "previewUrl": "/navigation/immersive-fullscreen-nav",
+      "coverImage": "/assets/listing/immersive-full-screen-navigation.png",
+      "videoUrl": "immersive-full-screen-navigation",
       "addedAt": 1777541715964.875
     },
     {
@@ -1366,8 +1366,8 @@
       "addedAt": 1777541715965.061
     },
     {
-      "name": "osmo-menu",
-      "title": "Osmo Menu",
+      "name": "expanding-navbar",
+      "title": "Expanding Navbar",
       "description": "Animated multi-column mega menu with GSAP timelines, square cursor indicators, and hover-fill link transitions.",
       "category": "navigation",
       "categories": [
@@ -1377,14 +1377,14 @@
         "gsap",
         "next"
       ],
-      "previewUrl": "/osmo-menu",
-      "coverImage": "/assets/listing/osmo-menu.png",
-      "videoUrl": "osmo-menu",
+      "previewUrl": "/expanding-navbar",
+      "coverImage": "/assets/listing/expanding-navbar.png",
+      "videoUrl": "expanding-navbar",
       "addedAt": 1777877418531.3184
     },
     {
-      "name": "cappen",
-      "title": "Cappen Loader",
+      "name": "stack-loader",
+      "title": "Stack Loader",
       "description": "Stack-to-spread image intro loader with GSAP SplitText word animations and staggered image choreography",
       "category": "loaders",
       "categories": [
@@ -1393,9 +1393,9 @@
       "dependencies": [
         "gsap"
       ],
-      "previewUrl": "/loaders/cappen",
-      "coverImage": "/assets/listing/cappen.png",
-      "videoUrl": "cappen",
+      "previewUrl": "/loaders/stack-loader",
+      "coverImage": "/assets/listing/stack-loader.png",
+      "videoUrl": "stack-loader",
       "addedAt": 1777541715963.5903
     },
     {
@@ -1434,8 +1434,8 @@
       "addedAt": 1777541715964.6282
     },
     {
-      "name": "601-hero",
-      "title": "601 Hero",
+      "name": "hero-banner-animated",
+      "title": "Hero Banner Animated",
       "description": "Immersive WebGL hero with a 3D room, interactive TV screen with pixelated video transition, mouse-tracked lighting, edge blur, and film grain post-processing.",
       "category": "webgl",
       "categories": [
@@ -1449,9 +1449,9 @@
         "gsap",
         "three"
       ],
-      "previewUrl": "/601-hero",
-      "coverImage": "/assets/listing/601-hero.png",
-      "videoUrl": "601-hero",
+      "previewUrl": "/hero-banner-animated",
+      "coverImage": "/assets/listing/hero-banner-animated.png",
+      "videoUrl": "hero-banner-animated",
       "addedAt": 1777877418534.695
     },
     {
@@ -1628,8 +1628,8 @@
       "addedAt": 1777541715967.6514
     },
     {
-      "name": "webgl-portfolio-slider",
-      "title": "WebGL Portfolio Slider",
+      "name": "3d-portfolio-slider",
+      "title": "3D Portfolio Slider",
       "description": "Infinite scroll slider with a Three.js WebGL fullscreen plane, cosine zoom distortion, a circular thumbnail ring, and GSAP text transitions",
       "category": "webgl",
       "categories": [
@@ -1641,9 +1641,9 @@
         "gsap",
         "lenis"
       ],
-      "previewUrl": "/webgl-portfolio-slider",
-      "coverImage": "/assets/listing/webgl-portfolio-slider.png",
-      "videoUrl": "webgl-portfolio-slider",
+      "previewUrl": "/3d-portfolio-slider",
+      "coverImage": "/assets/listing/3d-portfolio-slider.png",
+      "videoUrl": "3d-portfolio-slider",
       "addedAt": 1777541715967.9314
     },
     {

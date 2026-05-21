@@ -70,7 +70,7 @@ const navigationData = [
     { name: "Contact", href: "#" },
 ];
 
-export default function OsmoMenu() {
+export default function ExpandingNavbar() {
     const backgroundOverlayRef = useRef(null);
     const menuWrapperRef = useRef(null);
     const headerRef = useRef(null);

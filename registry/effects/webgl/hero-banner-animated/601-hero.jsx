@@ -129,7 +129,7 @@ function SceneContent({ isZoomed, setIsZoomed, videoRef }) {
   )
 }
 
-export function Hero601() {
+export function HeroBanner() {
   const [isZoomed, setIsZoomed] = useState(false)
   const videoRef = useRef(null)
 

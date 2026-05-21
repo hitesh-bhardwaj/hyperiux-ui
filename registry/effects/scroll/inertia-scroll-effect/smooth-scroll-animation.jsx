@@ -10,7 +10,7 @@ const GRID_ROWS = 5
 const HERO_INDEX = 1
 const LAST_INDEX = GRID_COLS * GRID_ROWS - 1
 
-export function SmoothScrollAnimation({ images = {} }) {
+export function InertiaScrollEffect({ images = {} }) {
   const {
     section1Img = '/assets/img/image03.webp',
     heroImg = '/assets/img/image03.webp',

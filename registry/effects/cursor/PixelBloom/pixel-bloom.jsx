@@ -101,7 +101,7 @@ function createTracker() {
 
 const tracker = typeof window !== "undefined" ? createTracker() : null
 
-export default function FiddleAsciiCursor({
+export default function PixelBloom({
   src,
   type = "video",
   className = "h-[30vw] w-auto aspect-video",
