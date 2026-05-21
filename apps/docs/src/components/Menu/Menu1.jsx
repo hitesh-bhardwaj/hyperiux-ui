@@ -28,7 +28,7 @@ export default function Menu1() {
  <Link
  key={item.label}
  href={item.href}
- className="block rounded-xl border border-neutral-200 p-4 transition-colors duration-200 hover:bg-neutral-50"
+ className="block rounded-xl border border-neutral-200 p-4 transition-colors duration-200 hover:bg-neutral-900"
  >
  <div className="text-sm font-medium t">{item.label}</div>
  <div className="mt-1 text-sm text-neutral-500">

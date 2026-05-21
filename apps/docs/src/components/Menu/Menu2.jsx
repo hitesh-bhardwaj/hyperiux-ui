@@ -38,7 +38,7 @@ export default function Menu2() {
  <Link
  key={block.title}
  href={block.href}
- className="rounded-2xl border border-neutral-200 p-6 transition-all duration-200 hover:-translate-y-1 hover:bg-neutral-50"
+ className="rounded-2xl border border-neutral-200 p-6 transition-all duration-200 hover:-translate-y-1 hover:bg-neutral-900"
  >
  <h4 className="text-lg font-semibold ">{block.title}</h4>
  <p className="mt-3 text-sm leading-6 text-neutral-400">{block.description}</p>

@@ -18,7 +18,7 @@ const images = [
 
 const page = () => {
     return (
-        <main className="min-h-screen w-full bg-black px-6 py-12 text-white md:px-10">
+        <main className="h-screen overflow-hidden max-sm:min-h-screen max-sm:h-full max-sm:overflow-visible w-full bg-black px-6 py-12 text-white md:px-10">
             <div className="mx-auto flex w-full flex-col gap-14">
                 <div className="max-w-2xl mx-auto text-center">
                     <p className="text-xl max-sm:text-2xl uppercase tracking-[0.35em] text-white/75">
